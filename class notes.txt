@@ -1,12 +1,4 @@
-#pragma once
-#include <iostream>
-#include <vector>
-#include "CharPic.h"
-using namespace std;
-
-class ScriptLine 
-{
-public:
+ScriptLine
 	int currentLineID;					// ID of current line
 	string line;						// Actual Script Line
 	string name;						// Character name to be displayed
@@ -20,6 +12,27 @@ public:
 
 	int numChars;						// the number of characters to be shown on the screen
 	vector<CharPic> charPics;			// Pictures included in the "frame"  CHANGE SIZE
-
-	ScriptLine();
-};
+	
+CharPic
+	int x,y;
+	string picName;
+	
+Config
+	const static int WINDOWED = 1, FULLSCREEN = 2, FULLSCREEN_WINDOW = 3;
+	int windowWidth, windowHeight;
+	string windowTitle;
+	int fps;
+	float masterVolume;
+	float bgmVolume;
+	float voiceVolume;
+	float sfxVolume;
+	int fullScreen;
+	float manualTextSpeed;
+	float autoTextSpeed;
+	float autoTextWaitTime;
+	bool textFade;
+	bool skipUnreadText;
+	string fontName;
+	float textWindowTransparency;
+	
+	

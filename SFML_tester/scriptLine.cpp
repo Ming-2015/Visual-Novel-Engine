@@ -1,6 +1,7 @@
 #include "ScriptLine.h"
 
-ScriptLine::ScriptLine() {
+ScriptLine::ScriptLine() 
+{
 	choices = vector<string>();
 	nextFileNames = vector<string>();
 	nextLineIDs = vector<int>();

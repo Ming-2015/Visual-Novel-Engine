@@ -124,13 +124,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="charPic.cpp" />
+    <ClCompile Include="CharPic.cpp" />
+    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="scriptLine.cpp" />
+    <ClCompile Include="ScriptLine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="charPic.h" />
-    <ClInclude Include="scriptLine.h" />
+    <ClInclude Include="CharPic.h" />
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="ScriptLine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

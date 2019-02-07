@@ -3,6 +3,7 @@
 using namespace std;
 
 class CharPic {
+public:
 	int xPos, yPos;
 	string picName;
 };
