@@ -6,4 +6,5 @@ class CharPic {
 public:
 	int xPos, yPos;
 	string picName;
+	CharPic();
 };

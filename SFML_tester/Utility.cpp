@@ -1,18 +1,14 @@
 #include "Utility.h"
-#include "charPic.h"
-#include "scriptLine.h"
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <vector>
 using namespace std;
+
+Utility * Utility::util_ptr = nullptr;
 
 Utility::Utility()
 {
-
+	
 }
 
-static std::vector<std::string> split(const std::string& s, char delimiter)
+std::vector<std::string> Utility::split(const std::string& s, char delimiter)
 {
 	std::vector<std::string> tokens;
 	std::string token;
@@ -38,4 +34,28 @@ string Utility::bool2str(bool b) {
 	else if (b == false)
 		return "false";
 	throw exception("bad boolean");
+}
+
+string Utility::trim(const std::string& src)
+{
+	if (src.empty())
+		return "";
+
+	size_t i = 0; // first index 
+	size_t j = src.size() - 1; // last index of src
+
+	while (i < j && isspace(src[i]))
+		i++;
+
+	while (j > i && isspace(src[j]))
+		j--;
+
+	return std::string(src, i, j - 2);
+}
+
+Utility* Utility::GetUtility()
+{
+	if (util_ptr == nullptr)
+		util_ptr = new Utility();
+	return util_ptr;
 }

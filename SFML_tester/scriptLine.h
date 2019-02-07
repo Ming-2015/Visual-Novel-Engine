@@ -1,7 +1,12 @@
 #pragma once
+#include "scriptLine.h"
+#include "Utility.h"
+#include "charPic.h"
+#include "logger.h"
+#include <fstream>
+#include <sstream>
 #include <iostream>
 #include <vector>
-#include "CharPic.h"
 using namespace std;
 
 class ScriptLine 
@@ -26,4 +31,5 @@ public:
 	vector<CharPic> charPics;			// Pictures included in the "frame"  CHANGE SIZE
 
 	ScriptLine();
+	void parse(ifstream& file);
 };

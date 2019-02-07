@@ -128,6 +128,7 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
     <ClCompile Include="Utility.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="ScriptLine.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>

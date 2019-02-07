@@ -1,26 +1,21 @@
 #include "scriptLine.h"
-#include "Utility.h"
-#include "charPic.h"
-#include "scriptLine.h"
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <vector>
 using namespace std;
 
 ScriptLine::ScriptLine() 
+{
+
+}
+
+void ScriptLine::parse(ifstream& myFileStream)
 {
 	choices = vector<string>();
 	nextFileNames = vector<string>();
 	nextLineIDs = vector<int>();
 
 	charPics = vector<CharPic>();
-
-	Utility util;
-
-	ifstream myFileStream("test.txt");
 	if (!myFileStream.is_open()) {
-		cout << "Failed to open file" << endl;
+		string err = "Invalid script file";
+		LOGGER->Log("ScriptLine", err);
 	}
 
 	string line;			// An ENTIRE row of the file stored as a string
@@ -34,7 +29,7 @@ ScriptLine::ScriptLine()
 	getline(ss, name, '&');
 
 	getline(ss, tempStr, '&');
-	isChoice = util.str2bool(tempStr);
+	isChoice = UTILITY->str2bool(tempStr);
 	getline(ss, tempStr, '&');
 	numChoices = stoi(tempStr);
 	for (int i = 0; i < numChoices; i++) {
@@ -67,6 +62,6 @@ ScriptLine::ScriptLine()
 
 	if (!myFileStream.eof())
 	{
-		cout << "Error!\n";
+		LOGGER->Log("ScriptLine", "Unable to close file");
 	}
 }
