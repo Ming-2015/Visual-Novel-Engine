@@ -1,23 +1,22 @@
 #pragma once
-#ifndef scriptLine_h
-#define scriptLine_h
 #include <iostream>
-#include "charPic.h"
+#include <vector>
+#include "CharPic.h"
 using namespace std;
 
-class scriptLine {
+class ScriptLine {
 public:
 	int currentLineID;					// ID of current line
-	int nextLineID;						// ID of next line (may not be needed when isChoice = false;
-	bool isChoice;						// Is user input prompted after this line?
 	string line;						// Actual Script Line
-	string choices[4];					// If isChoice, will hold the line ID of the possible next lines  CHANGE SIZE
+	string name;						// Character name to be displayed
+
+	bool isChoice;						// Is user input prompted after this line?
+	int numChoices;						// the number of choices to be displayed to the User
+	vector<string> choices;				// If isChoice, will hold the line ID of the possible next lines  CHANGE SIZE
+	vector<string> nextFileNames;		// script file names of the next line (if isChoice is true)
+	vector<int> nextLineIDs;			// ID of next line (if isChoice is true)
 	int userChoice;						// If isChoice, this will hold user input and will serve as index for choices[]
-	charPic picture[3];					// Pictures included in the "frame"  CHANGE SIZE
-	string nextFileNames[];
+
+	int numChars;						// the number of characters to be shown on the screen
+	vector<CharPic> charPics;			// Pictures included in the "frame"  CHANGE SIZE
 };
-
-
-
-
-#endif
