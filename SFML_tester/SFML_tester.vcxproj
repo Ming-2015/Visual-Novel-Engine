@@ -127,10 +127,12 @@
     <ClCompile Include="charPic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scriptLine.cpp" />
+    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="charPic.h" />
     <ClInclude Include="scriptLine.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
