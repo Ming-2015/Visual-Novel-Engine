@@ -12,6 +12,18 @@ Utility::Utility()
 
 }
 
+std::vector<std::string> split(const std::string& s, char delimiter)
+{
+	std::vector<std::string> tokens;
+	std::string token;
+	std::istringstream tokenStream(s);
+	while (std::getline(tokenStream, token, delimiter))
+	{
+		tokens.push_back(token);
+	}
+	return tokens;
+}
+
 bool Utility::str2bool(string s) {
 	if (s == "true")
 		return true;
@@ -23,7 +35,7 @@ bool Utility::str2bool(string s) {
 void Utility::getLine(void) {
 
 	int currentLineID;
-	string line;
+	string s_line;
 	string name;
 	bool isChoice;
 	int numChoices;
@@ -32,9 +44,8 @@ void Utility::getLine(void) {
 	vector<int> nextLineIDs;
 	int userChoice;
 	int numChars;
-	vector<charPic> charpics;
+	vector<CharPic> charpics;
 	string s;
-
 
 	ifstream myFileStream("test.txt");
 	if (!myFileStream.is_open()) {
@@ -49,7 +60,7 @@ void Utility::getLine(void) {
 	stringstream ss(line);
 	getline(ss, tempStr, '&');
 	currentLineID = stoi(tempStr);
-	getline(ss, line, '&');
+	getline(ss, s_line, '&');
 	getline(ss, name, '&');
 	getline(ss, tempStr, '&');
 	isChoice = str2bool(tempStr);
@@ -71,12 +82,6 @@ void Utility::getLine(void) {
 	userChoice = 1;
 	getline(ss, tempStr, '&');
 	numChars = stoi(tempStr);
-
-
-
-
-
-
 
 	myFileStream.close();
 

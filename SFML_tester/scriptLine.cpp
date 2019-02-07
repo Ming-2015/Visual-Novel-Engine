@@ -16,5 +16,5 @@ ScriptLine::ScriptLine()
 	charPics = vector<CharPic>();
 
 	Utility function;
-	function.getLine();
+	//function.getLine();
 }
