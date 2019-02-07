@@ -11,6 +11,10 @@ public:
 	string line;						// Actual Script Line
 	string name;						// Character name to be displayed
 
+	string backgroundFileName;			// Background image file name
+	string voiceFileName;				// voice file name, "" if none
+	string BGMFileName;					// background music file name
+
 	bool isChoice;						// Is user input prompted after this line?
 	int numChoices;						// the number of choices to be displayed to the User
 	vector<string> choices;				// If isChoice, will hold the line ID of the possible next lines  CHANGE SIZE
