@@ -65,7 +65,6 @@ void Logger::Log(const std::string& tag, std::string& sMessage)
 	std::string msg = "[" + tag + " at " + std::to_string(m_clock.getElapsedTime().asSeconds()) + "s] " + sMessage + "\n";
 	m_Logfile << msg;
 	std::cerr << msg;
-
 }
  
 Logger& Logger::operator<<(const string& sMessage)
@@ -73,5 +72,5 @@ Logger& Logger::operator<<(const string& sMessage)
 	std::string msg = "[Default at " + std::to_string(m_clock.getElapsedTime().asSeconds()) + "s] " + sMessage + "\n";
 	m_Logfile << msg;
 	cerr << msg;
-   return *this;
+    return *this;
 }

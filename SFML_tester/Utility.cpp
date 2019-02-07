@@ -41,8 +41,8 @@ string Utility::trim(const std::string& src)
 	if (src.empty())
 		return "";
 
-	size_t i = 0; // first index 
-	size_t j = src.size() - 1; // last index of src
+	int i = 0; // first index 
+	int j = src.size() - 1; // last index of src
 
 	while (i < j && isspace(src[i]))
 		i++;
@@ -50,7 +50,7 @@ string Utility::trim(const std::string& src)
 	while (j > i && isspace(src[j]))
 		j--;
 
-	return std::string(src, i, j - 2);
+	return src.substr(i, j - i + 1);
 }
 
 Utility* Utility::GetUtility()

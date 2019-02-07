@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include "Logger.h"
 using namespace std;
 
 #define UTILITY Utility::GetUtility()
