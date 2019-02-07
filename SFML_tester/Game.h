@@ -21,6 +21,7 @@ private:
 
 	Config config;						// game configurations
 
+	std::string bgmFileName;			// current BGM file name
 	sf::Music bgm;						// BGM audio
 	sf::Texture backgroundTex;			// background texture
 	sf::Sprite background;				// background sprite
