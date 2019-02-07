@@ -330,3 +330,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 *.db
+.vs/Visual Novel Engine/v15/Browse.VC.db
