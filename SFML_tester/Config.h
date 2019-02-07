@@ -9,7 +9,8 @@ public:
 
 	Config();	// empty constructor
 	void parse(string configFile);	// parse the config file to get the saved options from previous playthrough
-	void save(string configFile);	// save the config options into the file so that the opts are remembered
+	//void save(string configFile);	// save the config options into the file so that the opts are remembered
+	void write();  // writes a new config file when user changes config settings (saves over old one)
 
 	string getTitle();				// title of the window
 	int getWindowWidth();			// width of the window

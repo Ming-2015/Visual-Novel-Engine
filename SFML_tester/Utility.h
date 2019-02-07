@@ -8,7 +8,7 @@ class Utility {
 public:
 	// void getLine(ScriptLine);
 	bool str2bool(string);
-
+	string bool2str(bool);
 
 	Utility();
 };

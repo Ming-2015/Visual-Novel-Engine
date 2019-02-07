@@ -31,3 +31,11 @@ bool Utility::str2bool(string s) {
 		return false;
 	throw exception("bad string");
 }
+
+string Utility::bool2str(bool b) {
+	if (b == true)
+		return "true";
+	else if (b == false)
+		return false;
+	throw exception("bad boolean");
+}

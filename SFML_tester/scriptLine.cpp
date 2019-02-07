@@ -17,7 +17,6 @@ ScriptLine::ScriptLine()
 	charPics = vector<CharPic>();
 
 	Utility util;
-	//function.getLine();
 
 	ifstream myFileStream("test.txt");
 	if (!myFileStream.is_open()) {
