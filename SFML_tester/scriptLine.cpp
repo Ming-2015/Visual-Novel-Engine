@@ -1,3 +1,4 @@
+
 #include "scriptLine.h"
 #include "Utility.h"
 #include <fstream>
@@ -6,10 +7,13 @@
 #include <vector>
 using namespace std;
 
-scriptLine::scriptLine()
-{
+ScriptLine::ScriptLine() {
+	choices = vector<string>();
+	nextFileNames = vector<string>();
+	nextLineIDs = vector<int>();
+
+	charPics = vector<CharPic>();
+
 	Utility function;
 	function.getLine();
-	
-	
 }
