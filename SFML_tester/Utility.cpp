@@ -36,6 +36,6 @@ string Utility::bool2str(bool b) {
 	if (b == true)
 		return "true";
 	else if (b == false)
-		return false;
+		return "false";
 	throw exception("bad boolean");
 }
