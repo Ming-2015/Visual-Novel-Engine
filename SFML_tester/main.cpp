@@ -1,12 +1,22 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
+
+using namespace std;
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!", sf::Style::Default & ~sf::Style::Resize);
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "Visual Novel");
 
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+	sf::Texture texture;
+	sf::Sprite textBox;
+	if (!texture.loadFromFile("textBoxDemo.png"))
+	{
+		cout << "Image Load Failure";
+	}
 
+	textBox.setTexture(texture);
+	textBox.setPosition(400, 400);
+	cout << "Image Load Failure";
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -17,9 +27,11 @@ int main()
 		}
 
 		window.clear();
-		window.draw(shape);
+		window.draw(textBox);
 		window.display();
 	}
+
+	
 
 	return 0;
 }
