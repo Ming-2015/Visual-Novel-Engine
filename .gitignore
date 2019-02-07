@@ -10,7 +10,7 @@
 # *.sln.docstates
 
 # User-specific files (MonoDevelop/Xamarin Studio)
-# *.userprefs
+*.userprefs
 
 # Build results
 [Dd]ebug/
@@ -43,7 +43,7 @@ TestResult.xml
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/
-#dlldata.c
+dlldata.c
 
 [Ss]tats/
 
@@ -329,3 +329,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+*.db
