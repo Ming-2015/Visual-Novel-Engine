@@ -8,7 +8,7 @@ class ScriptLine
 {
 public:
 	int currentLineID;					// ID of current line
-	string line;						// Actual Script Line
+	string s_line;						// Actual Script Line
 	string name;						// Character name to be displayed
 
 	bool isChoice;						// Is user input prompted after this line?

@@ -6,7 +6,7 @@ using namespace std;
 
 class Utility {
 public:
-	void getLine(void);
+	// void getLine(ScriptLine);
 	bool str2bool(string);
 
 
