@@ -27,7 +27,7 @@ void Config::write(string configFile)
 	if (myfile.is_open())
 	{
 		myfile << "### This is the Configuration file for Visual Novel Engine.\n";
-		myfile << "### Please avoid editting this file unless you know what you are doing";
+		myfile << "### Please avoid editting this file unless you know what you are doing.\n";
 
 		myfile << CF_MASTER_VOLUME << "="  << to_string(masterVolume) << endl;
 		myfile << CF_BGM_VOLUME << "="  << to_string(bgmVolume) << endl;
