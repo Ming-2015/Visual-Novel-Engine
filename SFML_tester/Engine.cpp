@@ -20,7 +20,7 @@ int Engine::start()
 				window.close();
 			}
 
-			game.handleInput(event);
+			game.handleInput(event, window);
 		}
 
 		// update game logics here
