@@ -6,7 +6,7 @@
 #include <SFML/Audio.hpp>
 
 MenuState::MenuState() {
-	
+	init();
 }
 
 void MenuState::init() {
