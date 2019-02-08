@@ -22,8 +22,14 @@ public:
 
 	bool onLoad();
 	void onUpdate(float delta_t);
-	void onDraw(sf::RenderTarget& target, sf::RenderStates states);
-	void handleInput(sf::Event&e, sf::RenderWindow& window);
+	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void onHandleInput(sf::Event& event, sf::Window& window);
+	sf::Texture& getTexure();
+	sf::Sprite& getSprite();
+
+	float xPos, yPos;
+	float buttonWidth, buttonHeight;
+	int texWidth, texHeight;		// actual texture width and height
 
 protected:
 	sf::Texture texture;
@@ -33,8 +39,5 @@ protected:
 	std::string texPath;
 	std::string vertShaderPath;
 	std::string fragShaderPath;
-	float xPos, yPos;
-	float buttonWidth, buttonHeight;
-	int texWidth, texHeight;		// actual texture width and height
 	bool hasShader;
 };

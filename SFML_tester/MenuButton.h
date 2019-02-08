@@ -4,6 +4,7 @@
 
 class MenuButton : public Button
 {
+public:
 	// in case there's no frag shader or vert shader, just pass in empty string "" respectively
 	MenuButton(std::string texPath, std::string vertShaderPath,
 		std::string fragShaderPath, float xPos, float yPos,
@@ -14,8 +15,8 @@ class MenuButton : public Button
 
 	bool onLoad();
 	void onUpdate(float delta_t);
-	void onDraw(sf::RenderTarget& target, sf::RenderStates states);
-	void handleInput(sf::Event&e, sf::RenderWindow& window);
+	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void onHandleInput(sf::Event&e, sf::RenderWindow& window);
 
 	// Here's all the variables in the button class, for reference
 	// sf::Texture texture;

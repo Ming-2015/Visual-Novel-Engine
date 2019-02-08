@@ -8,6 +8,7 @@ bool Button::onLoad()
 		return false;
 	}
 	sprite.setTexture(texture);
+	sprite.setPosition(xPos, yPos);
 
 	hasShader = false;
 	if (vertShaderPath != "" && fragShaderPath != "")
@@ -51,7 +52,7 @@ void Button::onUpdate(float delta_t)
 {
 }
 
-void Button::onDraw(sf::RenderTarget & target, sf::RenderStates states)
+void Button::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	if (hasShader)
 	{
@@ -60,6 +61,16 @@ void Button::onDraw(sf::RenderTarget & target, sf::RenderStates states)
 	target.draw(sprite, states);
 }
 
-void Button::handleInput(sf::Event & e, sf::RenderWindow & window)
+void Button::onHandleInput(sf::Event& event, sf::Window& window)
 {
+}
+
+sf::Texture& Button::getTexure()
+{
+	return texture;
+}
+
+sf::Sprite& Button::getSprite()
+{
+	return sprite;
 }

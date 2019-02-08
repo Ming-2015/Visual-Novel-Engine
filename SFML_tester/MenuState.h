@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
+#include "MenuButton.h"
 
 class MenuState : public GameState
 {
@@ -21,10 +22,12 @@ private:
 	sf::Texture background;
 	sf::Sprite backgroundImage;
 	sf::Font font;
-	sf::Texture testButton;
-	sf::Sprite testButtonPNG;
+	//sf::Texture testButton;
+	//sf::Sprite testButtonPNG;
 	sf::Text startText;
 	sf::Text loadText;
 	sf::Text settingsText;
 	sf::Text exitText;
+
+	MenuButton * testButtonObj;
 };

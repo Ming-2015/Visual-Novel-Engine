@@ -54,7 +54,7 @@ public:
         }
     }
 
-	void handleInput(sf::Event& e, sf::RenderWindow& window) const
+	void handleInput(sf::Event& e, sf::RenderWindow& window) 
 	{
 		if (m_isLoaded)
 		{
@@ -82,7 +82,7 @@ private:
     virtual bool onLoad() = 0;
     virtual void onUpdate(float delta_t) = 0;
     virtual void onDraw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
-	virtual void onHandleInput(sf::Event& event, sf::Window& window) const = 0;
+	virtual void onHandleInput(sf::Event& event, sf::Window& window) = 0;
 
 private:
 
