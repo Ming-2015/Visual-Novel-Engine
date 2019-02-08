@@ -50,6 +50,7 @@ void Logger::Cleanup()
 {
 	if (m_pThis)
 	{
+		m_pThis->m_Logfile.close();
 		delete m_pThis;
 	}
 }
@@ -62,7 +63,10 @@ void Logger::Log(const std::string& tag, const char * format, ...)
     va_start(args, format);
     nLength = _vscprintf(format, args) + 1;
     sMessage = new char[nLength];
-    m_Logfile << "[" << tag << " at " << m_clock.getElapsedTime().asSeconds() << "s] " << sMessage << "\n";
+	stringstream msg("");
+	msg << "[" << tag << " at " << m_clock.getElapsedTime().asSeconds() << "s] " << format << "\n";
+    m_Logfile << msg.str();
+	std::cerr << msg.str();
     va_end(args);
  
     delete [] sMessage;
@@ -70,15 +74,17 @@ void Logger::Log(const std::string& tag, const char * format, ...)
  
 void Logger::Log(const std::string& tag, std::string& sMessage)
 {
-	std::string msg = "[" + tag + " at " + std::to_string(m_clock.getElapsedTime().asSeconds()) + "s] " + sMessage + "\n";
-	m_Logfile << msg;
-	std::cerr << msg;
+	stringstream msg("");
+	msg << "[" << tag << " at " << m_clock.getElapsedTime().asSeconds() << "s] " << sMessage << "\n";
+	m_Logfile << msg.str();
+	std::cerr << msg.str();
 }
  
 Logger& Logger::operator<<(const string& sMessage)
 {
-	std::string msg = "[Default at " + std::to_string(m_clock.getElapsedTime().asSeconds()) + "s] " + sMessage + "\n";
-	m_Logfile << msg;
-	cerr << msg;
+	stringstream msg("");
+	msg << "[" << "Default" << " at " << m_clock.getElapsedTime().asSeconds() << "s] " << sMessage << "\n";
+	m_Logfile << msg.str();
+	std::cerr << msg.str();
     return *this;
 }

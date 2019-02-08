@@ -55,8 +55,6 @@ void MenuState::init() {
 	exitText.setFillColor(sf::Color::White);
 	exitText.setCharacterSize(48);
 	exitText.setPosition(50.0f, 500.0f);
-
-
 }
 
 void MenuState::render(sf::RenderWindow& window) {
@@ -70,32 +68,36 @@ void MenuState::render(sf::RenderWindow& window) {
 	window.display();
 }
 
-void MenuState::handleInput(sf::Event e) {
+void MenuState::update()
+{
+}
+
+void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 	switch (e.type)
 	{
-	case sf::Event::MouseMoved:
-	{
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		if (testButtonPNG.getGlobalBounds().contains(mousePosF))
+		case sf::Event::MouseMoved:
 		{
-			testButtonPNG.setColor(sf::Color(80, 15, 176));
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+			if (testButtonPNG.getGlobalBounds().contains(mousePosF))
+			{
+				testButtonPNG.setColor(sf::Color(80, 15, 176));
+			}
+			else
+			{
+				testButtonPNG.setColor(sf::Color(255, 255, 255));
+			}
 		}
-		else
+		break;
+		case sf::Event::MouseButtonPressed:
 		{
-			testButtonPNG.setColor(sf::Color(255, 255, 255));
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+			if (testButtonPNG.getGlobalBounds().contains(mousePosF))
+			{
+				cout << "Exit Button test" << endl;
+			}
 		}
-	}
-	break;
-	case sf::Event::MouseButtonPressed:
-	{
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		if (testButtonPNG.getGlobalBounds().contains(mousePosF))
-		{
-			cout << "Exit Button test" << endl;
-		}
-	}
-	break;
+		break;
 	}
 }
