@@ -16,4 +16,17 @@ class MenuButton : public Button
 	void onUpdate(float delta_t);
 	void onDraw(sf::RenderTarget& target, sf::RenderStates states);
 	void handleInput(sf::Event&e, sf::RenderWindow& window);
+
+	// Here's all the variables in the button class, for reference
+	// sf::Texture texture;
+	// sf::Sprite sprite;
+	// sf::Shader shader;
+
+	// std::string texPath;
+	// std::string vertShaderPath;
+	// std::string fragShaderPath;
+	// float xPos, yPos;
+	// float buttonWidth, buttonHeight;
+	// int texWidth, texHeight;		// actual texture width and height
+	// bool hasShader;
 };
