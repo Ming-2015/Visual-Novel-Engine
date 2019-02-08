@@ -5,11 +5,14 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 
-MenuState::MenuState() {
+MenuState::MenuState() 
+{
 	init();
 }
 
-void MenuState::init() {
+void MenuState::init() 
+{
+
 	if (!background.loadFromFile("assets/background.png"))
 		cout << "Image not found: " << "background.png" << endl;
 	backgroundImage.setTexture(background);
@@ -17,14 +20,17 @@ void MenuState::init() {
 	if (!font.loadFromFile("assets/MATURASC.TTF"))
 		cout << "Can't find font file" << endl;
 
-	if (!testButton.loadFromFile("assets/exitButton.png"))
-		cout << "Image no found" << endl;
-	testButtonPNG.setPosition(50.0f, 600.0f);
+	//if (!testButton.loadFromFile("assets/exitButton.png"))
+	//	cout << "Image no found" << endl;
+	//testButtonPNG.setPosition(50.0f, 600.0f);
 
-	float exitButtonWidth = testButtonPNG.getLocalBounds().width;
-	float exitButtonHeight = testButtonPNG.getLocalBounds().height;
+	//float exitButtonWidth = testButtonPNG.getLocalBounds().width;
+	//float exitButtonHeight = testButtonPNG.getLocalBounds().height;
 
-	testButtonPNG.setTexture(testButton);
+	//testButtonPNG.setTexture(testButton);
+
+	testButtonObj = new MenuButton("assets/exitButton.png", "", "", 50.0f, 600.0f, 0, 0);
+	testButtonObj->load();
 
 	//THIS MIGHT NOT BE NEEDED, TESTING PURPOSES FOR NOW
 	startText.setFont(font);
@@ -59,14 +65,14 @@ void MenuState::init() {
 
 void MenuState::render(sf::RenderWindow& window) {
 	window.draw(backgroundImage);
-	window.draw(testButtonPNG);
+	window.draw(*testButtonObj);
 	window.draw(startText);
 	window.draw(loadText);
 	window.draw(settingsText);
 	window.draw(exitText);
 }
 
-void MenuState::update()
+void MenuState::update(float delta_t)
 {
 }
 
@@ -77,25 +83,28 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 		{
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			if (testButtonPNG.getGlobalBounds().contains(mousePosF))
+			if (testButtonObj->getSprite().getGlobalBounds().contains(mousePosF))
 			{
-				testButtonPNG.setColor(sf::Color(80, 15, 176));
+				testButtonObj->getSprite().setColor(sf::Color(80, 15, 176));
+				LOGGER->Log("MenuState", "Hover over Exit Button!");
 			}
 			else
 			{
-				testButtonPNG.setColor(sf::Color(255, 255, 255));
+				testButtonObj->getSprite().setColor(sf::Color(255, 100, 255));
 			}
+
 		}
 		break;
 		case sf::Event::MouseButtonPressed:
 		{
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			if (testButtonPNG.getGlobalBounds().contains(mousePosF))
+			if (testButtonObj->getSprite().getGlobalBounds().contains(mousePosF))
 			{
-				cout << "Exit Button test" << endl;
+				LOGGER->Log("MenuState", "Exit Button Pressed!");
 			}
 		}
 		break;
 	}
 }
+

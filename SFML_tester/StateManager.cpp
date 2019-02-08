@@ -15,9 +15,9 @@ void StateManager::render(sf::RenderWindow & window)
 	currentState->render(window);
 }
 
-void StateManager::update()
+void StateManager::update(float delta_t)
 {
-	currentState->update();
+	currentState->update(delta_t);
 	if (currentState->shouldChangeState)
 	{
 		switch (currentState->nextState)

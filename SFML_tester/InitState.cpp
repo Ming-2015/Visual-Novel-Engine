@@ -10,7 +10,7 @@ void InitState::render(sf::RenderWindow & window)
 
 }
 
-void InitState::update()
+void InitState::update(float delta_t)
 {
 
 }
