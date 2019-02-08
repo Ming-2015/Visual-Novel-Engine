@@ -57,6 +57,7 @@ public:
 	static const string CF_TEXT_WINDOW_ALPHA;
 
 	static Config * GetConfig();
+	static void Cleanup();
 
 private:
 	int windowWidth, windowHeight;	// window widht and height

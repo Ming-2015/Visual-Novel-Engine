@@ -45,6 +45,7 @@ public:
     Logger& operator<<(const string& sMessage);
 
     static Logger* GetLogger();
+	static void Cleanup();
 private:
     Logger();
 

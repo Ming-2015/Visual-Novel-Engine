@@ -33,6 +33,11 @@ int Engine::start()
 		game.render(window);
 		window.display();
 	}
+
+	Logger::Cleanup();
+	Config::Cleanup();
+	Utility::CleanUp();
+
 	return 0;
 }
 

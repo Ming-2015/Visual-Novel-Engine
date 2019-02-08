@@ -26,6 +26,7 @@ public:
 	std::vector<std::string> split(const std::string& s, char delimiter);
 
 	static Utility* GetUtility();
+	static void CleanUp();
 
 private:
 	Utility();

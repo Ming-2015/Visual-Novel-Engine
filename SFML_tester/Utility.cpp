@@ -59,3 +59,11 @@ Utility* Utility::GetUtility()
 		util_ptr = new Utility();
 	return util_ptr;
 }
+
+void Utility::CleanUp()
+{
+	if (util_ptr)
+	{
+		delete util_ptr;
+	}
+}

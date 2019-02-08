@@ -45,6 +45,14 @@ Logger* Logger::GetLogger(){
     }
     return m_pThis;
 }
+
+void Logger::Cleanup()
+{
+	if (m_pThis)
+	{
+		delete m_pThis;
+	}
+}
  
 void Logger::Log(const std::string& tag, const char * format, ...)
 {

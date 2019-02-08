@@ -59,6 +59,14 @@ Config * Config::GetConfig()
 	return currentConfig;
 }
 
+void Config::Cleanup()
+{
+	if (currentConfig)
+	{
+		delete currentConfig;
+	}
+}
+
 void Config::init()
 {
 	windowWidth = 1600;
