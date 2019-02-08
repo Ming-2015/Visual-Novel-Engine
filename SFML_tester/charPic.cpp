@@ -6,5 +6,7 @@ using namespace std;
 
 CharPic::CharPic()
 {
-
+	xPos = 0;
+	yPos = 0;
+	picName = "";
 }

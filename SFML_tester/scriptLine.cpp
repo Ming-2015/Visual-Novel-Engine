@@ -11,8 +11,8 @@ void ScriptLine::parse(ifstream& myFileStream)
 	choices = vector<string>();
 	nextFileNames = vector<string>();
 	nextLineIDs = vector<int>();
-
 	charPics = vector<CharPic>();
+
 	if (!myFileStream.is_open()) {
 		string err = "Invalid script file";
 		LOGGER->Log("ScriptLine", err);
@@ -25,34 +25,123 @@ void ScriptLine::parse(ifstream& myFileStream)
 	getline(myFileStream, line);	// read a line from the file
 
 	stringstream ss(line);
-	getline(ss, tempStr, '&');
+	getline(ss, tempStr, '|');
 	currentLineID = stoi(tempStr);
-	getline(ss, s_line, '&');
-	getline(ss, name, '&');
+	getline(ss, s_line, '|');
+	getline(ss, name, '|');
 
-	getline(ss, tempStr, '&');
+	getline(ss, tempStr, '|');
 	isChoice = UTILITY->str2bool(tempStr);
-	getline(ss, tempStr, '&');
+	getline(ss, tempStr, '|');
 	numChoices = stoi(tempStr);
-	for (int i = 0; i < numChoices; i++) {
-		getline(ss, tempStr, '&');
-		choices.push_back(tempStr);
-		getline(ss, tempStr, '&');
-		nextFileNames.push_back(tempStr);
-		getline(ss, tempStr, '&');
-		tempInt = stoi(tempStr);
-		nextLineIDs.push_back(tempInt);
+	if (numChoices == 0) {
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
 	}
+	else if (numChoices == 2) {
+		getline(ss, tempStr, '|');
+		choices.push_back(tempStr);
+		getline(ss, tempStr, '|');
+		choices.push_back(tempStr);
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
+	}
+	else
+	{
+		for (int i = 0; i < numChoices; i++) {
+			getline(ss, tempStr, '|');
+			choices.push_back(tempStr);
+			getline(ss, tempStr, '|');
+			choices.push_back(tempStr);
+			getline(ss, tempStr, '|');
+			choices.push_back(tempStr);
+			getline(ss, tempStr, '|');
+			choices.push_back(tempStr);
+		}
+	}
+	if (numChoices == 0) {
+		getline(ss, tempStr, '|');
+		nextFileNames.push_back(tempStr);
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
+	}
+	else if (numChoices == 2) {
+		getline(ss, tempStr, '|');
+		nextFileNames.push_back(tempStr);
+		getline(ss, tempStr, '|');
+		nextFileNames.push_back(tempStr);
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
+	}
+	else
+	{
+		for (int i = 0; i < numChoices; i++) {
+			getline(ss, tempStr, '|');
+			nextFileNames.push_back(tempStr);
+			getline(ss, tempStr, '|');
+			nextFileNames.push_back(tempStr);
+			getline(ss, tempStr, '|');
+			nextFileNames.push_back(tempStr);
+			getline(ss, tempStr, '|');
+			nextFileNames.push_back(tempStr);
+		}
+	}
+	if (numChoices == 0) {
+		getline(ss, tempStr, '|');
+		nextLineIDs.push_back(stoi(tempStr));
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
+	}
+
+	else if (numChoices == 2) {
+		getline(ss, tempStr, '|');
+		nextLineIDs.push_back(stoi(tempStr));
+		getline(ss, tempStr, '|');
+		nextLineIDs.push_back(stoi(tempStr));
+		getline(ss, tempStr, '|');
+		getline(ss, tempStr, '|');
+	}
+	else
+	{
+		for (int i = 0; i < numChoices; i++) {
+			getline(ss, tempStr, '|');
+			nextLineIDs.push_back(stoi(tempStr));
+			getline(ss, tempStr, '|');
+			nextLineIDs.push_back(stoi(tempStr));
+			getline(ss, tempStr, '|');
+			nextLineIDs.push_back(stoi(tempStr));
+			getline(ss, tempStr, '|');
+			nextLineIDs.push_back(stoi(tempStr));
+		}
+	}
+
 	userChoice = 1;
 
-	getline(ss, tempStr, '&');
+	getline(ss, tempStr, '|');
 	numChars = stoi(tempStr);
 	for (int i = 0; i < numChars; i++) {
-		getline(ss, tempStr, '&');
+		charPics.push_back(CharPic());
+		getline(ss, tempStr, '|');
 		charPics[i].picName = tempStr;
-		getline(ss, tempStr, '&');
+		getline(ss, tempStr, '|');
 		charPics[i].xPos = stoi(tempStr);
-		getline(ss, tempStr, '&');
+		getline(ss, tempStr, '|');
 		charPics[i].yPos = stoi(tempStr);
+
+		/*
+		CharPic* temp = new CharPic();
+		getline(ss, tempStr, '|');
+		temp->picName = tempStr;
+		getline(ss, tempStr, '|');
+		temp->xPos = stoi(tempStr);
+		getline(ss, tempStr, '|');
+		temp->yPos = stoi(tempStr);
+		charPics.push_back(*temp);
+		delete temp;
+		*/
 	}
 }
