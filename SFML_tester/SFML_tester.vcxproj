@@ -135,7 +135,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="NewGameState.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
+    <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
@@ -151,6 +153,8 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="NewGameState.h" />
+    <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="ScriptLine.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Utility.h" />

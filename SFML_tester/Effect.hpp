@@ -76,6 +76,8 @@ protected:
         return *s_font;
     }
 
+	bool m_isLoaded;
+
 private:
 
     // Virtual functions to be implemented in derived effects
@@ -87,7 +89,6 @@ private:
 private:
 
     std::string m_name;
-    bool m_isLoaded;
 
     static const sf::Font* s_font;
 };

@@ -13,93 +13,141 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\GameState">
+      <UniqueIdentifier>{86ca2f35-3f65-4e1f-a0fa-3cbf137fc989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameState">
+      <UniqueIdentifier>{c5fcc4ad-bdc3-4280-8290-dfd3607ac93a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Effect">
+      <UniqueIdentifier>{16e1be5e-aa99-40a4-9bd0-8b66ca0a7331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Effect\Button">
+      <UniqueIdentifier>{3a63aa69-ff33-4022-8872-8e4503fc35b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Effect">
+      <UniqueIdentifier>{d1eb017f-eb52-4f8f-ae95-f1b837a736fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Effect\Button">
+      <UniqueIdentifier>{88854956-fbd8-4e5e-b697-2bf31cc2a3c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main">
+      <UniqueIdentifier>{a77e65b9-5ab9-4e1a-ad8e-ae03c8a4212a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Other">
+      <UniqueIdentifier>{70749561-bee2-4874-830a-0cf1c749d8a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Main">
+      <UniqueIdentifier>{6fcbefe5-72bf-4419-b27c-87993e9bb30f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Other">
+      <UniqueIdentifier>{e74dfbd2-8674-496b-9a8d-d86406be4c19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Script">
+      <UniqueIdentifier>{cdc19c27-7d1c-471a-9de9-862b246199d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Script">
+      <UniqueIdentifier>{c645c006-eb13-436e-9785-35ca5d30518e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CharPic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScriptLine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Config.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InitState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameState</Filter>
     </ClCompile>
     <ClCompile Include="MenuState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="InitState.cpp">
+      <Filter>Source Files\GameState</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Effect\Button</Filter>
     </ClCompile>
     <ClCompile Include="MenuButton.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Effect\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="CharPic.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptLine.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="NewGameState.cpp">
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptManager.cpp">
+      <Filter>Source Files\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CharPic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptLine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InitState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameState</Filter>
     </ClInclude>
     <ClInclude Include="MenuState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="InitState.h">
+      <Filter>Header Files\GameState</Filter>
     </ClInclude>
     <ClInclude Include="Effect.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Effect</Filter>
     </ClInclude>
     <ClInclude Include="MenuButton.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Effect\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Effect\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Header Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptLine.h">
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CharPic.h">
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="NewGameState.h">
+      <Filter>Header Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptManager.h">
+      <Filter>Header Files\Script</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

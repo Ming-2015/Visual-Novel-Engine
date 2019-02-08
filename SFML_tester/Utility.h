@@ -25,6 +25,12 @@ public:
 	// split a string off a char delimiter
 	std::vector<std::string> split(const std::string& s, char delimiter);
 
+	// skip n number of lines in the file stream
+	bool skipFileLines(ifstream& file, unsigned int n);
+
+	// skip n bytes (or ascii chars) in the file stream
+	bool skipFileBytes(ifstream& file, unsigned int n);
+
 	static Utility* GetUtility();
 	static void CleanUp();
 

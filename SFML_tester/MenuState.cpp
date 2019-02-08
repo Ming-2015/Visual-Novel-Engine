@@ -20,15 +20,6 @@ void MenuState::init()
 	if (!font.loadFromFile("assets/MATURASC.TTF"))
 		cout << "Can't find font file" << endl;
 
-	//if (!testButton.loadFromFile("assets/exitButton.png"))
-	//	cout << "Image no found" << endl;
-	//testButtonPNG.setPosition(50.0f, 600.0f);
-
-	//float exitButtonWidth = testButtonPNG.getLocalBounds().width;
-	//float exitButtonHeight = testButtonPNG.getLocalBounds().height;
-
-	//testButtonPNG.setTexture(testButton);
-
 	testButtonObj = new MenuButton("assets/exitButton.png", "", "", 90.0f, 600.0f, 0, 0);
 	testButtonObj->load();
 
@@ -107,6 +98,6 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 		}
 		break;
 	}*/
-	testButtonObj->onHandleInput(e, window);
+	testButtonObj->handleInput(e, window);
 }
 

@@ -13,6 +13,7 @@ public:
 	{
 	}
 
+private:
 	bool onLoad();
 	void onUpdate(float delta_t);
 	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;

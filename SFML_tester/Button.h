@@ -20,10 +20,6 @@ public:
 		this->fragShaderPath = fragShaderPath;
 	}
 
-	bool onLoad();
-	void onUpdate(float delta_t);
-	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void onHandleInput(sf::Event& event, sf::Window& window);
 	sf::Texture& getTexure();
 	sf::Sprite& getSprite();
 
@@ -40,4 +36,9 @@ protected:
 	std::string vertShaderPath;
 	std::string fragShaderPath;
 	bool hasShader;
+
+	bool onLoad();
+	void onUpdate(float delta_t);
+	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void onHandleInput(sf::Event& event, sf::Window& window);
 };

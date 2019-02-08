@@ -53,6 +53,28 @@ string Utility::trim(const std::string& src)
 	return src.substr(i, j - i + 1);
 }
 
+bool Utility::skipFileLines(ifstream & file, unsigned int n)
+{
+	std::string line;
+	for (int i = 0; i < n; i++)
+	{
+		// return false if file reaches the end
+		if (file.eof()) return false;
+
+		// return false if an error is thrown
+		if (!file.ignore(numeric_limits<streamsize>::max(), file.widen('\n')))
+			return false;
+	}
+
+	// return true after skipping the correct number of lines
+	return true;
+}
+
+bool Utility::skipFileBytes(ifstream & file, unsigned int n)
+{
+	return (bool) file.ignore(n, ios::eofbit);
+}
+
 Utility* Utility::GetUtility()
 {
 	if (util_ptr == nullptr)
