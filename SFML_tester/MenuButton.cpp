@@ -20,7 +20,9 @@ void MenuButton::onDraw(sf::RenderTarget & target, sf::RenderStates states) cons
 
 void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 {
-	Button::handleInput(e, window);
+	Button::onHandleInput(e, window);
+
+	LOGGER->Log("MenuButton", "event occurred");
 
 	switch (e.type)
 	{

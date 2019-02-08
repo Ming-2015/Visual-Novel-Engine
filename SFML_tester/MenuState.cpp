@@ -70,6 +70,7 @@ void MenuState::render(sf::RenderWindow& window) {
 
 void MenuState::update(float delta_t)
 {
+	testButtonObj->update(delta_t);
 }
 
 void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {

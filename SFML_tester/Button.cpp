@@ -62,7 +62,7 @@ void Button::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
-void Button::onHandleInput(sf::Event& event, sf::Window& window)
+void Button::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 {
 }
 

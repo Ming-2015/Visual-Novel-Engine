@@ -10,10 +10,9 @@ public:
 		std::string fragShaderPath, float xPos, float yPos,
 		float r_width, float r_height) :
 		Button(texPath, vertShaderPath, fragShaderPath, xPos, yPos, r_width, r_height)
-	{
-	}
+	{}
 
-private:
+protected:
 	bool onLoad();
 	void onUpdate(float delta_t);
 	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;

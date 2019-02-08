@@ -40,5 +40,5 @@ protected:
 	bool onLoad();
 	void onUpdate(float delta_t);
 	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void onHandleInput(sf::Event& event, sf::Window& window);
+	void onHandleInput(sf::Event&e, sf::RenderWindow& window);
 };

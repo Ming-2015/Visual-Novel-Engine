@@ -78,13 +78,13 @@ protected:
 
 	bool m_isLoaded;
 
-private:
+protected:
 
     // Virtual functions to be implemented in derived effects
     virtual bool onLoad() = 0;
     virtual void onUpdate(float delta_t) = 0;
     virtual void onDraw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
-	virtual void onHandleInput(sf::Event& event, sf::Window& window) = 0;
+	virtual void onHandleInput(sf::Event& event, sf::RenderWindow& window) = 0;
 
 private:
 
