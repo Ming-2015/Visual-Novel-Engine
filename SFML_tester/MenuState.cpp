@@ -66,7 +66,7 @@ void MenuState::render(sf::RenderWindow& window) {
 	window.draw(exitText);
 }
 
-void MenuState::update()
+void MenuState::update(float delta_t)
 {
 }
 

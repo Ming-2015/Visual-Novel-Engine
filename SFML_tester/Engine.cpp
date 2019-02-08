@@ -10,6 +10,10 @@ int Engine::start()
 	window.setFramerateLimit(CONFIG->getFps());
 
 	Game game;
+	sf::Clock gameClock;
+	sf::Time prevTime = sf::Time(sf::seconds(0));
+	float delta_t;
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -24,7 +28,9 @@ int Engine::start()
 		}
 
 		// update game logics here
-		game.update();
+		delta_t = (gameClock.getElapsedTime() - prevTime).asSeconds();
+		prevTime = gameClock.getElapsedTime();
+		game.update(delta_t);
 
 		// render everything from scratch, so clear away the window first
 		window.clear();

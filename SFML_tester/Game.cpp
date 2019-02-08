@@ -14,7 +14,7 @@ void Game::render(sf::RenderWindow & window)
 	stateManager.render(window);
 }
 
-void Game::update()
+void Game::update(float delta_t)
 {
-	stateManager.update();
+	stateManager.update(delta_t);
 }
