@@ -22,7 +22,11 @@ void ScriptLine::parse(ifstream& myFileStream)
 	string tempStr;			// Temporary string used as we parse line
 	int tempInt;			// Temporary int used as we parse line
 
+	if (myFileStream.eof()) return;
+
 	getline(myFileStream, line);	// read a line from the file
+
+	if (line.find('|') == std::string::npos) return;
 
 	stringstream ss(line);
 	getline(ss, tempStr, '|');

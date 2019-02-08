@@ -12,6 +12,9 @@ bool Button::onLoad()
 	texWidth = sprite.getLocalBounds().width;
 	texHeight = sprite.getLocalBounds().height;
 	hasShader = false;
+	pressed = false;
+	clicked = false;
+
 	if (vertShaderPath != "" && fragShaderPath != "")
 	{
 		if (!shader.loadFromFile(vertShaderPath, fragShaderPath))
@@ -74,4 +77,18 @@ sf::Texture& Button::getTexure()
 sf::Sprite& Button::getSprite()
 {
 	return sprite;
+}
+
+bool Button::isPressed(bool reset)
+{
+	bool temp = pressed;
+	if (reset) pressed = false;
+	return temp;
+}
+
+bool Button::isClicked(bool reset)
+{
+	bool temp = clicked;
+	if (reset) clicked = false;
+	return temp;
 }

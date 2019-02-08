@@ -99,6 +99,9 @@
     <ClCompile Include="ScriptManager.cpp">
       <Filter>Source Files\Script</Filter>
     </ClCompile>
+    <ClCompile Include="MainState.cpp">
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="ScriptManager.h">
       <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="MainState.h">
+      <Filter>Header Files\GameState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

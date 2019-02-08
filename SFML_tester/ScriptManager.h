@@ -16,7 +16,6 @@ public:
 	// get the current line info
 	std::string getScriptLine();
 	std::string getDisplayName();
-
 	std::string getBackgroundFileName() const;
 	std::string getVoiceFileName() const;
 	std::string getBGMFileName() const;
@@ -27,9 +26,14 @@ public:
 	std::vector < int > getNextLineIds() const;
 	int getNumChars() const;
 	std::vector < CharPic > getCharacterPicInfo() const;
+	std::string getCurrentFileName() const;
+	unsigned int getCurrentLineId() const;
 
 	void readNextLine();
 	void readLine(std::string filename, unsigned int lineId);
+	void init();
+
+	bool eof();
 
 private:
 	std::string filename;
@@ -37,6 +41,5 @@ private:
 
 	ScriptLine * currentScriptLine;
 	ifstream file;	
-	
-	void init();
+
 };

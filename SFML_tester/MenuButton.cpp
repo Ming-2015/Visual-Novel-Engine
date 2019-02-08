@@ -22,8 +22,6 @@ void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 {
 	Button::onHandleInput(e, window);
 
-	LOGGER->Log("MenuButton", "event occurred");
-
 	switch (e.type)
 	{
 	case sf::Event::Closed:
@@ -57,9 +55,16 @@ void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 		sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 		if (sprite.getGlobalBounds().contains(mousePosF))
 		{
-			cout << "Exit Button test" << endl;
+			LOGGER->Log("MenuButton", "Exit Button test");
+			pressed = true;
 		}
 	}
 	break;
+	case sf::Event::MouseButtonReleased:
+		if (pressed)
+		{
+			pressed = false;
+			clicked = true;
+		}
 	}
 }

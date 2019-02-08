@@ -59,7 +59,7 @@ bool Utility::skipFileLines(ifstream & file, unsigned int n)
 	for (int i = 0; i < n; i++)
 	{
 		// return false if file reaches the end
-		if (file.eof()) return false;
+		if (file.eof() || !file) return false;
 
 		// return false if an error is thrown
 		if (!file.ignore(numeric_limits<streamsize>::max(), file.widen('\n')))

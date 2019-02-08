@@ -22,6 +22,8 @@ public:
 
 	sf::Texture& getTexure();
 	sf::Sprite& getSprite();
+	bool isPressed(bool reset);
+	bool isClicked(bool reset);
 
 	float xPos, yPos;
 	float buttonWidth, buttonHeight;
@@ -36,6 +38,9 @@ protected:
 	std::string vertShaderPath;
 	std::string fragShaderPath;
 	bool hasShader;
+
+	bool pressed;	// if the button is currently being pressed
+	bool clicked;	// if the button is being clicked (fully pressed then released)
 
 	bool onLoad();
 	void onUpdate(float delta_t);

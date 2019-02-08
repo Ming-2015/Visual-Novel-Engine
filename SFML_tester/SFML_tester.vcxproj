@@ -133,6 +133,7 @@
     <ClCompile Include="InitState.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainState.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="NewGameState.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="InitState.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="MainState.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="NewGameState.h" />

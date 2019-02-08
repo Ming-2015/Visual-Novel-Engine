@@ -74,6 +74,16 @@ std::vector<CharPic> ScriptManager::getCharacterPicInfo() const
 	return currentScriptLine->charPics;
 }
 
+std::string ScriptManager::getCurrentFileName() const
+{
+	return std::string();
+}
+
+unsigned int ScriptManager::getCurrentLineId() const
+{
+	return 0;
+}
+
 void ScriptManager::init()
 {
 	currentScriptLine = new ScriptLine();
@@ -90,9 +100,22 @@ void ScriptManager::init()
 	currentScriptLine->parse(file);
 }
 
+bool ScriptManager::eof()
+{
+	return file.eof();
+}
+
 void ScriptManager::readNextLine()
 {
-	currentScriptLine->parse(file);
+	if (!file.eof())
+	{
+		currentLineId++;
+		currentScriptLine->parse(file);
+	}
+	else
+	{
+		LOGGER->Log("ScriptManager", "Reached EOF of current Script File!");
+	}
 }
 
 void ScriptManager::readLine(std::string filename, unsigned int lineId)
@@ -120,6 +143,13 @@ void ScriptManager::readLine(std::string filename, unsigned int lineId)
 		}
 	}
 
-	currentLineId = lineId;
-	currentScriptLine->parse(file);
+	if (!file.eof() && file)
+	{
+		currentLineId = lineId;
+		currentScriptLine->parse(file);
+	}
+	else
+	{
+		LOGGER->Log("ScriptManager", "Invalid combination of Script File and Line ID");
+	}
 }

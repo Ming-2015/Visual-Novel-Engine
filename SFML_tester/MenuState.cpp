@@ -19,11 +19,11 @@ void MenuState::init()
 {
 
 	if (!background.loadFromFile("assets/background.png"))
-		cout << "Image not found: " << "background.png" << endl;
+		LOGGER->Log("MenuState", "Image not found: background.png");
 	backgroundImage.setTexture(background);
 
 	if (!font.loadFromFile("assets/MATURASC.TTF"))
-		cout << "Can't find font file" << endl;
+		LOGGER->Log("MenuState", "Can't find font file");
 
 	testButtonObj = new MenuButton("assets/exitButton.png", "", "", 90.0f, 600.0f, 0, 0);
 	testButtonObj->load();
@@ -74,36 +74,15 @@ void MenuState::update(float delta_t)
 }
 
 void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
-	/*
-	switch (e.type)
-	{
-		case sf::Event::MouseMoved:
-		{
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			if (testButtonObj->getSprite().getGlobalBounds().contains(mousePosF))
-			{
-				testButtonObj->getSprite().setColor(sf::Color(80, 15, 176));
-				LOGGER->Log("MenuState", "Hover over Exit Button!");
-			}
-			else
-			{
-				testButtonObj->getSprite().setColor(sf::Color(255, 100, 255));
-			}
 
-		}
-		break;
-		case sf::Event::MouseButtonPressed:
-		{
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			if (testButtonObj->getSprite().getGlobalBounds().contains(mousePosF))
-			{
-				LOGGER->Log("MenuState", "Exit Button Pressed!");
-			}
-		}
-		break;
-	}*/
 	testButtonObj->handleInput(e, window);
+
+	// if the button is being clicked
+	if (testButtonObj->isClicked(true))
+	{
+		shouldChangeState = true;
+		nextState = GameState::STATE_NEW_GAME;
+		LOGGER->Log("MenuState", "Starting a new game");
+	}
 }
 
