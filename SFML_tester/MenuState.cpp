@@ -1,6 +1,7 @@
 #include "MenuState.h"
 #include "Config.h"
 #include "GameState.h"
+#include "scriptLine.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
@@ -8,6 +9,10 @@
 MenuState::MenuState() 
 {
 	init();
+
+	ScriptLine testScript;
+	ifstream myfile("resources/ScriptLine.csv");
+	testScript.parse(myfile);
 }
 
 void MenuState::init() 
