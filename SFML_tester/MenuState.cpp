@@ -70,7 +70,7 @@ void MenuState::render(sf::RenderWindow& window) {
 	window.display();
 }
 
-void MenuState::handleInput(sf::Event e) {
+void MenuState::handleInput(sf::Event e, sf::RenderWindow& window) {
 	switch (e.type)
 	{
 	case sf::Event::MouseMoved:
@@ -98,4 +98,9 @@ void MenuState::handleInput(sf::Event e) {
 	}
 	break;
 	}
+}
+
+void MenuState::update()
+{
+
 }
