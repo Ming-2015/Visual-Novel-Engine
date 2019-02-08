@@ -99,8 +99,3 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 		break;
 	}
 }
-
-void MenuState::update()
-{
-
-}

@@ -37,12 +37,8 @@ void ScriptLine::parse(ifstream& myFileStream)
 	for (int i = 0; i < numChoices; i++) {
 		getline(ss, tempStr, '&');
 		choices.push_back(tempStr);
-	}
-	for (int i = 0; i < numChoices; i++) {
 		getline(ss, tempStr, '&');
 		nextFileNames.push_back(tempStr);
-	}
-	for (int i = 0; i < numChoices; i++) {
 		getline(ss, tempStr, '&');
 		tempInt = stoi(tempStr);
 		nextLineIDs.push_back(tempInt);
