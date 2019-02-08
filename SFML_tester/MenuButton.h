@@ -18,6 +18,9 @@ public:
 	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void onHandleInput(sf::Event&e, sf::RenderWindow& window);
 
+private:
+	float scaleMultiply;
+	sf::Clock clock;
 	// Here's all the variables in the button class, for reference
 	// sf::Texture texture;
 	// sf::Sprite sprite;

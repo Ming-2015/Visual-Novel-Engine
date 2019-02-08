@@ -29,7 +29,7 @@ void MenuState::init()
 
 	//testButtonPNG.setTexture(testButton);
 
-	testButtonObj = new MenuButton("assets/exitButton.png", "", "", 50.0f, 600.0f, 0, 0);
+	testButtonObj = new MenuButton("assets/exitButton.png", "", "", 90.0f, 600.0f, 0, 0);
 	testButtonObj->load();
 
 	//THIS MIGHT NOT BE NEEDED, TESTING PURPOSES FOR NOW
@@ -77,6 +77,7 @@ void MenuState::update(float delta_t)
 }
 
 void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
+	/*
 	switch (e.type)
 	{
 		case sf::Event::MouseMoved:
@@ -105,6 +106,7 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 			}
 		}
 		break;
-	}
+	}*/
+	testButtonObj->onHandleInput(e, window);
 }
 

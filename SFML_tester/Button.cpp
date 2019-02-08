@@ -9,7 +9,8 @@ bool Button::onLoad()
 	}
 	sprite.setTexture(texture);
 	sprite.setPosition(xPos, yPos);
-
+	texWidth = sprite.getLocalBounds().width;
+	texHeight = sprite.getLocalBounds().height;
 	hasShader = false;
 	if (vertShaderPath != "" && fragShaderPath != "")
 	{
