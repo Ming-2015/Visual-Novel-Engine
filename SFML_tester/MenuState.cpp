@@ -10,14 +10,14 @@ MenuState::MenuState() {
 }
 
 void MenuState::init() {
-	if (!background.loadFromFile("background.png"))
+	if (!background.loadFromFile("assets/background.png"))
 		cout << "Image not found: " << "background.png" << endl;
 	backgroundImage.setTexture(background);
 
-	if (!font.loadFromFile("MATURASC.TTF"))
+	if (!font.loadFromFile("assets/MATURASC.TTF"))
 		cout << "Can't find font file" << endl;
 
-	if (!testButton.loadFromFile("exitButton.png"))
+	if (!testButton.loadFromFile("assets/exitButton.png"))
 		cout << "Image no found" << endl;
 	testButtonPNG.setPosition(50.0f, 600.0f);
 
@@ -58,14 +58,12 @@ void MenuState::init() {
 }
 
 void MenuState::render(sf::RenderWindow& window) {
-	window.clear();
 	window.draw(backgroundImage);
 	window.draw(testButtonPNG);
 	window.draw(startText);
 	window.draw(loadText);
 	window.draw(settingsText);
 	window.draw(exitText);
-	window.display();
 }
 
 void MenuState::update()
