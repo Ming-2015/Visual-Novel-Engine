@@ -3,14 +3,13 @@
 int Engine::start()
 {
 	// initialize configs
-	config = Config();
-	config.parse("config.ini");
+	CONFIG->parse("config.ini");
 
 	// create an unresizable window
-	window.create(sf::VideoMode(config.getWindowWidth(), config.getWindowHeight()), config.getTitle(), sf::Style::Default & ~sf::Style::Resize);
-	window.setFramerateLimit(config.getFps());
+	window.create(sf::VideoMode(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()), CONFIG->getTitle(), sf::Style::Default & ~sf::Style::Resize);
+	window.setFramerateLimit(CONFIG->getFps());
 
-	Game game(config);
+	Game game;
 	while (window.isOpen())
 	{
 		sf::Event event;

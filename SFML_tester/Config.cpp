@@ -1,10 +1,4 @@
 #include "Config.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include "Utility.h"
 using namespace std;
 
 const string Config::CF_MASTER_VOLUME = "MasterVolume";
@@ -19,6 +13,8 @@ const string Config::CF_TEXT_FADE = "TextFade";
 const string Config::CF_SKIP_UNREAD_TEXT = "SkipUnreadText";
 const string Config::CF_FONT_FILE_NAME = "FontFileName";
 const string Config::CF_TEXT_WINDOW_ALPHA = "TextWindowTransparency";
+
+Config* Config::currentConfig = nullptr;
 
 Config::Config()
 {
@@ -52,6 +48,15 @@ void Config::write(string configFile)
 		string err = "Failed to write to " + configFile;
 		LOGGER->Log("Config", err);
 	}
+}
+
+Config * Config::GetConfig()
+{
+	if (currentConfig == nullptr) 
+	{
+		currentConfig = new Config();
+	}
+	return currentConfig;
 }
 
 void Config::init()
@@ -163,6 +168,7 @@ void Config::parse(string configFile)
 			}
 		}
 		configFileStream.close();
+		write(configFile);
 	}
 }
 

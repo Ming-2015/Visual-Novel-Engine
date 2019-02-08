@@ -2,7 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#include <string>
+#include "Logger.h"
 #include "Engine.h"
 
 using namespace std;
@@ -10,5 +11,10 @@ using namespace std;
 int main()
 {
 	Engine engine;
-	return engine.start();
+	int ret = engine.start();
+
+	string msg = "Returned with code " + to_string(ret);
+	LOGGER->Log("main", msg);
+
+	return ret;
 }

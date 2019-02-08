@@ -12,5 +12,4 @@ public:
 
 private:
 	sf::RenderWindow window;	// the window to be rendered
-	Config config;				// config file
 };

@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(Config config)
+Game::Game()
 {
 }
 

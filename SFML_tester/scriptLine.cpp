@@ -22,6 +22,8 @@ void ScriptLine::parse(ifstream& myFileStream)
 	string tempStr;			// Temporary string used as we parse line
 	int tempInt;			// Temporary int used as we parse line
 
+	getline(myFileStream, line);	// read a line from the file
+
 	stringstream ss(line);
 	getline(ss, tempStr, '&');
 	currentLineID = stoi(tempStr);
@@ -56,12 +58,5 @@ void ScriptLine::parse(ifstream& myFileStream)
 		charPics[i].xPos = stoi(tempStr);
 		getline(ss, tempStr, '&');
 		charPics[i].yPos = stoi(tempStr);
-	}
-
-	myFileStream.close();
-
-	if (!myFileStream.eof())
-	{
-		LOGGER->Log("ScriptLine", "Unable to close file");
 	}
 }

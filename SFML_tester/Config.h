@@ -1,8 +1,15 @@
 #pragma once
-#include <string>
+#include "Utility.h"
 #include "Logger.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
+
+#define CONFIG Config::GetConfig()
 
 enum FullscreenOpts
 {
@@ -15,7 +22,6 @@ class Config
 {
 public:
 
-	Config();	// empty constructor
 	void parse(string configFile);	// parse the config file to get the saved options from previous playthrough
 	void write(string configFile);  // writes a new config file when user changes config settings (saves over old one)
 
@@ -50,10 +56,15 @@ public:
 	static const string CF_FONT_FILE_NAME;
 	static const string CF_TEXT_WINDOW_ALPHA;
 
+	static Config * GetConfig();
+
 private:
 	int windowWidth, windowHeight;	// window widht and height
 	string windowTitle;				// window title
 	float fps;						// fps 
 
-	void init();
+	void init();	
+	Config();	// empty constructor
+
+	static Config * currentConfig;
 };
