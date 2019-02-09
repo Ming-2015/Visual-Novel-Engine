@@ -13,7 +13,6 @@ class ScriptLine
 {
 public:
 	int currentLineID;					// ID of current line
-	string currentFileName;				// Name of current script file
 	string s_line;						// Actual Script Line
 	string name;						// Character name to be displayed
 

@@ -3,16 +3,12 @@
 #include <fstream>
 using namespace std;
 
-SaveState::SaveState() {
-	
-}
-
 void SaveState::writeSave() {
 	ofstream myfile("Save.txt");
 	if (myfile.is_open())
 	{
-		myfile << "File Name =" << scriptManager->getCurrentFileName() << '\n';		//Change?
-		myfile << "File line ID = " << scriptManager->getCurrentLineId() << '\n';	//Change?
+		myfile << "File Name =" << scriptFileName << '\n';		//Change?
+		myfile << "File line ID = " << lineId << '\n';	//Change?
 		myfile.close();
 	}
 	else {
@@ -29,7 +25,6 @@ void SaveState::readSave() {
 		stringstream ss(line);
 		getline(ss, tempStr, '=');
 		getline(ss, fileNameFromSave, '=');
-		stringstream ss(line);
 		getline(ss, tempStr, '=');
 		getline(ss, tempStr, '=');
 		lineIDFromSave = stoi(tempStr);
@@ -38,4 +33,20 @@ void SaveState::readSave() {
 		string err = "Incorrect Save file";
 		LOGGER->Log("SaveFile", err);
 	}
+}
+
+void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
+{
+}
+
+void SaveState::render(sf::RenderWindow & window)
+{
+}
+
+void SaveState::update(float delta_t)
+{
+}
+
+void SaveState::init()
+{
 }

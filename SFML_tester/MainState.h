@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "ScriptLine.h"
 #include "ScriptManager.h"
+#include "Global.h"
 
 class MainState : public GameState
 {
@@ -13,6 +14,7 @@ public:
 	void init();
 
 	const int myState = GameState::STATE_MAIN;
+	const ScriptManager* getScriptManager();
 
 	MainState(std::string filename, int lineId);
 	~MainState();

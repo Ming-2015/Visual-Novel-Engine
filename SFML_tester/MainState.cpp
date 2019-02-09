@@ -28,6 +28,9 @@ void MainState::update(float delta_t)
 		shouldChangeState = true;
 		nextState = GameState::STATE_MENU;
 	}
+
+	GLOBAL->MAIN_STATE_currentFile = scriptManager->getCurrentFileName();
+	GLOBAL->MAIN_STATE_currentLineId = scriptManager->getCurrentLineId();
 }
 
 void MainState::init()
@@ -64,6 +67,11 @@ void MainState::init()
 		displayTextStr.setCharacterSize(32);
 		displayTextStr.setPosition(125.0f, 700.0f);
 	}
+}
+
+const ScriptManager * MainState::getScriptManager()
+{
+	return scriptManager;
 }
 
 MainState::MainState(std::string filename, int lineId)

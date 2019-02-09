@@ -31,7 +31,6 @@ void ScriptLine::parse(ifstream& myFileStream)
 	stringstream ss(line);
 	getline(ss, tempStr, '|');
 	currentLineID = stoi(tempStr);
-	getline(ss, currentFileName, '|');
 	getline(ss, s_line, '|');
 	getline(ss, name, '|');
 

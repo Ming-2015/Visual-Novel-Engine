@@ -1,16 +1,17 @@
 #pragma once
+#include <stack>
 #include "GameState.h"
 #include "InitState.h"
 #include "MenuState.h"
 #include "NewGameState.h"
 #include "ScriptManager.h"
 #include "MainState.h"
+#include "SaveState.h"
+#include "Global.h"
 
 class StateManager 
 {
 public:
-	GameState * currentState;
-	int currentStateCode;
 
 	~StateManager();
 	StateManager();
@@ -21,6 +22,10 @@ public:
 	void init();
 
 private:
-	
 	void manageStates();
+
+	GameState * currentState;
+	int currentStateCode;
+
+	std::stack<GameState *> prevStates;
 };

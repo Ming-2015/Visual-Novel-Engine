@@ -54,6 +54,10 @@ void StateManager::manageStates()
 			delete currentState;
 			currentState = new MainState("resources/ScriptLine.csv", 1);
 			break;
+		case GameState::STATE_SAVE:
+			prevStates.push(currentState);
+			currentState = new SaveState(GLOBAL->MAIN_STATE_currentFile, GLOBAL->MAIN_STATE_currentLineId);
+			break;
 		}
 		currentState->init();
 	}

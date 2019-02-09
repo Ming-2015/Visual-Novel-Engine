@@ -9,10 +9,6 @@
 MenuState::MenuState() 
 {
 	init();
-
-	ScriptLine testScript;
-	ifstream myfile("resources/ScriptLine.csv");
-	testScript.parse(myfile);
 }
 
 void MenuState::init() 
