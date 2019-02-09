@@ -25,13 +25,6 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 void MainState::render(sf::RenderWindow & window)
 {
-	if (clock.getElapsedTime().asMilliseconds() > 15 && character < scriptManager->getScriptLine().length())
-	{
-		clock.restart();
-		character++;
-		displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
-	}
-
 	window.draw(displayBackground);
 	window.draw(displayTextbox);
 	window.draw(displayNameStr);
@@ -41,8 +34,14 @@ void MainState::render(sf::RenderWindow & window)
 
 void MainState::update(float delta_t)
 {
-	displayNameStr.setString(scriptManager->getDisplayName());
+	if (clock.getElapsedTime().asMilliseconds() > 15 && character < scriptManager->getScriptLine().length())
+	{
+		clock.restart();
+		character++;
+		displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
+	}
 
+	displayNameStr.setString(scriptManager->getDisplayName());
 
 	if (scriptManager->eof())
 	{
