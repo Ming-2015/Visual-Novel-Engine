@@ -18,6 +18,8 @@ public:
 
 	string backgroundFileName;			// Background image file name
 	bool backgroundChange;
+	string textboxFileName;
+	bool textboxChange;
 	string voiceFileName;				// voice file name, "" if none
 	string BGMFileName;					// background music file name
 

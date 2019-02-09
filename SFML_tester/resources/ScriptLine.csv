@@ -1,3 +1,6 @@
-1|This is a first test|Edward|FALSE||test1.txt|2|1|2|Edward1.png|400|400|YC1.png|500|700
-2|This is a second test|Edward|FALSE||test1.txt|3|1|2|Edward1.png|400|400|YC1.png|500|700
-3|This is a third test|Yiming|FALSE||test1.txt|4|1|2|Edward1.png|400|400|YC1.png|500|700
+1|NINGEN, gym at five.|Edward|resources/MainStategBG1.jpg|FALSE|resources/textbox1.png||TRUE|0|||||ScriptLine.csv||||2||||2|Edward1.png|400|400|YC1.png|500|700
+2|noooooooooooo|YC|resources/MainStategBG1.jpg|TRUE|resources/textbox2.png||TRUE|0|||||ScriptLine.csv||||3||||2|Edward1.png|400|400|YC1.png|500|700
+3|Your ass better be out of bed by the time I'm done getting dressed.|Edward|resources/MainStategBG2.jpg|FALSE|resources/textbox1.png||TRUE|0|||||ScriptLine.csv||||4||||2|Edward1.png|400|400|YC1.png|500|700
+4|Yea yea I know|YC|resources/MainStategBG2.jpg|TRUE|resources/textbox2.png||TRUE|0|||||ScriptLine.csv||||5||||2|Edward1.png|400|400|YC1.png|500|700
+5|Alright, I'll see you in a couple minutes|Edward|resources/MainStategBG1.jpg|FALSE|resources/textbox1.png||TRUE|0|||||ScriptLine.csv||||6||||2|Edward1.png|400|400|YC1.png|500|700
+6|waaaaaaaaaaaaaaah|YC|resources/MainStategBG1.jpg|FALSE|resources/textbox2.png||TRUE|0|||||ScriptLine.csv||||7||||2|Edward1.png|400|400|YC1.png|500|700

@@ -18,6 +18,8 @@ public:
 	std::string getDisplayName();
 	std::string getBackgroundFileName() const;
 	bool getBackgroundChange() const;
+	std::string getTextboxFileName() const;
+	bool getTextboxChange() const;
 	std::string getVoiceFileName() const;
 	std::string getBGMFileName() const;
 	int getNumChoices() const;

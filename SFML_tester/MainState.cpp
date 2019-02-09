@@ -12,7 +12,13 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 				if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
 					LOGGER->Log("MenuState", "Unable to get Background Image");
 				displayBackground.setTexture(background);
-			}}
+			}
+			if (scriptManager->getTextboxChange()) {
+				if (!textbox.loadFromFile(scriptManager->getTextboxFileName()))
+					LOGGER->Log("MenuState", "Unable to get Textbox Image");
+				displayTextbox.setTexture(textbox);
+			}
+		}
 		break;
 	}
 }
@@ -27,6 +33,7 @@ void MainState::render(sf::RenderWindow & window)
 	}
 
 	window.draw(displayBackground);
+	window.draw(displayTextbox);
 	window.draw(displayNameStr);
 	window.draw(displayTextStr);
 	
@@ -53,6 +60,9 @@ void MainState::init()
 	if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
 		LOGGER->Log("MenuState", "Unable to get Background Image");
 	displayBackground.setTexture(background);
+	if (!textbox.loadFromFile(scriptManager->getTextboxFileName()))
+		LOGGER->Log("MenuState", "Unable to get Textbox Image");
+	displayTextbox.setTexture(textbox);
 
 	if (!displayNameFont.loadFromFile("assets/MATURASC.TTF"))
 	{
@@ -67,7 +77,7 @@ void MainState::init()
 		displayNameStr.setString(scriptManager->getDisplayName());
 		displayNameStr.setFillColor(displayNameColor);
 		displayNameStr.setCharacterSize(32);
-		displayNameStr.setPosition(100.0f, 600.0f);
+		displayNameStr.setPosition(230.0f, 643.0f);
 	}
 
 	if (!displayTextFont.loadFromFile("assets/default.TTF"))
@@ -82,7 +92,7 @@ void MainState::init()
 		displayTextStr.setStyle(sf::Text::Regular);
 		displayTextStr.setFillColor(displayTextColor);
 		displayTextStr.setCharacterSize(32);
-		displayTextStr.setPosition(125.0f, 700.0f);
+		displayTextStr.setPosition(230.0f, 720.0f);
 	}
 }
 

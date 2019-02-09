@@ -24,13 +24,24 @@ std::string ScriptManager::getDisplayName()
 	return currentScriptLine->name;
 }
 
-bool ScriptManager::getBackgroundChange() const {
+bool ScriptManager::getBackgroundChange() const 
+{
 	return currentScriptLine->backgroundChange;
 }
 
 std::string ScriptManager::getBackgroundFileName() const
 {
 	return currentScriptLine->backgroundFileName;
+}
+
+bool ScriptManager::getTextboxChange() const
+{
+	return currentScriptLine->textboxChange;
+}
+
+std::string ScriptManager::getTextboxFileName() const
+{
+	return currentScriptLine->textboxFileName;
 }
 
 std::string ScriptManager::getVoiceFileName() const

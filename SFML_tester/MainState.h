@@ -31,6 +31,8 @@ private:
 
 	sf::Texture background;
 	sf::Sprite displayBackground;
+	sf::Texture textbox;
+	sf::Sprite displayTextbox;
 
 	sf::Color displayTextColor;
 	sf::Font displayTextFont;

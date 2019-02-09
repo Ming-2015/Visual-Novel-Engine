@@ -31,17 +31,29 @@ void ScriptLine::parse(ifstream& myFileStream)
 	stringstream ss(line);
 	getline(ss, tempStr, '|');
 	currentLineID = stoi(tempStr);
+	cout << currentLineID << endl;
 	getline(ss, s_line, '|');
+	cout << s_line << endl;
 	getline(ss, name, '|');
+	cout << name << endl;
 
 	getline(ss, backgroundFileName, '|');
+	cout << backgroundFileName << endl;
 	getline(ss, tempStr, '|');
 	backgroundChange = UTILITY->str2bool(tempStr);
+	cout << backgroundChange << endl;
+	getline(ss, textboxFileName, '|');
+	cout << textboxFileName << endl;
+	getline(ss, tempStr, '|');
+	textboxChange = UTILITY->str2bool(tempStr);
+	cout << textboxChange << endl;
 
 	getline(ss, tempStr, '|');
 	isChoice = UTILITY->str2bool(tempStr);
+	cout << isChoice << endl;
 	getline(ss, tempStr, '|');
 	numChoices = stoi(tempStr);
+	cout << numChoices << endl;
 	if (numChoices == 0) {
 		getline(ss, tempStr, '|');
 		getline(ss, tempStr, '|');

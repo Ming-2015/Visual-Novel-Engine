@@ -21,7 +21,7 @@ std::vector<std::string> Utility::split(const std::string& s, char delimiter)
 }
 
 bool Utility::str2bool(string s) {
-	if (s == "true" || s=="TRUE")
+	if (s == "true" || s== "TRUE")
 		return true;
 	else if (s == "false" || s == "FALSE")
 		return false;
