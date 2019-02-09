@@ -29,6 +29,9 @@ private:
 	sf::Font displayNameFont;
 	sf::Color displayNameColor;
 
+	sf::Texture background;
+	sf::Sprite displayBackground;
+
 	sf::Color displayTextColor;
 	sf::Font displayTextFont;
 	sf::Text displayTextStr;

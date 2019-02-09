@@ -24,6 +24,10 @@ std::string ScriptManager::getDisplayName()
 	return currentScriptLine->name;
 }
 
+bool ScriptManager::getBackgroundChange() const {
+	return currentScriptLine->backgroundChange;
+}
+
 std::string ScriptManager::getBackgroundFileName() const
 {
 	return currentScriptLine->backgroundFileName;
@@ -81,7 +85,8 @@ std::string ScriptManager::getCurrentFileName() const
 
 unsigned int ScriptManager::getCurrentLineId() const
 {
-	return 0;
+	return currentScriptLine->currentLineID
+		;
 }
 
 void ScriptManager::init()

@@ -34,6 +34,10 @@ void ScriptLine::parse(ifstream& myFileStream)
 	getline(ss, s_line, '|');
 	getline(ss, name, '|');
 
+	getline(ss, backgroundFileName, '|');
+	getline(ss, tempStr, '|');
+	backgroundChange = UTILITY->str2bool(tempStr);
+
 	getline(ss, tempStr, '|');
 	isChoice = UTILITY->str2bool(tempStr);
 	getline(ss, tempStr, '|');

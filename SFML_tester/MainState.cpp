@@ -8,7 +8,11 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		{
 			scriptManager->readNextLine();
 			character = 0;
-		}
+			if (!scriptManager->getBackgroundChange()) {
+				if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
+					LOGGER->Log("MenuState", "Unable to get Background Image");
+				displayBackground.setTexture(background);
+			}}
 		break;
 	}
 }
@@ -21,8 +25,11 @@ void MainState::render(sf::RenderWindow & window)
 		character++;
 		displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
 	}
+
+	window.draw(displayBackground);
 	window.draw(displayNameStr);
 	window.draw(displayTextStr);
+	
 }
 
 void MainState::update(float delta_t)
@@ -43,6 +50,10 @@ void MainState::update(float delta_t)
 void MainState::init()
 {
 	scriptManager->init();
+	if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
+		LOGGER->Log("MenuState", "Unable to get Background Image");
+	displayBackground.setTexture(background);
+
 	if (!displayNameFont.loadFromFile("assets/MATURASC.TTF"))
 	{
 		LOGGER->Log("MainState", "Cannot find font file 1");

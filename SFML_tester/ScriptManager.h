@@ -17,6 +17,7 @@ public:
 	std::string getScriptLine();
 	std::string getDisplayName();
 	std::string getBackgroundFileName() const;
+	bool getBackgroundChange() const;
 	std::string getVoiceFileName() const;
 	std::string getBGMFileName() const;
 	int getNumChoices() const;

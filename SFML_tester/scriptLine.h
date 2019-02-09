@@ -17,6 +17,7 @@ public:
 	string name;						// Character name to be displayed
 
 	string backgroundFileName;			// Background image file name
+	bool backgroundChange;
 	string voiceFileName;				// voice file name, "" if none
 	string BGMFileName;					// background music file name
 
