@@ -7,6 +7,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		case sf::Event::MouseButtonPressed:
 		{
 			scriptManager->readNextLine();
+			character = 0;
 		}
 		break;
 	}
@@ -14,6 +15,12 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 void MainState::render(sf::RenderWindow & window)
 {
+	if (clock.getElapsedTime().asMilliseconds() > 15 && character < scriptManager->getScriptLine().length())
+	{
+		clock.restart();
+		character++;
+		displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
+	}
 	window.draw(displayNameStr);
 	window.draw(displayTextStr);
 }
@@ -21,7 +28,7 @@ void MainState::render(sf::RenderWindow & window)
 void MainState::update(float delta_t)
 {
 	displayNameStr.setString(scriptManager->getDisplayName());
-	displayTextStr.setString(scriptManager->getScriptLine());
+
 
 	if (scriptManager->eof())
 	{
@@ -62,7 +69,6 @@ void MainState::init()
 
 		displayTextStr.setFont(displayTextFont);
 		displayTextStr.setStyle(sf::Text::Regular);
-		displayTextStr.setString(scriptManager->getScriptLine());
 		displayTextStr.setFillColor(displayTextColor);
 		displayTextStr.setCharacterSize(32);
 		displayTextStr.setPosition(125.0f, 700.0f);

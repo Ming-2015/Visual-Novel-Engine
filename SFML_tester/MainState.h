@@ -21,6 +21,8 @@ public:
 
 private:
 
+	sf::Clock clock;
+	unsigned int character;
 	ScriptManager* scriptManager;
 
 	sf::Text displayNameStr;
