@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <SFML/Graphics.hpp>
 #include "Logger.h"
 using namespace std;
 

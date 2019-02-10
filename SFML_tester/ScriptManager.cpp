@@ -14,12 +14,12 @@ ScriptManager::~ScriptManager()
 	if (file.is_open()) file.close();
 }
 
-std::string ScriptManager::getScriptLine()
+std::string ScriptManager::getScriptLine() const
 {
 	return currentScriptLine->s_line;
 }
 
-std::string ScriptManager::getDisplayName()
+std::string ScriptManager::getDisplayName() const 
 {
 	return currentScriptLine->name;
 }
@@ -96,8 +96,7 @@ std::string ScriptManager::getCurrentFileName() const
 
 unsigned int ScriptManager::getCurrentLineId() const
 {
-	return currentScriptLine->currentLineID
-		;
+	return currentScriptLine->currentLineID;
 }
 
 void ScriptManager::init()

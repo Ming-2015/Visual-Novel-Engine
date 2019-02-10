@@ -1,6 +1,5 @@
 #pragma once
 #include <stack>
-#include "Global.h"
 #include "GameState.h"
 #include "InitState.h"
 #include "MenuState.h"

@@ -4,7 +4,6 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
-#include "Logger.h"
 
 using namespace std;
 
@@ -13,16 +12,17 @@ using namespace std;
 class Global {
 public:
 	 
-	static Global* GetGlobal();
-	static void CleanUp();
-
 	// Define all the global variables to be passed between states
 	std::string MAIN_STATE_currentFile;
 	unsigned int MAIN_STATE_currentLineId;
 	int tempint;
 
+	static Global* GetGlobal();
+	static void CleanUp();
+
 private:
 	Global();
 	~Global();
+
 	static Global * global_ptr;
 };

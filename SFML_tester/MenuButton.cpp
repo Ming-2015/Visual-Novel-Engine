@@ -24,10 +24,6 @@ void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 
 	switch (e.type)
 	{
-	case sf::Event::Closed:
-		window.close();
-		break;
-
 	case sf::Event::MouseMoved:
 	{
 		sf::Vector2i mousePos = sf::Mouse::getPosition(window);

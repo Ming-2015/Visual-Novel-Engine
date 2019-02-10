@@ -142,6 +142,9 @@
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
+    <ClCompile Include="SettingsState.cpp" />
+    <ClCompile Include="SettingsState.h" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
@@ -162,6 +165,7 @@
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="ScriptLine.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>

@@ -14,8 +14,8 @@ public:
 	~ScriptManager();
 
 	// get the current line info
-	std::string getScriptLine();
-	std::string getDisplayName();
+	std::string getScriptLine() const;
+	std::string getDisplayName() const;
 	std::string getBackgroundFileName() const;
 	bool getBackgroundChange() const;
 	std::string getTextboxFileName() const;
@@ -44,5 +44,4 @@ private:
 
 	ScriptLine * currentScriptLine;
 	ifstream file;	
-
 };
