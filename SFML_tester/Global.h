@@ -11,7 +11,7 @@ using namespace std;
 
 class Global {
 public:
-	 
+
 	// Define all the global variables to be passed between states
 	std::string MAIN_STATE_currentFile;
 	unsigned int MAIN_STATE_currentLineId;

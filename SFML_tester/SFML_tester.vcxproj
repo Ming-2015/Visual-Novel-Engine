@@ -78,6 +78,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)SFML\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -132,7 +133,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Global.cpp" />
-    <ClCompile Include="Global.h" />
     <ClCompile Include="InitState.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
@@ -144,7 +144,6 @@
     <ClCompile Include="ScriptLine.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="SettingsState.cpp" />
-    <ClCompile Include="SettingsState.h" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Utility.cpp" />
@@ -158,6 +157,7 @@
     <ClInclude Include="ExitState.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="InitState.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MainState.h" />
@@ -167,6 +167,7 @@
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="ScriptLine.h" />
+    <ClInclude Include="SettingsState.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Utility.h" />

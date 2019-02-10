@@ -31,4 +31,6 @@ public:
 	static const int STATE_NEW_GAME = 5;
 	static const int STATE_MAIN = 6;
 	static const int STATE_EXIT = 7;
+
+	static const int STATE_BACK = 8;
 };

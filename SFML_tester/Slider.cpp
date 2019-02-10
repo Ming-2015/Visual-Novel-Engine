@@ -32,10 +32,10 @@ bool Slider::onLoad()
 	sliderTexWidth = sliderSprite.getLocalBounds().width;
 	sliderTexHeight = sliderSprite.getLocalBounds().height;
 
-	float scaleX = (float)sliderTexWidth / sliderWidth;
-	float scaleY = (float)sliderTexHeight / sliderHeight;
+	float scaleX = sliderWidth / (float)sliderTexWidth ;
+	float scaleY = sliderHeight / (float)sliderTexHeight ;
 
-	//sliderSprite.setPosition(-sliderTexWidth / 2.0, -sliderTexHeight / 2.0);
+	//sliderSprite.moves(-sliderTexWidth / 2.0, -sliderTexHeight / 2.0);
 	sliderSprite.setScale(scaleX, scaleY);
 	sliderSprite.setPosition(xPos, yPos);
 
@@ -45,16 +45,19 @@ bool Slider::onLoad()
 		return false;
 	}
 	knobSprite.setTexture(knobTexture);
-	knobTexWidth = sliderSprite.getLocalBounds().width;
-	knobTexHeight = sliderSprite.getLocalBounds().height;
+	knobTexWidth = knobSprite.getLocalBounds().width;
+	knobTexHeight = knobSprite.getLocalBounds().height;
 
-	scaleX = (float)knobTexWidth / knobWidth;
-	scaleY = (float)knobTexHeight / knobHeight;
+	knobMinX = xPos + knobWidth / 2.0f;
+	slidingWidth = sliderWidth - knobWidth;
+
+	scaleX = knobWidth / (float)knobTexWidth;
+	scaleY = knobHeight / (float)knobTexHeight;
 	knobX = findKnobX(value);
 	knobY = yPos + sliderHeight / 2.0f - (knobHeight / 2.0f);
 
-	sliderSprite.setScale(scaleX, scaleY);
-	sliderSprite.setPosition(knobX, knobY);
+	knobSprite.setScale(scaleX, scaleY);
+	knobSprite.setPosition(knobX, knobY);
 
 	hasShader = false;
 	pressed = false;
@@ -142,16 +145,24 @@ void Slider::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 			if (pressed)
 			{
 				// find the x offset
-				float offset = mousePosF.x - prevMouseX;
-				knobX += offset;
+				knobX = mousePosF.x - knobWidth / 2.0f;
 
 				// fix the knob on the slider
-				if (knobX < findKnobX(0)) knobX = findKnobX(0);
-				else if (knobX > findKnobX(1.0f)) knobX = findKnobX(1.0f);
+				if (knobX < findKnobX(0))
+				{
+					knobX = findKnobX(0);
+				}
+				else if (knobX > findKnobX(1.0f))
+				{
+					knobX = findKnobX(1.0f);
+				}
 
 				// reset the knob position and set the value
 				knobSprite.setPosition(knobX, knobY);
 				value = findValue(knobX);
+
+				//string msg = "KnobX = " + to_string(knobX) + "; value = " + to_string(value);
+				//LOGGER->Log("Slider", msg);
 			}
 			break;
 		}
@@ -169,11 +180,11 @@ void Slider::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 
 float Slider::findKnobX(float value)
 {
-	return xPos - (knobWidth / 2.0f) + (sliderWidth * value);
+	return knobMinX - (knobWidth / 2.0f) + (slidingWidth * value);
 }
 
 float Slider::findValue(float knobX)
 {
-	return (knobX - xPos + knobWidth / 2.0f)/sliderWidth;
+	return (knobX - knobMinX + knobWidth / 2.0f)/ slidingWidth;
 }
 

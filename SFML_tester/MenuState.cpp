@@ -89,6 +89,8 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 
 	exitButton->handleInput(e, window);
 	startButton->handleInput(e, window);
+	settingsButton->handleInput(e, window);
+	loadButton->handleInput(e, window);
 
 	// if the button is being clicked
 	if (startButton->isClicked(true))
@@ -101,7 +103,13 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 	{
 		shouldChangeState = true;
 		nextState = GameState::STATE_EXIT;
-		LOGGER->Log("InitState", "Switching to Exit State");
+		LOGGER->Log("MenuState", "Switching to Exit State");
+	}
+	if (settingsButton->isClicked(true))
+	{
+		shouldChangeState = true;
+		nextState = GameState::STATE_CONFIG;
+		LOGGER->Log("MenuState", "Opening settings");
 	}
 }
 

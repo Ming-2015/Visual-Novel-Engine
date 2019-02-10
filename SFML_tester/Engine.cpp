@@ -33,7 +33,7 @@ int Engine::start()
 		game.update(delta_t);
 
 		// render everything from scratch, so clear away the window first
-		window.clear();
+		window.clear(sf::Color(120,200,100));
 
 		// render here
 		game.render(window);

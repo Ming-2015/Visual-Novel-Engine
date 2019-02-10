@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 
 #include "GameState.h"
@@ -28,7 +27,21 @@ public:
 
 private:
 
-	Slider * slider;
+	std::vector<Slider * > sliders;
+	std::vector<sf::Text> texts;
 
+	sf::Font settingsFont;
+
+	const static int SLIDER_MASTER = 0;
+	const static int SLIDER_BGM = 1;
+	const static int SLIDER_VOICE = 2;
+	const static int SLIDER_SFX = 3;
+	const static int SLIDER_ALPHA = 4;
+
+	const static int TEXT_MASTER = 0;
+	const static int TEXT_BGM = 1;
+	const static int TEXT_VOICE = 2;
+	const static int TEXT_SFX = 3;
+	const static int TEXT_ALPHA = 4;
+	const static int TEXT_SAVE = 5;
 };
-

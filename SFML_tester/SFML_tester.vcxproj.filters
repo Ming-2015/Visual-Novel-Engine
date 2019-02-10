@@ -105,9 +105,6 @@
     <ClCompile Include="SaveState.cpp">
       <Filter>Source Files\GameState</Filter>
     </ClCompile>
-    <ClCompile Include="Global.h">
-      <Filter>Header Files\Other</Filter>
-    </ClCompile>
     <ClCompile Include="Global.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
@@ -178,8 +175,14 @@
     </ClInclude>
     <ClInclude Include="Slider.h">
       <Filter>Header Files\Effect</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="ExitState.h">
+      <Filter>Header Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsState.h">
       <Filter>Header Files\GameState</Filter>
     </ClInclude>
   </ItemGroup>

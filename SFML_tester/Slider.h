@@ -31,9 +31,9 @@ public:
 
 	~Slider();
 
-	static Slider * createSettingsSlider(float xPos, float yPos)
+	static Slider * createSettingsSlider(float xPos, float yPos, float initVal=0.8f)
 	{
-		return new Slider("", "", "assets/rescrollbar.png", "assets/rescrollbar_thumb.png", xPos, yPos, 100.0f, 30.0f, 20.0f, 20.0f, 0.5f);
+		return new Slider("assets/rescrollbar.png", "assets/rescrollbar_thumb.png", "", "", xPos, yPos, 300.0f, 50.0f, 30.0f, 30.0f, initVal);
 	}
 
 	float getValue() const; // get the slider position, from 0.0 to 1.0
@@ -64,8 +64,10 @@ protected:
 	int knobTexWidth, knobTexHeight;
 
 	// prev mouse x position, for offset calculation
-	float prevMouseX;
 	float knobX, knobY;		// knob position
+
+	// actual xpos and width of the functional slider
+	float knobMinX, slidingWidth;
 
 	sf::Shader shader;
 	bool hasShader;

@@ -1,14 +1,14 @@
 #pragma once
 #include <stack>
+#include "Global.h"
 #include "GameState.h"
 #include "InitState.h"
 #include "MenuState.h"
 #include "NewGameState.h"
-#include "ScriptManager.h"
 #include "MainState.h"
 #include "SaveState.h"
-#include "Global.h"
 #include "ExitState.h"
+#include "SettingsState.h"
 
 class StateManager 
 {

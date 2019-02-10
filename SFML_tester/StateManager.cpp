@@ -56,11 +56,22 @@ void StateManager::manageStates()
 			break;
 		case GameState::STATE_SAVE:
 			prevStates.push(currentState);
+			currentState->shouldChangeState = false;
 			currentState = new SaveState(GLOBAL->MAIN_STATE_currentFile, GLOBAL->MAIN_STATE_currentLineId);
 			break;
 		case GameState::STATE_EXIT:
 			delete currentState;
 			currentState = new ExitState();
+			break;
+		case GameState::STATE_CONFIG:
+			prevStates.push(currentState);
+			currentState->shouldChangeState = false;
+			currentState = new SettingsState();
+			break;
+		case GameState::STATE_BACK:
+			delete currentState;
+			currentState = prevStates.top();
+			prevStates.pop();
 			break;
 		}
 		currentState->init();
