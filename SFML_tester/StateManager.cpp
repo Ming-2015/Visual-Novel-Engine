@@ -58,6 +58,10 @@ void StateManager::manageStates()
 			prevStates.push(currentState);
 			currentState = new SaveState(GLOBAL->MAIN_STATE_currentFile, GLOBAL->MAIN_STATE_currentLineId);
 			break;
+		case GameState::STATE_EXIT:
+			delete currentState;
+			currentState = new ExitState();
+			break;
 		}
 		currentState->init();
 	}

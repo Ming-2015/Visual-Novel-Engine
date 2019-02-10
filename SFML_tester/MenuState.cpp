@@ -21,8 +21,20 @@ void MenuState::init()
 	if (!font.loadFromFile("assets/MATURASC.TTF"))
 		LOGGER->Log("MenuState", "Can't find font file");
 
-	testButtonObj = new MenuButton("assets/exitButton.png", "", "", 90.0f, 600.0f, 0, 0);
+	testButtonObj = new MenuButton("assets/exitButton.png", "", "", 90.0f, 900.0f, 0, 0, 0, 0, 79, 39);
 	testButtonObj->load();
+
+	startButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 520.0f, 0, 0, 0, 0, 475, 72);
+	startButton->load();
+
+	loadButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 610.0f, 0, 0, 0, 72, 335, 72);
+	loadButton->load();
+
+	settingsButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 700.0f, 0, 0, 0, 144, 225, 72);
+	settingsButton->load();
+
+	exitButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 790.0f, 0, 0, 0, 216, 125, 72);
+	exitButton->load();
 
 	//THIS MIGHT NOT BE NEEDED, TESTING PURPOSES FOR NOW
 	startText.setFont(font);
@@ -57,11 +69,15 @@ void MenuState::init()
 
 void MenuState::render(sf::RenderWindow& window) {
 	window.draw(backgroundImage);
+	window.draw(*startButton);
 	window.draw(*testButtonObj);
-	window.draw(startText);
-	window.draw(loadText);
-	window.draw(settingsText);
-	window.draw(exitText);
+	window.draw(*loadButton);
+	window.draw(*settingsButton);
+	window.draw(*exitButton);
+	//window.draw(startText);
+	//window.draw(loadText);
+	//window.draw(settingsText);
+	//window.draw(exitText);
 }
 
 void MenuState::update(float delta_t)
@@ -71,14 +87,21 @@ void MenuState::update(float delta_t)
 
 void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 
-	testButtonObj->handleInput(e, window);
+	exitButton->handleInput(e, window);
+	startButton->handleInput(e, window);
 
 	// if the button is being clicked
-	if (testButtonObj->isClicked(true))
+	if (startButton->isClicked(true))
 	{
 		shouldChangeState = true;
 		nextState = GameState::STATE_NEW_GAME;
 		LOGGER->Log("MenuState", "Starting a new game");
+	}
+	if (exitButton->isClicked(true))
+	{
+		shouldChangeState = true;
+		nextState = GameState::STATE_EXIT;
+		LOGGER->Log("InitState", "Switching to Exit State");
 	}
 }
 
