@@ -26,8 +26,8 @@ void MenuState::init()
 		bgm.play();
 	}
 
-	if (!background.loadFromFile("assets/background.png"))
-		LOGGER->Log("MenuState", "Image not found: background.png");
+	if (!background.loadFromFile("assets/background.jpg"))
+		LOGGER->Log("MenuState", "Image not found: background.jpg");
 	backgroundImage.setTexture(background);
 
 	if (!font.loadFromFile("assets/MATURASC.TTF"))
@@ -105,7 +105,6 @@ void MenuState::update(float delta_t)
 				currentAlpha += 10;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 				bgm.setVolume(100.0f - volumeFade);
-				cout << currentAlpha << endl;
 			}
 			else {
 				shouldChangeState = true;
