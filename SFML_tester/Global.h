@@ -1,12 +1,10 @@
 #pragma once
 
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <vector>
 #include "Logger.h"
-#include "ScriptManager.h"
 
 using namespace std;
 
