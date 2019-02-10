@@ -19,20 +19,25 @@ public:
 	const int myState = GameState::STATE_MENU;
 
 private:
+	sf::Music bgm;
 	sf::Texture background;
 	sf::Sprite backgroundImage;
 	sf::Font font;
-	//sf::Texture testButton;
-	//sf::Sprite testButtonPNG;
-	sf::Text startText;
-	sf::Text loadText;
-	sf::Text settingsText;
-	sf::Text exitText;
-
-	MenuButton * testButtonObj;
+	//sf::Text startText;
+	//sf::Text loadText;
+	//sf::Text settingsText;
+	//sf::Text exitText;
 
 	MenuButton * startButton;
 	MenuButton * loadButton;
 	MenuButton * settingsButton;
 	MenuButton * exitButton;
+
+	sf::RectangleShape rectangle;
+	sf::Clock clock;
+
+	bool shouldFade = false;
+	int currentAlpha;
+	int endAlpha;
+	float volumeFade;
 };

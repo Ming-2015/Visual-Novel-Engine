@@ -13,6 +13,18 @@ MenuState::MenuState()
 
 void MenuState::init() 
 {
+	currentAlpha = 0;
+	endAlpha = 255;
+	rectangle.setSize(sf::Vector2f(1600, 900));
+	rectangle.setFillColor(sf::Color::Color(0,0,0,currentAlpha));
+	rectangle.setPosition(0, 0);
+
+	volumeFade = 0.0;
+	if (bgm.getStatus() != sf::Music::Playing) {
+		if (!bgm.openFromFile("assets/HGSSRoute47.WAV"))
+			LOGGER->Log("MenuState", "BGM not found!");
+		bgm.play();
+	}
 
 	if (!background.loadFromFile("assets/background.png"))
 		LOGGER->Log("MenuState", "Image not found: background.png");
@@ -20,9 +32,6 @@ void MenuState::init()
 
 	if (!font.loadFromFile("assets/MATURASC.TTF"))
 		LOGGER->Log("MenuState", "Can't find font file");
-
-	testButtonObj = new MenuButton("assets/exitButton.png", "", "", 90.0f, 900.0f, 0, 0, 0, 0, 79, 39);
-	testButtonObj->load();
 
 	startButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 520.0f, 0, 0, 0, 0, 475, 72);
 	startButton->load();
@@ -37,6 +46,7 @@ void MenuState::init()
 	exitButton->load();
 
 	//THIS MIGHT NOT BE NEEDED, TESTING PURPOSES FOR NOW
+	/*
 	startText.setFont(font);
 	startText.setStyle(sf::Text::Bold);
 	startText.setString("Create New Game");
@@ -65,15 +75,16 @@ void MenuState::init()
 	exitText.setFillColor(sf::Color::White);
 	exitText.setCharacterSize(48);
 	exitText.setPosition(50.0f, 500.0f);
+	*/
 }
 
 void MenuState::render(sf::RenderWindow& window) {
 	window.draw(backgroundImage);
 	window.draw(*startButton);
-	window.draw(*testButtonObj);
 	window.draw(*loadButton);
 	window.draw(*settingsButton);
 	window.draw(*exitButton);
+	window.draw(rectangle);
 	//window.draw(startText);
 	//window.draw(loadText);
 	//window.draw(settingsText);
@@ -82,7 +93,28 @@ void MenuState::render(sf::RenderWindow& window) {
 
 void MenuState::update(float delta_t)
 {
-	testButtonObj->update(delta_t);
+	exitButton->update(delta_t);
+	startButton->update(delta_t);
+	settingsButton->update(delta_t);
+	loadButton->update(delta_t);
+
+	if (shouldFade) {
+		if (clock.getElapsedTime().asMilliseconds() > 20.0f) {
+			if (currentAlpha < endAlpha) {
+				volumeFade += 4;
+				currentAlpha += 10;
+				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
+				bgm.setVolume(100.0f - volumeFade);
+				cout << currentAlpha << endl;
+			}
+			else {
+				shouldChangeState = true;
+				bgm.stop();
+				nextState = GameState::STATE_EXIT;
+			}
+			clock.restart();
+		}
+	}
 }
 
 void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
@@ -96,13 +128,14 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 	if (startButton->isClicked(true))
 	{
 		shouldChangeState = true;
+		bgm.stop();
 		nextState = GameState::STATE_NEW_GAME;
 		LOGGER->Log("MenuState", "Starting a new game");
 	}
 	if (exitButton->isClicked(true))
 	{
-		shouldChangeState = true;
-		nextState = GameState::STATE_EXIT;
+		currentAlpha = 5;
+		shouldFade = true;
 		LOGGER->Log("MenuState", "Switching to Exit State");
 	}
 	if (settingsButton->isClicked(true))
