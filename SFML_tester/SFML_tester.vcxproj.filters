@@ -111,6 +111,9 @@
     <ClCompile Include="Global.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
+    <ClCompile Include="ExitState.cpp">
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -165,6 +168,9 @@
       <Filter>Header Files\GameState</Filter>
     </ClInclude>
     <ClInclude Include="SaveState.h">
+      <Filter>Header Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitState.h">
       <Filter>Header Files\GameState</Filter>
     </ClInclude>
   </ItemGroup>

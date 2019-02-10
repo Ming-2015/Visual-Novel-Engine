@@ -30,4 +30,9 @@ private:
 	sf::Text exitText;
 
 	MenuButton * testButtonObj;
+
+	MenuButton * startButton;
+	MenuButton * loadButton;
+	MenuButton * settingsButton;
+	MenuButton * exitButton;
 };

@@ -3,7 +3,9 @@
 bool MenuButton::onLoad()
 {
 	bool ret = Button::onLoad();
-	scaleMultiply = 1.0;
+	sf::IntRect rectSourceSprite(startSpriteSheetXPos, startSpriteSheetYPos, endSpriteSheetXPos, endSpriteSheetYPos);
+	sprite.setTextureRect(rectSourceSprite);
+	scaleMultiply = 1;
 	sprite.setOrigin(sf::Vector2f( texWidth / 2, texHeight / 2));
 	return ret;
 }
@@ -35,9 +37,9 @@ void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 		if (sprite.getGlobalBounds().contains(mousePosF))
 		{
 			if (clock.getElapsedTime().asMilliseconds() > 100.00f) {
-				while (scaleMultiply < 1.1) {
+				while (scaleMultiply < 1.015) {
 					sprite.setScale(sf::Vector2f((1.0f*scaleMultiply), (1.0f*scaleMultiply)));
-					scaleMultiply += 0.05;
+					scaleMultiply += 0.005;
 				}
 				clock.restart();
 			}
@@ -67,4 +69,12 @@ void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 			clicked = true;
 		}
 	}
+}
+
+void MenuButton::setSpriteSheetPos(float startX, float startY, float endX, float endY)
+{
+	startSpriteSheetXPos = startX;
+	startSpriteSheetYPos = startY;
+	endSpriteSheetXPos = endX;
+	endSpriteSheetYPos = endY;
 }

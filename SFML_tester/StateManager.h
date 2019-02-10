@@ -8,6 +8,7 @@
 #include "MainState.h"
 #include "SaveState.h"
 #include "Global.h"
+#include "ExitState.h"
 
 class StateManager 
 {
