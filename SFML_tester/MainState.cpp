@@ -57,10 +57,10 @@ void MainState::init()
 {
 	scriptManager->init();
 	if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
-		LOGGER->Log("MenuState", "Unable to get Background Image");
+		LOGGER->Log("MainState", "Unable to get Background Image");
 	displayBackground.setTexture(background);
 	if (!textbox.loadFromFile(scriptManager->getTextboxFileName()))
-		LOGGER->Log("MenuState", "Unable to get Textbox Image");
+		LOGGER->Log("MainState", "Unable to get Textbox Image");
 	displayTextbox.setTexture(textbox);
 
 	if (!displayNameFont.loadFromFile("assets/MATURASC.TTF"))

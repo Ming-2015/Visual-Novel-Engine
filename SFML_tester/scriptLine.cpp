@@ -29,139 +29,138 @@ void ScriptLine::parse(ifstream& myFileStream)
 	if (line.find('|') == std::string::npos) return;
 
 	stringstream ss(line);
+
+	// ID
 	getline(ss, tempStr, '|');
-	currentLineID = stoi(tempStr);
-	//cout << currentLineID << endl;
-	getline(ss, s_line, '|');
-	//cout << s_line << endl;
+	if (tempStr != "")
+		currentLineID = stoi(tempStr);
+
+	// main message line
+	getline(ss, tempStr, '|');
+	if (tempStr != "")
+		s_line = tempStr;
+
+	// display name - name has to be properly inputted every time
 	getline(ss, name, '|');
-	//cout << name << endl;
 
-	getline(ss, backgroundFileName, '|');
-	//cout << backgroundFileName << endl;
+	// background image file
 	getline(ss, tempStr, '|');
-	backgroundChange = UTILITY->str2bool(tempStr);
-	//cout << backgroundChange << endl;
-	getline(ss, textboxFileName, '|');
-	//cout << textboxFileName << endl;
-	getline(ss, tempStr, '|');
-	textboxChange = UTILITY->str2bool(tempStr);
-	//cout << textboxChange << endl;
+	if (tempStr != "")
+		backgroundFileName = tempStr;
 
+	// background file name
 	getline(ss, tempStr, '|');
-	isChoice = UTILITY->str2bool(tempStr);
-	//cout << isChoice << endl;
+	if (tempStr != "")
+		backgroundChange = UTILITY->str2bool(tempStr);
+
+	// textbox file name
 	getline(ss, tempStr, '|');
-	numChoices = stoi(tempStr);
-	//cout << numChoices << endl;
-	if (numChoices == 0) {
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
-	}
-	else if (numChoices == 2) {
-		getline(ss, tempStr, '|');
-		choices.push_back(tempStr);
-		getline(ss, tempStr, '|');
-		choices.push_back(tempStr);
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
+	if (tempStr != "")
+		textboxFileName = tempStr;
+
+	// change textbox?
+	getline(ss, tempStr, '|');
+	if (tempStr != "")
+		textboxChange = UTILITY->str2bool(tempStr);
+
+	// is currently displaying choices?
+	getline(ss, tempStr, '|');
+	if (tempStr != "")
+		isChoice = UTILITY->str2bool(tempStr);
+
+	// number of choices involved
+	getline(ss, tempStr, '|');
+	if (tempStr != "")
+		numChoices = stoi(tempStr);
+
+	// pushing the choice strings
+	choices.clear();
+	if (numChoices < 4) {
+		for (int i = 0; i < 4; i++)
+		{
+			getline(ss, tempStr, '|');
+			if (i < numChoices)
+			{
+				choices.push_back(tempStr);
+			}
+		}
 	}
 	else
 	{
 		for (int i = 0; i < numChoices; i++) {
 			getline(ss, tempStr, '|');
 			choices.push_back(tempStr);
-			getline(ss, tempStr, '|');
-			choices.push_back(tempStr);
-			getline(ss, tempStr, '|');
-			choices.push_back(tempStr);
-			getline(ss, tempStr, '|');
-			choices.push_back(tempStr);
 		}
 	}
-	if (numChoices == 0) {
-		getline(ss, tempStr, '|');
-		nextFileNames.push_back(tempStr);
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
-	}
-	else if (numChoices == 2) {
-		getline(ss, tempStr, '|');
-		nextFileNames.push_back(tempStr);
-		getline(ss, tempStr, '|');
-		nextFileNames.push_back(tempStr);
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
+
+	// pushing the next file names
+	nextFileNames.clear();
+	if (numChoices < 4) {
+		for (int i = 0; i < 4; i++)
+		{
+			getline(ss, tempStr, '|');
+			if (i < numChoices)
+			{
+				nextFileNames.push_back(tempStr);
+			}
+		}
 	}
 	else
 	{
 		for (int i = 0; i < numChoices; i++) {
 			getline(ss, tempStr, '|');
 			nextFileNames.push_back(tempStr);
-			getline(ss, tempStr, '|');
-			nextFileNames.push_back(tempStr);
-			getline(ss, tempStr, '|');
-			nextFileNames.push_back(tempStr);
-			getline(ss, tempStr, '|');
-			nextFileNames.push_back(tempStr);
 		}
 	}
-	if (numChoices == 0) {
-		getline(ss, tempStr, '|');
-		nextLineIDs.push_back(stoi(tempStr));
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
-	}
 
-	else if (numChoices == 2) {
-		getline(ss, tempStr, '|');
-		nextLineIDs.push_back(stoi(tempStr));
-		getline(ss, tempStr, '|');
-		nextLineIDs.push_back(stoi(tempStr));
-		getline(ss, tempStr, '|');
-		getline(ss, tempStr, '|');
+	// pushing the next line IDs
+	nextLineIDs.clear();
+	if (numChoices < 4) {
+		for (int i = 0; i < 4; i++)
+		{
+			getline(ss, tempStr, '|');
+			if (i < numChoices)
+			{
+				nextLineIDs.push_back(stoi(tempStr));
+			}
+		}
 	}
 	else
 	{
 		for (int i = 0; i < numChoices; i++) {
 			getline(ss, tempStr, '|');
 			nextLineIDs.push_back(stoi(tempStr));
-			getline(ss, tempStr, '|');
-			nextLineIDs.push_back(stoi(tempStr));
-			getline(ss, tempStr, '|');
-			nextLineIDs.push_back(stoi(tempStr));
-			getline(ss, tempStr, '|');
-			nextLineIDs.push_back(stoi(tempStr));
 		}
 	}
 
-	userChoice = 1;
-
+	// getting number of characters to display
 	getline(ss, tempStr, '|');
-	numChars = stoi(tempStr);
+	if (tempStr != "")
+		numChars = stoi(tempStr);
+
+	// pushing the character pic info into a temporary vector
+	std::vector<CharPic> tempCharPic(numChars, CharPic());
 	for (int i = 0; i < numChars; i++) {
-		charPics.push_back(CharPic());
 		getline(ss, tempStr, '|');
-		charPics[i].picName = tempStr;
-		getline(ss, tempStr, '|');
-		charPics[i].xPos = stoi(tempStr);
-		getline(ss, tempStr, '|');
-		charPics[i].yPos = stoi(tempStr);
+		if (tempStr != "")
+			tempCharPic[i].picName = tempStr;
+		else if (charPics.size() > i)
+			tempCharPic[i].picName = charPics[i].picName;
 
-		/*
-		CharPic* temp = new CharPic();
 		getline(ss, tempStr, '|');
-		temp->picName = tempStr;
+		if (tempStr != "")
+			tempCharPic[i].xPos = stoi(tempStr);
+		else if (charPics.size() > i)
+			tempCharPic[i].xPos = charPics[i].xPos;
+
 		getline(ss, tempStr, '|');
-		temp->xPos = stoi(tempStr);
-		getline(ss, tempStr, '|');
-		temp->yPos = stoi(tempStr);
-		charPics.push_back(*temp);
-		delete temp;
-		*/
+		if (tempStr != "")
+			tempCharPic[i].yPos = stoi(tempStr);
+		else if (charPics.size() > i)
+			tempCharPic[i].yPos = charPics[i].yPos;
 	}
+
+	// replace the old charpics with the temp
+	charPics.clear();
+	charPics = tempCharPic;
 }
