@@ -115,6 +115,13 @@ void ScriptManager::init()
 	currentScriptLine->parse(file);
 }
 
+void ScriptManager::addNewLineToPrevWord(unsigned int charLength)
+{
+	unsigned int found = UTILITY->findLastOf(currentScriptLine->s_line, ' ', charLength);
+	currentScriptLine->s_line = currentScriptLine->s_line.substr(0, found+1) + "\n" 
+		+ currentScriptLine->s_line.substr(found+1, currentScriptLine->s_line.length() - found + 1);
+}
+
 bool ScriptManager::eof()
 {
 	return file.eof();

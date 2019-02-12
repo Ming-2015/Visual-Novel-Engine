@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <istream>
+#include <cstddef>
 #include "Utility.h"
 #include "ScriptLine.h"
 #include "CharPic.h"
@@ -35,6 +36,8 @@ public:
 	void readNextLine();
 	void readLine(std::string filename, unsigned int lineId);
 	void init();
+
+	void addNewLineToPrevWord(unsigned int charLength);
 
 	bool eof();
 

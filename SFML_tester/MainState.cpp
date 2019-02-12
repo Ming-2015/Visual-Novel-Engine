@@ -71,11 +71,17 @@ void MainState::update(float delta_t)
 {
 	if (!isFading)
 	{
-		if (clock.getElapsedTime().asMilliseconds() > ((float) 1.0f / (CONFIG->manualTextSpeed + 0.01) + 5) && character < scriptManager->getScriptLine().length())
+		if (clock.getElapsedTime().asMilliseconds() > ((float) 1.0f / (CONFIG->manualTextSpeed + 0.01) + 5.f) && character < scriptManager->getScriptLine().length())
 		{
 			clock.restart();
 			character++;
 			displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
+			//if (displayTextStr.getGlobalBounds().intersects(displayTextbox.getGlobalBounds()))
+			if (character != 0 && character%70 == 0)
+			{
+				scriptManager->addNewLineToPrevWord(character);
+				displayTextStr.setString(scriptManager->getScriptLine().substr(0, ++character));
+			}
 		}
 	}
 
@@ -144,7 +150,7 @@ void MainState::init()
 		displayTextStr.setStyle(sf::Text::Regular);
 		displayTextStr.setFillColor(displayTextColor);
 		displayTextStr.setCharacterSize(32);
-		displayTextStr.setPosition(230.0f, 720.0f);
+		displayTextStr.setPosition(230.0f, 705.0f);
 	}
 }
 

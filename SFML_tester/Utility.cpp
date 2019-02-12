@@ -75,6 +75,19 @@ bool Utility::skipFileBytes(ifstream & file, unsigned int n)
 	return (bool) file.ignore(n, ios::eofbit);
 }
 
+unsigned int Utility::findLastOf(string text, char c, unsigned int n)
+{
+	int last = n - 1;
+	if (n > text.length()) n = text.length() - 1;
+
+	for (int i = last; i >= 0; i--)
+	{
+		if (text[i] == c) return i;
+	}
+
+	return 0;
+}
+
 Utility* Utility::GetUtility()
 {
 	if (util_ptr == nullptr)

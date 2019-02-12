@@ -32,6 +32,8 @@ public:
 	// skip n bytes (or ascii chars) in the file stream
 	bool skipFileBytes(ifstream& file, unsigned int n);
 
+	unsigned int findLastOf(string text, char c, unsigned int n);
+
 	static Utility* GetUtility();
 	static void CleanUp();
 

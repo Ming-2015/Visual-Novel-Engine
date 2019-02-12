@@ -82,8 +82,10 @@ void Fade::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 		{
 			target.draw(rectangle);
 		}
-
-		target.draw(picInSprite);
+		else
+		{
+			target.draw(picInSprite);
+		}
 	}
 }
 
