@@ -1,4 +1,5 @@
 #include "Fade.h"
+#include "Config.h"
 
 Fade::Fade(string filename, string fadeColor) : Effect("Fade")
 {
@@ -18,7 +19,7 @@ Fade::Fade(string filename, string fadeColor) : Effect("Fade")
 	else     //If fadeColor != white || != black
 	{
 		isBWFade = false;
-		LOGGER->Log("Gamde State", "No Fade");
+		LOGGER->Log("Game State", "No Fade");
 	}
 
 	//Load picture to sprite, done regardless of BWFade
@@ -35,7 +36,9 @@ Fade::~Fade()
 bool Fade::onLoad()
 {
 	currentAlpha = 0;
+	alphaIncrement = 10;
 	endAlpha = 255;
+	fadeSpeed = 20.0f;
 	rectangle.setSize(sf::Vector2f(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()));
 	rectangle.setFillColor(sf::Color::Color(currentColorR, currentColorG, currentColorB, currentAlpha));
 	rectangle.setPosition(0, 0);
@@ -45,9 +48,9 @@ bool Fade::onLoad()
 void Fade::onUpdate(float delta_t)
 {
 	if (isBWFade) {
-		if (clock.getElapsedTime().asMilliseconds() > 20.0f) {
+		if (clock.getElapsedTime().asMilliseconds() > fadeSpeed) {
 			if (currentAlpha < endAlpha) {
-				currentAlpha += 10;
+				currentAlpha += alphaIncrement;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 			}
 			else {
@@ -58,9 +61,9 @@ void Fade::onUpdate(float delta_t)
 	}
 
 	//Fade in next photo DONE REGARDLESS OF BWFADE
-	if (clock.getElapsedTime().asMilliseconds() > 20.0f) {
+	if (clock.getElapsedTime().asMilliseconds() > fadeSpeed) {
 		if (currentAlpha > endAlpha) {
-			currentAlpha += 10;
+			currentAlpha += alphaIncrement;
 			picInSprite.setColor(sf::Color::Color(255, 255, 255, currentAlpha));
 		}
 		else {
@@ -81,6 +84,21 @@ void Fade::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 }
 
 void Fade::onHandleInput(sf::Event & e, sf::RenderWindow & window)
+{
+
+}
+
+void Fade::start() 
+{
+
+}
+
+bool Fade::isDone() 
+{
+
+}
+
+void Fade::skip() 
 {
 
 }
