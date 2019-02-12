@@ -95,7 +95,7 @@ void Fade::start()
 
 bool Fade::isDone() 
 {
-
+	return true;
 }
 
 void Fade::skip() 

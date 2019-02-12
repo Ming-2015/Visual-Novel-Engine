@@ -8,6 +8,9 @@ class Fade : public Effect
 {
 public:
 
+	void start();
+	bool isDone();
+	void skip();
 	Fade(string filename, string fadeColor);
 	~Fade();
 	bool onLoad();
@@ -29,4 +32,6 @@ private:
 
 	int currentAlpha;
 	int endAlpha;
+	int alphaIncrement;
+	float fadeSpeed;
 };
