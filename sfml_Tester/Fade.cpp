@@ -36,7 +36,7 @@ bool Fade::onLoad()
 {
 	currentAlpha = 0;
 	endAlpha = 255;
-	rectangle.setSize(sf::Vector2f(1600, 900));
+	rectangle.setSize(sf::Vector2f(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()));
 	rectangle.setFillColor(sf::Color::Color(currentColorR, currentColorG, currentColorB, currentAlpha));
 	rectangle.setPosition(0, 0);
 	return true;

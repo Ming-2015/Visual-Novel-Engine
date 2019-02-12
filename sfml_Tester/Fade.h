@@ -1,6 +1,7 @@
 #pragma once
 #include "Effect.hpp"
 #include <string>
+#include "Config.h"
 
 using namespace std;
 
