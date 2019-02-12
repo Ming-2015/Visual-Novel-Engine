@@ -10,9 +10,9 @@ class Fade : public Effect
 public:
 
 	void start();
-	bool isDone();
+	bool isDone(bool reset = false);
 	void skip();
-	Fade(string filename, string fadeColor);
+	Fade(string filename, string fadeColor, int alphaIncrement = 10, float fadeSpeed = 20.0f);
 	~Fade();
 	bool onLoad();
 	void onUpdate(float delta_t);
@@ -35,4 +35,9 @@ private:
 	int endAlpha;
 	int alphaIncrement;
 	float fadeSpeed;
+
+	bool startFade = false;
+	bool doneFade = false;
+
+	std::string filename;
 };

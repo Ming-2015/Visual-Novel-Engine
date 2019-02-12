@@ -3,6 +3,7 @@
 #include "ScriptLine.h"
 #include "ScriptManager.h"
 #include "Global.h"
+#include "Fade.h"
 
 class MainState : public GameState
 {
@@ -37,4 +38,8 @@ private:
 	sf::Color displayTextColor;
 	sf::Font displayTextFont;
 	sf::Text displayTextStr;
+
+	Fade * fade;
+	bool isFading = false;
+	bool changeBackground = false;
 };

@@ -6,17 +6,43 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		case sf::Event::MouseButtonPressed:
 		{
-			scriptManager->readNextLine();
-			character = 0;
-			if (!scriptManager->getBackgroundChange()) {
+			if (isFading)
+			{
+				LOGGER->Log("MainState", "Fading skipping, loading next image");
+				isFading = false;
+				fade->skip();
 				if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
+				{
 					LOGGER->Log("MenuState", "Unable to get Background Image");
+				}
 				displayBackground.setTexture(background);
 			}
-			if (scriptManager->getTextboxChange()) {
-				if (!textbox.loadFromFile(scriptManager->getTextboxFileName()))
-					LOGGER->Log("MenuState", "Unable to get Textbox Image");
-				displayTextbox.setTexture(textbox);
+			else
+			{
+				scriptManager->readNextLine();
+				character = 0;
+				if (!scriptManager->getBackgroundChange())
+				{
+					//if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
+					//{
+					//	LOGGER->Log("MenuState", "Unable to get Background Image");
+					//}
+					//displayBackground.setTexture(background);
+
+					if (fade) delete fade;
+					fade = new Fade(scriptManager->getBackgroundFileName(), "", 10, 10);
+					isFading = true;
+					fade->load();
+					fade->start();
+
+					std::string msg = scriptManager->getBackgroundFileName();
+					LOGGER->Log("MainState", msg);
+				}
+				if (scriptManager->getTextboxChange()) {
+					if (!textbox.loadFromFile(scriptManager->getTextboxFileName()))
+						LOGGER->Log("MenuState", "Unable to get Textbox Image");
+					displayTextbox.setTexture(textbox);
+				}
 			}
 		}
 		break;
@@ -25,20 +51,32 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 void MainState::render(sf::RenderWindow & window)
 {
-	window.draw(displayBackground);
-	window.draw(displayTextbox);
-	window.draw(displayNameStr);
-	window.draw(displayTextStr);
 	
+	window.draw(displayBackground);
+	
+	if (fade && isFading)
+	{
+		window.draw(*fade);
+	}
+
+	if (!isFading)
+	{
+		window.draw(displayTextbox);
+		window.draw(displayNameStr);
+		window.draw(displayTextStr);
+	}
 }
 
 void MainState::update(float delta_t)
 {
-	if (clock.getElapsedTime().asMilliseconds() > 15 && character < scriptManager->getScriptLine().length())
+	if (!isFading)
 	{
-		clock.restart();
-		character++;
-		displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
+		if (clock.getElapsedTime().asMilliseconds() > ((float) 1.0f / (CONFIG->manualTextSpeed + 0.01) + 5) && character < scriptManager->getScriptLine().length())
+		{
+			clock.restart();
+			character++;
+			displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
+		}
 	}
 
 	displayNameStr.setString(scriptManager->getDisplayName());
@@ -51,6 +89,21 @@ void MainState::update(float delta_t)
 
 	GLOBAL->MAIN_STATE_currentFile = scriptManager->getCurrentFileName();
 	GLOBAL->MAIN_STATE_currentLineId = scriptManager->getCurrentLineId();
+
+	if (fade && isFading)
+	{
+		fade->update(delta_t);
+		if (fade->isDone())
+		{
+			LOGGER->Log("MainState", "Fading done, loading next image");
+			isFading = false;
+			if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
+			{
+				LOGGER->Log("MenuState", "Unable to get Background Image");
+			}
+			displayBackground.setTexture(background);
+		}
+	}
 }
 
 void MainState::init()
@@ -103,9 +156,11 @@ const ScriptManager * MainState::getScriptManager()
 MainState::MainState(std::string filename, int lineId)
 {
 	scriptManager = new ScriptManager(filename, lineId);
+	fade = nullptr;
 }
 
 MainState::~MainState()
 {
+	if (fade) delete fade;
 	delete scriptManager;
 }
