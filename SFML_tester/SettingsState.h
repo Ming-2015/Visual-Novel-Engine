@@ -31,6 +31,8 @@ private:
 	std::vector<sf::Text> texts;
 
 	sf::Font settingsFont;
+	sf::Texture configTexture;
+	sf::Sprite configBackground;
 
 	const static int SLIDER_MASTER = 0;
 	const static int SLIDER_BGM = 1;

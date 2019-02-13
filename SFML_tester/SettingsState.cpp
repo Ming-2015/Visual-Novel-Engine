@@ -49,6 +49,8 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 void SettingsState::render(sf::RenderWindow & window)
 {
+	window.draw(configBackground);
+
 	for (Slider * slider : sliders)
 	{
 		if (slider != nullptr)
@@ -76,11 +78,15 @@ void SettingsState::update(float delta_t)
 
 void SettingsState::init()
 {
-	sliders.push_back(Slider::createSettingsSlider(300.0f, 100.0f, CONFIG->masterVolume));
-	sliders.push_back(Slider::createSettingsSlider(300.0f, 200.0f, CONFIG->bgmVolume));
-	sliders.push_back(Slider::createSettingsSlider(300.0f, 300.0f, CONFIG->voiceVolume));
-	sliders.push_back(Slider::createSettingsSlider(300.0f, 400.0f, CONFIG->sfxVolume));
-	sliders.push_back(Slider::createSettingsSlider(300.0f, 500.0f, CONFIG->textWindowAlpha));
+	if (!configTexture.loadFromFile("assets/ConfigurationsPage.png"))
+		LOGGER->Log("MenuState", "Image not found: ConfigurationsPage.png");
+	configBackground.setTexture(configTexture);
+
+	sliders.push_back(Slider::createSettingsSlider(375.0f, 270.0f, CONFIG->masterVolume));
+	sliders.push_back(Slider::createSettingsSlider(375.0f, 370.0f, CONFIG->bgmVolume));
+	sliders.push_back(Slider::createSettingsSlider(375.0f, 470.0f, CONFIG->voiceVolume));
+	sliders.push_back(Slider::createSettingsSlider(375.0f, 570.0f, CONFIG->sfxVolume));
+	sliders.push_back(Slider::createSettingsSlider(375.0f, 670.0f, CONFIG->textWindowAlpha));
 
 	if (!settingsFont.loadFromFile("assets/default.TTF"))
 	{
@@ -94,12 +100,12 @@ void SettingsState::init()
 	texts.push_back(sf::Text("Textbox Transparency", settingsFont, 22));
 	texts.push_back(sf::Text("Save", settingsFont, 54));
 
-	texts[TEXT_MASTER].setPosition(50, 100);
-	texts[TEXT_BGM].setPosition(50, 200);
-	texts[TEXT_VOICE].setPosition(50, 300);
-	texts[TEXT_SFX].setPosition(50, 400);
-	texts[TEXT_ALPHA].setPosition(50, 500);
-	texts[TEXT_SAVE].setPosition(1200, 700);
+	texts[TEXT_MASTER].setPosition(125, 270);
+	texts[TEXT_BGM].setPosition(125, 370);
+	texts[TEXT_VOICE].setPosition(125, 470);
+	texts[TEXT_SFX].setPosition(125, 570);
+	texts[TEXT_ALPHA].setPosition(125, 670);
+	texts[TEXT_SAVE].setPosition(725, 780);
 
 	for (Slider * slider : sliders)
 	{
