@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Script">
       <UniqueIdentifier>{c645c006-eb13-436e-9785-35ca5d30518e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Effect\Fade">
+      <UniqueIdentifier>{2832e5c9-e655-43cd-92f2-0462dd9de28d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Effect\Fade">
+      <UniqueIdentifier>{ddd441c6-cf4b-461f-8409-8e791d0edb3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameState.cpp">
@@ -118,7 +124,10 @@
       <Filter>Source Files\GameState</Filter>
     </ClCompile>
     <ClCompile Include="Fade.cpp">
-      <Filter>Source Files\Effect\Button</Filter>
+      <Filter>Source Files\Effect\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeColor.cpp">
+      <Filter>Source Files\Effect\Fade</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +198,10 @@
       <Filter>Header Files\GameState</Filter>
     </ClInclude>
     <ClInclude Include="Fade.h">
-      <Filter>Header Files\Effect</Filter>
+      <Filter>Header Files\Effect\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeColor.h">
+      <Filter>Header Files\Effect\Fade</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

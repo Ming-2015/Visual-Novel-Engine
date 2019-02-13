@@ -5,15 +5,14 @@
 
 using namespace std;
 
-class Fade : public Effect
+class FadeColor : public Effect
 {
 public:
-
 	void start();
 	bool isDone(bool reset = false);
 	void skip();
-	Fade(string filename, int alphaIncrement = 10, float fadeSpeed = 20.0f);
-	~Fade();
+	FadeColor(string fadeColor, int alphaIncrement = 10, float fadeSpeed = 20.0f, int R = 0, int G = 0, int B = 0);
+	~FadeColor();
 	bool onLoad();
 	void onUpdate(float delta_t);
 	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -21,15 +20,14 @@ public:
 
 private:
 	sf::Clock clock;
-	
-	sf::Texture picInTexture;
-	sf::Sprite picInSprite;
 
 	sf::RectangleShape rectangle;
 	int currentColorR;
 	int currentColorG;
 	int currentColorB;
-	bool isBWFade;
+	int R;
+	int G;
+	int B;
 
 	int currentAlpha;
 	int endAlpha;
@@ -38,6 +36,4 @@ private:
 
 	bool startFade = false;
 	bool doneFade = false;
-
-	std::string filename;
 };

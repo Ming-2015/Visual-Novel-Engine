@@ -131,6 +131,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="ExitState.cpp" />
     <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="FadeColor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Global.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Effect.hpp" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="ExitState.h" />
+    <ClInclude Include="FadeColor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Global.h" />

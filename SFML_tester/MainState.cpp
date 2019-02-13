@@ -30,7 +30,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 					//displayBackground.setTexture(background);
 
 					if (fade) delete fade;
-					fade = new Fade(scriptManager->getBackgroundFileName(), "", 10, 10);
+					fade = new Fade(scriptManager->getBackgroundFileName(), 10, 10);
 					isFading = true;
 					fade->load();
 					fade->start();
