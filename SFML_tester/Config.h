@@ -41,7 +41,7 @@ public:
 	bool textFade;					// toggle text fade animation
 	bool skipUnreadText;			// allow skipping read/unread text (not sure how to implement this yet)
 	string fontFileName;			// name of the font file (.ttf) we are using for the text
-	float textWindowAlpha;	// text window transparency (alpha)
+	float textWindowAlpha;			// text window transparency (alpha)
 
 	static const string CF_MASTER_VOLUME;
 	static const string CF_BGM_VOLUME;

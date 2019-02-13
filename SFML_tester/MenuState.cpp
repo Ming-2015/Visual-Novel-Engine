@@ -20,6 +20,9 @@ void MenuState::init()
 	rectangle.setPosition(0, 0);
 
 	volumeFade = 0.0;
+	masterVolume = CONFIG->masterVolume;
+	bgmVolume = CONFIG->bgmVolume;
+	bgm.setVolume(100.0*bgmVolume*masterVolume);
 	if (bgm.getStatus() != sf::Music::Playing) {
 		if (!bgm.openFromFile("assets/HGSSRoute47.WAV"))
 			LOGGER->Log("MenuState", "BGM not found!");
@@ -104,7 +107,7 @@ void MenuState::update(float delta_t)
 				volumeFade += 4;
 				currentAlpha += 10;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
-				bgm.setVolume(100.0f - volumeFade);
+				bgm.setVolume(100.0*bgmVolume*masterVolume - volumeFade);
 			}
 			else {
 				shouldChangeState = true;

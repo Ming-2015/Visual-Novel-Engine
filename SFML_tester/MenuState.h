@@ -40,4 +40,6 @@ private:
 	int currentAlpha;
 	int endAlpha;
 	float volumeFade;
+	float masterVolume;
+	float bgmVolume;
 };

@@ -1,4 +1,5 @@
 #include "MainState.h"
+#include "Config.h"
 
 void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {
@@ -121,6 +122,7 @@ void MainState::init()
 	if (!textbox.loadFromFile(scriptManager->getTextboxFileName()))
 		LOGGER->Log("MainState", "Unable to get Textbox Image");
 	displayTextbox.setTexture(textbox);
+	displayTextbox.setColor(sf::Color(255, 255, 255, 255 * CONFIG->textWindowAlpha));
 
 	if (!displayNameFont.loadFromFile("assets/MATURASC.TTF"))
 	{
