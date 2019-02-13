@@ -9,6 +9,7 @@
 #include "SaveState.h"
 #include "ExitState.h"
 #include "SettingsState.h"
+#include "LoadState.h"
 
 class StateManager 
 {

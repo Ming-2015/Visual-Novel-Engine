@@ -129,6 +129,9 @@
     <ClCompile Include="FadeColor.cpp">
       <Filter>Source Files\Effect\Fade</Filter>
     </ClCompile>
+    <ClCompile Include="LoadState.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="FadeColor.h">
       <Filter>Header Files\Effect\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadState.h">
+      <Filter>Header Files\GameState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

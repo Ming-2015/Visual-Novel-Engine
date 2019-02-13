@@ -62,7 +62,7 @@ void StateManager::manageStates()
 		case GameState::STATE_LOAD:		//Check
 			prevStates.push(currentState);
 			currentState->shouldChangeState = false;
-			currentState = new SaveState(GLOBAL->MAIN_STATE_currentFile, GLOBAL->MAIN_STATE_currentLineId);
+			currentState = new LoadState();
 			break;
 		case GameState::STATE_EXIT:
 			delete currentState;

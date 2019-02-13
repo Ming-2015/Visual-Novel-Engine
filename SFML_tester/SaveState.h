@@ -49,10 +49,5 @@ private:
 	string scriptFileName;
 	unsigned int lineId;
 	string tempStr;
-	
-	sf::Texture saveTexture;
-	sf::Sprite saveBackground;
-	sf::Font settingsFont;
-	sf::Text startNew;
-	sf::Text returnState;
+
 };

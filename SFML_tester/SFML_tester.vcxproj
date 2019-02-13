@@ -136,6 +136,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="InitState.cpp" />
+    <ClCompile Include="LoadState.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainState.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="InitState.h" />
+    <ClInclude Include="LoadState.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MainState.h" />
     <ClInclude Include="MenuButton.h" />
