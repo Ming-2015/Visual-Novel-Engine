@@ -146,5 +146,11 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 		nextState = GameState::STATE_CONFIG;
 		LOGGER->Log("MenuState", "Opening settings");
 	}
+	if (loadButton->isClicked(true))
+	{
+		shouldChangeState = true;
+		nextState = GameState::STATE_LOAD;
+		LOGGER->Log("MenuState", "Opening Load States");
+	}
 }
 
