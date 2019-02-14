@@ -115,6 +115,13 @@ void MenuState::update(float delta_t)
 	settingsButton->update(delta_t);
 	loadButton->update(delta_t);
 
+	if (masterVolume != CONFIG->masterVolume || bgmVolume != CONFIG->bgmVolume)
+	{
+		masterVolume = CONFIG->masterVolume;
+		bgmVolume = CONFIG->bgmVolume;
+		bgm.setVolume(100.0*bgmVolume*masterVolume);
+	}
+
 	if (shouldFade) {
 		if (clock.getElapsedTime().asMilliseconds() > 20.0f) {
 			if (currentAlpha < endAlpha) {
