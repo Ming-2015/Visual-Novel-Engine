@@ -125,10 +125,10 @@ void MenuState::update(float delta_t)
 	if (shouldFade) {
 		if (clock.getElapsedTime().asMilliseconds() > 20.0f) {
 			if (currentAlpha < endAlpha) {
-				volumeFade += 4;
 				currentAlpha += 10;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
-
+				
+				volumeFade += 4;
 				float volume = 100.0*bgmVolume*masterVolume - volumeFade;
 				bgm.setVolume( volume > 0 ? volume : 0 );
 			}
@@ -161,7 +161,6 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 	{
 		currentAlpha = 5;
 		shouldFade = true;
-		bgm.stop();
 		LOGGER->Log("MenuState", "Switching to Exit State");
 	}
 	if (settingsButton->isClicked(true))
