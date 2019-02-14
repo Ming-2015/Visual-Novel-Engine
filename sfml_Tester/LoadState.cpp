@@ -22,6 +22,7 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		{
 			nextState = GameState::STATE_BACK;
 			shouldChangeState = true;
+			LOGGER->Log("SaveState", "Returning to Main Menu");
 		}
 		if (startNew.getGlobalBounds().contains(mousePosF))
 		{

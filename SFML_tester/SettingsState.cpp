@@ -40,6 +40,7 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 				nextState = GameState::STATE_BACK;
 				shouldChangeState = true;
+				LOGGER->Log("SettingsState", "Returning to Main Menu");
 			}
 			break;
 		}
