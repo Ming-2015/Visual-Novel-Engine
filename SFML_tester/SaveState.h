@@ -6,6 +6,7 @@
 #include "GameState.h"
 #include "ScriptLine.h"
 #include "ScriptManager.h"
+#include "Global.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -15,10 +16,12 @@ using namespace std;
 class SaveState : public GameState{
 public:
 
-	SaveState(std::string filename, unsigned int lineId)
-		: scriptFileName(filename), lineId(lineId)
+	SaveState()
 	{ 
-	
+		scriptFileName = GLOBAL->MAIN_STATE_currentFile;
+		lineId = GLOBAL->MAIN_STATE_currentLineId;
+		init();
+		myState = GameState::STATE_SAVE;
 	}
 
 	~SaveState()
@@ -43,7 +46,8 @@ public:
 	// initialize instance
 	void init();
 
-	const int myState = GameState::STATE_NEW_GAME;
+	void cleanup();
+
 
 private:
 	string scriptFileName;

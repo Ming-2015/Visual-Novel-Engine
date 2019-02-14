@@ -8,7 +8,16 @@
 
 MenuState::MenuState() 
 {
+	myState = GameState::STATE_MENU;
 	init();
+}
+
+MenuState::~MenuState()
+{
+	delete startButton;
+	delete loadButton;
+	delete settingsButton;
+	delete exitButton;
 }
 
 void MenuState::init() 
@@ -81,6 +90,11 @@ void MenuState::init()
 	*/
 }
 
+void MenuState::cleanup()
+{
+	bgm.stop();
+}
+
 void MenuState::render(sf::RenderWindow& window) {
 	window.draw(backgroundImage);
 	window.draw(*startButton);
@@ -107,7 +121,9 @@ void MenuState::update(float delta_t)
 				volumeFade += 4;
 				currentAlpha += 10;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
-				bgm.setVolume(100.0*bgmVolume*masterVolume - volumeFade);
+
+				float volume = 100.0*bgmVolume*masterVolume - volumeFade;
+				bgm.setVolume( volume > 0 ? volume : 0 );
 			}
 			else {
 				shouldChangeState = true;
@@ -138,6 +154,7 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 	{
 		currentAlpha = 5;
 		shouldFade = true;
+		bgm.stop();
 		LOGGER->Log("MenuState", "Switching to Exit State");
 	}
 	if (settingsButton->isClicked(true))

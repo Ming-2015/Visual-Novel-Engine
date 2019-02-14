@@ -130,7 +130,7 @@
       <Filter>Source Files\Effect\Fade</Filter>
     </ClCompile>
     <ClCompile Include="LoadState.cpp">
-      <Filter>Source Files\Main</Filter>
+      <Filter>Source Files\GameState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

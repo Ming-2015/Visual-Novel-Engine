@@ -54,3 +54,7 @@ void SaveState::init()
 {
 	
 }
+
+void SaveState::cleanup()
+{
+}

@@ -20,7 +20,16 @@ void ExitState::init()
 	
 }
 
+void ExitState::cleanup()
+{
+}
+
 ExitState::ExitState()
 {
+	myState = GameState::STATE_EXIT;
 	init();
+}
+
+ExitState::~ExitState()
+{
 }

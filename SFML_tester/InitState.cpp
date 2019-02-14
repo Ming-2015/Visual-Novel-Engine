@@ -22,7 +22,12 @@ void InitState::init()
 	LOGGER->Log("InitState", "Switching to Menu State");
 }
 
+void InitState::cleanup()
+{
+}
+
 InitState::InitState()
 {
+	myState = GameState::STATE_INIT;
 	init();
 }

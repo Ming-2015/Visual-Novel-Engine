@@ -2,7 +2,8 @@
 
 SettingsState::SettingsState()
 {
-
+	myState = GameState::STATE_CONFIG;
+	init();
 }
 
 SettingsState::~SettingsState()
@@ -115,4 +116,8 @@ void SettingsState::init()
 			slider->load();
 		}
 	}
+}
+
+void SettingsState::cleanup()
+{
 }

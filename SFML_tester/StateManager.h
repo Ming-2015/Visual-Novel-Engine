@@ -25,6 +25,7 @@ public:
 
 private:
 	void manageStates();
+	void clearPrevStates();
 
 	GameState * currentState;
 	int currentStateCode;
