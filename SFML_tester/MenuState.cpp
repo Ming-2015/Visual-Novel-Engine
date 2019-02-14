@@ -123,7 +123,7 @@ void MenuState::update(float delta_t)
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 
 				float volume = 100.0*bgmVolume*masterVolume - volumeFade;
-				bgm.setVolume( volume > 0 ? volume : 0 );
+				bgm.setVolume(volume);
 			}
 			else {
 				shouldChangeState = true;
