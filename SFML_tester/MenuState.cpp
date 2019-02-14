@@ -130,7 +130,7 @@ void MenuState::update(float delta_t)
 				
 				volumeFade += 4;
 				float volume = 100.0*bgmVolume*masterVolume - volumeFade;
-				bgm.setVolume( volume > 0 ? volume : 0 );
+				bgm.setVolume(volume);
 			}
 			else {
 				shouldChangeState = true;
