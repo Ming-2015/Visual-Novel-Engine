@@ -33,7 +33,7 @@ public:
 
 	static Slider * createSettingsSlider(float xPos, float yPos, float initVal=0.8f)
 	{
-		return new Slider("assets/rescrollbar.png", "assets/rescrollbar_thumb.png", "", "", xPos, yPos, 300.0f, 50.0f, 30.0f, 30.0f, initVal);
+		return new Slider("assets/scrollbar1.png", "assets/rescrollbar_thumb.png", "", "", xPos, yPos, 250.0f, 20.0f, 35.0f, 35.0f, initVal);
 	}
 
 	float getValue() const; // get the slider position, from 0.0 to 1.0
@@ -80,6 +80,7 @@ protected:
 	void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void onHandleInput(sf::Event&e, sf::RenderWindow& window);
 
+	float knobOffset;
 	float findKnobX(float value);
 	float findValue(float knobX);
 };

@@ -4,6 +4,8 @@
 #include "GameState.h"
 #include "Button.h"
 #include "Slider.h"
+#include "Button.h"
+#include "MenuButton.h"
 
 class SettingsState : public GameState
 {
@@ -29,6 +31,8 @@ private:
 
 	std::vector<Slider * > sliders;
 	std::vector<sf::Text> texts;
+	std::vector<MenuButton*> zeroButtons;
+	std::vector<MenuButton*> hundredButtons;
 
 	sf::Font settingsFont;
 	sf::Texture configTexture;
