@@ -9,7 +9,6 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		{
 			if (isFading)
 			{
-				LOGGER->Log("MainState", "Fading skipping, loading next image");
 				isFading = false;
 				fade->skip();
 				if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
@@ -18,18 +17,17 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 				}
 				displayBackground.setTexture(background);
 			}
+			else if (character < scriptManager->getScriptLine().length())
+			{
+				character = scriptManager->getScriptLine().length();
+			}
 			else
 			{
 				scriptManager->readNextLine();
+				scriptManager->addAllNewLines(0, 70);
 				character = 0;
 				if (!scriptManager->getBackgroundChange())
 				{
-					//if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
-					//{
-					//	LOGGER->Log("MenuState", "Unable to get Background Image");
-					//}
-					//displayBackground.setTexture(background);
-
 					if (fade) delete fade;
 					fade = new Fade(scriptManager->getBackgroundFileName(), 10, 10);
 					isFading = true;
@@ -70,22 +68,16 @@ void MainState::render(sf::RenderWindow & window)
 
 void MainState::update(float delta_t)
 {
+	// start showing 
 	if (!isFading)
 	{
-		if (clock.getElapsedTime().asMilliseconds() > ((float) 1.0f / (CONFIG->manualTextSpeed + 0.01) + 5.f) && character < scriptManager->getScriptLine().length())
+		if (character < scriptManager->getScriptLine().length())
 		{
-			clock.restart();
 			character++;
-			displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
-			//if (displayTextStr.getGlobalBounds().intersects(displayTextbox.getGlobalBounds()))
-			if (character != 0 && character%70 == 0)
-			{
-				scriptManager->addNewLineToPrevWord(character);
-				displayTextStr.setString(scriptManager->getScriptLine().substr(0, ++character));
-			}
 		}
 	}
 
+	displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
 	displayNameStr.setString(scriptManager->getDisplayName());
 
 	if (scriptManager->eof())
@@ -116,6 +108,8 @@ void MainState::update(float delta_t)
 void MainState::init()
 {
 	scriptManager->init();
+	scriptManager->addAllNewLines(0, 70);
+
 	if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
 		LOGGER->Log("MainState", "Unable to get Background Image");
 	displayBackground.setTexture(background);
@@ -156,6 +150,10 @@ void MainState::init()
 	}
 }
 
+void MainState::cleanup()
+{
+}
+
 const ScriptManager * MainState::getScriptManager()
 {
 	return scriptManager;
@@ -165,10 +163,12 @@ MainState::MainState(std::string filename, int lineId)
 {
 	scriptManager = new ScriptManager(filename, lineId);
 	fade = nullptr;
+	myState = GameState::STATE_MAIN;
+	init();
 }
 
 MainState::~MainState()
 {
 	if (fade) delete fade;
-	delete scriptManager;
+	if (scriptManager) delete scriptManager;
 }

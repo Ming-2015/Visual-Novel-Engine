@@ -9,8 +9,7 @@ public:
 	void render(sf::RenderWindow& window);		// render the window display: all rendering functions (like drawing images, fonts, etc. should be here)
 	void update(float delta_t);								// all non-rendering game logics/mechanics should be implemented here
 	void init();
-
-	const int myState = GameState::STATE_INIT;
+	void cleanup();
 
 	InitState();
 };

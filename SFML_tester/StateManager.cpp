@@ -39,47 +39,108 @@ void StateManager::manageStates()
 		switch (currentState->nextState)
 		{
 		case GameState::STATE_MENU:
-			delete currentState;
-			currentState = new MenuState();
+			if (currentState->myState == GameState::STATE_INIT)
+			{
+				currentState->cleanup();
+				delete currentState;
+				currentState = new MenuState();
+			}
+			else if (currentState->myState == GameState::STATE_MAIN)
+			{
+				currentState->cleanup();
+				delete currentState;
+				currentState = new MenuState();
+			}				
 			break;
+
 		case GameState::STATE_INIT:
+			currentState->cleanup();
 			delete currentState;
 			currentState = new InitState();
 			break;
+
 		case GameState::STATE_NEW_GAME:
-			delete currentState;
-			currentState = new NewGameState();
+			if (currentState->myState == GameState::STATE_MENU)
+			{
+				currentState->cleanup();
+				delete currentState;
+				currentState = new NewGameState();
+			}
+			else if (currentState->myState == GameState::STATE_LOAD)
+			{
+				// push currentState into the stack so that we can delete that too
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new NewGameState();
+				LOGGER->Log("StateManager", "Starting a new game from load state");
+			}
 			break;
+
 		case GameState::STATE_MAIN:
-			delete currentState;
-			currentState = new MainState("resources/ScriptLine.csv", 1);
+			if (currentState->myState == GameState::STATE_NEW_GAME)
+			{
+				currentState->cleanup();
+				delete currentState;
+				currentState = new MainState("resources/ScriptLine.csv", 1);
+				LOGGER->Log("StateManager", "Entering MainState from NewGameState");
+			}
 			break;
+
 		case GameState::STATE_SAVE:
-			prevStates.push(currentState);
-			currentState->shouldChangeState = false;
-			currentState = new SaveState(GLOBAL->MAIN_STATE_currentFile, GLOBAL->MAIN_STATE_currentLineId);
+			if (currentState->myState == GameState::STATE_MAIN)
+			{
+				prevStates.push(currentState);
+				currentState->shouldChangeState = false;
+				currentState = new SaveState();
+			}
 			break;
+
 		case GameState::STATE_LOAD:		//Check
-			prevStates.push(currentState);
-			currentState->shouldChangeState = false;
-			currentState = new LoadState();
+			if (currentState->myState == GameState::STATE_MENU)
+			{
+				prevStates.push(currentState);
+				currentState->shouldChangeState = false;
+				currentState = new LoadState();
+			}
 			break;
+
 		case GameState::STATE_EXIT:
-			delete currentState;
-			currentState = new ExitState();
+			if (currentState->myState == GameState::STATE_MENU)
+			{
+				currentState->cleanup();
+				delete currentState;
+				currentState = new ExitState();
+			}
 			break;
+
 		case GameState::STATE_CONFIG:
-			prevStates.push(currentState);
-			currentState->shouldChangeState = false;
-			currentState = new SettingsState();
+			if (currentState->myState == GameState::STATE_MENU)
+			{
+				prevStates.push(currentState);
+				currentState->shouldChangeState = false;
+				currentState = new SettingsState();
+			}
 			break;
+
 		case GameState::STATE_BACK:
+			currentState->cleanup();
 			delete currentState;
 			currentState = prevStates.top();
 			prevStates.pop();
 			break;
 		}
-		currentState->init();
+		//currentState->init();
+	}
+}
+
+void StateManager::clearPrevStates()
+{
+	while (prevStates.size() > 0)
+	{
+		GameState * temp = (prevStates.top());
+		prevStates.pop();
+		temp->cleanup();
+		delete temp;
 	}
 }
 

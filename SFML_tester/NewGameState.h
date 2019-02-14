@@ -18,9 +18,10 @@ public:
 	void update(float delta_t);
 
 	// initialize instance
-	void init();
+	void init();	
+	
+	void cleanup();
 
-	const int myState = GameState::STATE_NEW_GAME;
 
 private:
 

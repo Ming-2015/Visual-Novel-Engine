@@ -2,7 +2,8 @@
 
 LoadState::LoadState()
 {
-
+	myState = GameState::STATE_LOAD;
+	init();
 }
 
 LoadState::~LoadState()
@@ -28,7 +29,7 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			shouldChangeState = true;
 			//bgm.stop(); Music Still Plays
 			nextState = GameState::STATE_NEW_GAME;
-			LOGGER->Log("SaveState", "Starting a new game");
+			LOGGER->Log("LoadState", "Starting a new game");
 		}
 		break;
 	}
@@ -69,4 +70,8 @@ void LoadState::init()
 	returnState.setFillColor(sf::Color::White);
 	returnState.setCharacterSize(42);
 	returnState.setPosition(880.0f, 790.0f);
+}
+
+void LoadState::cleanup()
+{
 }

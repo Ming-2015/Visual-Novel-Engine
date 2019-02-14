@@ -19,9 +19,11 @@ public:
 	// initialize instance
 	virtual void init() = 0;
 
+	virtual void cleanup() = 0;
+
 	bool shouldChangeState = false;
 	int nextState = -1;
-	const int myState = -1;
+	int myState = -1;
 
 	static const int STATE_INIT = 0;
 	static const int STATE_MENU = 1;

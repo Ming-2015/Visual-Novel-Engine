@@ -38,6 +38,7 @@ public:
 	void init();
 
 	void addNewLineToPrevWord(unsigned int charLength);
+	void addAllNewLines(unsigned int charLength, unsigned int lineLength);
 
 	bool eof();
 

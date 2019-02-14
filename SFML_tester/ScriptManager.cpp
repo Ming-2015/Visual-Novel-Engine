@@ -122,6 +122,17 @@ void ScriptManager::addNewLineToPrevWord(unsigned int charLength)
 		+ currentScriptLine->s_line.substr(found+1, currentScriptLine->s_line.length() - found + 1);
 }
 
+void ScriptManager::addAllNewLines(unsigned int charLength, unsigned int lineLength)
+{
+	int currentChar = charLength;
+	currentChar = (currentChar / lineLength + 1) * lineLength;
+	while (currentChar < currentScriptLine->s_line.length())
+	{
+		addNewLineToPrevWord(currentChar);
+		currentChar += lineLength;
+	}
+}
+
 bool ScriptManager::eof()
 {
 	return file.eof();

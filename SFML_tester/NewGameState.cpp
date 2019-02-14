@@ -4,6 +4,8 @@
 
 NewGameState::NewGameState()
 {
+	myState = GameState::STATE_NEW_GAME;
+	init();
 }
 
 
@@ -28,4 +30,8 @@ void NewGameState::init()
 	nextState = GameState::STATE_MAIN;
 	shouldChangeState = true;
 	LOGGER->Log("NewGameState", "Switching to Main State");
+}
+
+void NewGameState::cleanup()
+{
 }

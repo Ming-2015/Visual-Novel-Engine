@@ -21,9 +21,9 @@ public:
 	void update(float delta_t);
 
 	// initialize instance
-	void init();
-
-	const int myState = GameState::STATE_CONFIG;
+	void init();	
+	
+	void cleanup();
 
 private:
 
