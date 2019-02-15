@@ -34,10 +34,11 @@ bool Slider::onLoad()
 
 	float scaleX = sliderWidth / (float)sliderTexWidth ;
 	float scaleY = sliderHeight / (float)sliderTexHeight ;
+	knobOffset = 2.0;
 
 	//sliderSprite.moves(-sliderTexWidth / 2.0, -sliderTexHeight / 2.0);
 	sliderSprite.setScale(scaleX, scaleY);
-	sliderSprite.setPosition(xPos, yPos);
+	sliderSprite.setPosition(xPos, yPos + knobOffset);
 
 	if (!knobTexture.loadFromFile(knobTexPath))
 	{

@@ -53,7 +53,6 @@ void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 		sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 		if (sprite.getGlobalBounds().contains(mousePosF))
 		{
-			LOGGER->Log("MenuButton", "Exit Button test");
 			pressed = true;
 		}
 	}
