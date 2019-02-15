@@ -55,6 +55,12 @@
     <Filter Include="Source Files\Effect\Fade">
       <UniqueIdentifier>{ddd441c6-cf4b-461f-8409-8e791d0edb3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Script\ScriptCommands">
+      <UniqueIdentifier>{b10e3f45-a5d0-4a09-96ba-9ae2506448ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Script\ScriptCommands">
+      <UniqueIdentifier>{75c0280e-ad57-4515-9866-641272bdd49f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameState.cpp">
@@ -93,9 +99,6 @@
     <ClCompile Include="StateManager.cpp">
       <Filter>Source Files\Main</Filter>
     </ClCompile>
-    <ClCompile Include="CharPic.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
     <ClCompile Include="ScriptLine.cpp">
       <Filter>Source Files\Script</Filter>
     </ClCompile>
@@ -131,6 +134,12 @@
     </ClCompile>
     <ClCompile Include="LoadState.cpp">
       <Filter>Source Files\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemImage.cpp">
+      <Filter>Source Files\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,9 +182,6 @@
     <ClInclude Include="ScriptLine.h">
       <Filter>Header Files\Script</Filter>
     </ClInclude>
-    <ClInclude Include="CharPic.h">
-      <Filter>Header Files\Script</Filter>
-    </ClInclude>
     <ClInclude Include="NewGameState.h">
       <Filter>Header Files\GameState</Filter>
     </ClInclude>
@@ -208,6 +214,15 @@
     </ClInclude>
     <ClInclude Include="LoadState.h">
       <Filter>Header Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemImage.h">
+      <Filter>Header Files\Script</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -23,6 +23,8 @@ public:
 	// trim a string of empty spaces at the beginning and ending of a string
 	string trim(const std::string& src);
 
+	vector<string> trim(const vector<string>& src);
+
 	// split a string off a char delimiter
 	std::vector<std::string> split(const std::string& s, char delimiter);
 
@@ -33,6 +35,11 @@ public:
 	bool skipFileBytes(ifstream& file, unsigned int n);
 
 	unsigned int findLastOf(string text, char c, unsigned int n);
+
+	std::string cutLine(const std::string& line, const std::string& symbol);
+
+	std::string toUpper(const std::string& str);
+	std::string toLower(const std::string& str);
 
 	static Utility* GetUtility();
 	static void CleanUp();

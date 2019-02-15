@@ -1,7 +1,6 @@
 #pragma once
 #include "scriptLine.h"
 #include "Utility.h"
-#include "charPic.h"
 #include "logger.h"
 #include "GameState.h"
 #include "ScriptLine.h"

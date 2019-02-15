@@ -1,8 +1,7 @@
 #include "ScriptManager.h"
 
-ScriptManager::ScriptManager(std::string filename, unsigned int initLineId) :
-	filename(filename),
-	currentLineId(initLineId)
+ScriptManager::ScriptManager(std::string filename) :
+	filename(filename)
 {
 	//init();
 }
@@ -12,31 +11,21 @@ ScriptManager::~ScriptManager()
 	if (currentScriptLine != nullptr)
 		delete currentScriptLine;
 	if (file.is_open()) file.close();
+
+	for (auto c : commands)
+	{
+		if (c != nullptr) delete c;
+	}
 }
 
 std::string ScriptManager::getScriptLine() const
 {
-	return currentScriptLine->s_line;
+	return currentScriptLine->dialogue;
 }
 
 std::string ScriptManager::getDisplayName() const 
 {
 	return currentScriptLine->name;
-}
-
-bool ScriptManager::getBackgroundChange() const 
-{
-	return currentScriptLine->backgroundChange;
-}
-
-std::string ScriptManager::getBackgroundFileName() const
-{
-	return currentScriptLine->backgroundFileName;
-}
-
-bool ScriptManager::getTextboxChange() const
-{
-	return currentScriptLine->textboxChange;
 }
 
 std::string ScriptManager::getTextboxFileName() const
@@ -74,29 +63,19 @@ std::vector<std::string> ScriptManager::getNextFileNames() const
 	return currentScriptLine->nextFileNames;
 }
 
-std::vector<int> ScriptManager::getNextLineIds() const
+std::vector<CharacterImage* > ScriptManager::getCharacterImages() const
 {
-	return currentScriptLine->nextLineIDs;
+	return currentScriptLine->characterImages;
 }
 
-int ScriptManager::getNumChars() const
+std::vector<BackgroundImage*> ScriptManager::getBackgroundImages() const
 {
-	return currentScriptLine->numChars;
-}
-
-std::vector<CharPic> ScriptManager::getCharacterPicInfo() const
-{
-	return currentScriptLine->charPics;
+	return currentScriptLine->backgroundImages;
 }
 
 std::string ScriptManager::getCurrentFileName() const
 {
 	return std::string();
-}
-
-unsigned int ScriptManager::getCurrentLineId() const
-{
-	return currentScriptLine->currentLineID;
 }
 
 void ScriptManager::init()
@@ -111,25 +90,30 @@ void ScriptManager::init()
 		return;
 	}
 
-	UTILITY->skipFileLines(file, currentLineId-1);
-	currentScriptLine->parse(file);
+	readCommands();
 }
 
-void ScriptManager::addNewLineToPrevWord(unsigned int charLength)
+void ScriptManager::update(float delta_t)
 {
-	unsigned int found = UTILITY->findLastOf(currentScriptLine->s_line, ' ', charLength);
-	currentScriptLine->s_line = currentScriptLine->s_line.substr(0, found+1) + "\n" 
-		+ currentScriptLine->s_line.substr(found+1, currentScriptLine->s_line.length() - found + 1);
-}
-
-void ScriptManager::addAllNewLines(unsigned int charLength, unsigned int lineLength)
-{
-	int currentChar = charLength;
-	currentChar = (currentChar / lineLength + 1) * lineLength;
-	while (currentChar < currentScriptLine->s_line.length())
+	for (auto it = commands.begin(); it != commands.end();)
 	{
-		addNewLineToPrevWord(currentChar);
-		currentChar += lineLength;
+		bool incrementIt = true;
+		
+		if (*it != nullptr)
+		{
+			(*it)->update(delta_t);
+			(*it)->execute(currentScriptLine);
+
+			if ((*it)->isDone())
+			{
+				(*it) -> cleanup();
+				delete *it;
+				it = commands.erase(it);
+				incrementIt = false;
+			}
+		}
+
+		if (incrementIt) it++;
 	}
 }
 
@@ -138,12 +122,58 @@ bool ScriptManager::eof()
 	return file.eof();
 }
 
-void ScriptManager::readNextLine()
+bool ScriptManager::doneAllCommands()
 {
-	if (!file.eof())
+	return commands.size() == 0;
+}
+
+void ScriptManager::readCommands()
+{
+	if (file && !file.eof())
 	{
-		currentLineId++;
-		currentScriptLine->parse(file);
+		bool stop = false;
+		while (!stop)
+		{
+			if (file.eof())
+			{
+				LOGGER->Log("ScriptManager", "EOF of file reached unexpectedly!");
+				break;
+			}
+
+			std::string line;
+			std::getline(file, line);
+			line = UTILITY->cutLine(line, "#");	// use # for comments
+
+			std::vector<std::string> tokens = UTILITY->split(line, '|');
+			tokens = UTILITY->trim(tokens);
+			if (tokens.size() > 0)
+			{
+				std::string cmdWord = UTILITY->toLower(tokens[0]);
+				ScriptCommand* command = nullptr;
+
+				if (cmdWord == "show")
+				{
+					command = new ShowCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
+				//else if (cmdWord == "set")
+				//{
+				//	command = new SetCommand(tokens);
+				//	if (command->shouldWait()) stop = true;
+				//	commands.push_back(command);
+				//}
+				else if (cmdWord == "jump" && tokens.size() >= 4)
+				{
+					readNewFile("script/" + tokens[3] + ".csv");
+				}
+				else
+				{
+					string msg = "Invalid Command found: " + cmdWord;
+					LOGGER->Log("ScriptManager", msg);
+				}
+			}
+		}
 	}
 	else
 	{
@@ -151,7 +181,7 @@ void ScriptManager::readNextLine()
 	}
 }
 
-void ScriptManager::readLine(std::string filename, unsigned int lineId)
+void ScriptManager::readNewFile(std::string filename)
 {
 	if (this->filename != filename)
 	{
@@ -159,30 +189,9 @@ void ScriptManager::readLine(std::string filename, unsigned int lineId)
 		this->filename = filename;
 		file.close();
 		file.open(filename);
-
-		UTILITY->skipFileLines(file, lineId - 1);
 	}
 	else
 	{
-		if (lineId > currentLineId)
-		{
-			int diff = lineId - currentLineId;
-			UTILITY->skipFileLines(file, diff - 1);
-		}
-		else
-		{
-			file.seekg(file.beg);
-			UTILITY->skipFileLines(file, lineId - 1);
-		}
-	}
-
-	if (!file.eof() && file)
-	{
-		currentLineId = lineId;
-		currentScriptLine->parse(file);
-	}
-	else
-	{
-		LOGGER->Log("ScriptManager", "Invalid combination of Script File and Line ID");
+		file.seekg(file.beg);
 	}
 }

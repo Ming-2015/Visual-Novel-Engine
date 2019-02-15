@@ -53,6 +53,16 @@ string Utility::trim(const std::string& src)
 	return src.substr(i, j - i + 1);
 }
 
+vector<string> Utility::trim(const vector<string>& src)
+{
+	vector<string> tmp = vector<string>();
+	for (string s : src)
+	{
+		tmp.push_back(trim(s));
+	}
+	return tmp;
+}
+
 bool Utility::skipFileLines(ifstream & file, unsigned int n)
 {
 	std::string line;
@@ -86,6 +96,31 @@ unsigned int Utility::findLastOf(string text, char c, unsigned int n)
 	}
 
 	return 0;
+}
+
+std::string Utility::cutLine(const std::string & line, const std::string & symbol)
+{
+	std::string tmp = line;
+	auto pos = tmp.find(symbol);
+	if (pos != std::string::npos)
+	{
+		tmp = tmp.substr(0, pos);
+	}
+	return tmp;
+}
+
+std::string Utility::toUpper(const std::string& str)
+{
+	std::string tmp = str;
+	for (auto & c : tmp) c = toupper(c);
+	return tmp;
+}
+
+std::string Utility::toLower(const std::string & str)
+{
+	std::string tmp = str;
+	for (auto & c : tmp) c = tolower(c);
+	return tmp;
 }
 
 Utility* Utility::GetUtility()

@@ -7,42 +7,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		case sf::Event::MouseButtonPressed:
 		{
-			if (isFading)
-			{
-				isFading = false;
-				fade->skip();
-				if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
-				{
-					LOGGER->Log("MenuState", "Unable to get Background Image");
-				}
-				displayBackground.setTexture(background);
-			}
-			else if (character < scriptManager->getScriptLine().length())
-			{
-				character = scriptManager->getScriptLine().length();
-			}
-			else
-			{
-				scriptManager->readNextLine();
-				scriptManager->addAllNewLines(0, 70);
-				character = 0;
-				if (!scriptManager->getBackgroundChange())
-				{
-					if (fade) delete fade;
-					fade = new Fade(scriptManager->getBackgroundFileName(), 10, 10);
-					isFading = true;
-					fade->load();
-					fade->start();
 
-					std::string msg = scriptManager->getBackgroundFileName();
-					LOGGER->Log("MainState", msg);
-				}
-				if (scriptManager->getTextboxChange()) {
-					if (!textbox.loadFromFile(scriptManager->getTextboxFileName()))
-						LOGGER->Log("MenuState", "Unable to get Textbox Image");
-					displayTextbox.setTexture(textbox);
-				}
-			}
 		}
 		break;
 	}
@@ -50,34 +15,32 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 void MainState::render(sf::RenderWindow & window)
 {
-	
-	window.draw(displayBackground);
-	
-	if (fade && isFading)
+	for (BackgroundImage* bg : scriptManager->getBackgroundImages())
 	{
-		window.draw(*fade);
+		window.draw(*bg);
 	}
 
-	if (!isFading)
+	for (CharacterImage* character : scriptManager->getCharacterImages())
 	{
-		window.draw(displayTextbox);
-		window.draw(displayNameStr);
-		window.draw(displayTextStr);
+		window.draw(*character);
 	}
+
+	window.draw(displayNameStr);
+	window.draw(displayTextStr);
+	
 }
 
 void MainState::update(float delta_t)
 {
-	// start showing 
-	if (!isFading)
+	//LOGGER->Log("MainState", "Updating script manager");
+	if (scriptManager->doneAllCommands())
 	{
-		if (character < scriptManager->getScriptLine().length())
-		{
-			character++;
-		}
+		LOGGER->Log("MainState", "Reading new command");
+		scriptManager->readCommands();
 	}
+	scriptManager->update(delta_t);
 
-	displayTextStr.setString(scriptManager->getScriptLine().substr(0, character));
+	displayTextStr.setString(scriptManager->getScriptLine());
 	displayNameStr.setString(scriptManager->getDisplayName());
 
 	if (scriptManager->eof())
@@ -87,36 +50,11 @@ void MainState::update(float delta_t)
 	}
 
 	GLOBAL->MAIN_STATE_currentFile = scriptManager->getCurrentFileName();
-	GLOBAL->MAIN_STATE_currentLineId = scriptManager->getCurrentLineId();
-
-	if (fade && isFading)
-	{
-		fade->update(delta_t);
-		if (fade->isDone())
-		{
-			LOGGER->Log("MainState", "Fading done, loading next image");
-			isFading = false;
-			if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
-			{
-				LOGGER->Log("MenuState", "Unable to get Background Image");
-			}
-			displayBackground.setTexture(background);
-		}
-	}
 }
 
 void MainState::init()
 {
 	scriptManager->init();
-	scriptManager->addAllNewLines(0, 70);
-
-	if (!background.loadFromFile(scriptManager->getBackgroundFileName()))
-		LOGGER->Log("MainState", "Unable to get Background Image");
-	displayBackground.setTexture(background);
-	if (!textbox.loadFromFile(scriptManager->getTextboxFileName()))
-		LOGGER->Log("MainState", "Unable to get Textbox Image");
-	displayTextbox.setTexture(textbox);
-	displayTextbox.setColor(sf::Color(255, 255, 255, 255 * CONFIG->textWindowAlpha));
 
 	if (!displayNameFont.loadFromFile("assets/MATURASC.TTF"))
 	{
@@ -159,16 +97,14 @@ const ScriptManager * MainState::getScriptManager()
 	return scriptManager;
 }
 
-MainState::MainState(std::string filename, int lineId)
+MainState::MainState(std::string filename)
 {
-	scriptManager = new ScriptManager(filename, lineId);
-	fade = nullptr;
+	scriptManager = new ScriptManager(filename);
 	myState = GameState::STATE_MAIN;
 	init();
 }
 
 MainState::~MainState()
 {
-	if (fade) delete fade;
 	if (scriptManager) delete scriptManager;
 }

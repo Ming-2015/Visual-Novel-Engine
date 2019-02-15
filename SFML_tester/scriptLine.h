@@ -1,7 +1,7 @@
 #pragma once
 #include "scriptLine.h"
 #include "Utility.h"
-#include "charPic.h"
+#include "ItemImage.h"
 #include "logger.h"
 #include <fstream>
 #include <sstream>
@@ -12,27 +12,56 @@ using namespace std;
 class ScriptLine 
 {
 public:
-	int currentLineID;					// ID of current line
-	string s_line;						// Actual Script Line
+	string dialogue;					// Actual Script Line
 	string name;						// Character name to be displayed
 
 	string backgroundFileName;			// Background image file name
-	bool backgroundChange;
+
 	string textboxFileName;
-	bool textboxChange;
+
 	string voiceFileName;				// voice file name, "" if none
+
 	string BGMFileName;					// background music file name
 
 	bool isChoice;						// Is user input prompted after this line?
 	int numChoices;						// the number of choices to be displayed to the User
 	vector<string> choices;				// If isChoice, will hold the line ID of the possible next lines  CHANGE SIZE
 	vector<string> nextFileNames;		// script file names of the next line (if isChoice is true)
-	vector<int> nextLineIDs;			// ID of next line (if isChoice is true)
-	int userChoice;						// If isChoice, this will hold user input and will serve as index for choices[]
 
-	int numChars;						// the number of characters to be shown on the screen
-	vector<CharPic> charPics;			// Pictures included in the "frame"  CHANGE SIZE
+	vector<CharacterImage *> characterImages;	
+	vector<BackgroundImage *> backgroundImages;
 
+public:
 	ScriptLine();
-	void parse(ifstream& file);
+	~ScriptLine();
+
+	void setCharacter(const string& name, const string& expression, 
+		float xPos, float yPos, 
+		float fadeTime = 0.5f,
+		float xScale = 1.0f, float yScale = 1.0f,
+		bool clockwise = false, float angle = 0
+	);
+
+	void setBackground(const string& name, const string& timeOfTheDay,
+		float xPos, float yPos,
+		float fadeTime = 0.5f,
+		float xScale = 1.0f, float yScale = 1.0f,
+		bool clockwise = false, float angle = 0
+	);
+
+	void setCharacterAlpha(const string& name, float alpha);
+	void setBackgroundAlpha(const string& name, float alpha);
+
+	void removeCharacter(const string& name);
+	void removeBackground(const string& name);
+	void removeAllCharacters();
+	void removeAllBackgrounds();
+
+	void setDialogue(string str);
+
+	void changeCharacterPosition(const string& name, float xPos, float yPos);
+
+private:
+	std::string addAllNewLines(std::string str, unsigned int lineLength);
+	std::string addNewLineToPrevWord(std::string str, unsigned int pos);
 };

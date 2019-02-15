@@ -3,164 +3,167 @@ using namespace std;
 
 ScriptLine::ScriptLine() 
 {
-
+	characterImages = vector<CharacterImage *>();
 }
 
-void ScriptLine::parse(ifstream& myFileStream)
+ScriptLine::~ScriptLine()
 {
-	choices = vector<string>();
-	nextFileNames = vector<string>();
-	nextLineIDs = vector<int>();
-	charPics = vector<CharPic>();
-
-	if (!myFileStream.is_open()) {
-		string err = "Invalid script file";
-		LOGGER->Log("ScriptLine", err);
-	}
-
-	string line;			// An ENTIRE row of the file stored as a string
-	string tempStr;			// Temporary string used as we parse line
-	int tempInt;			// Temporary int used as we parse line
-
-	if (myFileStream.eof()) return;
-
-	getline(myFileStream, line);	// read a line from the file
-
-	if (line.find('|') == std::string::npos) return;
-
-	stringstream ss(line);
-
-	// ID
-	getline(ss, tempStr, '|');
-	if (tempStr != "")
-		currentLineID = stoi(tempStr);
-
-	// main message line
-	getline(ss, tempStr, '|');
-	if (tempStr != "")
-		s_line = tempStr;
-
-	// display name - name has to be properly inputted every time
-	getline(ss, name, '|');
-
-	// background image file
-	getline(ss, tempStr, '|');
-	if (tempStr != "")
-		backgroundFileName = tempStr;
-
-	// background file name
-	getline(ss, tempStr, '|');
-	if (tempStr != "")
-		backgroundChange = UTILITY->str2bool(tempStr);
-
-	// textbox file name
-	getline(ss, tempStr, '|');
-	if (tempStr != "")
-		textboxFileName = tempStr;
-
-	// change textbox?
-	getline(ss, tempStr, '|');
-	if (tempStr != "")
-		textboxChange = UTILITY->str2bool(tempStr);
-
-	// is currently displaying choices?
-	getline(ss, tempStr, '|');
-	if (tempStr != "")
-		isChoice = UTILITY->str2bool(tempStr);
-
-	// number of choices involved
-	getline(ss, tempStr, '|');
-	if (tempStr != "")
-		numChoices = stoi(tempStr);
-
-	// pushing the choice strings
-	choices.clear();
-	if (numChoices < 4) {
-		for (int i = 0; i < 4; i++)
-		{
-			getline(ss, tempStr, '|');
-			if (i < numChoices)
-			{
-				choices.push_back(tempStr);
-			}
-		}
-	}
-	else
+	for (auto c : characterImages)
 	{
-		for (int i = 0; i < numChoices; i++) {
-			getline(ss, tempStr, '|');
-			choices.push_back(tempStr);
-		}
+		if (c != nullptr) delete c;
 	}
-
-	// pushing the next file names
-	nextFileNames.clear();
-	if (numChoices < 4) {
-		for (int i = 0; i < 4; i++)
-		{
-			getline(ss, tempStr, '|');
-			if (i < numChoices)
-			{
-				nextFileNames.push_back(tempStr);
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < numChoices; i++) {
-			getline(ss, tempStr, '|');
-			nextFileNames.push_back(tempStr);
-		}
-	}
-
-	// pushing the next line IDs
-	nextLineIDs.clear();
-	if (numChoices < 4) {
-		for (int i = 0; i < 4; i++)
-		{
-			getline(ss, tempStr, '|');
-			if (i < numChoices)
-			{
-				nextLineIDs.push_back(stoi(tempStr));
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < numChoices; i++) {
-			getline(ss, tempStr, '|');
-			nextLineIDs.push_back(stoi(tempStr));
-		}
-	}
-
-	// getting number of characters to display
-	getline(ss, tempStr, '|');
-	if (tempStr != "")
-		numChars = stoi(tempStr);
-
-	// pushing the character pic info into a temporary vector
-	std::vector<CharPic> tempCharPic(numChars, CharPic());
-	for (int i = 0; i < numChars; i++) {
-		getline(ss, tempStr, '|');
-		if (tempStr != "")
-			tempCharPic[i].picName = tempStr;
-		else if (charPics.size() > i)
-			tempCharPic[i].picName = charPics[i].picName;
-
-		getline(ss, tempStr, '|');
-		if (tempStr != "")
-			tempCharPic[i].xPos = stoi(tempStr);
-		else if (charPics.size() > i)
-			tempCharPic[i].xPos = charPics[i].xPos;
-
-		getline(ss, tempStr, '|');
-		if (tempStr != "")
-			tempCharPic[i].yPos = stoi(tempStr);
-		else if (charPics.size() > i)
-			tempCharPic[i].yPos = charPics[i].yPos;
-	}
-
-	// replace the old charpics with the temp
-	charPics.clear();
-	charPics = tempCharPic;
 }
+
+void ScriptLine::setCharacter(const string& name, const string& expression, float xPos, float yPos, 
+	float fadeTime, float xScale, float yScale, bool clockwise, float angle)
+{
+	// search if the character already exists
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			c->changeExpression(expression, fadeTime);
+			c->setPosition(xPos, yPos);
+			c->setScale(xScale, yScale);
+			c->setRotation(clockwise, angle);
+			return;
+		}
+	}
+
+	// otherwise add a new character
+	CharacterImage* c = new CharacterImage(name, expression, xPos, yPos);
+	c->setPosition(xPos, yPos);
+	c->setScale(xScale, yScale);
+	c->setRotation(clockwise, angle);
+	characterImages.push_back(c);
+}
+
+void ScriptLine::setBackground(const string& name, const string& timeOfTheDay, float xPos, float yPos, float fadeTime, float xScale, float yScale, bool clockwise, float angle)
+{
+	// search if the character already exists
+	for (auto c : backgroundImages)
+	{
+		if (c->getName() == name)
+		{
+			c->changeExpression(timeOfTheDay, fadeTime);
+			c->setPosition(xPos, yPos);
+			c->setScale(xScale, yScale);
+			c->setRotation(clockwise, angle);
+			return;
+		}
+	}
+
+	// otherwise add a new character
+	BackgroundImage* c = new BackgroundImage(name, timeOfTheDay, xPos, yPos);
+	c->setPosition(xPos, yPos);
+	c->setScale(xScale, yScale);
+	c->setRotation(clockwise, angle);
+	backgroundImages.push_back(c);
+}
+
+void ScriptLine::setCharacterAlpha(const string & name, float alpha)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			c->setAlpha(alpha);
+			return;
+		}
+	}
+}
+
+void ScriptLine::setBackgroundAlpha(const string & name, float alpha)
+{
+	for (auto c : backgroundImages)
+	{
+		if (c->getName() == name)
+		{
+			c->setAlpha(alpha);
+			return;
+		}
+	}
+}
+
+void ScriptLine::removeCharacter(const string & name)
+{
+	for (auto it = characterImages.begin(); it != characterImages.end(); ++it)
+	{
+		if ((*it)->getName() == name)
+		{
+			delete *it;
+			characterImages.erase(it);
+			return;
+		}
+	}
+}
+
+void ScriptLine::removeBackground(const string & name)
+{
+	for (auto it = backgroundImages.begin(); it != backgroundImages.end(); ++it)
+	{
+		if ((*it)->getName() == name)
+		{
+			delete (*it);
+			backgroundImages.erase(it);
+			return;
+		}
+	}
+}
+
+void ScriptLine::removeAllCharacters()
+{
+	for (auto c : characterImages)
+	{
+		delete c;
+	}
+	characterImages.clear();
+}
+
+void ScriptLine::removeAllBackgrounds()
+{
+	for (auto c : backgroundImages)
+	{
+		delete c;
+	}
+	backgroundImages.clear();
+}
+
+void ScriptLine::setDialogue(string str)
+{
+	dialogue = addAllNewLines(str, 70);
+}
+
+void ScriptLine::changeCharacterPosition(const string & name, float xPos, float yPos)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			c->setPosition(xPos, yPos);
+			return;
+		}
+	}
+}
+
+std::string ScriptLine::addNewLineToPrevWord(std::string str, unsigned int pos)
+{
+	unsigned int found = UTILITY->findLastOf(str, ' ', pos);
+	return str.substr(0, found + 1) + "\n"
+		+ str.substr(found + 1, str.length() - found + 1);
+}
+
+std::string ScriptLine::addAllNewLines(string str, unsigned int lineLength)
+{
+	string tmp = str;
+	int currentChar = lineLength;
+
+	while (currentChar < tmp.length())
+	{
+		tmp = addNewLineToPrevWord(tmp, currentChar);
+		currentChar += lineLength + 1;
+	}
+
+	return tmp;
+}
+

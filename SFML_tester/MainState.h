@@ -17,30 +17,20 @@ public:
 
 	const ScriptManager* getScriptManager();
 
-	MainState(std::string filename, int lineId);
+	MainState(std::string filename);
 	~MainState();
 
 
 private:
 
-	sf::Clock clock;
-	unsigned int character;
 	ScriptManager* scriptManager;
 
 	sf::Text displayNameStr;
 	sf::Font displayNameFont;
 	sf::Color displayNameColor;
 
-	sf::Texture background;
-	sf::Sprite displayBackground;
-	sf::Texture textbox;
-	sf::Sprite displayTextbox;
-
 	sf::Color displayTextColor;
 	sf::Font displayTextFont;
 	sf::Text displayTextStr;
 
-	Fade * fade;
-	bool isFading = false;
-	bool changeBackground = false;
 };
