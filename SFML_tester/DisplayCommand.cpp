@@ -206,7 +206,7 @@ void DisplayCommand::update(float delta_t)
 			interval = 1.0f / (CONFIG->manualTextSpeed) - 1.0f;
 		}
 
-		interval *= .1f;
+		interval *= .03f;
 
 		timer += delta_t;
 		if (timer > interval)
