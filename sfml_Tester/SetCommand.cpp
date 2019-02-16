@@ -120,7 +120,7 @@ void SetCommand::execute(ScriptLine * scriptLine)
 	}
 }
 
-void SetCommand::cleanup()
+void SetCommand::skipUpdate()
 {
 	alpha = 255.f;
 	wait = false;

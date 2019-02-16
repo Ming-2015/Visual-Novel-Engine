@@ -133,7 +133,7 @@ void MoveCommand::execute(ScriptLine * scriptLine)
 	}
 }
 
-void MoveCommand::cleanup()
+void MoveCommand::skipUpdate()
 {
 	//Need to clean up position variables?
 	x1 = x2;

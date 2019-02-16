@@ -13,7 +13,7 @@ public:
 	~SetCommand();
 
 	void execute(ScriptLine* scriptLine);
-	void cleanup();
+	void skipUpdate();
 	void update(float delta_t);
 
 private:
