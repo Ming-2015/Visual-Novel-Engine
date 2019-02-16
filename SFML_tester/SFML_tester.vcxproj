@@ -143,10 +143,12 @@
     <ClCompile Include="MainState.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="NewGameState.cpp" />
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
+    <ClCompile Include="SetCommand.cpp" />
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="ShowCommand.cpp" />
     <ClCompile Include="Slider.cpp" />
@@ -172,11 +174,13 @@
     <ClInclude Include="MainState.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="NewGameState.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="ScriptLine.h" />
+    <ClInclude Include="SetCommand.h" />
     <ClInclude Include="SettingsState.h" />
     <ClInclude Include="ShowCommand.h" />
     <ClInclude Include="Slider.h" />

@@ -1,9 +1,8 @@
-#include "ShowCommand.h"
+#include "SetCommand.h"
 
-ShowCommand::ShowCommand(std::vector<std::string> args)
+SetCommand::SetCommand(std::vector<std::string> args)
 	: ScriptCommand(args)
 {
-	// checking if the first argument is show
 	if (UTILITY->toLower(args[COLUMN_ACTION]) != "show")
 	{
 		LOGGER->Log("ShowCommand", "Invalid Command Input");
@@ -11,21 +10,19 @@ ShowCommand::ShowCommand(std::vector<std::string> args)
 		return;
 	}
 
-	// parse the arguments
-	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
-	flag = UTILITY->toLower(args[COLUMN_FLAG]);				// column 3 : flag
+	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);
+	flag = UTILITY->toLower(args[COLUMN_FLAG]);
 
-	objectName = UTILITY->toLower(args[COLUMN_ARG1]);		// column 4 : object name
-	objectSubname = UTILITY->toLower(args[COLUMN_ARG2]);	// column 5 : object sub name
+	objectName = UTILITY->toLower(args[COLUMN_ARG1]);
+	objectSubname = UTILITY->toLower(args[COLUMN_ARG2]);	
 
-	// optional arguments: x and y coordinates
-	x1 = 0; 
+	x1 = 0;
 	y1 = 0;
 	if (args.size() > COLUMN_ARG4)
 	{
 		try {
-			x1 = std::stof(args[COLUMN_ARG3]);	// column 6 : x position to display
-			y1 = std::stof(args[COLUMN_ARG4]);	// column 7 : y position to display
+			x1 = std::stof(args[COLUMN_ARG3]);	
+			y1 = std::stof(args[COLUMN_ARG4]);	
 		}
 		catch (exception e)
 		{
@@ -33,12 +30,11 @@ ShowCommand::ShowCommand(std::vector<std::string> args)
 		}
 	}
 
-	// optional argument: time
 	time = 1.5f;
 	if (args.size() > COLUMN_ARG5)
 	{
 		try {
-			time = std::stof(args[COLUMN_ARG5]); // column 8: time it should take to full finish the fade
+			time = std::stof(args[COLUMN_ARG5]);
 		}
 		catch (exception e)
 		{
@@ -46,7 +42,6 @@ ShowCommand::ShowCommand(std::vector<std::string> args)
 		}
 	}
 
-	// check the flag validity
 	if (flag == "" || flag == "none" || time == 0)
 	{
 		wait = false;
@@ -73,7 +68,6 @@ ShowCommand::ShowCommand(std::vector<std::string> args)
 		return;
 	}
 
-	// check object type validity
 	if (objectTypeName == "character" || objectTypeName == "c" || objectTypeName == "char")
 	{
 		objectType = OBJECT_CHARACTER;
@@ -90,12 +84,12 @@ ShowCommand::ShowCommand(std::vector<std::string> args)
 	}
 }
 
-ShowCommand::~ShowCommand()
+SetCommand::~SetCommand()
 {
 
 }
 
-void ShowCommand::execute(ScriptLine * scriptLine)
+void SetCommand::execute(ScriptLine * scriptLine)
 {
 	if (valid)
 	{
@@ -106,7 +100,12 @@ void ShowCommand::execute(ScriptLine * scriptLine)
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
-			scriptLine->setBackground(objectName, objectSubname, x1, y1);			
+			if (removeBackground) {
+				scriptLine->removeAllBackgrounds();
+				removeBackground = false;
+			}
+
+			scriptLine->setBackground(objectName, objectSubname, x1, y1);
 			scriptLine->setBackgroundAlpha(objectName, alpha);
 		}
 
@@ -121,23 +120,20 @@ void ShowCommand::execute(ScriptLine * scriptLine)
 	}
 }
 
-void ShowCommand::skipUpdate()
+void SetCommand::cleanup()
 {
 	alpha = 255.f;
 	wait = false;
 	done = true;
 }
 
-void ShowCommand::update(float delta_t)
+void SetCommand::update(float delta_t)
 {
 	if (valid && time > 0)
 	{
 		if (animationType == ANIMATION_FADEIN && alpha < 255.f)
 		{
 			float alpha_offset = delta_t / time * 255.f;
-
-			//string msg = "Alpha Offset = " + to_string(alpha_offset) + "\tdelta_t = " + to_string(delta_t);
-			//LOGGER->Log("ShowCommand", msg);
 
 			alpha += alpha_offset;
 			if (alpha >= 255.f)
@@ -152,4 +148,3 @@ void ShowCommand::update(float delta_t)
 		wait = false;
 	}
 }
-

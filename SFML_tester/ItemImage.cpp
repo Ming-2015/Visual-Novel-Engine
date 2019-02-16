@@ -17,6 +17,7 @@ void ItemImage::setImage()
 
 std::string ItemImage::getImagePath(const std::string& name, const std::string& expression) const
 {
+	cerr << "ItemImage: " << GLOBAL->ImageRoot;
 	return GLOBAL->ImageRoot + name + "/" + expression;
 }
 

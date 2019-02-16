@@ -9,6 +9,8 @@
 #include "ScriptCommand.h"
 #include "ShowCommand.h"
 #include "DisplayCommand.h"
+#include "SetCommand.h"
+#include "MoveCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager

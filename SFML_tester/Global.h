@@ -23,6 +23,7 @@ public:
 
 	const std::string ResourceRoot = "resources/";
 	const std::string ImageRoot = "images/";
+	//std::string ImageRoot = "images/";
 
 	const std::string TextBoxLocation = "images/textbox/textboxw.png";
 	const std::string TextBoxColorLocation = "resources/TextboxColors.csv";
