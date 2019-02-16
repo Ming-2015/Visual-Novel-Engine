@@ -63,7 +63,6 @@ void ItemImage::rotate(bool clockwise, float angle_degree)
 	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 	rotationDegree += clockwise ? angle_degree : 360.f - angle_degree;
 	sprite.setRotation(rotationDegree);
-	sprite.setOrigin(0, 0);
 }
 
 void ItemImage::scale(float xOffset, float yOffset)
@@ -72,7 +71,6 @@ void ItemImage::scale(float xOffset, float yOffset)
 	xScale *= xOffset;
 	yScale *= yOffset;
 	sprite.setScale(xScale, yScale);
-	sprite.setOrigin(0, 0);
 }
 
 void ItemImage::setPosition(float xPos, float yPos)
@@ -87,7 +85,6 @@ void ItemImage::setRotation(bool clockwise, float angle_degree)
 	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 	rotationDegree = clockwise ? angle_degree : 360.f - angle_degree;
 	sprite.setRotation(rotationDegree);
-	sprite.setOrigin(0, 0);
 }
 
 void ItemImage::setScale(float xScale, float yScale)
@@ -96,7 +93,6 @@ void ItemImage::setScale(float xScale, float yScale)
 	this->xScale = xScale;
 	this->yScale = yScale;
 	sprite.setScale(xScale, yScale);
-	sprite.setOrigin(0, 0);
 }
 
 void ItemImage::changeExpression(string expression, float time)
@@ -137,11 +133,9 @@ void ItemImage::changeExpression(string expression, float time)
 		
 		nextSprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 		nextSprite.setRotation(rotationDegree);
-		nextSprite.setOrigin(0, 0);
 
 		nextSprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height);
 		nextSprite.setScale(xScale, yScale);
-		nextSprite.setOrigin(0, 0);
 	}
 }
 

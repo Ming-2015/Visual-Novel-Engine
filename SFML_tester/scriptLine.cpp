@@ -52,7 +52,7 @@ void ScriptLine::setCharacter(const string& name, const string& expression, floa
 		if (c->getName() == name)
 		{
 			c->changeExpression(expression, fadeTime);
-			c->setPosition(xPos, yPos);
+			c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
 			c->setScale(xScale, yScale);
 			c->setRotation(clockwise, angle);
 			return;
@@ -61,7 +61,7 @@ void ScriptLine::setCharacter(const string& name, const string& expression, floa
 
 	// otherwise add a new character
 	CharacterImage* c = new CharacterImage(name, expression, xPos, yPos);
-	c->setPosition(xPos, yPos);
+	c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
 	c->setScale(xScale, yScale);
 	c->setRotation(clockwise, angle);
 	characterImages.push_back(c);
@@ -75,7 +75,7 @@ void ScriptLine::setBackground(const string& name, const string& timeOfTheDay, f
 		if (c->getName() == name)
 		{
 			c->changeExpression(timeOfTheDay, fadeTime);
-			c->setPosition(xPos, yPos);
+			c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
 			c->setScale(xScale, yScale);
 			c->setRotation(clockwise, angle);
 			return;
@@ -84,7 +84,7 @@ void ScriptLine::setBackground(const string& name, const string& timeOfTheDay, f
 
 	// otherwise add a new character
 	BackgroundImage* c = new BackgroundImage(name, timeOfTheDay, xPos, yPos);
-	c->setPosition(xPos, yPos);
+	c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
 	c->setScale(xScale, yScale);
 	c->setRotation(clockwise, angle);
 	backgroundImages.push_back(c);
@@ -179,7 +179,7 @@ void ScriptLine::changeCharacterPosition(const string & name, float xPos, float 
 	{
 		if (c->getName() == name)
 		{
-			c->setPosition(xPos, yPos);
+			c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
 			return;
 		}
 	}
