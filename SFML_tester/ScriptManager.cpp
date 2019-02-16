@@ -157,12 +157,18 @@ void ScriptManager::readCommands()
 					if (command->shouldWait()) stop = true;
 					commands.push_back(command);
 				}
-				//else if (cmdWord == "set")
-				//{
-				//	command = new SetCommand(tokens);
-				//	if (command->shouldWait()) stop = true;
-				//	commands.push_back(command);
-				//}
+				else if (cmdWord == "set")
+				{
+					command = new SetCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
+				else if (cmdWord == "move")
+				{
+					command = new MoveCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
 				else if (cmdWord == "jump" && tokens.size() >= 4)
 				{
 					readNewFile("script/" + tokens[3] + ".csv");

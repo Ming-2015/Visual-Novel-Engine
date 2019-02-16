@@ -16,7 +16,7 @@ public:
 	std::string MAIN_STATE_currentFile;
 	unsigned int MAIN_STATE_currentLineId;
 
-	const std::string ImageRoot = "images/";
+	std::string ImageRoot = "images/";
 
 	int tempint;
 

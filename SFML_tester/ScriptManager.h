@@ -8,6 +8,8 @@
 #include "ItemImage.h"
 #include "ScriptCommand.h"
 #include "ShowCommand.h"
+#include "SetCommand.h"
+#include "MoveCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager
