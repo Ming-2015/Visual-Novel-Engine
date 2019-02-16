@@ -201,6 +201,12 @@ void ScriptManager::readCommands()
 					if (command->shouldWait()) stop = true;
 					commands.push_back(command);
 				}
+				else if (cmdWord == "zoom")
+				{
+					command = new ZoomCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
 				else if (cmdWord == "jump" && tokens.size() >= 4)
 				{
 					readNewFile(GLOBAL->ResourceRoot + tokens[3] + ".csv");

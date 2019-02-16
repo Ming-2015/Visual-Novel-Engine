@@ -155,6 +155,7 @@
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="ZoomCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Slider.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="ZoomCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

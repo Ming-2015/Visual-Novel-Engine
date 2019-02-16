@@ -5,7 +5,7 @@ MoveCommand::MoveCommand(vector<string> args)
 {
 	if (UTILITY->toLower(args[COLUMN_ACTION]) != "move")
 	{
-		LOGGER->Log("ShowCommand::MoveCommand", "Invalid Command Input");
+		LOGGER->Log("MoveCommand", "Invalid Command Input");
 		valid = false;
 		return;
 	}
@@ -27,7 +27,7 @@ MoveCommand::MoveCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("MoveCommand", "Failed to convery x1 and y1 values to float values");
+			LOGGER->Log("MoveCommand", "Failed to convert x1 and y1 values to float values");
 		}
 	}
 
@@ -47,7 +47,7 @@ MoveCommand::MoveCommand(vector<string> args)
 	}
 
 	// OPTIONAL: Animation Time
-	time = 0.0;// Default 1.5 seconds
+	time = 1.5;// Default 1.5 seconds
 	if (args.size() > COLUMN_ARG7)
 	{
 		try {

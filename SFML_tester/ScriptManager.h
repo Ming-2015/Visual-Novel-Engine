@@ -12,6 +12,7 @@
 #include "SetCommand.h"
 #include "MoveCommand.h"
 #include "RotateCommand.h"
+#include "ZoomCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager

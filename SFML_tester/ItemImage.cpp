@@ -89,7 +89,7 @@ void ItemImage::setRotation(bool clockwise, float angle_degree)
 
 void ItemImage::setScale(float xScale, float yScale)
 {
-	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height);
+	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 	this->xScale = xScale;
 	this->yScale = yScale;
 	sprite.setScale(xScale, yScale);

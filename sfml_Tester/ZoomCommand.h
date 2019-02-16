@@ -9,12 +9,12 @@
 
 using namespace std;
 
-class RotateCommand : public ScriptCommand
+class ZoomCommand : public ScriptCommand
 {
 public:
 
-	RotateCommand(vector<string> args);
-	~RotateCommand();
+	ZoomCommand(vector<string> args);
+	~ZoomCommand();
 
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
@@ -36,12 +36,8 @@ private:
 	const static int OBJECT_BACKGROUND = 1;
 
 	int animationType;
-	const static int ANIMATION_ROTATE = 1;
+	const static int ANIMATION_ZOOM = 1;
 	const static int ANIMATION_NONE = 0;
-	float finalDegree;
-	float currentRotate;
-	float angleDiff;
-	float tempAngle;
-	string whichWay;
-	bool clockwise;
+
+	float currentScaleX, currentScaleY, scaleX, scaleY, scaleDiffX, scaleDiffY;
 };

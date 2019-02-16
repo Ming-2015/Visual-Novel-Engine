@@ -5,7 +5,7 @@ RotateCommand::RotateCommand(vector<string> args)
 {
 	if (UTILITY->toLower(args[COLUMN_ACTION]) != "rotate")
 	{
-		LOGGER->Log("ShowCommand::RotateCommand", "Invalid Command Input");
+		LOGGER->Log("RotateCommand", "Invalid Command Input");
 		valid = false;
 		return;
 	}
@@ -37,9 +37,13 @@ RotateCommand::RotateCommand(vector<string> args)
 		{
 			whichWay = args[COLUMN_ARG5];
 			if (whichWay == "clockwise" || whichWay == "Clockwise" || whichWay == "clock" || whichWay == "Clock")
-				bool clockwise = true;
+			{
+				clockwise = true;
+			}
 			else if (whichWay == "counter" || whichWay == "counterclockwise" || whichWay == "Counter" || whichWay == "counterclock" || whichWay == "Counterclock" || whichWay == "Counterclockwise")
-				bool clockwise = false;
+			{
+				clockwise = false;
+			}
 		}
 		catch (exception e)
 		{
@@ -107,6 +111,7 @@ RotateCommand::RotateCommand(vector<string> args)
 	}
 
 	angleDiff = finalDegree - currentRotate;
+	tempAngle = 0;
 }
 
 RotateCommand::~RotateCommand()
@@ -149,26 +154,19 @@ void RotateCommand::update(float delta_t)
 {
 	if (valid && time > 0)
 	{
-		if (animationType == ANIMATION_ROTATE && fabs(currentRotate) < finalDegree)
+		if (animationType == ANIMATION_ROTATE && tempAngle < finalDegree)
 		{
 			float degreeOffset = delta_t / time * angleDiff;
-			if (clockwise == true)
-			{
+
+				tempAngle += degreeOffset;
 				currentRotate += degreeOffset;
-				if (fabs(currentRotate) >= finalDegree)
+				if (currentRotate >= finalDegree)
 				{
 					currentRotate = finalDegree;
 				}
-			}
-			if (clockwise == false)
-			{
-				currentRotate -= degreeOffset;
-				if (fabs(currentRotate) >= finalDegree)
-				{
-					currentRotate = -finalDegree;
-				}
-			}
-			if (fabs(currentRotate) == finalDegree)
+			
+			
+			if ( currentRotate == finalDegree)
 			{
 				wait = false;
 				done = true;

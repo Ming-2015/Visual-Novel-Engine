@@ -153,6 +153,9 @@
     <ClCompile Include="RotateCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
+    <ClCompile Include="ZoomCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -246,6 +249,9 @@
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
     <ClInclude Include="RotateCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoomCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
   </ItemGroup>
