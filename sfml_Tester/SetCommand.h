@@ -5,19 +5,19 @@
 
 #include "ScriptCommand.h"
 
-class ShowCommand : public ScriptCommand
+class SetCommand : public ScriptCommand
 {
 public:
 
-	ShowCommand(std::vector<std::string> args);
-	~ShowCommand();
+	SetCommand(std::vector<std::string> args);
+	~SetCommand();
 
 	void execute(ScriptLine* scriptLine);
 	void cleanup();
 	void update(float delta_t);
 
 private:
-	
+
 	std::string objectTypeName;
 	std::string flag;
 
@@ -37,4 +37,6 @@ private:
 
 	const static int OBJECT_CHARACTER = 0;
 	const static int OBJECT_BACKGROUND = 1;
+
+	bool removeBackground = true;
 };

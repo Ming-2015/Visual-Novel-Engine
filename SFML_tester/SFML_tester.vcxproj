@@ -146,6 +146,7 @@
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
+    <ClCompile Include="SetCommand.cpp" />
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="ShowCommand.cpp" />
     <ClCompile Include="Slider.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="ScriptCommand.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="ScriptLine.h" />
+    <ClInclude Include="SetCommand.h" />
     <ClInclude Include="SettingsState.h" />
     <ClInclude Include="ShowCommand.h" />
     <ClInclude Include="Slider.h" />
