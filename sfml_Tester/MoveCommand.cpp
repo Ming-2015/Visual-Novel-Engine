@@ -42,7 +42,7 @@ MoveCommand::MoveCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("MoveCommand", "Failed to convery x2 and y2 values to float values");
+			LOGGER->Log("MoveCommand", "Failed to convert x2 and y2 values to float values");
 		}
 	}
 
@@ -58,12 +58,10 @@ MoveCommand::MoveCommand(vector<string> args)
 			LOGGER->Log("MoveCommand", "Failed to convert time into float value");
 		}
 	}
-	cout << endl << time << endl;
 
 	// check flag validity
 	if (time == 0)
 	{
-		cout << "DID WE CHECK THIS FLAG??";
 		wait = false;
 		time = 0;
 		animationType = ANIMATION_NONE;
@@ -72,17 +70,17 @@ MoveCommand::MoveCommand(vector<string> args)
 		y1 = y2;
 		//See if you can automatically move
 	}
-	if ((flag == "" || flag == "none") && time != 0)
+	if ((flag == "" || flag == "none") && time != 0)	//Move w/o Wait
 	{
 		wait = false;
 		animationType = ANIMATION_MOVE;
 	}
-	if (flag == "wait" || flag == "Wait" || flag == "WAIT" && time != 0)
+	if ((flag == "wait" || flag == "Wait" || flag == "WAIT") && time != 0)     //Move w/ Wait
 	{
 		wait = true;
 		animationType = ANIMATION_MOVE;
 	}
-	//WORK IN PROGRESS, ADD OTHER LATER
+	//WORK IN PROGRESS, ADD ACCELERATE
 
 	// object type validity
 	if (objectTypeName == "character" || objectTypeName == "c" || objectTypeName == "char")

@@ -17,6 +17,32 @@ ScriptLine::~ScriptLine()
 	if (textboxImage != nullptr) delete textboxImage;
 }
 
+void ScriptLine::setCharacterRotation(const string& name, const string& expression, bool clockwise, float degree)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			c->changeExpression(expression);
+			c->setRotation(clockwise, degree);
+			return;
+		}
+	}
+}
+
+void ScriptLine::setBackgroundRotation(const string& name, const string& expression, bool clockwise, float degree)
+{
+	for (auto c : backgroundImages)
+	{
+		if (c->getName() == name)
+		{
+			c->changeExpression(expression);
+			c->setRotation(clockwise, degree);
+			return;
+		}
+	}
+}
+
 void ScriptLine::setCharacter(const string& name, const string& expression, float xPos, float yPos, 
 	float fadeTime, float xScale, float yScale, bool clockwise, float angle)
 {

@@ -145,6 +145,7 @@
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="NewGameState.cpp" />
+    <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="NewGameState.h" />
+    <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />
     <ClInclude Include="ScriptManager.h" />

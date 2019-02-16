@@ -11,6 +11,7 @@
 #include "DisplayCommand.h"
 #include "SetCommand.h"
 #include "MoveCommand.h"
+#include "RotateCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager

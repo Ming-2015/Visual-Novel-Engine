@@ -142,12 +142,15 @@
       <Filter>Source Files\Script</Filter>
     </ClCompile>
     <ClCompile Include="DisplayCommand.cpp">
-	  <Filter>Source Files\Script\ScriptCommands</Filter>
+      <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
     <ClCompile Include="SetCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
     <ClCompile Include="MoveCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="RotateCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
   </ItemGroup>
@@ -240,6 +243,9 @@
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
     <ClInclude Include="MoveCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="RotateCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
   </ItemGroup>
