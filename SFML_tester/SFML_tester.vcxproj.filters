@@ -141,6 +141,9 @@
     <ClCompile Include="ItemImage.cpp">
       <Filter>Source Files\Script</Filter>
     </ClCompile>
+    <ClCompile Include="DisplayCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="ItemImage.h">
       <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

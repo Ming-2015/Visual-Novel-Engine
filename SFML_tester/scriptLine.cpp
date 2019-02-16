@@ -4,6 +4,8 @@ using namespace std;
 ScriptLine::ScriptLine() 
 {
 	characterImages = vector<CharacterImage *>();
+	backgroundImages = vector<BackgroundImage* >();
+	textboxImage = new TextboxImage();
 }
 
 ScriptLine::~ScriptLine()
@@ -12,6 +14,7 @@ ScriptLine::~ScriptLine()
 	{
 		if (c != nullptr) delete c;
 	}
+	if (textboxImage != nullptr) delete textboxImage;
 }
 
 void ScriptLine::setCharacter(const string& name, const string& expression, float xPos, float yPos, 
@@ -129,9 +132,19 @@ void ScriptLine::removeAllBackgrounds()
 	backgroundImages.clear();
 }
 
-void ScriptLine::setDialogue(string str)
+void ScriptLine::setDialogue(const string& displayname, const string& str)
 {
+	hideTextbox = false;
 	dialogue = addAllNewLines(str, 70);
+	textboxImage->setTextboxColor(GLOBAL->getTextboxColor(displayname));
+
+	name = displayname;
+	if (UTILITY->toLower(name) == "player")
+	{
+		name = GLOBAL->PlayerName;
+	}
+
+	textboxImage->setDisplay(name, dialogue);
 }
 
 void ScriptLine::changeCharacterPosition(const string & name, float xPos, float yPos)

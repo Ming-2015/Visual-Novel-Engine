@@ -81,7 +81,7 @@ void StateManager::manageStates()
 			{
 				currentState->cleanup();
 				delete currentState;
-				currentState = new MainState("resources/ScriptLine.csv");
+				currentState = new MainState(GLOBAL->NewGameScriptFileLocation);
 				LOGGER->Log("StateManager", "Entering MainState from NewGameState");
 			}
 			break;

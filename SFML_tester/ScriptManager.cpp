@@ -28,9 +28,14 @@ std::string ScriptManager::getDisplayName() const
 	return currentScriptLine->name;
 }
 
-std::string ScriptManager::getTextboxFileName() const
+const TextboxImage * ScriptManager::getTextboxImage() const
 {
-	return currentScriptLine->textboxFileName;
+	return currentScriptLine->textboxImage;
+}
+
+bool ScriptManager::shouldHideTextbox() const
+{
+	return currentScriptLine->hideTextbox;
 }
 
 std::string ScriptManager::getVoiceFileName() const
@@ -106,7 +111,7 @@ void ScriptManager::update(float delta_t)
 
 			if ((*it)->isDone())
 			{
-				(*it) -> cleanup();
+				(*it) -> skipUpdate();
 				delete *it;
 				it = commands.erase(it);
 				incrementIt = false;
@@ -114,6 +119,21 @@ void ScriptManager::update(float delta_t)
 		}
 
 		if (incrementIt) it++;
+	}
+}
+
+void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
+{
+	switch (e.type)
+	{
+		case sf::Event::MouseButtonPressed:
+		{
+			for (auto c : commands)
+			{
+				c->skipUpdate();
+			}
+			break;
+		}
 	}
 }
 
@@ -163,9 +183,15 @@ void ScriptManager::readCommands()
 				//	if (command->shouldWait()) stop = true;
 				//	commands.push_back(command);
 				//}
+				else if (cmdWord == "display")
+				{
+					command = new DisplayCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
 				else if (cmdWord == "jump" && tokens.size() >= 4)
 				{
-					readNewFile("script/" + tokens[3] + ".csv");
+					readNewFile(GLOBAL->ResourceRoot + tokens[3] + ".csv");
 				}
 				else
 				{

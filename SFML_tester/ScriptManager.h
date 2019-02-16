@@ -8,6 +8,7 @@
 #include "ItemImage.h"
 #include "ScriptCommand.h"
 #include "ShowCommand.h"
+#include "DisplayCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager
@@ -19,8 +20,9 @@ public:
 	// get the current line info
 	std::string getScriptLine() const;
 	std::string getDisplayName() const;
+	const TextboxImage* getTextboxImage() const;
+	bool shouldHideTextbox() const;
 
-	std::string getTextboxFileName() const;
 	std::string getVoiceFileName() const;
 	std::string getBGMFileName() const;
 
@@ -38,6 +40,7 @@ public:
 
 	void init();
 	void update(float delta_t);
+	void handleInput(sf::Event & e, sf::RenderWindow & window);
 
 	bool eof();
 	bool doneAllCommands();

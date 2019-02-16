@@ -13,4 +13,15 @@ public:
 
 private:
 	sf::RenderWindow window;	// the window to be rendered
+
+	void initFPSText();
+	sf::Clock gameClock;
+	sf::Time prevTime;
+	float delta_t;
+	float fps;
+	std::string fpsStr;
+	sf::Text fpsText;
+	sf::Font fpsFont;
+
+	bool displayFPS = true;
 };

@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="DisplayCommand.cpp" />
     <ClCompile Include="ItemImage.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -154,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="DisplayCommand.h" />
     <ClInclude Include="ItemImage.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Effect.hpp" />

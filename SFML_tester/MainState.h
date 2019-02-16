@@ -24,13 +24,4 @@ public:
 private:
 
 	ScriptManager* scriptManager;
-
-	sf::Text displayNameStr;
-	sf::Font displayNameFont;
-	sf::Color displayNameColor;
-
-	sf::Color displayTextColor;
-	sf::Font displayTextFont;
-	sf::Text displayTextStr;
-
 };

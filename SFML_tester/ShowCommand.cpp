@@ -126,7 +126,7 @@ void ShowCommand::execute(ScriptLine * scriptLine)
 	}
 }
 
-void ShowCommand::cleanup()
+void ShowCommand::skipUpdate()
 {
 	alpha = 255.f;
 	wait = false;

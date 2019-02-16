@@ -12,12 +12,11 @@ using namespace std;
 class ScriptLine 
 {
 public:
-	string dialogue;					// Actual Script Line
-	string name;						// Character name to be displayed
 
-	string backgroundFileName;			// Background image file name
-
-	string textboxFileName;
+	string dialogue;						// Actual Script Line
+	string name;							// Character name to be displayed
+	TextboxImage* textboxImage = nullptr;	// Textbox 
+	bool hideTextbox = true;				// hide textbox
 
 	string voiceFileName;				// voice file name, "" if none
 
@@ -57,8 +56,7 @@ public:
 	void removeAllCharacters();
 	void removeAllBackgrounds();
 
-	void setDialogue(string str);
-
+	void setDialogue(const string& displayname, const string& str);
 	void changeCharacterPosition(const string& name, float xPos, float yPos);
 
 private:

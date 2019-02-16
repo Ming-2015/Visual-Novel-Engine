@@ -16,7 +16,7 @@ public:
 	virtual void execute(ScriptLine* scriptLine) = 0;
 
 	// Clean up all the objects in this command
-	virtual void cleanup() = 0;
+	virtual void skipUpdate() = 0;
 
 	// Update the changes as a function of time
 	virtual void update(float delta_t) = 0;
