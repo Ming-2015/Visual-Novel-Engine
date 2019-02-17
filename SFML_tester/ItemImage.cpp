@@ -17,7 +17,6 @@ void ItemImage::setImage()
 
 std::string ItemImage::getImagePath(const std::string& name, const std::string& expression) const
 {
-	cerr << "ItemImage: " << GLOBAL->ImageRoot;
 	return GLOBAL->ImageRoot + name + "/" + expression;
 }
 
@@ -27,11 +26,14 @@ ItemImage::ItemImage(string name, string expression, float xPos, float yPos)
 	color = sf::Color(255.f, 255.f, 255.f, alpha);
 	setImage();
 	sprite.setColor(color);
-	this->xPos += sprite.getLocalBounds().width / 2.0f;
-	this->yPos += sprite.getLocalBounds().height / 2.0f;
-	sprite.setPosition(this->xPos, this->yPos);
+
+	setPosition( sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 	fading = false;
+
+	rotationDegree = 0;
+	xScale = 1.0f;
+	yScale = 1.0f;
 }
 
 void ItemImage::setAlpha(float alpha)
@@ -63,14 +65,12 @@ void ItemImage::move(float xOffset, float yOffset)
 
 void ItemImage::rotate(bool clockwise, float angle_degree)
 {
-	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
-	rotationDegree += clockwise ? angle_degree : 360.f - angle_degree;
+	rotationDegree += clockwise ? angle_degree : -angle_degree;
 	sprite.setRotation(rotationDegree);
 }
 
 void ItemImage::scale(float xOffset, float yOffset)
 {
-	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height);
 	xScale *= xOffset;
 	yScale *= yOffset;
 	sprite.setScale(xScale, yScale);
@@ -85,14 +85,12 @@ void ItemImage::setPosition(float xPos, float yPos)
 
 void ItemImage::setRotation(bool clockwise, float angle_degree)
 {
-	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 	rotationDegree = clockwise ? angle_degree : 360.f - angle_degree;
 	sprite.setRotation(rotationDegree);
 }
 
 void ItemImage::setScale(float xScale, float yScale)
 {
-	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 	this->xScale = xScale;
 	this->yScale = yScale;
 	sprite.setScale(xScale, yScale);

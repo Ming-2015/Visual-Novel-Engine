@@ -16,31 +16,17 @@ RotateCommand::RotateCommand(vector<string> args)
 	objectName = UTILITY->toLower(args[COLUMN_ARG1]);			// object name
 	objectSubname = UTILITY->toLower(args[COLUMN_ARG2]);		// object sub name
 
-	// Optional if begin x and y = 0
-	x1 = 0, y1 = 0;
-	if (args.size() > COLUMN_ARG4)
+	clockwise = true;
+	if (args.size() > COLUMN_ARG3)
 	{
 		try
 		{
-			x1 = stof(args[COLUMN_ARG3]);		// Beginning x position
-			y1 = stof(args[COLUMN_ARG4]);		// Beginning y position
-		}
-		catch (exception e)
-		{
-			LOGGER->Log("RotateCommand", "Failed to convert x1 and y1 values to float values");
-		}
-	}
-
-	if (args.size() > COLUMN_ARG5)
-	{
-		try
-		{
-			whichWay = args[COLUMN_ARG5];
-			if (whichWay == "clockwise" || whichWay == "Clockwise" || whichWay == "clock" || whichWay == "Clock")
+			whichWay = args[COLUMN_ARG3];
+			if (whichWay == "clockwise" || whichWay == "clock" || whichWay == "cw" )
 			{
 				clockwise = true;
 			}
-			else if (whichWay == "counter" || whichWay == "counterclockwise" || whichWay == "Counter" || whichWay == "counterclock" || whichWay == "Counterclock" || whichWay == "Counterclockwise")
+			else if (whichWay == "counter" || whichWay == "counterclockwise" || whichWay == "counterclock" || whichWay == "ccw" )
 			{
 				clockwise = false;
 			}
@@ -51,11 +37,12 @@ RotateCommand::RotateCommand(vector<string> args)
 		}
 	}
 
-	if (args.size() > COLUMN_ARG6)
+	finalDegree = 0;
+	if (args.size() > COLUMN_ARG4)
 	{
 		try
 		{
-			finalDegree = stof(args[COLUMN_ARG6]);
+			finalDegree = stof(args[COLUMN_ARG4]);
 		}
 		catch (exception e)
 		{
@@ -63,12 +50,11 @@ RotateCommand::RotateCommand(vector<string> args)
 		}
 	}
 
-	// OPTIONAL: Animation Time
-	time = 0.0;// Default 1.5 seconds
-	if (args.size() > COLUMN_ARG7)
+	time = 0.0;
+	if (args.size() > COLUMN_ARG5)
 	{
 		try {
-			time = stof(args[COLUMN_ARG7]);			// time
+			time = stof(args[COLUMN_ARG5]);	
 		}
 		catch (exception e)
 		{
@@ -76,7 +62,7 @@ RotateCommand::RotateCommand(vector<string> args)
 		}
 	}
 
-	if (time == 0)		//No Animation
+	if (time <= 0)		//No Animation
 	{
 		wait = false;
 		relative = false;
@@ -84,33 +70,25 @@ RotateCommand::RotateCommand(vector<string> args)
 		animationType = ANIMATION_NONE;
 		currentRotate = finalDegree;
 	}
-	if ((flag == "" || flag == "none") && time != 0)		//Rotate w/o wait
+	else if (flag == "" || flag == "none")		//Rotate w/o wait
 	{
 		wait = false;
 		animationType = ANIMATION_ROTATE;
 		relative = false;
 	}
-	if ((flag == "wait" || flag == "Wait" || flag == "WAIT") && time != 0)
+	else if (flag == "wait" || flag == "w")
 	{
 		wait = true;
 		animationType = ANIMATION_ROTATE;
 		relative = false;
 	}
-	if (time == 0 && (flag == "relative" || flag == "Relative" || flag == "RELATIVE"))
-	{
-		wait = false;
-		relative = true;
-		time = 0;
-		animationType = ANIMATION_NONE;
-		//Need to set code in other part to check if this is true
-	}
-	if ((flag == "relative" || flag == "Relative" || flag == "RELATIVE") && time != 0)
+	else if (flag == "relative" || flag == "r")
 	{
 		wait = false;
 		relative = true;
 		animationType = ANIMATION_ROTATE;
 	}
-	if ((flag == "relativewait" || flag == "Relativewait" || flag == "RELATIVEWAIT" || flag == "relativeWait" || flag == "RelativeWait") && time != 0)
+	else if (flag == "relativewait" || flag == "rw" )
 	{
 		wait = true;
 		relative = true;
@@ -155,13 +133,12 @@ void RotateCommand::execute(ScriptLine * scriptLine)
 			scriptLine->setBackgroundRotation(objectName, objectSubname, clockwise, currentRotate);
 		}
 
-		if (animationType == ANIMATION_NONE && currentRotate == finalDegree)
+		if (animationType == ANIMATION_NONE || stopRotate)
 		{
-			cout << "THIS SHIT WAS REACHED";
 			done = true;
 		}
 	}
-	if (valid && relative == true)
+	else if (valid && relative == true)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
@@ -172,14 +149,14 @@ void RotateCommand::execute(ScriptLine * scriptLine)
 			scriptLine->setBackgroundRotationRel(objectName, objectSubname, clockwise, currentRotate);
 		}
 
-		if (animationType == ANIMATION_NONE && currentRotate == finalDegree)
+		if (animationType == ANIMATION_NONE || stopRotate)
 		{
 			done = true;
 		}
 	}
 	else
 	{
-		cout << "THIS SHIT WAS REACHED";
+		LOGGER->Log("RotateCommand", "Invalid Rotate command detected");
 		done = true;
 	}
 }
@@ -193,50 +170,31 @@ void RotateCommand::skipUpdate()
 
 void RotateCommand::update(float delta_t)
 {
-	if (valid && time > 0 && relative == false)
+	if (valid && relative == false)
 	{
 		if (animationType == ANIMATION_ROTATE && currentRotate < finalDegree)
 		{
 			float degreeOffset = delta_t / time * angleDiff;
-			cout << "STARTING REGULAR ROTATE";
-			tempAngle += degreeOffset;
 			currentRotate += degreeOffset;
+
 			if (currentRotate >= finalDegree)
 			{
-				currentRotate = finalDegree;
-				cout << "REGULAR ROTATE IS DONE!";
-				tempAngle = 0;
-				wait = false;
-				done = true;
+				stopRotate = true;
 			}
 		}
 	}
-	else if (valid && time > 0 && relative == true)
+	else if (valid && relative == true)
 	{
 		if (animationType == ANIMATION_ROTATE && tempAngle < finalDegree)
 		{
 			float degreeOffset = delta_t / time * angleDiff;
-			//cout << "STARTING RELATIVE ROTATE!!!!";
 			tempAngle += degreeOffset;
 			currentRotate = degreeOffset;
+
 			if (tempAngle >= finalDegree)
 			{
-				tempAngle = finalDegree;
-			}
-
-
-			if (tempAngle == finalDegree)
-			{
-				cout << "REACHED HERE";
-				tempAngle = 0;
-				wait = false;
-				done = true;
+				stopRotate = true;
 			}
 		}
-	}
-	else
-	{
-		cout << "THIS ENDING HAPPENED";
-		done = true;
 	}
 }

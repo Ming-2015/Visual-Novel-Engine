@@ -27,8 +27,8 @@ private:
 
 	string objectName;			// name of character | Background
 	string objectSubname;		// expression of character or time-of-the-day for background
+	string whichWay;
 
-	float x1, y1;
 	float time;
 
 	int objectType;
@@ -38,11 +38,13 @@ private:
 	int animationType;
 	const static int ANIMATION_ROTATE = 1;
 	const static int ANIMATION_NONE = 0;
+
 	float finalDegree;
 	float currentRotate;
 	float angleDiff;
 	float tempAngle;
-	string whichWay;
+
 	bool clockwise;
 	bool relative;
+	bool stopRotate = false;
 };
