@@ -44,4 +44,5 @@ private:
 	float tempAngle;
 	string whichWay;
 	bool clockwise;
+	bool relative;
 };

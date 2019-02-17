@@ -43,6 +43,32 @@ void ScriptLine::setBackgroundRotation(const string& name, const string& express
 	}
 }
 
+void ScriptLine::setCharacterRotationRel(const string& name, const string& expression, bool clockwise, float degree)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			c->changeExpression(expression);
+			c->rotate(clockwise, degree);
+			return;
+		}
+	}
+}
+
+void ScriptLine::setBackgroundRotationRel(const string& name, const string& expression, bool clockwise, float degree)
+{
+	for (auto c : backgroundImages)
+	{
+		if (c->getName() == name)
+		{
+			c->changeExpression(expression);
+			c->rotate(clockwise, degree);
+			return;
+		}
+	}
+}
+
 void ScriptLine::setBackgroundZoom(const string& name, const string& expression, float xScale, float yScale)
 {
 	for (auto c : backgroundImages)
