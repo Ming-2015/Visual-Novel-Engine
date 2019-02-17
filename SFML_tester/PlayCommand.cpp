@@ -23,7 +23,7 @@ PlayCommand::PlayCommand(std::vector<std::string> args)
 	if (args.size() > COLUMN_ARG3)
 	{
 		try {
-			time = std::stof(args[COLUMN_ARG2]); // column 8: time it should take to full finish the fade
+			time = std::stof(args[COLUMN_ARG3]); // column 8: time it should take to full finish the fade
 			string msg = "Time = " + to_string(time);
 			LOGGER->Log("PlayCommand", msg);
 		}
@@ -37,7 +37,7 @@ PlayCommand::PlayCommand(std::vector<std::string> args)
 	if (args.size() > COLUMN_ARG4)
 	{
 		try {
-			time = std::stof(args[COLUMN_ARG4]); // column 8: time it should take to full finish the fade
+			finalVolume = std::stof(args[COLUMN_ARG4]); // column 8: time it should take to full finish the fade
 		}
 		catch (exception e)
 		{
