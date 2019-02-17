@@ -48,6 +48,8 @@ public:
 	void setBackgroundAlpha(const string& name, float alpha);
 	void setCharacterRotation(const string& name, const string& expression, bool clockwise, float degree);
 	void setBackgroundRotation(const string& name, const string& expression, bool clockwise, float degree);
+	void setCharacterRotationRel(const string& name, const string& expression, bool clockwise, float degree);
+	void setBackgroundRotationRel(const string& name, const string& expression, bool clockwise, float degree);
 	void setBackgroundZoom(const string& name, const string& expression, float xScale, float yScale);
 	void setCharacterZoom(const string& name, const string& expression, float xScale, float yScale);
 
