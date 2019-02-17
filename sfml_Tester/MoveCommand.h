@@ -39,4 +39,7 @@ private:
 	const static int ANIMATION_MOVE = 1;
 	const static int ANIMATION_NONE = 0;
 	float xDiff, yDiff;
+	float yOffset, xOffset;
+	bool relative;
+	bool stopMove = false;
 };

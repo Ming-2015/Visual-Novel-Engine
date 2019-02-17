@@ -58,9 +58,9 @@ void ItemImage::addAlpha(float alphaOffset)
 
 void ItemImage::move(float xOffset, float yOffset)
 {
-	xPos += xOffset;
-	yPos += yOffset;
-	sprite.setPosition(xPos, yPos);
+	//xPos += xOffset;
+	//yPos += yOffset;
+	sprite.move(xOffset, yOffset);
 }
 
 void ItemImage::rotate(bool clockwise, float angle_degree)

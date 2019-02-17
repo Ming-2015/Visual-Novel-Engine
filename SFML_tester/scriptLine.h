@@ -54,6 +54,8 @@ public:
 	void setBackgroundRotation(const string& name, const string& expression, bool clockwise, float degree);
 	void setCharacterRotationRel(const string& name, const string& expression, bool clockwise, float degree);
 	void setBackgroundRotationRel(const string& name, const string& expression, bool clockwise, float degree);
+	void moveBackgroundRel(const string& name, const string& expression, float x1, float y1);
+	void moveCharacterRel(const string& name, const string& expression, float x1, float y1);
 	void setBackgroundZoom(const string& name, const string& expression, float xScale, float yScale);
 	void setCharacterZoom(const string& name, const string& expression, float xScale, float yScale);
 
