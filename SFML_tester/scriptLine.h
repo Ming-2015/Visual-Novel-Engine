@@ -54,6 +54,10 @@ public:
 	void moveCharacterRel(const string& name, const string& expression, float x1, float y1);
 	void setBackgroundZoom(const string& name, const string& expression, float xScale, float yScale);
 	void setCharacterZoom(const string& name, const string& expression, float xScale, float yScale);
+	float getBackgroundBeginScaleX(const string& name, const string& expression);
+	float getBackgroundBeginScaleY(const string& name, const string& expression);
+	float getCharacterBeginScaleX(const string& name, const string& expression);
+	float getCharacterBeginScaleY(const string& name, const string& expression);
 
 	void removeCharacter(const string& name);
 	void removeBackground(const string& name);

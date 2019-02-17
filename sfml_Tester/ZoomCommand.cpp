@@ -65,6 +65,7 @@ ZoomCommand::ZoomCommand(vector<string> args)
 	if (time == 0)
 	{
 		wait = false;
+		relative = false;
 		time = 0;
 		animationType = ANIMATION_NONE;
 		currentScaleX = scaleX;
@@ -73,13 +74,28 @@ ZoomCommand::ZoomCommand(vector<string> args)
 	if ((flag == "" || flag == "none") && time != 0)
 	{
 		wait = false;
+		relative = false;
 		animationType = ANIMATION_ZOOM;
 	}
 	if ((flag == "wait" || flag == "Wait" || flag == "WAIT") && time != 0)     //Move w/ Wait
 	{
 		wait = true;
+		relative = false;
 		animationType = ANIMATION_ZOOM;
 	}
+	else if (flag == "relative" || flag == "r")
+	{
+		wait = false;
+		relative = true;
+		animationType = ANIMATION_ZOOM;
+	}
+	else if (flag == "relativewait" || flag == "rw")
+	{
+		wait = true;
+		relative = true;
+		animationType = ANIMATION_ZOOM;
+	}
+
 
 	if (objectTypeName == "character" || objectTypeName == "c" || objectTypeName == "char")
 	{
@@ -98,6 +114,8 @@ ZoomCommand::ZoomCommand(vector<string> args)
 
 	scaleDiffX = scaleX - currentScaleX;
 	scaleDiffY = scaleY - currentScaleY;
+	relScaleDiffX = 1 - scaleX;
+	relScaleDiffY = 1 - scaleY;
 }
 
 ZoomCommand::~ZoomCommand()
@@ -107,30 +125,47 @@ ZoomCommand::~ZoomCommand()
 
 void ZoomCommand::execute(ScriptLine * scriptLine)
 {
-	if (valid)
+	if (valid && relative == false)
 	{
-		if (valid)
+		if (objectType == OBJECT_CHARACTER)
 		{
-			if (objectType == OBJECT_CHARACTER)
-			{
-				//scriptLine->setCharacter(objectName, objectSubname, x1, y1);
-				scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY);
-			}
-			else if (objectType == OBJECT_BACKGROUND)
-			{
-				//scriptLine->setBackground(objectName, objectSubname, x1, y1);
-				scriptLine->setBackgroundZoom(objectName, objectSubname, currentScaleX, currentScaleY);
-			}
-
-			if (animationType == ANIMATION_NONE && currentScaleX == scaleX && currentScaleY == scaleY)
-			{
-				done = true;
-			}
+			//scriptLine->setCharacter(objectName, objectSubname, x1, y1);
+			scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY);
 		}
-		else
+		else if (objectType == OBJECT_BACKGROUND)
+		{
+			//scriptLine->setBackground(objectName, objectSubname, x1, y1);
+			scriptLine->setBackgroundZoom(objectName, objectSubname, currentScaleX, currentScaleY);
+		}
+
+		if (animationType == ANIMATION_NONE && currentScaleX == scaleX && currentScaleY == scaleY)
 		{
 			done = true;
 		}
+	}
+	else if (valid && relative == true)
+	{
+		if (objectType == OBJECT_CHARACTER)
+		{
+			originalScaleX = scriptLine->getCharacterBeginScaleX(objectName, objectSubname);
+			originalScaleY = scriptLine->getCharacterBeginScaleY(objectName, objectSubname);
+			scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY);
+		}
+		else if (objectType == OBJECT_BACKGROUND)
+		{
+			originalScaleX = scriptLine->getBackgroundBeginScaleX(objectName, objectSubname);
+			originalScaleY = scriptLine->getBackgroundBeginScaleY(objectName, objectSubname);
+			scriptLine->setBackgroundZoom(objectName, objectSubname, currentScaleX, currentScaleY);
+		}
+
+		if (animationType == ANIMATION_NONE || stopZoom)
+		{
+			done = true;
+		}
+	}
+	else
+	{
+		done = true;
 	}
 }
 
@@ -144,7 +179,7 @@ void ZoomCommand::skipUpdate()
 
 void ZoomCommand::update(float delta_t)
 {
-	if (valid && time > 0)
+	if (valid && relative == false)
 	{
 		if (animationType == ANIMATION_ZOOM && (currentScaleX != scaleX || currentScaleY != scaleY))
 		{
@@ -153,6 +188,8 @@ void ZoomCommand::update(float delta_t)
 
 			currentScaleX += scaleXOffset;
 			currentScaleY += scaleYOffset;
+			cout << currentScaleX << endl;
+			cout << currentScaleY << endl;
 
 			if (scaleDiffX > 0)
 			{
@@ -188,6 +225,35 @@ void ZoomCommand::update(float delta_t)
 				done = true;
 			}
 
+		}
+	}
+	if (valid && relative == true)
+	{
+		if (animationType == ANIMATION_ZOOM && (currentScaleX != scaleX || currentScaleY != scaleY) && relScaleDiffX < 0 && scaleDiffY < 0)
+		{
+			
+			float scaleXOffset = delta_t / time * scaleDiffX;
+			float scaleYOffset = delta_t / time * scaleDiffY;
+
+			incrementedScaleX -= scaleXOffset;
+			incrementedScaleY -= scaleYOffset;
+
+			currentScaleX = originalScaleX * (1 + incrementedScaleX);
+			currentScaleY = originalScaleX * (1 + incrementedScaleY);
+
+			if (incrementedScaleX <= relScaleDiffX)
+			{
+				currentScaleX = originalScaleX * scaleX;
+			}
+			if (incrementedScaleY <= relScaleDiffY)
+			{
+				currentScaleY = originalScaleY * scaleY;
+			}
+			if (currentScaleY == (scaleY*originalScaleY) && currentScaleX == (scaleX*originalScaleX))
+			{
+				wait = false;
+				done = true;
+			}
 		}
 	}
 	else

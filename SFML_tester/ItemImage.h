@@ -50,6 +50,8 @@ public:
 	void setPosition(float xPos, float yPos);
 	void setRotation(bool clockwise, float angle_degree);
 	void setScale(float xScale, float yScale);
+	sf::Vector2f getScale() const;
+	void scaleRel(float xOffset, float yOffset);
 
 	void changeExpression(string expression, float time=0);
 

@@ -40,4 +40,10 @@ private:
 	const static int ANIMATION_NONE = 0;
 
 	float currentScaleX, currentScaleY, scaleX, scaleY, scaleDiffX, scaleDiffY;
+	bool relative;
+	bool stopZoom = false;
+
+	float originalScaleX, originalScaleY;
+	float relScaleDiffX, relScaleDiffY;
+	float incrementedScaleX, incrementedScaleY;
 };
