@@ -36,16 +36,12 @@ public:
 
 	void setCharacter(const string& name, const string& expression, 
 		float xPos, float yPos, 
-		float fadeTime = 0.5f,
-		float xScale = 1.0f, float yScale = 1.0f,
-		bool clockwise = false, float angle = 0
+		float fadeTime = 0.0f
 	);
 
 	void setBackground(const string& name, const string& timeOfTheDay,
 		float xPos, float yPos,
-		float fadeTime = 0.5f,
-		float xScale = 1.0f, float yScale = 1.0f,
-		bool clockwise = false, float angle = 0
+		float fadeTime = 0.0f
 	);
 
 	void setCharacterAlpha(const string& name, float alpha);

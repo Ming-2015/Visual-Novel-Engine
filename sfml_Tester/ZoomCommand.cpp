@@ -113,12 +113,12 @@ void ZoomCommand::execute(ScriptLine * scriptLine)
 		{
 			if (objectType == OBJECT_CHARACTER)
 			{
-				scriptLine->setCharacter(objectName, objectSubname, x1, y1);
+				//scriptLine->setCharacter(objectName, objectSubname, x1, y1);
 				scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY);
 			}
 			else if (objectType == OBJECT_BACKGROUND)
 			{
-				scriptLine->setBackground(objectName, objectSubname, x1, y1);
+				//scriptLine->setBackground(objectName, objectSubname, x1, y1);
 				scriptLine->setBackgroundZoom(objectName, objectSubname, currentScaleX, currentScaleY);
 			}
 
