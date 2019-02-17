@@ -60,9 +60,10 @@ MoveCommand::MoveCommand(vector<string> args)
 	}
 
 	// check flag validity
-	if (time == 0)
+	if (time <= 0)
 	{
 		wait = false;
+		relative = false;
 		time = 0;
 		animationType = ANIMATION_NONE;
 		//SEE IF SETTING POSITION = END POSITION WORKS
@@ -73,11 +74,31 @@ MoveCommand::MoveCommand(vector<string> args)
 	if ((flag == "" || flag == "none") && time != 0)	//Move w/o Wait
 	{
 		wait = false;
+		relative = false;
 		animationType = ANIMATION_MOVE;
 	}
 	if ((flag == "wait" || flag == "Wait" || flag == "WAIT") && time != 0)     //Move w/ Wait
 	{
 		wait = true;
+		relative = false;
+		animationType = ANIMATION_MOVE;
+	}
+	else if (flag == "wait" || flag == "w")
+	{
+		wait = true;
+		animationType = ANIMATION_MOVE;
+		relative = false;
+	}
+	else if (flag == "relative" || flag == "r")
+	{
+		wait = false;
+		relative = true;
+		animationType = ANIMATION_MOVE;
+	}
+	else if (flag == "relativewait" || flag == "rw")
+	{
+		wait = true;
+		relative = true;
 		animationType = ANIMATION_MOVE;
 	}
 	//WORK IN PROGRESS, ADD ACCELERATE
@@ -100,6 +121,8 @@ MoveCommand::MoveCommand(vector<string> args)
 
 	xDiff = x2 - x1;
 	yDiff = y2 - y1;
+	xOffset = 0;
+	yOffset = 0;
 }
 
 MoveCommand::~MoveCommand()
@@ -109,7 +132,7 @@ MoveCommand::~MoveCommand()
 
 void MoveCommand::execute(ScriptLine * scriptLine)
 {
-	if (valid)
+	if (valid && relative == false)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
@@ -125,8 +148,25 @@ void MoveCommand::execute(ScriptLine * scriptLine)
 			done = true;
 		}
 	}
+	else if (valid && relative == true)
+	{
+		if (objectType == OBJECT_CHARACTER)
+		{
+			scriptLine->moveCharacterRel(objectName, objectSubname, xOffset, yOffset);
+		}
+		else if (objectType == OBJECT_BACKGROUND)
+		{
+			scriptLine->moveBackgroundRel(objectName, objectSubname, xOffset, yOffset);
+		}
+
+		if (animationType == ANIMATION_NONE || stopMove)
+		{
+			done = true;
+		}
+	}
 	else
 	{
+		LOGGER->Log("RotateCommand", "Invalid Move command detected");
 		done = true;
 	}
 }
@@ -142,12 +182,12 @@ void MoveCommand::skipUpdate()
 
 void MoveCommand::update(float delta_t)
 {
-	if (valid && time > 0)
+	if (valid && relative == false)
 	{
 		if (animationType == ANIMATION_MOVE && (x1 != x2 || y1 != y2))
 		{
-			float yOffset = delta_t / time * yDiff;
-			float xOffset = delta_t / time * xDiff;
+			yOffset = delta_t / time * yDiff;
+			xOffset = delta_t / time * xDiff;
 
 			x1 += xOffset;
 			y1 += yOffset;
@@ -176,9 +216,11 @@ void MoveCommand::update(float delta_t)
 			{
 				wait = false;
 				done = true;
+				stopMove = true;
 			}
 		}
 
+		
 		/*if (animationType == ANIMATION_MOVE && (x1 < x2 || y1 < y2))
 		{
 			float moveOffset = delta_t / time * 255.f;
@@ -255,6 +297,43 @@ void MoveCommand::update(float delta_t)
 				wait = false;
 			}
 		}*/
+	}
+	else if (valid && relative == true)
+	{
+		if (animationType == ANIMATION_MOVE && (x1 != x2 || y1 != y2))
+		{
+			yOffset = delta_t / time * yDiff;
+			xOffset = delta_t / time * xDiff;
+			x1 += xOffset;
+			y1 += yOffset;
+		}
+		if (xDiff > 0)
+		{
+			if (x1 >= x2)
+				x1 = x2;
+		}
+		else if (xDiff < 0)
+		{
+			if (x1 <= x2)
+				x1 = x2;
+		}
+
+		if (yDiff > 0)
+		{
+			if (y1 >= y2)
+				y1 = y2;
+		}
+		if (yDiff < 0)
+		{
+			if (y1 <= y2)
+				y1 = y2;
+		}
+		if (x1 == x2 && y1 == y2)
+		{
+			wait = false;
+			done = true;
+			stopMove = true;
+		}
 	}
 	else
 	{
