@@ -188,22 +188,22 @@ void DisplayCommand::update(float delta_t)
 			if (CONFIG->autoTextSpeed >= 1.0f)
 			{
 				currentCharIndex = displayLines[currentLineIndex].length() - 1;
-				currentLine += displayLines[currentLineIndex];
+				currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
 				return;
 			}
 
-			interval = 1.0f / (CONFIG->autoTextSpeed) - 1.0f;
+			interval = 1.0f / (CONFIG->autoTextSpeed* 9.f / 10.f + .1f) - 1.0f;
 		}
 		else
 		{
 			if (CONFIG->manualTextSpeed >= 1.0f)
 			{
 				currentCharIndex = displayLines[currentLineIndex].length() - 1;
-				currentLine += displayLines[currentLineIndex];
+				currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
 				return;
 			}
 
-			interval = 1.0f / (CONFIG->manualTextSpeed) - 1.0f;
+			interval = 1.0f / (CONFIG->manualTextSpeed * 9.f/10.f + .1f) - 1.0f;
 		}
 
 		interval *= .03f;
