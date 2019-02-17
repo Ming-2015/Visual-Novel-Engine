@@ -27,7 +27,10 @@ ItemImage::ItemImage(string name, string expression, float xPos, float yPos)
 	color = sf::Color(255.f, 255.f, 255.f, alpha);
 	setImage();
 	sprite.setColor(color);
-	sprite.setPosition(xPos, yPos);
+	this->xPos += sprite.getLocalBounds().width / 2.0f;
+	this->yPos += sprite.getLocalBounds().height / 2.0f;
+	sprite.setPosition(this->xPos, this->yPos);
+	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 	fading = false;
 }
 
@@ -75,8 +78,8 @@ void ItemImage::scale(float xOffset, float yOffset)
 
 void ItemImage::setPosition(float xPos, float yPos)
 {
-	this->xPos = xPos;
-	this->yPos = yPos;
+	this->xPos = xPos + sprite.getLocalBounds().width /2.0f;
+	this->yPos = yPos + sprite.getLocalBounds().height /2.0f;
 	sprite.setPosition(xPos, yPos);
 }
 
