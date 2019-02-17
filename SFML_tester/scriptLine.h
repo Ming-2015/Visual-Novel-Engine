@@ -3,10 +3,12 @@
 #include "Utility.h"
 #include "ItemImage.h"
 #include "logger.h"
+#include "Config.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <SFML/Audio.hpp>
 using namespace std;
 
 class ScriptLine 
@@ -18,7 +20,9 @@ public:
 	TextboxImage* textboxImage = nullptr;	// Textbox 
 	bool hideTextbox = true;				// hide textbox
 
-	string voiceFileName;				// voice file name, "" if none
+	vector<sf::Music*> bgm;		// note that all music will be directly managed by commands
+	vector<sf::Music*> voices;			
+	vector<sf::Music*> sfx;
 
 	string BGMFileName;					// background music file name
 
@@ -66,6 +70,18 @@ public:
 
 	void setDialogue(const string& displayname, const string& str);
 	void changeCharacterPosition(const string& name, float xPos, float yPos);
+
+	sf::Music* setBgm(const string& groupname, const string& filename, bool clearOthers = true, bool repeat = true, float volume = 1.0f);
+	sf::Music* setVoice(const string& groupname, const string& filename, bool clearOthers = true, bool repeat = false, float volume = 1.0f);
+	sf::Music* setSfx(const string& groupname, const string& filename, bool clearOthers = false, bool repeat = false, float volume = 1.0f);
+
+	void setBgmVolume(float volume);
+	void setVoiceVolume(float volume);
+	void setSfxVolume(float volume);
+
+	void setBgmVolume(sf::Music* m, float volume);
+	void setVoiceVolume(sf::Music* m, float volume);
+	void setSfxVolume(sf::Music* mu, float volume);
 
 private:
 	std::string addAllNewLines(std::string str, unsigned int lineLength);

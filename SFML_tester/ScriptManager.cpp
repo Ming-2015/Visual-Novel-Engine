@@ -38,11 +38,6 @@ bool ScriptManager::shouldHideTextbox() const
 	return currentScriptLine->hideTextbox;
 }
 
-std::string ScriptManager::getVoiceFileName() const
-{
-	return currentScriptLine->voiceFileName;
-}
-
 std::string ScriptManager::getBGMFileName() const
 {
 	return currentScriptLine->BGMFileName;
@@ -144,7 +139,12 @@ bool ScriptManager::eof()
 
 bool ScriptManager::doneAllCommands()
 {
-	return commands.size() == 0;
+	bool done = true;
+	for (auto c : commands)
+	{
+		if (c->shouldWait()) done = false;
+	}
+	return done;
 }
 
 void ScriptManager::readCommands()
@@ -204,6 +204,12 @@ void ScriptManager::readCommands()
 				else if (cmdWord == "zoom")
 				{
 					command = new ZoomCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
+				else if (cmdWord == "play")
+				{
+					command = new PlayCommand(tokens);
 					if (command->shouldWait()) stop = true;
 					commands.push_back(command);
 				}

@@ -147,9 +147,5 @@ void ShowCommand::update(float delta_t)
 			}
 		}
 	}
-	else
-	{
-		wait = false;
-	}
 }
 

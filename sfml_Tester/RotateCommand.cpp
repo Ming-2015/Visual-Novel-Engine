@@ -163,9 +163,16 @@ void RotateCommand::execute(ScriptLine * scriptLine)
 
 void RotateCommand::skipUpdate()
 {
-	currentRotate = finalDegree;
-	wait = false;
-	done = true;
+	if (!relative)
+	{
+		currentRotate = finalDegree;
+	}
+	else
+	{
+		currentRotate = finalDegree - tempAngle;
+		tempAngle = finalDegree;
+		stopRotate = true;
+	}
 }
 
 void RotateCommand::update(float delta_t)
