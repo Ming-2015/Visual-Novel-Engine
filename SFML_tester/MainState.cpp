@@ -50,6 +50,7 @@ void MainState::init()
 
 void MainState::cleanup()
 {
+	if (scriptManager) delete scriptManager;
 }
 
 const ScriptManager * MainState::getScriptManager()
@@ -66,5 +67,4 @@ MainState::MainState(std::string filename)
 
 MainState::~MainState()
 {
-	if (scriptManager) delete scriptManager;
 }

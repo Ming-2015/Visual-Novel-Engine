@@ -8,10 +8,7 @@ SettingsState::SettingsState()
 
 SettingsState::~SettingsState()
 {
-	for (Slider * slider : sliders)
-	{
-		if (slider != nullptr) delete slider;
-	}
+
 }
 
 void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
@@ -206,4 +203,8 @@ void SettingsState::init()
 
 void SettingsState::cleanup()
 {
+	for (Slider * slider : sliders)
+	{
+		if (slider != nullptr) delete slider;
+	}
 }

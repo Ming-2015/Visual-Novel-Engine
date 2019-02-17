@@ -15,6 +15,24 @@ ScriptLine::~ScriptLine()
 		if (c != nullptr) delete c;
 	}
 	if (textboxImage != nullptr) delete textboxImage;
+
+	for (auto m : bgm)
+	{
+		m->stop();
+		delete m;
+	}
+
+	for (auto m : voices)
+	{
+		m->stop();
+		delete m;
+	}
+
+	for (auto m : sfx)
+	{
+		m->stop();
+		delete m;
+	}
 }
 
 void ScriptLine::setCharacterRotation(const string& name, const string& expression, bool clockwise, float degree)
@@ -226,6 +244,132 @@ void ScriptLine::changeCharacterPosition(const string & name, float xPos, float 
 			return;
 		}
 	}
+}
+
+sf::Music* ScriptLine::setBgm(const string & groupname, const string & filename, bool clearOthers, bool repeat, float volume)
+{
+	if (clearOthers)
+	{
+		for (int i = 0; i < bgm.size(); i++)
+		{
+			bgm[i]->stop();
+			delete bgm[i];
+		}
+		bgm.clear();
+	}
+
+	string f = "sound/" + groupname + "/" + filename;
+	sf::Music* music = new sf::Music();
+	if (!music->openFromFile(f))
+	{
+		string err = "Unable to load bgm file: " + f;
+		LOGGER->Log("ScriptLine", err);
+		delete music;
+		return nullptr;
+	}
+
+	bgm.push_back(music);
+	music->setLoop(repeat);
+	music->setVolume(volume * CONFIG->bgmVolume * CONFIG->masterVolume * 100.f);
+	music->play();
+	return music;
+}
+
+sf::Music* ScriptLine::setVoice(const string & groupname, const string & filename, bool clearOthers, bool repeat, float volume)
+{
+	if (clearOthers)
+	{
+		for (int i = 0; i < bgm.size(); i++)
+		{
+			voices[i]->stop();
+			delete voices[i];
+		}
+		voices.clear();
+	}
+
+	string f = "sound/" + groupname + "/" + filename;
+	sf::Music* music = new sf::Music();
+	if (!music->openFromFile(f))
+	{
+		string err = "Unable to load music file: " + f;
+		LOGGER->Log("ScriptLine", err);
+		delete music;
+		return nullptr;
+	}
+
+	voices.push_back(music);
+	music->setLoop(repeat);
+	music->setVolume(volume * CONFIG->voiceVolume * CONFIG->masterVolume * 100.f);
+	music->play();
+	return music;
+}
+
+sf::Music* ScriptLine::setSfx(const string & groupname, const string & filename, bool clearOthers, bool repeat, float volume)
+{
+	if (clearOthers)
+	{
+		for (int i = 0; i < bgm.size(); i++)
+		{
+			sfx[i]->stop();
+			delete sfx[i];
+		}
+		sfx.clear();
+	}
+
+	string f = "sound/" + groupname + "/" + filename;
+	sf::Music* music = new sf::Music();
+	if (!music->openFromFile(f))
+	{
+		string err = "Unable to load music file: " + f;
+		LOGGER->Log("ScriptLine", err);
+		delete music;
+		return nullptr;
+	}
+
+	sfx.push_back(music);
+	music->setLoop(repeat);
+	music->setVolume(volume * CONFIG->sfxVolume * CONFIG->masterVolume * 100.f);
+	music->play();
+	return music;
+}
+
+void ScriptLine::setBgmVolume(float volume)
+{
+	for (auto m : bgm)
+	{
+		if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->bgmVolume * 100.f);
+	}
+}
+
+void ScriptLine::setVoiceVolume(float volume)
+{
+	for (auto m : voices)
+	{
+		if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->voiceVolume * 100.f);
+	}
+}
+
+void ScriptLine::setSfxVolume(float volume)
+{
+	for (auto m : sfx)
+	{
+		if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->sfxVolume * 100.f);
+	}
+}
+
+void ScriptLine::setBgmVolume(sf::Music * m, float volume)
+{
+	if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->bgmVolume * 100.f);
+}
+
+void ScriptLine::setVoiceVolume(sf::Music * m, float volume)
+{
+	if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->voiceVolume * 100.f);
+}
+
+void ScriptLine::setSfxVolume(sf::Music * m, float volume)
+{
+	if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->sfxVolume * 100.f);
 }
 
 std::string ScriptLine::addNewLineToPrevWord(std::string str, unsigned int pos)

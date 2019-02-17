@@ -14,10 +14,6 @@ MenuState::MenuState()
 
 MenuState::~MenuState()
 {
-	delete startButton;
-	delete loadButton;
-	delete settingsButton;
-	delete exitButton;
 }
 
 void MenuState::init() 
@@ -93,6 +89,11 @@ void MenuState::init()
 void MenuState::cleanup()
 {
 	bgm.stop();
+
+	delete startButton;
+	delete loadButton;
+	delete settingsButton;
+	delete exitButton;
 }
 
 void MenuState::render(sf::RenderWindow& window) {
