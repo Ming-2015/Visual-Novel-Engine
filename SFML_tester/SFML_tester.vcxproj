@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
+    <ClCompile Include="FlashCommand.cpp" />
     <ClCompile Include="ItemImage.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="CharacterImage.h" />
     <ClInclude Include="ClearCommand.h" />
     <ClInclude Include="DisplayCommand.h" />
+    <ClInclude Include="FlashCommand.h" />
     <ClInclude Include="ItemImage.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Effect.hpp" />

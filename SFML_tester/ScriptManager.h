@@ -18,6 +18,7 @@
 #include "ResumeCommand.h"
 #include "RemoveCommand.h"
 #include "ClearCommand.h"
+#include "FlashCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager
