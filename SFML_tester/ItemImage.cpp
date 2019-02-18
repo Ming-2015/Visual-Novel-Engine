@@ -76,6 +76,13 @@ void ItemImage::scale(float xOffset, float yOffset)
 	sprite.setScale(xScale, yScale);
 }
 
+void ItemImage::scaleRel(float xOffset, float yOffset)
+{
+	xScale *= xOffset;
+	yScale *= yOffset;
+	sprite.scale(xScale, yScale);
+}
+
 void ItemImage::setPosition(float xPos, float yPos)
 {
 	this->xPos = xPos + sprite.getLocalBounds().width /2.0f;
@@ -94,6 +101,11 @@ void ItemImage::setScale(float xScale, float yScale)
 	this->xScale = xScale;
 	this->yScale = yScale;
 	sprite.setScale(xScale, yScale);
+}
+
+sf::Vector2f ItemImage::getScale() const
+{
+	return sprite.getScale();
 }
 
 void ItemImage::changeExpression(string expression, float time)

@@ -87,6 +87,50 @@ void ScriptLine::moveCharacterRel(const string& name, const string& expression, 
 	}
 }
 
+float ScriptLine::getBackgroundBeginScaleX(const string& name, const string& expression)
+{
+	for (auto c : backgroundImages)
+	{
+		if (c->getName() == name)
+		{
+			return c->getScale().x;
+		}
+	}
+}
+
+float ScriptLine::getBackgroundBeginScaleY(const string& name, const string& expression)
+{
+	for (auto c : backgroundImages)
+	{
+		if (c->getName() == name)
+		{
+			return c->getScale().y;
+		}
+	}
+}
+
+float ScriptLine::getCharacterBeginScaleY(const string& name, const string& expression)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			return c->getScale().y;
+		}
+	}
+}
+
+float ScriptLine::getCharacterBeginScaleX(const string& name, const string& expression)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			return c->getScale().x;
+		}
+	}
+}
+
 void ScriptLine::setCharacterRotationRel(const string& name, const string& expression, bool clockwise, float degree)
 {
 	for (auto c : characterImages)

@@ -166,6 +166,7 @@ void RotateCommand::skipUpdate()
 	if (!relative)
 	{
 		currentRotate = finalDegree;
+		stopRotate = true;
 	}
 	else
 	{
