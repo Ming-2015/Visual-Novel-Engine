@@ -31,7 +31,6 @@ FlashCommand::FlashCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			cout << endl << "FAILED TO CONVERT THE TIME HERE";
 			LOGGER->Log("FlashCommand", "Failed to convert time into float");
 		}
 	}
@@ -110,12 +109,11 @@ void FlashCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			scriptLine->setAllCharacterAlpha(alpha);
-			//NEED TO MAKE IT ONLY ONE CHAR
+			scriptLine->setCharacterAlpha(objectName, alpha);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
-			scriptLine->setAllBackgroundAlpha(alpha);
+			scriptLine->setBackgroundAlpha(objectName, alpha);
 		}
 		else if (objectType == OBJECT_ALL)
 		{
@@ -128,12 +126,12 @@ void FlashCommand::execute(ScriptLine * scriptLine)
 			if (objectType == OBJECT_CHARACTER)
 			{
 				done = true;
-				scriptLine->removeAllCharacters();
+				scriptLine->removeCharacter(objectName);
 			}
 			else if (objectType == OBJECT_BACKGROUND)
 			{
 				done = true;
-				scriptLine->removeAllBackgrounds();
+				scriptLine->removeBackground(objectName);
 			}
 			else if (objectType == OBJECT_ALL)
 			{
@@ -188,6 +186,10 @@ void FlashCommand::update(float delta_t)
 					doneFlash = true;
 					showBlack = 0;
 					clock.restart();
+					if (animationType == ANIMATION_FLASH)
+					{
+						done = true;
+					}
 				}
 			}	
 		}
@@ -204,12 +206,10 @@ void FlashCommand::update(float delta_t)
 			}
 			if (alpha == 0.0f && showBlack < 45)
 			{
-				cout << "running show black" << endl;
 				showBlack++;
 			}
 			else if (alpha == 0.0f && showBlack >= 45)
 			{
-				cout << endl << "I TICKED THE WRONG FLAGS" << endl;
 				doneFade = true;
 				done = true;
 			}
