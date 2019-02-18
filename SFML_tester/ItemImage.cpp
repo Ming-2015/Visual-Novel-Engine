@@ -27,7 +27,7 @@ ItemImage::ItemImage(string name, string expression, float xPos, float yPos)
 	setImage();
 	sprite.setColor(color);
 
-	setPosition( sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
+	setPosition( xPos, yPos);
 	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 	fading = false;
 
@@ -58,9 +58,9 @@ void ItemImage::addAlpha(float alphaOffset)
 
 void ItemImage::move(float xOffset, float yOffset)
 {
-	//xPos += xOffset;
-	//yPos += yOffset;
-	sprite.move(xOffset, yOffset);
+	xPos += xOffset;
+	yPos += yOffset;
+	sprite.setPosition(xPos, yPos);
 }
 
 void ItemImage::rotate(bool clockwise, float angle_degree)
@@ -89,7 +89,7 @@ void ItemImage::setPosition(float xPos, float yPos)
 {
 	this->xPos = xPos + sprite.getLocalBounds().width /2.0f;
 	this->yPos = yPos + sprite.getLocalBounds().height /2.0f;
-	sprite.setPosition(xPos, yPos);
+	sprite.setPosition(this->xPos, this->yPos);
 }
 
 void ItemImage::setRotation(bool clockwise, float angle_degree)

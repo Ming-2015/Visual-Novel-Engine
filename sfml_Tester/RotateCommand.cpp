@@ -50,7 +50,7 @@ RotateCommand::RotateCommand(vector<string> args)
 		}
 	}
 
-	time = 0.0;
+	time = 0.5f;
 	if (args.size() > COLUMN_ARG5)
 	{
 		try {

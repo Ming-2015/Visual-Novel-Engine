@@ -34,7 +34,7 @@ ShowCommand::ShowCommand(std::vector<std::string> args)
 	}
 
 	// optional argument: time
-	time = 1.5f;
+	time = .5f;
 	if (args.size() > COLUMN_ARG5)
 	{
 		try {
@@ -101,12 +101,21 @@ void ShowCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			scriptLine->setCharacter(objectName, objectSubname, x1, y1);
+			if (!initialized)
+			{
+				scriptLine->setCharacter(objectName, objectSubname, x1, y1);
+				initialized = true;
+				
+			}
 			scriptLine->setCharacterAlpha(objectName, alpha);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
-			scriptLine->setBackground(objectName, objectSubname, x1, y1);			
+			if (!initialized)
+			{
+				scriptLine->setBackground(objectName, objectSubname, x1, y1);
+				initialized = true;
+			}
 			scriptLine->setBackgroundAlpha(objectName, alpha);
 		}
 

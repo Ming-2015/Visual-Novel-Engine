@@ -13,16 +13,21 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void setTextboxColor(sf::Color color);
 
+	void setAlpha(float alpha);
+	void addAlpha(float alpha);
+
 private:
 	void initText();
 
 	sf::Text dialogueText;
 	sf::Font dialogueFont;
 	sf::Color dialogueTextColor;
+	sf::Color dialogueTextOutlineColor;
 	std::string dialogue;
 
 	sf::Text nameText;
 	sf::Font nameFont;
 	sf::Color nameTextColor;
+	sf::Color nameTextOutlineColor;
 	std::string name;
 };

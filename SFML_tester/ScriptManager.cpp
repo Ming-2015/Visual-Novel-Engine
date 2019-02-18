@@ -180,13 +180,13 @@ void ScriptManager::readCommands()
 					if (command->shouldWait()) stop = true;
 					commands.push_back(command);
 				}
-				if (cmdWord == "remove")
+				else if (cmdWord == "remove")
 				{
 					command = new RemoveCommand(tokens);
 					if (command->shouldWait()) stop = true;
 					commands.push_back(command);
 				}
-				if (cmdWord == "clear")
+				else if (cmdWord == "clear")
 				{
 					command = new ClearCommand(tokens);
 					if (command->shouldWait()) stop = true;
@@ -243,6 +243,24 @@ void ScriptManager::readCommands()
 				else if (cmdWord == "resume")
 				{
 					command = new ResumeCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
+				else if (cmdWord == "hide")
+				{
+					command = new HideCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
+				else if (cmdWord == "delay")
+				{
+					command = new DelayCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
+				else if (cmdWord == "unhide")
+				{
+					command = new UnhideCommand(tokens);
 					if (command->shouldWait()) stop = true;
 					commands.push_back(command);
 				}

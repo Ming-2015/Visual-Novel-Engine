@@ -191,14 +191,14 @@ void ScriptLine::setCharacter(const string& name, const string& expression, floa
 		if (c->getName() == name)
 		{
 			c->changeExpression(expression, fadeTime);
-			c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
+			c->setPosition(xPos , yPos);
 			return;
 		}
 	}
 
 	// otherwise add a new character
 	CharacterImage* c = new CharacterImage(name, expression, xPos, yPos);
-	c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
+	c->setPosition(xPos, yPos);
 	characterImages.push_back(c);
 }
 
@@ -210,14 +210,14 @@ void ScriptLine::setBackground(const string& name, const string& timeOfTheDay, f
 		if (c->getName() == name)
 		{
 			c->changeExpression(timeOfTheDay, fadeTime);
-			c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
+			c->setPosition(xPos, yPos);
 			return;
 		}
 	}
 
 	// otherwise add a new character
 	BackgroundImage* c = new BackgroundImage(name, timeOfTheDay, xPos, yPos);
-	c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
+	c->setPosition(xPos , yPos );
 	backgroundImages.push_back(c);
 }
 
@@ -307,6 +307,11 @@ void ScriptLine::setAllBackgroundAlpha(float alpha)
 	return;
 }
 
+void ScriptLine::setTextboxAlpha(float alpha)
+{
+	textboxImage->setAlpha(alpha);
+}
+
 void ScriptLine::setDialogue(const string& displayname, const string& str)
 {
 	hideTextbox = false;
@@ -328,7 +333,7 @@ void ScriptLine::changeCharacterPosition(const string & name, float xPos, float 
 	{
 		if (c->getName() == name)
 		{
-			c->setPosition(xPos + (c->getLocalBoundary().width / 2.0f), yPos + (c->getLocalBoundary().height / 2.0f));
+			c->setPosition(xPos, yPos);
 			return;
 		}
 	}

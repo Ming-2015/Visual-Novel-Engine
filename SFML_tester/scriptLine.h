@@ -62,6 +62,8 @@ public:
 
 	void setAllCharacterAlpha(float alpha);
 	void setAllBackgroundAlpha(float alpha);
+
+	void setTextboxAlpha(float alpha);
 	
 	void setCharacterRotation(const string& name, const string& expression, bool clockwise, float degree);
 	void setBackgroundRotation(const string& name, const string& expression, bool clockwise, float degree);

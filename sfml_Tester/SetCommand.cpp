@@ -30,7 +30,7 @@ SetCommand::SetCommand(std::vector<std::string> args)
 		}
 	}
 
-	time = 1.5f;
+	time = .5f;
 	if (args.size() > COLUMN_ARG5)
 	{
 		try {

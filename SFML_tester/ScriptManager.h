@@ -18,6 +18,9 @@
 #include "ResumeCommand.h"
 #include "RemoveCommand.h"
 #include "ClearCommand.h"
+#include "HideCommand.h"
+#include "DelayCommand.h"
+#include "UnhideCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager
