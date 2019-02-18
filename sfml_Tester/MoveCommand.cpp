@@ -181,6 +181,8 @@ void MoveCommand::skipUpdate()
 		startY = endY;
 	}
 
+	doneX = true;
+	doneY = true;
 	stopMove = true;
 	wait = false;
 	done = true;
@@ -288,7 +290,7 @@ void MoveCommand::update(float delta_t)
 			}
 		}
 	}
-	else
+	else if (!stopMove)
 	{
 		if (!relative)
 		{
