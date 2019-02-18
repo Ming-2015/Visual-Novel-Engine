@@ -180,6 +180,18 @@ void ScriptManager::readCommands()
 					if (command->shouldWait()) stop = true;
 					commands.push_back(command);
 				}
+				if (cmdWord == "remove")
+				{
+					command = new RemoveCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
+				if (cmdWord == "clear")
+				{
+					command = new ClearCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
 				else if (cmdWord == "display")
 				{
 					command = new DisplayCommand(tokens);

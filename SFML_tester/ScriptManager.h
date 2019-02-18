@@ -16,6 +16,8 @@
 #include "StopCommand.h"
 #include "PauseCommand.h"
 #include "ResumeCommand.h"
+#include "RemoveCommand.h"
+#include "ClearCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager

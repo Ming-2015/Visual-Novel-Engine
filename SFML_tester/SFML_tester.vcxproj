@@ -148,6 +148,7 @@
     <ClCompile Include="PauseCommand.cpp" />
     <ClCompile Include="PlayCommand.cpp" />
     <ClCompile Include="ResumeCommand.cpp" />
+    <ClCompile Include="RemoveCommand.cpp" />
     <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="ShowCommand.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="ClearCommand.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="StopCommand.cpp" />
     <ClCompile Include="TextboxImage.cpp" />
@@ -166,6 +168,7 @@
     <ClInclude Include="BackgroundImage.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CharacterImage.h" />
+    <ClInclude Include="ClearCommand.h" />
     <ClInclude Include="DisplayCommand.h" />
     <ClInclude Include="ItemImage.h" />
     <ClInclude Include="Config.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="PauseCommand.h" />
     <ClInclude Include="PlayCommand.h" />
     <ClInclude Include="ResumeCommand.h" />
+    <ClInclude Include="RemoveCommand.h" />
     <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />
