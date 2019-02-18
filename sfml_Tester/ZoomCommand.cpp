@@ -116,8 +116,6 @@ ZoomCommand::ZoomCommand(vector<string> args)
 	scaleDiffY = scaleY - currentScaleY;
 	relScaleDiffX = scaleX - 1;
 	relScaleDiffY = scaleY - 1;
-
-	cout << endl << relative << endl;
 }
 
 ZoomCommand::~ZoomCommand()
@@ -149,10 +147,8 @@ void ZoomCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			cout << "I ENETERD THE FIRST LOOP REL";
 			originalScaleX = scriptLine->getCharacterBeginScaleX(objectName, objectSubname);
 			originalScaleY = scriptLine->getCharacterBeginScaleY(objectName, objectSubname);
-			cout << "character begin scale x: " << originalScaleX << endl;
 			firstLoopRel = false;
 		}
 		else if (objectType == OBJECT_BACKGROUND)
@@ -179,7 +175,6 @@ void ZoomCommand::execute(ScriptLine * scriptLine)
 	}
 	else
 	{
-		cout << "This is last else in Execute!!";
 		done = true;
 	}
 }
@@ -190,7 +185,6 @@ void ZoomCommand::skipUpdate()
 	currentScaleY = scaleY;
 	wait = false;
 	done = true;
-	cout << "This is SKIP UPDATE ZOOM";
 }
 
 void ZoomCommand::update(float delta_t)
@@ -288,7 +282,6 @@ void ZoomCommand::update(float delta_t)
 			}
 			if (currentScaleY == (scaleY*originalScaleY) && currentScaleX == (scaleX*originalScaleX))
 			{
-				cout << "I ENTERED THE LAST IF";
 				wait = false;
 				done = true;
 			}
@@ -296,7 +289,6 @@ void ZoomCommand::update(float delta_t)
 	}
 	else
 	{
-		cout << "I AM IN THE LAST ELSE";
 		wait = false;
 		currentScaleY = scaleY;
 		currentScaleX = scaleX;
