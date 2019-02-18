@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Script\ScriptCommands">
       <UniqueIdentifier>{75c0280e-ad57-4515-9866-641272bdd49f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Script\ItemImage">
+      <UniqueIdentifier>{845ac392-689e-46ef-b787-fb061f568a48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Script\ItemImage">
+      <UniqueIdentifier>{141f4a95-7b42-4f68-bc00-60acce7b0a03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameState.cpp">
@@ -138,9 +144,6 @@
     <ClCompile Include="ShowCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
-    <ClCompile Include="ItemImage.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
     <ClCompile Include="DisplayCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
@@ -157,6 +160,21 @@
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
     <ClCompile Include="PlayCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="StopCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemImage.cpp">
+      <Filter>Source Files\Script\ItemImage</Filter>
+    </ClCompile>
+    <ClCompile Include="TextboxImage.cpp">
+      <Filter>Source Files\Script\ItemImage</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="ResumeCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
   </ItemGroup>
@@ -239,9 +257,6 @@
     <ClInclude Include="ShowCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
-    <ClInclude Include="ItemImage.h">
-      <Filter>Header Files\Script</Filter>
-    </ClInclude>
     <ClInclude Include="DisplayCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
@@ -258,6 +273,27 @@
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
     <ClInclude Include="PlayCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="StopCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemImage.h">
+      <Filter>Header Files\Script\ItemImage</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterImage.h">
+      <Filter>Header Files\Script\ItemImage</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundImage.h">
+      <Filter>Header Files\Script\ItemImage</Filter>
+    </ClInclude>
+    <ClInclude Include="TextboxImage.h">
+      <Filter>Header Files\Script\ItemImage</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="ResumeCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
   </ItemGroup>

@@ -29,7 +29,7 @@ private:
 	std::vector<std::string> displayLines;
 
 	// if the display command is a choice, what are the next locations?
-	std::vector<std::string> sceneLabels;
+	std::vector<std::string> userFlags;
 
 	// type of animation
 	int animationType;

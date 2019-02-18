@@ -8,6 +8,7 @@ int Engine::start()
 	// create an unresizable window
 	window.create(sf::VideoMode(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()), CONFIG->getTitle(), sf::Style::Default & ~sf::Style::Resize);
 	window.setFramerateLimit(CONFIG->getFps());
+	
 
 	Game game;
 

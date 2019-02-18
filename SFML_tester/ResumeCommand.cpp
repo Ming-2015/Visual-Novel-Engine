@@ -1,12 +1,12 @@
-#include "PlayCommand.h"
+#include "ResumeCommand.h"
 
-PlayCommand::PlayCommand(std::vector<std::string> args)
+ResumeCommand::ResumeCommand(std::vector<std::string> args)
 	: ScriptCommand(args)
 {
 	// checking if the first argument is show
-	if (UTILITY->toLower(args[COLUMN_ACTION]) != "play")
+	if (UTILITY->toLower(args[COLUMN_ACTION]) != "resume")
 	{
-		LOGGER->Log("PlayCommand", "Invalid Command Input");
+		LOGGER->Log("ResumeCommand", "Invalid Command Input");
 		valid = false;
 		return;
 	}
@@ -15,31 +15,28 @@ PlayCommand::PlayCommand(std::vector<std::string> args)
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);				// column 3 : flag
 
-	objectName = args[COLUMN_ARG1];		// column 4 : object name
-	objectSubname = args[COLUMN_ARG2];	// column 5 : object sub name
-
 	// optional argument: time
 	time = 1.5f;
-	if (args.size() > COLUMN_ARG3)
+	if (args.size() > COLUMN_ARG1)
 	{
 		try {
-			time = std::stof(args[COLUMN_ARG3]); // column 8: time it should take to full finish the fade
+			time = std::stof(args[COLUMN_ARG1]); // column 8: time it should take to full finish the fade
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("PlayCommand", "Failed to convert time into float");
+			LOGGER->Log("ResumeCommand", "Failed to convert time into float");
 		}
 	}
 
 	finalVolume = 1.0f;
-	if (args.size() > COLUMN_ARG4)
+	if (args.size() > COLUMN_ARG2)
 	{
 		try {
-			finalVolume = std::stof(args[COLUMN_ARG4]); // column 8: time it should take to full finish the fade
+			finalVolume = std::stof(args[COLUMN_ARG2]); // column 8: time it should take to full finish the fade
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("PlayCommand", "Failed to convert volume into float");
+			LOGGER->Log("ResumeCommand", "Failed to convert volume into float");
 		}
 	}
 
@@ -63,7 +60,7 @@ PlayCommand::PlayCommand(std::vector<std::string> args)
 	}
 	else
 	{
-		LOGGER->Log("PlayCommand", "Invalid Flag");
+		LOGGER->Log("ResumeCommand", "Invalid Flag");
 		valid = false;
 		return;
 	}
@@ -72,34 +69,32 @@ PlayCommand::PlayCommand(std::vector<std::string> args)
 	if (objectTypeName == "bgm" || objectTypeName == "music" || objectTypeName == "background music" || objectTypeName == "b")
 	{
 		objectType = OBJECT_BGM;
-		repeat = true;
-		clearPrev = true;
 	}
 	else if (objectTypeName == "voice" || objectTypeName == "v")
 	{
 		objectType = OBJECT_VOICE;
-		repeat = false;
-		clearPrev = true;
 	}
 	else if (objectTypeName == "sfx" || objectTypeName == "sound effect" || objectTypeName == "" || objectTypeName == "sound" || objectTypeName == "s")
 	{
 		objectType = OBJECT_SFX;
-		repeat = false;
-		clearPrev = false;
+	}
+	else if (objectTypeName == "all" || objectTypeName == "a")
+	{
+		objectType = OBJECT_ALL;
 	}
 	else
 	{
 		valid = false;
-		LOGGER->Log("PlayCommand", "Invalid Object Type");
+		LOGGER->Log("ResumeCommand", "Invalid Object Type");
 		return;
 	}
 }
 
-PlayCommand::~PlayCommand()
+ResumeCommand::~ResumeCommand()
 {
 }
 
-void PlayCommand::execute(ScriptLine * scriptLine)
+void ResumeCommand::execute(ScriptLine * scriptLine)
 {
 	if (valid)
 	{
@@ -110,17 +105,24 @@ void PlayCommand::execute(ScriptLine * scriptLine)
 			{
 				case OBJECT_BGM:
 				{
-					music = scriptLine->setBgm(objectName, objectSubname, clearPrev, repeat, currentVolume);
+					scriptLine->resumeBgm();
 					break;
 				}
 				case OBJECT_SFX:
 				{
-					music = scriptLine->setSfx(objectName, objectSubname, clearPrev, repeat, currentVolume);
+					scriptLine->resumeSfx();
 					break;
 				}
 				case OBJECT_VOICE:
 				{
-					music = scriptLine->setVoice(objectName, objectSubname, clearPrev, repeat, currentVolume);
+					scriptLine->resumeVoice();
+					break;
+				}
+				case OBJECT_ALL:
+				{
+					scriptLine->resumeBgm();
+					scriptLine->resumeSfx();
+					scriptLine->resumeVoice();
 					break;
 				}
 			}
@@ -128,6 +130,31 @@ void PlayCommand::execute(ScriptLine * scriptLine)
 
 		if (flagType == FLAG_NONE)
 		{
+			switch (objectType)
+			{
+				case OBJECT_BGM:
+				{
+					scriptLine->setBgmVolume(finalVolume);
+					break;
+				}
+				case OBJECT_SFX:
+				{
+					scriptLine->setSfxVolume(finalVolume);
+					break;
+				}
+				case OBJECT_VOICE:
+				{
+					scriptLine->setVoiceVolume(finalVolume);
+					break;
+				}
+				case OBJECT_ALL:
+				{
+					scriptLine->setBgmVolume(finalVolume);
+					scriptLine->setSfxVolume(finalVolume);
+					scriptLine->setVoiceVolume(finalVolume);
+				}
+			}
+
 			done = true;
 			wait = false;
 		}
@@ -137,18 +164,24 @@ void PlayCommand::execute(ScriptLine * scriptLine)
 			{
 				case OBJECT_BGM:
 				{
-					scriptLine->setBgmVolume(music, currentVolume);
+					scriptLine->setBgmVolume(currentVolume);
 					break;
 				}
 				case OBJECT_SFX:
 				{
-					scriptLine->setSfxVolume(music, currentVolume);
+					scriptLine->setSfxVolume(currentVolume);
 					break;
 				}
 				case OBJECT_VOICE:
 				{
-					scriptLine->setVoiceVolume(music, currentVolume);
+					scriptLine->setVoiceVolume(currentVolume);
 					break;
+				}
+				case OBJECT_ALL:
+				{
+					scriptLine->setBgmVolume(currentVolume);
+					scriptLine->setSfxVolume(currentVolume);
+					scriptLine->setVoiceVolume(currentVolume);
 				}
 			}
 
@@ -161,12 +194,12 @@ void PlayCommand::execute(ScriptLine * scriptLine)
 	}
 	else
 	{
-		LOGGER->Log("PlayCommand", "Attempting to execute invalid command");
+		LOGGER->Log("ResumeCommand", "Attempting to execute invalid command");
 		done = true;
 	}
 }
 
-void PlayCommand::skipUpdate()
+void ResumeCommand::skipUpdate()
 {
 	finishedAction = true;
 	currentVolume = finalVolume;
@@ -174,7 +207,7 @@ void PlayCommand::skipUpdate()
 	done = true;
 }
 
-void PlayCommand::update(float delta_t)
+void ResumeCommand::update(float delta_t)
 {
 	if (valid && flagType == FLAG_FADEIN)
 	{
@@ -192,3 +225,4 @@ void PlayCommand::update(float delta_t)
 		finishedAction = true;
 	}
 }
+

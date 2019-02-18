@@ -97,7 +97,7 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 			}
 			else
 			{
-				sceneLabels.push_back(args[i]);
+				userFlags.push_back(args[i]);
 			}
 			choice = !choice;
 		}
@@ -119,6 +119,7 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 		}
 		currentLineIndex = displayLines.size() - 1;
 		currentCharIndex = displayLines[currentLineIndex].length() - 1;
+		currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
 	}
 }
 
@@ -140,6 +141,11 @@ void DisplayCommand::execute(ScriptLine * scriptLine)
 
 void DisplayCommand::skipUpdate()
 {
+	if (displayLines.size() <= 0)
+	{
+		wait = false;
+		done = true;
+	}
 	if (objectType == OBJECT_LINE && animationType == ANIMATION_NONE)
 	{
 		if (currentLineIndex < displayLines.size())

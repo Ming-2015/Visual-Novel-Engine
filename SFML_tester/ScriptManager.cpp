@@ -1,16 +1,18 @@
 #include "ScriptManager.h"
 
 ScriptManager::ScriptManager(std::string filename) :
-	filename(filename)
+	initFileName(filename)
 {
 	//init();
 }
 
 ScriptManager::~ScriptManager()
 {
+	if (currentScriptLine->file.is_open()) 
+		currentScriptLine->file.close();
+
 	if (currentScriptLine != nullptr)
 		delete currentScriptLine;
-	if (file.is_open()) file.close();
 
 	for (auto c : commands)
 	{
@@ -81,11 +83,12 @@ std::string ScriptManager::getCurrentFileName() const
 void ScriptManager::init()
 {
 	currentScriptLine = new ScriptLine();
-	file.open(filename);
+	currentScriptLine->file.open(initFileName);
+	currentScriptLine->filename = initFileName;
 
-	if (!file)
+	if (!currentScriptLine->file)
 	{
-		string err = "Cannot open script: " + filename;
+		string err = "Cannot open script: " + initFileName;
 		LOGGER->Log("ScriptManager", err);
 		return;
 	}
@@ -132,12 +135,12 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 }
 
-bool ScriptManager::eof()
+bool ScriptManager::eof() const
 {
-	return file.eof();
+	return currentScriptLine->file.eof();
 }
 
-bool ScriptManager::doneAllCommands()
+bool ScriptManager::doneAllCommands() const
 {
 	bool done = true;
 	for (auto c : commands)
@@ -149,19 +152,19 @@ bool ScriptManager::doneAllCommands()
 
 void ScriptManager::readCommands()
 {
-	if (file && !file.eof())
+	if (currentScriptLine->file && !currentScriptLine->file.eof())
 	{
 		bool stop = false;
 		while (!stop)
 		{
-			if (file.eof())
+			if (currentScriptLine->file.eof())
 			{
 				LOGGER->Log("ScriptManager", "EOF of file reached unexpectedly!");
 				break;
 			}
 
 			std::string line;
-			std::getline(file, line);
+			std::getline(currentScriptLine->file, line);
 			line = UTILITY->cutLine(line, "#");	// use # for comments
 
 			std::vector<std::string> tokens = UTILITY->split(line, '|');
@@ -213,6 +216,24 @@ void ScriptManager::readCommands()
 					if (command->shouldWait()) stop = true;
 					commands.push_back(command);
 				}
+				else if (cmdWord == "stop")
+				{
+					command = new StopCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
+				else if (cmdWord == "pause")
+				{
+					command = new PauseCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
+				else if (cmdWord == "resume")
+				{
+					command = new ResumeCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
 				else if (cmdWord == "jump" && tokens.size() >= 4)
 				{
 					readNewFile(GLOBAL->ResourceRoot + tokens[3] + ".csv");
@@ -233,15 +254,15 @@ void ScriptManager::readCommands()
 
 void ScriptManager::readNewFile(std::string filename)
 {
-	if (this->filename != filename)
+	if (currentScriptLine->filename != filename)
 	{
 		// open a new file
-		this->filename = filename;
-		file.close();
-		file.open(filename);
+		currentScriptLine->filename = filename;
+		currentScriptLine->file.close();
+		currentScriptLine->file.open(filename);
 	}
 	else
 	{
-		file.seekg(file.beg);
+		currentScriptLine->file.seekg(currentScriptLine->file.beg);
 	}
 }

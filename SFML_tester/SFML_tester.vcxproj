@@ -145,7 +145,9 @@
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="NewGameState.cpp" />
+    <ClCompile Include="PauseCommand.cpp" />
     <ClCompile Include="PlayCommand.cpp" />
+    <ClCompile Include="ResumeCommand.cpp" />
     <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
@@ -155,11 +157,15 @@
     <ClCompile Include="ShowCommand.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="StopCommand.cpp" />
+    <ClCompile Include="TextboxImage.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="ZoomCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackgroundImage.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="CharacterImage.h" />
     <ClInclude Include="DisplayCommand.h" />
     <ClInclude Include="ItemImage.h" />
     <ClInclude Include="Config.h" />
@@ -179,7 +185,9 @@
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="NewGameState.h" />
+    <ClInclude Include="PauseCommand.h" />
     <ClInclude Include="PlayCommand.h" />
+    <ClInclude Include="ResumeCommand.h" />
     <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />
@@ -190,6 +198,8 @@
     <ClInclude Include="ShowCommand.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="StateManager.h" />
+    <ClInclude Include="StopCommand.h" />
+    <ClInclude Include="TextboxImage.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="ZoomCommand.h" />
   </ItemGroup>

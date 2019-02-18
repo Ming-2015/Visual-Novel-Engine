@@ -21,12 +21,12 @@ ZoomCommand::ZoomCommand(vector<string> args)
 
 	// Optional if begin x and y = 0
 	x1 = 0, y1 = 0;
-	if (args.size() > COLUMN_ARG4)
+	if (args.size() > COLUMN_ARG7)
 	{
 		try
 		{
-			x1 = stof(args[COLUMN_ARG3]);		// Beginning x position
-			y1 = stof(args[COLUMN_ARG4]);		// Beginning y position
+			x1 = stof(args[COLUMN_ARG6]);		// Beginning x position
+			y1 = stof(args[COLUMN_ARG7]);		// Beginning y position
 		}
 		catch (exception e)
 		{
@@ -35,12 +35,12 @@ ZoomCommand::ZoomCommand(vector<string> args)
 	}
 
 	scaleX = 0, scaleY = 0;
-	if (args.size() > COLUMN_ARG6)
+	if (args.size() > COLUMN_ARG4)
 	{
 		try
 		{
-			scaleX = stof(args[COLUMN_ARG5]);		// scale factor for X
-			scaleY = stof(args[COLUMN_ARG6]);		// scale factor for Y
+			scaleX = stof(args[COLUMN_ARG3]);		// scale factor for X
+			scaleY = stof(args[COLUMN_ARG4]);		// scale factor for Y
 		}
 		catch (exception e)
 		{
@@ -50,10 +50,10 @@ ZoomCommand::ZoomCommand(vector<string> args)
 
 	// OPTIONAL: Animation Time
 	time = 1.5; // Default 1.5 seconds
-	if (args.size() > COLUMN_ARG7)
+	if (args.size() > COLUMN_ARG5)
 	{
 		try {
-			time = stof(args[COLUMN_ARG7]);			// time
+			time = stof(args[COLUMN_ARG5]);			// time
 		}
 		catch (exception e)
 		{
@@ -129,13 +129,11 @@ void ZoomCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			//scriptLine->setCharacter(objectName, objectSubname, x1, y1);
-			scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY);
+			scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY, x1, y1);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
-			//scriptLine->setBackground(objectName, objectSubname, x1, y1);
-			scriptLine->setBackgroundZoom(objectName, objectSubname, currentScaleX, currentScaleY);
+			scriptLine->setBackgroundZoom(objectName, objectSubname, currentScaleX, currentScaleY, x1, y1);
 		}
 
 		if (animationType == ANIMATION_NONE && currentScaleX == scaleX && currentScaleY == scaleY)
@@ -162,11 +160,11 @@ void ZoomCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY);
+			scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY, x1, y1);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
-			scriptLine->setBackgroundZoom(objectName, objectSubname, currentScaleX, currentScaleY);
+			scriptLine->setBackgroundZoom(objectName, objectSubname, currentScaleX, currentScaleY, x1, y1);
 		}
 		if (animationType == ANIMATION_NONE || stopZoom)
 		{

@@ -157,27 +157,27 @@ void ScriptLine::setBackgroundRotationRel(const string& name, const string& expr
 	}
 }
 
-void ScriptLine::setBackgroundZoom(const string& name, const string& expression, float xScale, float yScale)
+void ScriptLine::setBackgroundZoom(const string& name, const string& expression, float xScale, float yScale, float xPos, float yPos)
 {
 	for (auto c : backgroundImages)
 	{
 		if (c->getName() == name)
 		{
 			c->changeExpression(expression);
-			c->setScale(xScale, yScale);
+			c->setScale(xScale, yScale, xPos, yPos);
 			return;
 		}
 	}
 }
 
-void ScriptLine::setCharacterZoom(const string& name, const string& expression, float xScale, float yScale)
+void ScriptLine::setCharacterZoom(const string& name, const string& expression, float xScale, float yScale, float xPos, float yPos)
 {
 	for (auto c : characterImages)
 	{
 		if (c->getName() == name)
 		{
 			c->changeExpression(expression);
-			c->setScale(xScale, yScale);
+			c->setScale(xScale, yScale, xPos, yPos);
 			return;
 		}
 	}
@@ -403,27 +403,39 @@ sf::Music* ScriptLine::setSfx(const string & groupname, const string & filename,
 	return music;
 }
 
-void ScriptLine::setBgmVolume(float volume)
+void ScriptLine::setBgmVolume(float volume, bool relative)
 {
 	for (auto m : bgm)
 	{
-		if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->bgmVolume * 100.f);
+		if (m != nullptr)
+		{
+			float currentFactor = relative ? m->getVolume()/100.f : 1.0f;
+			m->setVolume(volume * CONFIG->masterVolume * CONFIG->bgmVolume * 100.f * currentFactor);
+		}
 	}
 }
 
-void ScriptLine::setVoiceVolume(float volume)
+void ScriptLine::setVoiceVolume(float volume, bool relative)
 {
 	for (auto m : voices)
 	{
-		if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->voiceVolume * 100.f);
+		if (m != nullptr)
+		{
+			float currentFactor = relative ? m->getVolume() / 100.f : 1.0f;
+			m->setVolume(volume * CONFIG->masterVolume * CONFIG->voiceVolume * 100.f * currentFactor);
+		}
 	}
 }
 
-void ScriptLine::setSfxVolume(float volume)
+void ScriptLine::setSfxVolume(float volume, bool relative)
 {
 	for (auto m : sfx)
 	{
-		if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->sfxVolume * 100.f);
+		if (m != nullptr)
+		{
+			float currentFactor = relative ? m->getVolume() / 100.f : 1.0f;
+			m->setVolume(volume * CONFIG->masterVolume * CONFIG->sfxVolume * 100.f * currentFactor);
+		}
 	}
 }
 
@@ -440,6 +452,84 @@ void ScriptLine::setVoiceVolume(sf::Music * m, float volume)
 void ScriptLine::setSfxVolume(sf::Music * m, float volume)
 {
 	if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->sfxVolume * 100.f);
+}
+
+void ScriptLine::stopBgm()
+{
+	for (auto m : bgm)
+	{
+		if (m != nullptr) m->stop();
+		delete m;
+	}
+	bgm.clear();
+}
+
+void ScriptLine::stopSfx()
+{
+	for (auto m : sfx)
+	{
+		if (m != nullptr) m->stop();
+		delete m;
+	}
+	bgm.clear();
+}
+
+void ScriptLine::stopVoice()
+{
+	for (auto m : voices)
+	{
+		if (m != nullptr) m->stop();
+		delete m;
+	}
+	voices.clear();
+}
+
+void ScriptLine::pauseBgm()
+{
+	for (auto m : bgm)
+	{
+		if (m != nullptr) m->pause();
+	}
+}
+
+void ScriptLine::pauseSfx()
+{
+	for (auto m : sfx)
+	{
+		if (m != nullptr) m->pause();
+	}
+}
+
+void ScriptLine::pauseVoice()
+{
+	for (auto m : voices)
+	{
+		if (m != nullptr) m->pause();
+	}
+}
+
+void ScriptLine::resumeBgm()
+{
+	for (auto m : bgm)
+	{
+		if (m != nullptr) m->play();
+	}
+}
+
+void ScriptLine::resumeSfx()
+{
+	for (auto m : sfx)
+	{
+		if (m != nullptr) m->play();
+	}
+}
+
+void ScriptLine::resumeVoice()
+{
+	for (auto m : voices)
+	{
+		if (m != nullptr) m->play();
+	}
 }
 
 std::string ScriptLine::addNewLineToPrevWord(std::string str, unsigned int pos)

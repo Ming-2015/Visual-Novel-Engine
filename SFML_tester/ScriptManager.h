@@ -2,7 +2,6 @@
 #include <string>
 #include <fstream>
 #include <istream>
-#include <cstddef>
 #include "Utility.h"
 #include "ScriptLine.h"
 #include "ItemImage.h"
@@ -14,6 +13,9 @@
 #include "RotateCommand.h"
 #include "ZoomCommand.h"
 #include "PlayCommand.h"
+#include "StopCommand.h"
+#include "PauseCommand.h"
+#include "ResumeCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager
@@ -38,6 +40,9 @@ public:
 	std::vector < CharacterImage* > getCharacterImages() const;
 	std::vector < BackgroundImage* > getBackgroundImages() const;
 	std::string getCurrentFileName() const;
+	
+	bool eof() const;
+	bool doneAllCommands() const;
 
 	void readCommands();
 	void readNewFile(std::string filename);
@@ -46,13 +51,9 @@ public:
 	void update(float delta_t);
 	void handleInput(sf::Event & e, sf::RenderWindow & window);
 
-	bool eof();
-	bool doneAllCommands();
-
 private:
-	std::string filename;
-
-	ScriptLine * currentScriptLine;
-	ifstream file;	
 	std::vector< ScriptCommand* > commands;
+	ScriptLine * currentScriptLine;
+
+	std::string initFileName;
 };

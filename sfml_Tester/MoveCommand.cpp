@@ -77,12 +77,6 @@ MoveCommand::MoveCommand(vector<string> args)
 		relative = false;
 		animationType = ANIMATION_MOVE;
 	}
-	if ((flag == "wait" || flag == "Wait" || flag == "WAIT") && time != 0)     //Move w/ Wait
-	{
-		wait = true;
-		relative = false;
-		animationType = ANIMATION_MOVE;
-	}
 	else if (flag == "wait" || flag == "w")
 	{
 		wait = true;

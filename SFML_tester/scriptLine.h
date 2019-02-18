@@ -1,14 +1,20 @@
 #pragma once
-#include "scriptLine.h"
-#include "Utility.h"
-#include "ItemImage.h"
-#include "logger.h"
-#include "Config.h"
+
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <vector>
 #include <SFML/Audio.hpp>
+
+#include "scriptLine.h"
+#include "Utility.h"
+#include "ItemImage.h"
+#include "logger.h"
+#include "Config.h"
+#include "CharacterImage.h"
+#include "BackgroundImage.h"
+#include "TextboxImage.h"
+
 using namespace std;
 
 class ScriptLine 
@@ -34,6 +40,9 @@ public:
 	vector<CharacterImage *> characterImages;	
 	vector<BackgroundImage *> backgroundImages;
 
+	std::string filename;
+	ifstream file;
+
 public:
 	ScriptLine();
 	~ScriptLine();
@@ -50,14 +59,19 @@ public:
 
 	void setCharacterAlpha(const string& name, float alpha);
 	void setBackgroundAlpha(const string& name, float alpha);
+	
 	void setCharacterRotation(const string& name, const string& expression, bool clockwise, float degree);
 	void setBackgroundRotation(const string& name, const string& expression, bool clockwise, float degree);
+	
 	void setCharacterRotationRel(const string& name, const string& expression, bool clockwise, float degree);
 	void setBackgroundRotationRel(const string& name, const string& expression, bool clockwise, float degree);
+	
 	void moveBackgroundRel(const string& name, const string& expression, float x1, float y1);
 	void moveCharacterRel(const string& name, const string& expression, float x1, float y1);
-	void setBackgroundZoom(const string& name, const string& expression, float xScale, float yScale);
-	void setCharacterZoom(const string& name, const string& expression, float xScale, float yScale);
+	
+	void setBackgroundZoom(const string& name, const string& expression, float xScale, float yScale, float xPos = 0, float yPos = 0);
+	void setCharacterZoom(const string& name, const string& expression, float xScale, float yScale, float xPos = 0, float yPos = 0);
+	
 	float getBackgroundBeginScaleX(const string& name, const string& expression);
 	float getBackgroundBeginScaleY(const string& name, const string& expression);
 	float getCharacterBeginScaleX(const string& name, const string& expression);
@@ -75,13 +89,25 @@ public:
 	sf::Music* setVoice(const string& groupname, const string& filename, bool clearOthers = true, bool repeat = false, float volume = 1.0f);
 	sf::Music* setSfx(const string& groupname, const string& filename, bool clearOthers = false, bool repeat = false, float volume = 1.0f);
 
-	void setBgmVolume(float volume);
-	void setVoiceVolume(float volume);
-	void setSfxVolume(float volume);
+	void setBgmVolume(float volume, bool relative = false);
+	void setVoiceVolume(float volume, bool relative = false);
+	void setSfxVolume(float volume, bool relative = false);
 
 	void setBgmVolume(sf::Music* m, float volume);
 	void setVoiceVolume(sf::Music* m, float volume);
 	void setSfxVolume(sf::Music* mu, float volume);
+
+	void stopBgm();
+	void stopSfx();
+	void stopVoice();
+
+	void pauseBgm();
+	void pauseSfx();
+	void pauseVoice();
+
+	void resumeBgm();
+	void resumeSfx();
+	void resumeVoice();
 
 private:
 	std::string addAllNewLines(std::string str, unsigned int lineLength);
