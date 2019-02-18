@@ -33,11 +33,43 @@ void TextboxImage::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 
 void TextboxImage::setTextboxColor(sf::Color color)
 {
+	this->color = color;
 	sprite.setColor(color);
+}
+
+void TextboxImage::setAlpha(float alpha)
+{
+	ItemImage::setAlpha(alpha);
+
+	dialogueTextColor.a = (sf::Uint8) alpha;
+	dialogueTextOutlineColor.a = (sf::Uint8) alpha;
+	dialogueText.setFillColor(dialogueTextColor);
+	dialogueText.setOutlineColor(dialogueTextOutlineColor);
+
+	nameTextColor.a = (sf::Uint8) alpha;
+	nameTextOutlineColor.a = (sf::Uint8) alpha;
+	nameText.setFillColor(nameTextColor);
+	nameText.setOutlineColor(nameTextOutlineColor);
+}
+
+void TextboxImage::addAlpha(float alpha)
+{
+	ItemImage::addAlpha(alpha);
+
+	dialogueTextColor.a += (sf::Uint8) alpha;
+	dialogueTextOutlineColor.a += (sf::Uint8) alpha;
+	dialogueText.setFillColor(dialogueTextColor);
+	dialogueText.setOutlineColor(dialogueTextOutlineColor);
+
+	nameTextColor.a += (sf::Uint8) alpha;
+	nameTextOutlineColor.a += (sf::Uint8) alpha;
+	nameText.setFillColor(nameTextColor);
+	nameText.setOutlineColor(nameTextOutlineColor);
 }
 
 void TextboxImage::initText()
 {
+	dialogueTextOutlineColor = sf::Color(0, 0, 0);
 	dialogueTextColor = sf::Color(255, 255, 255);
 	dialogueFont = sf::Font();
 	if (!dialogueFont.loadFromFile(GLOBAL->DisplayTextFont))
@@ -48,9 +80,12 @@ void TextboxImage::initText()
 	dialogueText.setFont(dialogueFont);
 	dialogueText.setStyle(sf::Text::Regular);
 	dialogueText.setFillColor(dialogueTextColor);
+	dialogueText.setOutlineColor(dialogueTextOutlineColor);
+	dialogueText.setOutlineThickness(3);
 	dialogueText.setCharacterSize(32);
 	dialogueText.setPosition(230.0f, 705.0f);
 
+	nameTextOutlineColor = sf::Color(0, 0, 0);
 	nameTextColor = sf::Color(255, 255, 255);
 	nameFont = sf::Font();
 	if (!nameFont.loadFromFile(GLOBAL->DisplayNameFont))
@@ -61,6 +96,8 @@ void TextboxImage::initText()
 	nameText.setFont(nameFont);
 	nameText.setStyle(sf::Text::Bold);
 	nameText.setFillColor(nameTextColor);
+	nameText.setOutlineColor(nameTextOutlineColor);
+	nameText.setOutlineThickness(2);
 	nameText.setCharacterSize(32);
 	nameText.setPosition(230.0f, 643.0f);
 }

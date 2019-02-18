@@ -186,6 +186,15 @@
     <ClCompile Include="FlashCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
+    <ClCompile Include="HideCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="UnhideCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -312,6 +321,15 @@
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
     <ClInclude Include="FlashCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="HideCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="UnhideCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
   </ItemGroup>

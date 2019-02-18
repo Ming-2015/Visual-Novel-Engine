@@ -30,7 +30,7 @@ SetCommand::SetCommand(std::vector<std::string> args)
 		}
 	}
 
-	time = 1.5f;
+	time = .5f;
 	if (args.size() > COLUMN_ARG5)
 	{
 		try {
@@ -95,17 +95,22 @@ void SetCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			scriptLine->setCharacter(objectName, objectSubname, x1, y1);
+			if (initiailized) {
+				scriptLine->removeAllCharacters();
+				scriptLine->setCharacter(objectName, objectSubname, x1, y1);
+				initiailized = false;
+			}
+
 			scriptLine->setCharacterAlpha(objectName, alpha);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
-			if (removeBackground) {
+			if (initiailized) {
 				scriptLine->removeAllBackgrounds();
-				removeBackground = false;
+				scriptLine->setBackground(objectName, objectSubname, x1, y1);
+				initiailized = false;
 			}
 
-			scriptLine->setBackground(objectName, objectSubname, x1, y1);
 			scriptLine->setBackgroundAlpha(objectName, alpha);
 		}
 

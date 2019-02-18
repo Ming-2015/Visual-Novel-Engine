@@ -15,7 +15,7 @@ RemoveCommand::RemoveCommand(vector<string> args)
 
 	objectName = UTILITY->toLower(args[COLUMN_ARG1]);
 
-	time = 1.5f;
+	time = .5f;
 	if (args.size() > COLUMN_ARG2)
 	{
 		try {

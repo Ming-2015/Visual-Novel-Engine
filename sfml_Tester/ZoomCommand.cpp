@@ -30,7 +30,7 @@ ZoomCommand::ZoomCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("ZoomCommand", "Failed to convert x1 and y1 values to float values");
+			LOGGER->Log("ZoomCommand", "Failed to convert startX and startY values to float values");
 		}
 	}
 
@@ -49,7 +49,7 @@ ZoomCommand::ZoomCommand(vector<string> args)
 	}
 
 	// OPTIONAL: Animation Time
-	time = 1.5; // Default 1.5 seconds
+	time = .5; // Default 1.5 seconds
 	if (args.size() > COLUMN_ARG5)
 	{
 		try {

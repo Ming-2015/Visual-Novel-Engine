@@ -126,8 +126,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="DelayCommand.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
     <ClCompile Include="FlashCommand.cpp" />
+    <ClCompile Include="HideCommand.cpp" />
     <ClCompile Include="ItemImage.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -162,6 +164,7 @@
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="StopCommand.cpp" />
     <ClCompile Include="TextboxImage.cpp" />
+    <ClCompile Include="UnhideCommand.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="ZoomCommand.cpp" />
   </ItemGroup>
@@ -170,8 +173,10 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="CharacterImage.h" />
     <ClInclude Include="ClearCommand.h" />
+    <ClInclude Include="DelayCommand.h" />
     <ClInclude Include="DisplayCommand.h" />
     <ClInclude Include="FlashCommand.h" />
+    <ClInclude Include="HideCommand.h" />
     <ClInclude Include="ItemImage.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Effect.hpp" />
@@ -206,6 +211,7 @@
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="StopCommand.h" />
     <ClInclude Include="TextboxImage.h" />
+    <ClInclude Include="UnhideCommand.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="ZoomCommand.h" />
   </ItemGroup>

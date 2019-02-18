@@ -17,37 +17,37 @@ MoveCommand::MoveCommand(vector<string> args)
 	objectSubname = UTILITY->toLower(args[COLUMN_ARG2]);		// object sub name
 
 	// Optional if begin x and y = 0
-	x1 = 0, y1 = 0;
+	startX = 0, startY = 0;
 	if (args.size() > COLUMN_ARG4)
 	{
 		try 
 		{
-			x1 = stof(args[COLUMN_ARG3]);		// Beginning x position
-			y1 = stof(args[COLUMN_ARG4]);		// Beginning y position
+			startX = stof(args[COLUMN_ARG3]);		// Beginning x position
+			startY = stof(args[COLUMN_ARG4]);		// Beginning y position
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("MoveCommand", "Failed to convert x1 and y1 values to float values");
+			LOGGER->Log("MoveCommand", "Failed to convert startX and startY values to float values");
 		}
 	}
 
 	// Optional if end x and y = 0
-	x2 = 0, y2 = 0;
+	endX = 0, endY = 0;
 	if (args.size() > COLUMN_ARG6)
 	{
 		try
 		{
-			x2 = stof(args[COLUMN_ARG5]);		// End x position
-			y2 = stof(args[COLUMN_ARG6]);		// End y position
+			endX = stof(args[COLUMN_ARG5]);		// End x position
+			endY = stof(args[COLUMN_ARG6]);		// End y position
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("MoveCommand", "Failed to convert x2 and y2 values to float values");
+			LOGGER->Log("MoveCommand", "Failed to convert endX and endY values to float values");
 		}
 	}
 
 	// OPTIONAL: Animation Time
-	time = 1.5;// Default 1.5 seconds
+	time = .5;
 	if (args.size() > COLUMN_ARG7)
 	{
 		try {
@@ -67,11 +67,11 @@ MoveCommand::MoveCommand(vector<string> args)
 		time = 0;
 		animationType = ANIMATION_NONE;
 		//SEE IF SETTING POSITION = END POSITION WORKS
-		x1 = x2;
-		y1 = y2;
+		startX = endX;
+		startY = endY;
 		//See if you can automatically move
 	}
-	if ((flag == "" || flag == "none") && time != 0)	//Move w/o Wait
+	if (flag == "" || flag == "none")	//Move w/o Wait
 	{
 		wait = false;
 		relative = false;
@@ -113,8 +113,8 @@ MoveCommand::MoveCommand(vector<string> args)
 		return;
 	}
 
-	xDiff = x2 - x1;
-	yDiff = y2 - y1;
+	xDiff = endX - startX;
+	yDiff = endY - startY;
 	xOffset = 0;
 	yOffset = 0;
 }
@@ -130,14 +130,14 @@ void MoveCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			scriptLine->setCharacter(objectName, objectSubname, x1, y1);
+			scriptLine->setCharacter(objectName, objectSubname, startX, startY);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
-			scriptLine->setBackground(objectName, objectSubname, x1, y1);
+			scriptLine->setBackground(objectName, objectSubname, startX, startY);
 		}
 
-		if (animationType == ANIMATION_NONE && x1 == x2 && y1 == y2)
+		if (animationType == ANIMATION_NONE || stopMove)
 		{
 			done = true;
 		}
@@ -160,7 +160,7 @@ void MoveCommand::execute(ScriptLine * scriptLine)
 	}
 	else
 	{
-		LOGGER->Log("RotateCommand", "Invalid Move command detected");
+		LOGGER->Log("MoveCommand", "Invalid Move command detected");
 		done = true;
 	}
 }
@@ -168,8 +168,22 @@ void MoveCommand::execute(ScriptLine * scriptLine)
 void MoveCommand::skipUpdate()
 {
 	//Need to clean up position variables?
-	x1 = x2;
-	y1 = y2;
+	if (!relative)
+	{
+		startX = endX;
+		startY = endY;
+	}
+	else
+	{
+		xOffset = endX - startX;
+		yOffset = endY - startY;
+		startX = endX;
+		startY = endY;
+	}
+
+	doneX = true;
+	doneY = true;
+	stopMove = true;
 	wait = false;
 	done = true;
 }
@@ -178,161 +192,122 @@ void MoveCommand::update(float delta_t)
 {
 	if (valid && relative == false)
 	{
-		if (animationType == ANIMATION_MOVE && (x1 != x2 || y1 != y2))
+		if (animationType == ANIMATION_MOVE)
 		{
-			yOffset = delta_t / time * yDiff;
-			xOffset = delta_t / time * xDiff;
+			if (!doneX)
+			{
+				xOffset = delta_t / time * xDiff;
+				startX += xOffset;
 
-			x1 += xOffset;
-			y1 += yOffset;
-			if (xDiff > 0)
-			{
-				if (x1 >= x2)
-					x1 = x2;
+				if (xDiff > 0 && startX >= endX)	// in case endX is greater than startX originally
+				{
+					doneX = true;
+					startX = endX;
+				}
+
+				else if (xDiff <= 0 && startX <= endX)
+				{
+					startX = endX;
+					doneX = true;
+				}
 			}
-			else if (xDiff < 0)
+
+			if (!doneY)
 			{
-				if (x1 <= x2)
-					x1 = x2;
+				yOffset = delta_t / time * yDiff;
+				startY += yOffset;
+
+				if (yDiff > 0 && startY >= endY)
+				{
+					startY = endY;
+					doneY = true;
+				}
+				else if (yDiff <= 0 && startY <= endY)
+				{
+					doneY = true;
+					startY = endY;
+				}
 			}
-			
-			if (yDiff > 0)
+
+			if (doneX && doneY)
 			{
-				if (y1 >= y2)
-					y1 = y2;
+				wait = false;
+				done = true;
+				stopMove = true;
 			}
-			if (yDiff < 0)
+
+		}
+	}
+	else if (valid && relative == true)
+	{
+		if (animationType == ANIMATION_MOVE)
+		{
+			if (!doneX)
 			{
-				if (y1 <= y2)
-					y1 = y2;
+				xOffset = delta_t / time * xDiff;
+				startX += xOffset;
+
+				if (xDiff > 0 && startX >= endX)	// in case endX is greater than startX originally
+				{
+					doneX = true;
+					xOffset = xOffset - (startX - endX);
+					startX = endX;
+				}
+
+				else if (xDiff <= 0 && startX <= endX)
+				{
+					doneX = true;
+					xOffset = xOffset - (startX - endX);
+					startX = endX;
+				}
 			}
-			if (x1 == x2 && y1 == y2)
+
+			if (!doneY)
+			{
+				yOffset = delta_t / time * yDiff;
+				startY += yOffset;
+
+				if (yDiff > 0 && startY >= endY)
+				{
+					doneY = true;
+					yOffset = yOffset - (startY - endY);
+					startY = endY;
+					
+				}
+				else if (yDiff <= 0 && startY <= endY)
+				{
+					doneY = true;
+					yOffset = yOffset - (startY - endY);
+					startY = endY;
+				}
+			}
+
+			if (doneX && doneY)
 			{
 				wait = false;
 				done = true;
 				stopMove = true;
 			}
 		}
-
-		
-		/*if (animationType == ANIMATION_MOVE && (x1 < x2 || y1 < y2))
-		{
-			float moveOffset = delta_t / time * 255.f;
-
-			x1 += moveOffset;
-			y1 += moveOffset;
-			if (x1 >= x2) 
-			{
-				x1 = x2;
-			}
-			if (y1 >= y2)
-			{
-				y1 = y2;
-			}
-			if (x1 == x2 && y1 == y2)
-			{
-				wait = false;
-			}
-		}
-		if (animationType == ANIMATION_MOVE && (x1 > x2 || y1 < y2))
-		{
-			float moveOffset = delta_t / time * 255.f;
-
-			x1 -= moveOffset;
-			y1 += moveOffset;
-			if (x1 <= x2)
-			{
-				x1 = x2;
-			}
-			if (y1 >= y2)
-			{
-				y1 = y2;
-			}
-			if (x1 == x2 && y1 == y2)
-			{
-				wait = false;
-			}
-		}
-		if (animationType == ANIMATION_MOVE && (x1 < x2 || y1 > y2))
-		{
-			float moveOffset = delta_t / time * 255.f;
-
-			x1 += moveOffset;
-			y1 -= moveOffset;
-			if (x1 >= x2)
-			{
-				x1 = x2;
-			}
-			if (y1 <= y2)
-			{
-				y1 = y2;
-			}
-			if (x1 == x2 && y1 == y2)
-			{
-				wait = false;
-			}
-		}
-		if (animationType == ANIMATION_MOVE && (x1 > x2 || y1 > y2))
-		{
-			float moveOffset = delta_t / time * 255.f;
-
-			x1 -= moveOffset;
-			y1 -= moveOffset;
-			if (x1 <= x2)
-			{
-				x1 = x2;
-			}
-			if (y1 <= y2)
-			{
-				y1 = y2;
-			}
-			if (x1 == x2 && y1 == y2)
-			{
-				wait = false;
-			}
-		}*/
 	}
-	else if (valid && relative == true)
+	else if (!stopMove)
 	{
-		if (animationType == ANIMATION_MOVE && (x1 != x2 || y1 != y2))
+		if (!relative)
 		{
-			yOffset = delta_t / time * yDiff;
-			xOffset = delta_t / time * xDiff;
-			x1 += xOffset;
-			y1 += yOffset;
+			startX = endX;
+			startY = endY;
 		}
-		if (xDiff > 0)
+		else
 		{
-			if (x1 >= x2)
-				x1 = x2;
+			xOffset = endX - startX;
+			yOffset = endY - startY;
+			startX = endX;
+			startY = endY;
 		}
-		else if (xDiff < 0)
-		{
-			if (x1 <= x2)
-				x1 = x2;
-		}
-
-		if (yDiff > 0)
-		{
-			if (y1 >= y2)
-				y1 = y2;
-		}
-		if (yDiff < 0)
-		{
-			if (y1 <= y2)
-				y1 = y2;
-		}
-		if (x1 == x2 && y1 == y2)
-		{
-			wait = false;
-			done = true;
-			stopMove = true;
-		}
-	}
-	else
-	{
+		done = true;
 		wait = false;
-		x1 = x2;
-		y1 = y2;
+		stopMove = true;
+		doneX = true;
+		doneY = true;
 	}
 }

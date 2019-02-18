@@ -28,7 +28,10 @@ private:
 	string objectName;			// name of character | Background
 	string objectSubname;		// expression of character or time-of-the-day for background
 
-	float x1, y1, x2, y2;
+	float startX, startY;
+	float endX, endY;
+	bool doneX = false, doneY = false;
+	
 	float time;
 
 	int objectType;

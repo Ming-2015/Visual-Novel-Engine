@@ -13,7 +13,7 @@ ClearCommand::ClearCommand(vector<string> args)
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);
 
-	time = 1.5f;
+	time = .5f;
 	if (args.size() > COLUMN_ARG1)
 	{
 		try {
