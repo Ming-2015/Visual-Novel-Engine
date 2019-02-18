@@ -14,6 +14,8 @@
 #include "RotateCommand.h"
 #include "ZoomCommand.h"
 #include "PlayCommand.h"
+#include "RemoveCommand.h"
+#include "ClearCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager

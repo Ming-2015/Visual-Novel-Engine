@@ -146,6 +146,7 @@
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="NewGameState.cpp" />
     <ClCompile Include="PlayCommand.cpp" />
+    <ClCompile Include="RemoveCommand.cpp" />
     <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="NewGameState.h" />
     <ClInclude Include="PlayCommand.h" />
+    <ClInclude Include="RemoveCommand.h" />
     <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />

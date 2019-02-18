@@ -159,6 +159,9 @@
     <ClCompile Include="PlayCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
+    <ClCompile Include="RemoveCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -258,6 +261,9 @@
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
     <ClInclude Include="PlayCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
   </ItemGroup>
