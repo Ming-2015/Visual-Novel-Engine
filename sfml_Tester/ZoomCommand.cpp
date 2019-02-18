@@ -114,8 +114,10 @@ ZoomCommand::ZoomCommand(vector<string> args)
 
 	scaleDiffX = scaleX - currentScaleX;
 	scaleDiffY = scaleY - currentScaleY;
-	relScaleDiffX = 1 - scaleX;
-	relScaleDiffY = 1 - scaleY;
+	relScaleDiffX = scaleX - 1;
+	relScaleDiffY = scaleY - 1;
+
+	cout << endl << relative << endl;
 }
 
 ZoomCommand::~ZoomCommand()
@@ -143,21 +145,33 @@ void ZoomCommand::execute(ScriptLine * scriptLine)
 			done = true;
 		}
 	}
-	else if (valid && relative == true)
+	else if (valid && relative == true && firstLoopRel == true)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
+			cout << "I ENETERD THE FIRST LOOP REL";
 			originalScaleX = scriptLine->getCharacterBeginScaleX(objectName, objectSubname);
 			originalScaleY = scriptLine->getCharacterBeginScaleY(objectName, objectSubname);
-			scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY);
+			cout << "character begin scale x: " << originalScaleX << endl;
+			firstLoopRel = false;
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
 			originalScaleX = scriptLine->getBackgroundBeginScaleX(objectName, objectSubname);
 			originalScaleY = scriptLine->getBackgroundBeginScaleY(objectName, objectSubname);
+			firstLoopRel = false;
+		}
+	}
+	else if (valid && relative == true && firstLoopRel == false)
+	{
+		if (objectType == OBJECT_CHARACTER)
+		{
+			scriptLine->setCharacterZoom(objectName, objectSubname, currentScaleX, currentScaleY);
+		}
+		else if (objectType == OBJECT_BACKGROUND)
+		{
 			scriptLine->setBackgroundZoom(objectName, objectSubname, currentScaleX, currentScaleY);
 		}
-
 		if (animationType == ANIMATION_NONE || stopZoom)
 		{
 			done = true;
@@ -165,6 +179,7 @@ void ZoomCommand::execute(ScriptLine * scriptLine)
 	}
 	else
 	{
+		cout << "This is last else in Execute!!";
 		done = true;
 	}
 }
@@ -175,6 +190,7 @@ void ZoomCommand::skipUpdate()
 	currentScaleY = scaleY;
 	wait = false;
 	done = true;
+	cout << "This is SKIP UPDATE ZOOM";
 }
 
 void ZoomCommand::update(float delta_t)
@@ -188,8 +204,6 @@ void ZoomCommand::update(float delta_t)
 
 			currentScaleX += scaleXOffset;
 			currentScaleY += scaleYOffset;
-			cout << currentScaleX << endl;
-			cout << currentScaleY << endl;
 
 			if (scaleDiffX > 0)
 			{
@@ -227,30 +241,54 @@ void ZoomCommand::update(float delta_t)
 
 		}
 	}
-	if (valid && relative == true)
+	else if (valid && relative == true)
 	{
-		if (animationType == ANIMATION_ZOOM && (currentScaleX != scaleX || currentScaleY != scaleY) && relScaleDiffX < 0 && scaleDiffY < 0)
+		if (firstLoopRel == true)
+		{
+
+		}
+		else if (animationType == ANIMATION_ZOOM && ((currentScaleX != originalScaleX * scaleX) || (currentScaleY != originalScaleY * scaleY)))
 		{
 			
-			float scaleXOffset = delta_t / time * scaleDiffX;
-			float scaleYOffset = delta_t / time * scaleDiffY;
+			float scaleXOffset = delta_t / time * relScaleDiffX;
+			float scaleYOffset = delta_t / time * relScaleDiffY;
 
-			incrementedScaleX -= scaleXOffset;
-			incrementedScaleY -= scaleYOffset;
+			incrementedScaleX += scaleXOffset;
+			incrementedScaleY += scaleYOffset;
 
 			currentScaleX = originalScaleX * (1 + incrementedScaleX);
 			currentScaleY = originalScaleX * (1 + incrementedScaleY);
-
-			if (incrementedScaleX <= relScaleDiffX)
+			if (relScaleDiffX > 0)
 			{
-				currentScaleX = originalScaleX * scaleX;
+				if (incrementedScaleX >= relScaleDiffX)
+				{
+					currentScaleX = originalScaleX * scaleX;
+				}
 			}
-			if (incrementedScaleY <= relScaleDiffY)
+			if (relScaleDiffY > 0)
 			{
-				currentScaleY = originalScaleY * scaleY;
+				if (incrementedScaleY >= relScaleDiffY)
+				{
+					currentScaleY = originalScaleY * scaleY;
+				}
+			}
+			if (relScaleDiffX < 0)
+			{
+				if (incrementedScaleX <= relScaleDiffX)
+				{
+					currentScaleX = originalScaleX * scaleX;
+				}
+			}
+			if (relScaleDiffY < 0)
+			{
+				if (incrementedScaleY <= relScaleDiffY)
+				{
+					currentScaleY = originalScaleY * scaleY;
+				}
 			}
 			if (currentScaleY == (scaleY*originalScaleY) && currentScaleX == (scaleX*originalScaleX))
 			{
+				cout << "I ENTERED THE LAST IF";
 				wait = false;
 				done = true;
 			}
@@ -258,6 +296,7 @@ void ZoomCommand::update(float delta_t)
 	}
 	else
 	{
+		cout << "I AM IN THE LAST ELSE";
 		wait = false;
 		currentScaleY = scaleY;
 		currentScaleX = scaleX;

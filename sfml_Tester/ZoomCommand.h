@@ -46,4 +46,5 @@ private:
 	float originalScaleX, originalScaleY;
 	float relScaleDiffX, relScaleDiffY;
 	float incrementedScaleX, incrementedScaleY;
+	bool firstLoopRel = true;
 };
