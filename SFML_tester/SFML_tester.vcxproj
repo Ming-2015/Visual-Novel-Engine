@@ -155,12 +155,14 @@
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="ShowCommand.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="ClearCommand.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="ZoomCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ClearCommand.h" />
     <ClInclude Include="DisplayCommand.h" />
     <ClInclude Include="ItemImage.h" />
     <ClInclude Include="Config.h" />

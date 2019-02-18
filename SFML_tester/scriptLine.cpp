@@ -289,6 +289,24 @@ void ScriptLine::removeAllBackgrounds()
 	backgroundImages.clear();
 }
 
+void ScriptLine::setAllCharacterAlpha(float alpha)
+{
+	for (auto c : characterImages)
+	{
+		c->setAlpha(alpha);
+	}
+	return;
+}
+
+void ScriptLine::setAllBackgroundAlpha(float alpha)
+{
+	for (auto c : backgroundImages)
+	{
+		c->setAlpha(alpha);
+	}
+	return;
+}
+
 void ScriptLine::setDialogue(const string& displayname, const string& str)
 {
 	hideTextbox = false;

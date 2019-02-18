@@ -1,11 +1,11 @@
-#include "RemoveCommand.h"
+#include "ClearCommand.h"
 
-RemoveCommand::RemoveCommand(vector<string> args)
+ClearCommand::ClearCommand(vector<string> args)
 	: ScriptCommand(args)
 {
-	if (UTILITY->toLower(args[COLUMN_ACTION]) != "remove")
+	if (UTILITY->toLower(args[COLUMN_ACTION]) != "clear")
 	{
-		LOGGER->Log("RemoveCommand", "Invalid Command Input");
+		LOGGER->Log("ClearCommand", "Invalid Command Input");
 		valid = false;
 		return;
 	}
@@ -13,17 +13,15 @@ RemoveCommand::RemoveCommand(vector<string> args)
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);
 
-	objectName = UTILITY->toLower(args[COLUMN_ARG1]);
-
 	time = 1.5f;
-	if (args.size() > COLUMN_ARG2)
+	if (args.size() > COLUMN_ARG1)
 	{
 		try {
-			time = stof(args[COLUMN_ARG2]);
+			time = stof(args[COLUMN_ARG1]);
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("RemoveCommand", "Failed to convert time into float");
+			LOGGER->Log("ClearCommand", "Failed to convert time into float");
 		}
 	}
 
@@ -48,7 +46,7 @@ RemoveCommand::RemoveCommand(vector<string> args)
 	}
 	else
 	{
-		LOGGER->Log("RemoveCommand", "Invalid Flag");
+		LOGGER->Log("ClearCommand", "Invalid Flag");
 		valid = false;
 		return;
 	}
@@ -64,38 +62,38 @@ RemoveCommand::RemoveCommand(vector<string> args)
 	else
 	{
 		valid = false;
-		LOGGER->Log("RemoveCommand", "Invalid Object Type");
+		LOGGER->Log("ClearCommand", "Invalid Object Type");
 		return;
 	}
 }
 
-RemoveCommand::~RemoveCommand()
+ClearCommand::~ClearCommand()
 {
 
 }
 
-void RemoveCommand::execute(ScriptLine * scriptLine)
+void ClearCommand::execute(ScriptLine * scriptLine)
 {
 	if (valid)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			scriptLine->setCharacterAlpha(objectName, alpha);
+			scriptLine->setAllCharacterAlpha(alpha);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
-			scriptLine->setBackgroundAlpha(objectName, alpha);
+			scriptLine->setAllBackgroundAlpha(alpha);
 		}
 
 		if ((animationType == ANIMATION_NONE || alpha <= 0.0f) && objectType == OBJECT_CHARACTER)
 		{
 			done = true;
-			scriptLine->removeCharacter(objectName);
+			scriptLine->removeAllCharacters();
 		}
 		else if ((animationType == ANIMATION_NONE || alpha <= 0.0f) && objectType == OBJECT_BACKGROUND)
 		{
 			done = true;
-			scriptLine->removeBackground(objectName);
+			scriptLine->removeAllBackgrounds();
 		}
 	}
 	else
@@ -104,14 +102,14 @@ void RemoveCommand::execute(ScriptLine * scriptLine)
 	}
 }
 
-void RemoveCommand::skipUpdate()
+void ClearCommand::skipUpdate()
 {
 	alpha = 0.0f;
 	wait = false;
 	done = true;
 }
 
-void RemoveCommand::update(float delta_t)
+void ClearCommand::update(float delta_t)
 {
 	if (valid && time > 0)
 	{
@@ -123,7 +121,7 @@ void RemoveCommand::update(float delta_t)
 			if (alpha <= 0.0f)
 			{
 				alpha = 0.0f;
-				wait= false;
+				wait = false;
 			}
 		}
 	}

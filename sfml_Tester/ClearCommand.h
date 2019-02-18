@@ -5,11 +5,11 @@
 #include "ScriptCommand.h"
 using namespace std;
 
-class RemoveCommand : public ScriptCommand
+class ClearCommand : public ScriptCommand
 {
 public:
-	RemoveCommand(vector<string> args);
-	~RemoveCommand();
+	ClearCommand(vector<string> args);
+	~ClearCommand();
 
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
@@ -19,8 +19,6 @@ private:
 
 	std::string objectTypeName;
 	std::string flag;
-
-	std::string objectName;
 
 	float time;
 
