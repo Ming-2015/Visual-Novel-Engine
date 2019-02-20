@@ -150,6 +150,7 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 						for (auto c : commands)
 						{
+							c->execute(currentScriptLine);
 							c->skipUpdate();
 						}
 
