@@ -35,12 +35,8 @@ public:
 	const TextboxImage* getTextboxImage() const;
 	bool shouldHideTextbox() const;
 
-	std::string getBGMFileName() const;
-
-	int getNumChoices() const;
+	std::vector<ChoiceImage*> getChoices() const;
 	bool isChoice() const;
-	std::vector < std::string > getChoices() const;
-	std::vector < std::string > getNextFileNames() const;
 
 	std::vector < CharacterImage* > getCharacterImages() const;
 	std::vector < BackgroundImage* > getBackgroundImages() const;

@@ -1,7 +1,7 @@
 #include "TextboxImage.h"
 
 TextboxImage::TextboxImage()
-	: ItemImage("textbox", "textboxw.png", 0, 0)
+	: ItemImage("assets", "textboxw.png", 0, 0)
 {
 	initText();
 }
@@ -34,6 +34,7 @@ void TextboxImage::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 void TextboxImage::setTextboxColor(sf::Color color)
 {
 	this->color = color;
+	this->color.a = alpha;
 	sprite.setColor(color);
 }
 

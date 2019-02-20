@@ -6,7 +6,7 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 	// checking if the first argument is show
 	if (UTILITY->toLower(args[COLUMN_ACTION]) != "display")
 	{
-		LOGGER->Log("ShowCommand", "Invalid Command Input");
+		LOGGER->Log("DisplayCommand", "Invalid Command Input");
 		valid = false;
 		return;
 	}
@@ -88,9 +88,16 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 			return;
 		}
 
-		bool choice = false;
+		bool choice = true;
 		for (int i = COLUMN_ARG2; i < COLUMN_ARG2 + 2 * numChoices; i++)
 		{
+			if (args.size() <= i)
+			{
+				LOGGER->Log("DisplayCommand", "Missing choices and/or flags");
+				valid = false;
+				return;
+			}
+
 			if (choice)
 			{
 				displayLines.push_back(args[i]);
@@ -111,12 +118,8 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 	currentLineIndex = 0;
 	currentCharIndex = 0;
 
-	if (animationType == ANIMATION_INSTANT)
+	if (animationType == ANIMATION_INSTANT && objectType == OBJECT_LINE)
 	{
-		for (string s : displayLines)
-		{
-			currentLine += s;
-		}
 		currentLineIndex = displayLines.size() - 1;
 		currentCharIndex = displayLines[currentLineIndex].length() - 1;
 		currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
@@ -135,7 +138,11 @@ void DisplayCommand::execute(ScriptLine * scriptLine)
 	}
 	else if (objectType == OBJECT_CHOICE)
 	{
-
+		if (!displayedChoices)
+		{
+			displayedChoices = true;
+			scriptLine->setChoices(displayLines, userFlags);
+		}
 	}
 }
 
@@ -146,7 +153,14 @@ void DisplayCommand::skipUpdate()
 		wait = false;
 		done = true;
 	}
-	if (objectType == OBJECT_LINE && animationType == ANIMATION_NONE)
+
+	if (objectType == OBJECT_CHOICE && animationType == ANIMATION_NONE)
+	{
+		wait = false;
+		done = true;
+	}
+
+	else if (objectType == OBJECT_LINE && animationType == ANIMATION_NONE)
 	{
 		if (currentLineIndex < displayLines.size())
 		{

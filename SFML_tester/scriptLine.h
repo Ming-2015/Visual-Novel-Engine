@@ -14,6 +14,7 @@
 #include "CharacterImage.h"
 #include "BackgroundImage.h"
 #include "TextboxImage.h"
+#include "ChoiceImage.h"
 
 using namespace std;
 
@@ -30,12 +31,8 @@ public:
 	vector<sf::Music*> voices;			
 	vector<sf::Music*> sfx;
 
-	string BGMFileName;					// background music file name
-
-	bool isChoice;						// Is user input prompted after this line?
-	int numChoices;						// the number of choices to be displayed to the User
-	vector<string> choices;				// If isChoice, will hold the line ID of the possible next lines  CHANGE SIZE
-	vector<string> nextFileNames;		// script file names of the next line (if isChoice is true)
+	bool isChoice = false;					// Is user input prompted after this line?
+	vector<ChoiceImage *> choiceImages;		// If isChoice, will hold the line ID of the possible next lines  CHANGE SIZE
 
 	vector<CharacterImage *> characterImages;	
 	vector<BackgroundImage *> backgroundImages;
@@ -47,9 +44,12 @@ public:
 	ScriptLine();
 	~ScriptLine();
 
+	void setChoices(const vector<string>& choices, const vector<string>& flags);
+	void clearChoices();
+
 	void setCharacter(const string& name, const string& expression, 
 		float xPos, float yPos, 
-		float fadeTime = 0.0f
+		float fadeTime = 0.5f
 	);
 
 	void setBackground(const string& name, const string& timeOfTheDay,

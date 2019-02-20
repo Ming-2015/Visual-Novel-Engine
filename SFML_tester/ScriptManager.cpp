@@ -40,29 +40,14 @@ bool ScriptManager::shouldHideTextbox() const
 	return currentScriptLine->hideTextbox;
 }
 
-std::string ScriptManager::getBGMFileName() const
+std::vector<ChoiceImage*> ScriptManager::getChoices() const
 {
-	return currentScriptLine->BGMFileName;
-}
-
-int ScriptManager::getNumChoices() const
-{
-	return currentScriptLine->numChoices;
+	return currentScriptLine->choiceImages;
 }
 
 bool ScriptManager::isChoice() const
 {
 	return currentScriptLine->isChoice;
-}
-
-std::vector<std::string> ScriptManager::getChoices() const
-{
-	return currentScriptLine->choices;
-}
-
-std::vector<std::string> ScriptManager::getNextFileNames() const
-{
-	return currentScriptLine->nextFileNames;
 }
 
 std::vector<CharacterImage* > ScriptManager::getCharacterImages() const
@@ -118,18 +103,83 @@ void ScriptManager::update(float delta_t)
 
 		if (incrementIt) it++;
 	}
+
+	for (auto c : currentScriptLine->backgroundImages)
+	{
+		if (c != nullptr) c->update(delta_t);
+	}
+
+	for (auto c : currentScriptLine->characterImages)
+	{
+		if (c != nullptr) c->update(delta_t);
+	}
+
+	if (currentScriptLine->textboxImage != nullptr)
+	{
+		currentScriptLine->textboxImage->update(delta_t);
+	}
 }
 
 void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 {
+	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+
 	switch (e.type)
 	{
-		case sf::Event::MouseButtonPressed:
+		case sf::Event::MouseButtonReleased:
 		{
-			for (auto c : commands)
+			// if user needs to select a choice
+			if (currentScriptLine->isChoice)
 			{
-				c->skipUpdate();
+				for (auto c : getChoices())
+				{
+					// if the choice is selected... clear the command and insert new flag
+					if (c->getGlobalBoundary().contains(mousePosF))
+					{
+						GLOBAL->userFlags.insert(c->getFlag());
+						currentScriptLine->clearChoices();
+
+						for (auto c : commands)
+						{
+							c->skipUpdate();
+						}
+
+						break;
+					}
+				}
 			}
+
+			// otherwise skip the command update
+			else
+			{
+				for (auto c : commands)
+				{
+					c->skipUpdate();
+				}
+			}
+			break;
+		}
+
+		case sf::Event::MouseMoved:
+		{
+			// if user needs to select a choice
+			if (currentScriptLine->isChoice)
+			{
+				for (auto c : getChoices())
+				{
+					// change color based on when the choicebox is selected
+					if (c->getGlobalBoundary().contains(mousePosF))
+					{
+						c->setChoiceboxColor( GLOBAL->choiceboxColorSelected );
+					}
+					else
+					{
+						c->setChoiceboxColor( GLOBAL->choiceboxColorUnselected );
+					}
+				}
+			}
+
 			break;
 		}
 	}
@@ -268,7 +318,7 @@ void ScriptManager::readCommands()
 				{
 					readNewFile(GLOBAL->ResourceRoot + tokens[3] + ".csv");
 				}
-				else
+				else if (cmdWord != "")
 				{
 					string msg = "Invalid Command found: " + cmdWord;
 					LOGGER->Log("ScriptManager", msg);

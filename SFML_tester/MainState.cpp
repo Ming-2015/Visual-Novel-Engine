@@ -22,6 +22,17 @@ void MainState::render(sf::RenderWindow & window)
 	{
 		window.draw(*(scriptManager->getTextboxImage()));
 	}
+
+	if (scriptManager->isChoice())
+	{
+		for (auto c : scriptManager->getChoices())
+		{
+			if (c != nullptr)
+			{
+				window.draw(*c);
+			}
+		}
+	}
 }
 
 void MainState::update(float delta_t)
@@ -29,7 +40,6 @@ void MainState::update(float delta_t)
 	//LOGGER->Log("MainState", "Updating script manager");
 	if (scriptManager->doneAllCommands())
 	{
-		LOGGER->Log("MainState", "Reading new command");
 		scriptManager->readCommands();
 	}
 	scriptManager->update(delta_t);

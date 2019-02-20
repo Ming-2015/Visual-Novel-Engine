@@ -14,25 +14,74 @@ ScriptLine::~ScriptLine()
 	{
 		if (c != nullptr) delete c;
 	}
+
 	if (textboxImage != nullptr) delete textboxImage;
+
+	for (auto c : choiceImages)
+	{
+		if (c != nullptr) delete c;
+	}
 
 	for (auto m : bgm)
 	{
-		m->stop();
-		delete m;
+		if (m != nullptr)
+		{
+			m->stop();
+			delete m;
+		}
 	}
 
 	for (auto m : voices)
 	{
-		m->stop();
-		delete m;
+		if (m != nullptr)
+		{
+			m->stop();
+			delete m;
+		}
 	}
 
 	for (auto m : sfx)
 	{
-		m->stop();
-		delete m;
+		if (m != nullptr)
+		{
+			m->stop();
+			delete m;
+		}
 	}
+}
+
+void ScriptLine::setChoices(const vector<string>& choices, const vector<string>& flags)
+{
+	isChoice = true;
+	if (choices.size() != flags.size())
+	{
+		LOGGER->Log("ScriptLine", "The number of choices is not matching the number of flags.");
+		return;
+	}
+
+	for (auto c : choiceImages)
+	{
+		if (c != nullptr) delete c;
+	}
+	choiceImages.clear();
+
+	vector<string> tmp;
+	for (int i = 0; i < choices.size(); i++)
+	{
+		tmp.push_back( addAllNewLines(choices[i], 70) );
+		ChoiceImage * choiceImage = new ChoiceImage(tmp[i], flags[i], choices.size(), i);
+		choiceImages.push_back(choiceImage);
+	}
+}
+
+void ScriptLine::clearChoices()
+{
+	for (auto c : choiceImages)
+	{
+		if (c != nullptr) delete c;
+	}
+	choiceImages.clear();
+	isChoice = false;
 }
 
 void ScriptLine::setCharacterRotation(const string& name, const string& expression, bool clockwise, float degree)

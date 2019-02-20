@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <set>
 #include <SFML/Graphics.hpp>
 
 #include "Logger.h"
@@ -23,7 +24,6 @@ public:
 
 	const std::string ResourceRoot = "resources/";
 	const std::string ImageRoot = "images/";
-	//std::string ImageRoot = "images/";
 
 	const std::string TextBoxLocation = "images/textbox/textboxw.png";
 	const std::string TextBoxColorLocation = "resources/TextboxColors.csv";
@@ -34,7 +34,12 @@ public:
 	string PlayerName = "PlayerName";
 	bool autoMode = false;
 
+	std::set< std::string > userFlags;
+
 	sf::Color getTextboxColor(const std::string& name);
+
+	sf::Color choiceboxColorSelected = sf::Color(255, 20, 150, 190);
+	sf::Color choiceboxColorUnselected = sf::Color(180, 0, 80, 190);
 
 	static Global* GetGlobal();
 	static void CleanUp();

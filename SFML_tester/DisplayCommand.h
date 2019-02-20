@@ -50,5 +50,7 @@ private:
 	float timer;
 	int currentLineIndex, currentCharIndex;
 
+	bool displayedChoices = false;
+
 	std::string assembleString(const std::vector<std::string>& lines, int lineIndex, int charIndex);
 };

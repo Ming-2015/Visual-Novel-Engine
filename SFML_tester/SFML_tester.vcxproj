@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ChoiceImage.cpp" />
     <ClCompile Include="DelayCommand.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
     <ClCompile Include="HideCommand.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="BackgroundImage.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CharacterImage.h" />
+    <ClInclude Include="ChoiceImage.h" />
     <ClInclude Include="ClearCommand.h" />
     <ClInclude Include="DelayCommand.h" />
     <ClInclude Include="DisplayCommand.h" />

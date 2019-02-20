@@ -192,6 +192,9 @@
     <ClCompile Include="UnhideCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
+    <ClCompile Include="ChoiceImage.cpp">
+      <Filter>Source Files\Script\ItemImage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -325,6 +328,9 @@
     </ClInclude>
     <ClInclude Include="UnhideCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="ChoiceImage.h">
+      <Filter>Header Files\Script\ItemImage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,10 +18,12 @@ protected:
 	// for fading
 	bool fading;
 	float duration;
+	float finalAlpha = 255.f;
 	string nextExpression;	
 	sf::Color nextColor;
 	sf::Texture nextTexture;
 	sf::Sprite nextSprite;
+	float nextXPos, nextYPos;
 	
 	// name and expression of the character
 	string name;
@@ -51,7 +53,6 @@ public:
 	void setRotation(bool clockwise, float angle_degree);
 	void setScale(float xScale, float yScale, float xPos = 0, float yPos = 0);
 	sf::Vector2f getScale() const;
-	void scaleRel(float xOffset, float yOffset);
 
 	void changeExpression(string expression, float time=0);
 
@@ -65,4 +66,5 @@ public:
 	std::string getExpression() const;
 	float getAlpha() const;
 	sf::FloatRect getLocalBoundary() const;
+	sf::FloatRect getGlobalBoundary() const;
 };

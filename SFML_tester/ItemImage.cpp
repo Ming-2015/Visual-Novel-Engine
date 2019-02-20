@@ -44,6 +44,10 @@ void ItemImage::setAlpha(float alpha)
 	color.a = a;
 	this->alpha = a;
 	sprite.setColor(color);
+
+	if (fading) {
+		finalAlpha = a;
+	}
 }
 
 void ItemImage::addAlpha(float alphaOffset)
@@ -54,6 +58,11 @@ void ItemImage::addAlpha(float alphaOffset)
 	color.a = a;
 	this->alpha = a;
 	sprite.setColor(color);
+
+	if (fading)
+	{
+		finalAlpha = a;
+	}
 }
 
 void ItemImage::move(float xOffset, float yOffset)
@@ -61,12 +70,24 @@ void ItemImage::move(float xOffset, float yOffset)
 	xPos += xOffset;
 	yPos += yOffset;
 	sprite.setPosition(xPos, yPos);
+
+	if (fading)
+	{
+		nextXPos += xOffset;
+		nextYPos += yOffset;
+		nextSprite.setPosition(nextXPos, nextYPos);
+	}
 }
 
 void ItemImage::rotate(bool clockwise, float angle_degree)
 {
 	rotationDegree += clockwise ? angle_degree : -angle_degree;
 	sprite.setRotation(rotationDegree);
+
+	if (fading)
+	{
+		nextSprite.setRotation(rotationDegree);
+	}
 }
 
 void ItemImage::scale(float xOffset, float yOffset, float xPos, float yPos)
@@ -76,13 +97,11 @@ void ItemImage::scale(float xOffset, float yOffset, float xPos, float yPos)
 	xScale *= xOffset;
 	yScale *= yOffset;
 	sprite.setScale(xScale, yScale);
-}
 
-void ItemImage::scaleRel(float xOffset, float yOffset)
-{
-	xScale *= xOffset;
-	yScale *= yOffset;
-	sprite.scale(xScale, yScale);
+	if (fading)
+	{
+		nextSprite.setScale(xScale, yScale);
+	}
 }
 
 void ItemImage::setPosition(float xPos, float yPos)
@@ -90,12 +109,24 @@ void ItemImage::setPosition(float xPos, float yPos)
 	this->xPos = xPos + sprite.getLocalBounds().width /2.0f;
 	this->yPos = yPos + sprite.getLocalBounds().height /2.0f;
 	sprite.setPosition(this->xPos, this->yPos);
+
+	if (fading)
+	{
+		nextXPos = xPos + nextSprite.getLocalBounds().width / 2.0f;
+		nextYPos = yPos + nextSprite.getLocalBounds().width / 2.0f;
+		nextSprite.setPosition(nextXPos, nextYPos);
+	}
 }
 
 void ItemImage::setRotation(bool clockwise, float angle_degree)
 {
 	rotationDegree = clockwise ? angle_degree : 360.f - angle_degree;
 	sprite.setRotation(rotationDegree);
+
+	if (fading)
+	{
+		nextSprite.setRotation(rotationDegree);
+	}
 }
 
 void ItemImage::setScale(float xScale, float yScale, float xPos, float yPos)
@@ -105,6 +136,11 @@ void ItemImage::setScale(float xScale, float yScale, float xPos, float yPos)
 	this->xScale = xScale;
 	this->yScale = yScale;
 	sprite.setScale(xScale, yScale);
+
+	if (fading)
+	{
+		nextSprite.setScale(xScale, yScale);
+	}
 }
 
 sf::Vector2f ItemImage::getScale() const
@@ -114,6 +150,11 @@ sf::Vector2f ItemImage::getScale() const
 
 void ItemImage::changeExpression(string expression, float time)
 {
+	if (nextExpression == expression)
+	{
+		return;
+	}
+
 	if (fading)
 	{
 		this->expression = nextExpression;
@@ -132,6 +173,14 @@ void ItemImage::changeExpression(string expression, float time)
 	}
 	else
 	{
+		nextExpression = expression;
+		
+		fading = true;
+		duration = time;
+		nextColor = color;
+		nextColor.a = 0;
+		finalAlpha = color.a;
+
 		std::string filename = getImagePath(name, nextExpression);
 		if (!nextTexture.loadFromFile(filename))
 		{
@@ -140,19 +189,15 @@ void ItemImage::changeExpression(string expression, float time)
 			return;
 		}
 		nextSprite.setTexture(nextTexture);
-
-		fading = true;
-		duration = time;
-		nextExpression = expression;
-		nextColor = sf::Color(255.f, 255.f, 255.f, alpha);
-
-		nextSprite.setPosition(xPos, yPos);
 		
-		nextSprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
+		nextSprite.setOrigin(nextSprite.getLocalBounds().width / 2.0f, nextSprite.getLocalBounds().height / 2.0f);
+		nextXPos = xPos - sprite.getLocalBounds().width / 2.0f + nextSprite.getLocalBounds().width / 2.0f;
+		nextYPos = yPos - sprite.getLocalBounds().height / 2.0f + nextSprite.getLocalBounds().height / 2.0f;
+		nextSprite.setPosition(nextXPos, nextYPos);
+		
 		nextSprite.setRotation(rotationDegree);
-
-		nextSprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height);
 		nextSprite.setScale(xScale, yScale);
+		nextSprite.setColor(nextColor);
 	}
 }
 
@@ -172,20 +217,38 @@ void ItemImage::update(float delta_t)
 {
 	if (fading)
 	{
-		if (nextColor.a <= 0)
+		if (nextColor.a >= finalAlpha)
 		{
 			this->expression = nextExpression;
-			sprite.setTexture(nextTexture);
+			sprite = nextSprite;
 			texture = nextTexture;
+			color = nextColor;
+			xPos = nextXPos;
+			yPos = nextYPos;
 			fading = false;
 		}
 		else
 		{
-			float alphaOffset = delta_t / duration * alpha;
-			nextColor.a -= alphaOffset;
-			if (nextColor.a < 0) nextColor.a = 0;
-			else if (nextColor.a > 255.f) nextColor.a = 255.f;
+			float alphaOffset = delta_t / duration * finalAlpha;
+			if (finalAlpha - nextColor.a <= alphaOffset)
+			{
+				nextColor.a = finalAlpha;
+			}
+			else
+			{
+				nextColor.a += alphaOffset;
+			}
 			nextSprite.setColor(nextColor);
+
+			//if (color.a >= alphaOffset)
+			//{
+			//	color.a -= alphaOffset;
+			//}
+			//else
+			//{
+			//	color.a = 0;
+			//}
+			//sprite.setColor(color);
 		}
 	}
 }
@@ -218,4 +281,9 @@ float ItemImage::getAlpha() const
 sf::FloatRect ItemImage::getLocalBoundary() const
 {
 	return sprite.getLocalBounds();
+}
+
+sf::FloatRect ItemImage::getGlobalBoundary() const
+{
+	return sprite.getGlobalBounds();
 }
