@@ -129,6 +129,7 @@
     <ClCompile Include="ChoiceImage.cpp" />
     <ClCompile Include="DelayCommand.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
+    <ClCompile Include="FlashCommand.cpp" />
     <ClCompile Include="HideCommand.cpp" />
     <ClCompile Include="ItemImage.cpp" />
     <ClCompile Include="Config.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="ClearCommand.h" />
     <ClInclude Include="DelayCommand.h" />
     <ClInclude Include="DisplayCommand.h" />
+    <ClInclude Include="FlashCommand.h" />
     <ClInclude Include="HideCommand.h" />
     <ClInclude Include="ItemImage.h" />
     <ClInclude Include="Config.h" />

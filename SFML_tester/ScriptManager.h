@@ -18,6 +18,7 @@
 #include "ResumeCommand.h"
 #include "RemoveCommand.h"
 #include "ClearCommand.h"
+#include "FlashCommand.h"
 #include "HideCommand.h"
 #include "DelayCommand.h"
 #include "UnhideCommand.h"

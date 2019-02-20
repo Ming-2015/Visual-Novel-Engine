@@ -242,6 +242,12 @@ void ScriptManager::readCommands()
 					if (command->shouldWait()) stop = true;
 					commands.push_back(command);
 				}
+				if (cmdWord == "flash")
+				{
+					command = new FlashCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
 				else if (cmdWord == "display")
 				{
 					command = new DisplayCommand(tokens);
