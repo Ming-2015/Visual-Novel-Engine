@@ -1,6 +1,8 @@
 #pragma once
-#include "GameState.h"
 #include <string>
+
+#include "GameState.h"
+#include "Global.h"
 
 class NewGameState : public GameState
 {

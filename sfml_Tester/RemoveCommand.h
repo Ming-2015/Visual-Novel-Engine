@@ -34,4 +34,5 @@ private:
 
 	const static int OBJECT_CHARACTER = 0;
 	const static int OBJECT_BACKGROUND = 1;
+	const static int OBJECT_FLAG = 2;
 };

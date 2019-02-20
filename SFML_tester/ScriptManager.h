@@ -22,6 +22,7 @@
 #include "HideCommand.h"
 #include "DelayCommand.h"
 #include "UnhideCommand.h"
+#include "JumpCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager
@@ -47,7 +48,6 @@ public:
 	bool doneAllCommands() const;
 
 	void readCommands();
-	void readNewFile(std::string filename);
 
 	void init();
 	void update(float delta_t);

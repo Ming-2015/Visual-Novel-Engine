@@ -114,6 +114,9 @@ public:
 	void resumeSfx();
 	void resumeVoice();
 
+	void readNewFile(std::string filename);
+	void readNewFileToAnchor(std::string filename, std::string anchor);
+
 private:
 	std::string addAllNewLines(std::string str, unsigned int lineLength);
 	std::string addNewLineToPrevWord(std::string str, unsigned int pos);

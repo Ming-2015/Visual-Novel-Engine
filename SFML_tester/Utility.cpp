@@ -8,6 +8,26 @@ Utility::Utility()
 	
 }
 
+std::string Utility::parseExpression(const std::string& str, char c)
+{
+	bool prepend = str[0] == c;
+	bool append = str[str.length() - 1] == c;
+
+	std::vector<std::string> tokens = split(str, c);
+
+	std::string parsedExpression = trim(tokens[0]);
+
+	for (int i = 1; i < tokens.size(); i++)
+	{
+		parsedExpression += " " + string(1, c) + " " + tokens[i];
+	}
+
+	//if (prepend) parsedExpression = string(1, c) + parsedExpression;
+	if (append) parsedExpression = parsedExpression + " " + string(1, c);
+
+	return trim(parsedExpression);
+}
+
 std::vector<std::string> Utility::split(const std::string& s, char delimiter)
 {
 	std::vector<std::string> tokens;
@@ -121,6 +141,113 @@ std::string Utility::toLower(const std::string & str)
 	std::string tmp = str;
 	for (auto & c : tmp) c = tolower(c);
 	return tmp;
+}
+
+bool Utility::evaluateFlagExpression(const std::set<std::string>& flags, const std::string & flagExpression)
+{
+	bool expression = false;
+
+	// add empty spaces between the expression and operator
+	std::string parsedExpression = flagExpression;
+	parsedExpression = parseExpression(parsedExpression, '&');
+	parsedExpression = parseExpression(parsedExpression, '^');
+	parsedExpression = parseExpression(parsedExpression, '!');
+	parsedExpression = parseExpression(parsedExpression, '(');
+	parsedExpression = parseExpression(parsedExpression, ')');
+
+	// separate all the items into tokens
+	std::vector<std::string> tmp = split(parsedExpression, ' ');
+	std::vector<std::string> tokens;
+	for (int i = 0; i < tmp.size(); i++)
+	{
+		if (tmp[i] != "")
+		{
+			tokens.push_back(tmp[i]);
+		}
+	}
+
+	// initialize stack
+	std::stack<std::string> opstack;
+	std::vector<std::string> postfix;
+
+	for (int i = 0; i < tokens.size(); i++)
+	{
+		if (tokens[i] == "&" || tokens[i] == "^" || tokens[i] == "!")
+		{
+			// NOTE: might need to consider precedence
+			opstack.push(tokens[i]);
+		}
+
+		else if (tokens[i] == "(")
+		{
+			opstack.push(tokens[i]);
+		}
+
+		else if (tokens[i] == ")")
+		{
+			while (opstack.top() != "(")
+			{
+				postfix.push_back(opstack.top());
+				opstack.pop();
+			}
+
+			// remove the "(" 
+			opstack.pop();
+		}
+
+		else
+		{
+			postfix.push_back(tokens[i]);
+		}
+	}
+
+	while (!opstack.empty())
+	{
+		postfix.push_back(opstack.top());
+		opstack.pop();
+	}
+
+	std::stack< bool > evaluatedExpression;
+	for (int i = 0; i < postfix.size(); i++)
+	{
+		if (postfix[i] == "&")
+		{
+			bool left = evaluatedExpression.top();
+			evaluatedExpression.pop();
+			bool right = evaluatedExpression.top();
+			evaluatedExpression.pop();
+			evaluatedExpression.push(left && right);
+		}
+		else if (postfix[i] == "^")
+		{
+			bool left = evaluatedExpression.top();
+			evaluatedExpression.pop();
+			bool right = evaluatedExpression.top();
+			evaluatedExpression.pop();
+			evaluatedExpression.push(left || right);
+		}
+		else if (postfix[i] == "!")
+		{
+			bool operand = evaluatedExpression.top();
+			evaluatedExpression.pop();
+			evaluatedExpression.push(!operand);
+		}
+		else
+		{
+			evaluatedExpression.push(flags.find(postfix[i]) != flags.end());
+		}
+	}
+
+	if (evaluatedExpression.size() != 1)
+	{
+		std::string err = "Failed to properly parse flag expression: " + flagExpression;
+		LOGGER->Log("Utility", err);
+		return false;
+	}
+
+	expression = evaluatedExpression.top();
+
+	return expression;
 }
 
 Utility* Utility::GetUtility()

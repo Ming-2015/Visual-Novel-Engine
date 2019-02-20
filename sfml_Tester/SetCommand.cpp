@@ -95,20 +95,24 @@ void SetCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			if (initiailized) {
+			if (!initiailized) {
 				scriptLine->removeAllCharacters();
 				scriptLine->setCharacter(objectName, objectSubname, x1, y1);
-				initiailized = false;
+				scriptLine->setCharacterZoom(objectName, objectSubname, 1, 1);
+				scriptLine->setCharacterRotation(objectName, objectSubname, true, 0);
+				initiailized = true;
 			}
 
 			scriptLine->setCharacterAlpha(objectName, alpha);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
-			if (initiailized) {
+			if (!initiailized) {
 				scriptLine->removeAllBackgrounds();
 				scriptLine->setBackground(objectName, objectSubname, x1, y1);
-				initiailized = false;
+				scriptLine->setBackgroundZoom(objectName, objectSubname, 1, 1);
+				scriptLine->setBackgroundRotation(objectName, objectSubname, true, 0);
+				initiailized = true;
 			}
 
 			scriptLine->setBackgroundAlpha(objectName, alpha);

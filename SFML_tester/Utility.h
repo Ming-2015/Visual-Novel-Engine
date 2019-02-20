@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <set>
+#include <stack>
 #include <SFML/Graphics.hpp>
 #include "Logger.h"
 using namespace std;
@@ -41,12 +43,16 @@ public:
 	std::string toUpper(const std::string& str);
 	std::string toLower(const std::string& str);
 
+	bool evaluateFlagExpression(const std::set<std::string>& flags, const std::string& flagExpression);
+
 	static Utility* GetUtility();
 	static void CleanUp();
 
 private:
 	Utility();
 	static Utility * util_ptr;
+
+	std::string parseExpression(const std::string& str, char c);
 };
 
 #endif

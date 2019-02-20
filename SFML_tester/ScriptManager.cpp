@@ -102,7 +102,6 @@ void ScriptManager::update(float delta_t)
 
 			if ((*it)->isDone())
 			{
-				(*it) -> skipUpdate();
 				delete *it;
 				it = commands.erase(it);
 				incrementIt = false;
@@ -272,107 +271,82 @@ void ScriptManager::readCommands()
 				if (cmdWord == "show")
 				{
 					command = new ShowCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "remove")
 				{
 					command = new RemoveCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "clear")
 				{
 					command = new ClearCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
-				if (cmdWord == "flash")
+				else if (cmdWord == "flash")
 				{
 					command = new FlashCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "display")
 				{
 					command = new DisplayCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "set")
 				{
 					command = new SetCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "move")
 				{
 					command = new MoveCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "rotate")
 				{
 					command = new RotateCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "zoom")
 				{
 					command = new ZoomCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "play")
 				{
 					command = new PlayCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "stop")
 				{
 					command = new StopCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "pause")
 				{
 					command = new PauseCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "resume")
 				{
 					command = new ResumeCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "hide")
 				{
 					command = new HideCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "delay")
 				{
 					command = new DelayCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "unhide")
 				{
 					command = new UnhideCommand(tokens);
-					if (command->shouldWait()) stop = true;
-					commands.push_back(command);
 				}
 				else if (cmdWord == "jump" && tokens.size() >= 4)
 				{
-					readNewFile(GLOBAL->ResourceRoot + tokens[3] + ".csv");
+					command = new JumpCommand(tokens);
 				}
 				else if (cmdWord != "")
 				{
 					string msg = "Invalid Command found: " + cmdWord;
 					LOGGER->Log("ScriptManager", msg);
+					command = nullptr;
+				}
+
+				if (command != nullptr)
+				{
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
 				}
 			}
 		}
@@ -380,20 +354,5 @@ void ScriptManager::readCommands()
 	else
 	{
 		LOGGER->Log("ScriptManager", "Reached EOF of current Script File!");
-	}
-}
-
-void ScriptManager::readNewFile(std::string filename)
-{
-	if (currentScriptLine->filename != filename)
-	{
-		// open a new file
-		currentScriptLine->filename = filename;
-		currentScriptLine->file.close();
-		currentScriptLine->file.open(filename);
-	}
-	else
-	{
-		currentScriptLine->file.seekg(currentScriptLine->file.beg);
 	}
 }

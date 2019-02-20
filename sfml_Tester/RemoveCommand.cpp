@@ -61,6 +61,16 @@ RemoveCommand::RemoveCommand(vector<string> args)
 	{
 		objectType = OBJECT_BACKGROUND;
 	}
+	else if (objectTypeName == "flag" || objectTypeName == "f")
+	{
+		objectType = OBJECT_FLAG;
+		if (animationType != ANIMATION_NONE)
+		{
+			valid = false;
+			LOGGER->Log("RemoveCommand", "Invalid flag for Remove Flag");
+			return;
+		}
+	}
 	else
 	{
 		valid = false;
@@ -85,6 +95,15 @@ void RemoveCommand::execute(ScriptLine * scriptLine)
 		else if (objectType == OBJECT_BACKGROUND)
 		{
 			scriptLine->setBackgroundAlpha(objectName, alpha);
+		}
+		else if (objectType == OBJECT_FLAG)
+		{
+			auto it = GLOBAL->userFlags.find(objectName);
+			if (it != GLOBAL->userFlags.end())
+			{
+				GLOBAL->userFlags.erase(it);
+			}
+			done = true;
 		}
 
 		if ((animationType == ANIMATION_NONE || alpha <= 0.0f) && objectType == OBJECT_CHARACTER)

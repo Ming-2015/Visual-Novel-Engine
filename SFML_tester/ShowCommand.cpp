@@ -104,6 +104,8 @@ void ShowCommand::execute(ScriptLine * scriptLine)
 			if (!initialized)
 			{
 				scriptLine->setCharacter(objectName, objectSubname, x1, y1);
+				scriptLine->setCharacterZoom(objectName, objectSubname, 1, 1);
+				scriptLine->setCharacterRotation(objectName, objectSubname, true, 0);
 				initialized = true;
 				
 			}
@@ -114,6 +116,8 @@ void ShowCommand::execute(ScriptLine * scriptLine)
 			if (!initialized)
 			{
 				scriptLine->setBackground(objectName, objectSubname, x1, y1);
+				scriptLine->setBackgroundZoom(objectName, objectSubname, 1, 1);
+				scriptLine->setBackgroundRotation(objectName, objectSubname, true, 0);
 				initialized = true;
 			}
 			scriptLine->setBackgroundAlpha(objectName, alpha);

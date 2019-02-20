@@ -49,7 +49,7 @@ DelayCommand::DelayCommand(std::vector<std::string> args)
 	else
 	{
 		valid = false;
-		LOGGER->Log("PlayCommand", "Invalid Object Type");
+		LOGGER->Log("DelayCommand", "Invalid Object Type");
 		return;
 	}
 }

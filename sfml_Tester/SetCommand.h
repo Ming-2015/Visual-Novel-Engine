@@ -38,5 +38,5 @@ private:
 	const static int OBJECT_CHARACTER = 0;
 	const static int OBJECT_BACKGROUND = 1;
 
-	bool initiailized = true;
+	bool initiailized = false;
 };

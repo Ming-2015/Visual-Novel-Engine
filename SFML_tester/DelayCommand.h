@@ -16,10 +16,7 @@ private:
 
 	std::string objectTypeName;
 	std::string flag;
-
-	std::string objectName;			// the name of the character or background
-	std::string objectSubname;		// the expression of character or time-of-the-day of background
-
+		
 	float time;
 	float currentTime = 0;
 	bool finishedTime = false;

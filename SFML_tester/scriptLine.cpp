@@ -604,6 +604,55 @@ void ScriptLine::resumeVoice()
 	}
 }
 
+void ScriptLine::readNewFile(std::string p_filename)
+{
+	if (filename != p_filename)
+	{
+		// open a new file
+		filename = p_filename;
+		file.close();
+		file.open(filename);
+	}
+	else
+	{
+		file.seekg(file.beg);
+	}
+}
+
+void ScriptLine::readNewFileToAnchor(std::string filename, std::string anchor)
+{
+	readNewFile(filename);
+
+	bool stop = false;
+	while (!stop)
+	{
+		if (file.eof())
+		{
+			LOGGER->Log("ScriptLine", "EOF of file reached unexpectedly!");
+			break;
+		}
+
+		std::string line;
+		std::getline(file, line);
+		line = UTILITY->cutLine(line, "#");	// use # for comments
+
+		std::vector<std::string> tokens = UTILITY->split(line, '|');
+		tokens = UTILITY->trim(tokens);
+
+		if (tokens.size() > 0)
+		{
+			std::string cmdWord = UTILITY->toLower(tokens[0]);
+			if (cmdWord == "anchor")
+			{
+				if (tokens[3] == anchor) 
+				{
+					stop = true;
+				}
+			}
+		}
+	}
+}
+
 std::string ScriptLine::addNewLineToPrevWord(std::string str, unsigned int pos)
 {
 	unsigned int found = UTILITY->findLastOf(str, ' ', pos);

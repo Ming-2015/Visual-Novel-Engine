@@ -30,6 +30,8 @@ void NewGameState::init()
 	nextState = GameState::STATE_MAIN;
 	shouldChangeState = true;
 	LOGGER->Log("NewGameState", "Switching to Main State");
+
+	GLOBAL->userFlags.clear();
 }
 
 void NewGameState::cleanup()
