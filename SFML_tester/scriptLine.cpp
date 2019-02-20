@@ -232,6 +232,78 @@ void ScriptLine::setCharacterZoom(const string& name, const string& expression, 
 	}
 }
 
+void ScriptLine::setCharacterShader(const string& name, const string& shaderSrc)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			c->setShader(shaderSrc);
+			return;
+		}
+	}
+}
+
+void ScriptLine::setBackgroundShader(const string& name, const string& shaderSrc)
+{
+	for (auto c : backgroundImages)
+	{
+		if (c->getName() == name)
+		{
+			c->setShader(shaderSrc);
+			return;
+		}
+	}
+}
+
+void ScriptLine::tickBackgroundShader(const string& name, bool isTrue)
+{
+	for (auto c : backgroundImages)
+	{
+		if (c->getName() == name)
+		{
+			c->tickShader(isTrue);
+			return;
+		}
+	}
+}
+
+void ScriptLine::tickCharacterShader(const string& name, bool isTrue)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			c->tickShader(isTrue);
+			return;
+		}
+	}
+}
+
+void ScriptLine::setCharacterBlurRadius(const string& name, float param)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			c->setShaderParam(param);
+			return;
+		}
+	}
+}
+
+void ScriptLine::setBackgroundBlurRadius(const string& name, float param)
+{
+	for (auto c : backgroundImages)
+	{
+		if (c->getName() == name)
+		{
+			c->setShaderParam(param);
+			return;
+		}
+	}
+}
+
 void ScriptLine::setCharacter(const string& name, const string& expression, float xPos, float yPos, float fadeTime)
 {
 	// search if the character already exists

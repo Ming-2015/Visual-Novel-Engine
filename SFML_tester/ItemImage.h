@@ -67,4 +67,10 @@ public:
 	float getAlpha() const;
 	sf::FloatRect getLocalBoundary() const;
 	sf::FloatRect getGlobalBoundary() const;
+
+	bool hasShader = false;
+	void setShader(string src);
+	void tickShader(bool isTrue);
+	sf::Shader shader;
+	void setShaderParam(float shaderParam);
 };
