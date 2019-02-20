@@ -56,6 +56,8 @@ void MainState::update(float delta_t)
 void MainState::init()
 {
 	scriptManager->init();
+	GLOBAL->skipMode = false;
+	GLOBAL->autoMode = false;
 }
 
 void MainState::cleanup()

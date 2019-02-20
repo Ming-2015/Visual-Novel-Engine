@@ -143,6 +143,9 @@ void DisplayCommand::execute(ScriptLine * scriptLine)
 			displayedChoices = true;
 			scriptLine->setChoices(displayLines, userFlags);
 		}
+		
+		// if it is not a choice anymore, then user must have selected a choice
+		selectedChoice = !scriptLine->isChoice;
 	}
 }
 
@@ -156,8 +159,11 @@ void DisplayCommand::skipUpdate()
 
 	if (objectType == OBJECT_CHOICE && animationType == ANIMATION_NONE)
 	{
-		wait = false;
-		done = true;
+		if (selectedChoice)
+		{
+			wait = false;
+			done = true;
+		}
 	}
 
 	else if (objectType == OBJECT_LINE && animationType == ANIMATION_NONE)

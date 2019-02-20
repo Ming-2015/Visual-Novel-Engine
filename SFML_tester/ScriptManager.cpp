@@ -83,6 +83,14 @@ void ScriptManager::init()
 
 void ScriptManager::update(float delta_t)
 {
+	if (GLOBAL->skipMode)
+	{
+		for (auto c : commands)
+		{
+			c->skipUpdate();
+		}
+	}
+
 	for (auto it = commands.begin(); it != commands.end();)
 	{
 		bool incrementIt = true;
@@ -180,6 +188,42 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 				}
 			}
 
+			break;
+		}
+
+		case sf::Event::KeyPressed:
+		{
+			switch (e.key.code) 
+			{
+				case sf::Keyboard::LControl:
+				{
+					GLOBAL->skipMode = true;
+					break;
+				}
+				case sf::Keyboard::RControl:
+				{
+					GLOBAL->skipMode = true;
+					break;
+				}
+			}
+			break;
+		}
+
+		case sf::Event::KeyReleased:
+		{
+			switch (e.key.code)
+			{
+			case sf::Keyboard::LControl:
+			{
+				GLOBAL->skipMode = false;
+				break;
+			}
+			case sf::Keyboard::RControl:
+			{
+				GLOBAL->skipMode = false;
+				break;
+			}
+			}
 			break;
 		}
 	}

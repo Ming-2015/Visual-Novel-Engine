@@ -51,6 +51,7 @@ private:
 	int currentLineIndex, currentCharIndex;
 
 	bool displayedChoices = false;
+	bool selectedChoice = false;
 
 	std::string assembleString(const std::vector<std::string>& lines, int lineIndex, int charIndex);
 };

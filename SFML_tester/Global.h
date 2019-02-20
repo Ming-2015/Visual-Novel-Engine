@@ -33,6 +33,7 @@ public:
 	
 	string PlayerName = "PlayerName";
 	bool autoMode = false;
+	bool skipMode = false;
 
 	std::set< std::string > userFlags;
 

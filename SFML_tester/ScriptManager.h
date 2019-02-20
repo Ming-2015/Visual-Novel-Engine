@@ -58,4 +58,5 @@ private:
 	ScriptLine * currentScriptLine;
 
 	std::string initFileName;
+	
 };
