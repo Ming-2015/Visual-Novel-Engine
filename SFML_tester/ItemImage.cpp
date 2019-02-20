@@ -287,3 +287,21 @@ sf::FloatRect ItemImage::getGlobalBoundary() const
 {
 	return sprite.getGlobalBounds();
 }
+
+void ItemImage::setShader(string src)
+{
+	if (!shader.loadFromFile(src, sf::Shader::Type::Fragment))
+	{
+		cout << "I FAILED TO LOAD SHADER FILE";
+	}
+}
+
+void ItemImage::tickShader(bool isTrue)
+{
+	hasShader = isTrue;
+}
+
+void ItemImage::setShaderParam(float shaderParam)
+{
+	shader.setUniform("blur_radius", shaderParam);
+}

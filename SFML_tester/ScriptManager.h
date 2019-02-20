@@ -23,6 +23,7 @@
 #include "DelayCommand.h"
 #include "UnhideCommand.h"
 #include "JumpCommand.h"
+#include "BlurCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager

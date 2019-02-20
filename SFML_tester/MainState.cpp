@@ -10,11 +10,23 @@ void MainState::render(sf::RenderWindow & window)
 {
 	for (BackgroundImage* bg : scriptManager->getBackgroundImages())
 	{
-		window.draw(*bg);
+		if (bg->hasShader == true)
+		{
+			window.draw(*bg, &(bg->shader));
+		}
+		else
+		{
+			window.draw(*bg);
+		}
 	}
 
 	for (CharacterImage* character : scriptManager->getCharacterImages())
 	{
+		if (character->hasShader == true)
+		{
+			window.draw(*character, &(character->shader));
+		}
+		else	
 		window.draw(*character);
 	}
 

@@ -284,6 +284,12 @@ void ScriptManager::readCommands()
 				{
 					command = new FlashCommand(tokens);
 				}
+				if (cmdWord == "blur")
+				{
+					command = new BlurCommand(tokens);
+					if (command->shouldWait()) stop = true;
+					commands.push_back(command);
+				}
 				else if (cmdWord == "display")
 				{
 					command = new DisplayCommand(tokens);
