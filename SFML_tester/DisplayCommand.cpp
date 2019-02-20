@@ -132,63 +132,80 @@ DisplayCommand::~DisplayCommand()
 
 void DisplayCommand::execute(ScriptLine * scriptLine)
 {
-	if (objectType == OBJECT_LINE)
+	if (valid)
 	{
-		scriptLine->setDialogue(displayName, currentLine);
-	}
-	else if (objectType == OBJECT_CHOICE)
-	{
-		if (!displayedChoices)
+		if (objectType == OBJECT_LINE)
 		{
-			displayedChoices = true;
-			scriptLine->setChoices(displayLines, userFlags);
+			scriptLine->setDialogue(displayName, currentLine);
 		}
-		
-		// if it is not a choice anymore, then user must have selected a choice
-		selectedChoice = !scriptLine->isChoice;
+		else if (objectType == OBJECT_CHOICE)
+		{
+			if (!displayedChoices)
+			{
+				displayedChoices = true;
+				scriptLine->setChoices(displayLines, userFlags);
+			}
+
+			// if it is not a choice anymore, then user must have selected a choice
+			selectedChoice = !scriptLine->isChoice;
+		}
+	}
+	else
+	{
+		done = true;
+		wait = false;
+		return;
 	}
 }
 
 void DisplayCommand::skipUpdate()
 {
-	if (displayLines.size() <= 0)
+	if (valid)
 	{
-		wait = false;
-		done = true;
-	}
-
-	if (objectType == OBJECT_CHOICE && animationType == ANIMATION_NONE)
-	{
-		if (selectedChoice)
+		if (displayLines.size() <= 0)
 		{
 			wait = false;
 			done = true;
 		}
-	}
 
-	else if (objectType == OBJECT_LINE && animationType == ANIMATION_NONE)
-	{
-		if (currentLineIndex < displayLines.size())
+		if (objectType == OBJECT_CHOICE && animationType == ANIMATION_NONE)
 		{
-			if (currentCharIndex < displayLines[currentLineIndex].length() - 1)
-			{
-				currentCharIndex = displayLines[currentLineIndex].length() - 1;
-			}
-			else
-			{
-				currentLineIndex++;
-				currentCharIndex = 0;
-			}
-
-			if (currentLineIndex < displayLines.size())
-			{
-				currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
-			}
-			else
+			if (selectedChoice)
 			{
 				wait = false;
 				done = true;
 			}
+		}
+
+		else if (objectType == OBJECT_LINE && animationType == ANIMATION_NONE)
+		{
+			if (currentLineIndex < displayLines.size())
+			{
+				if (currentCharIndex < displayLines[currentLineIndex].length() - 1)
+				{
+					currentCharIndex = displayLines[currentLineIndex].length() - 1;
+				}
+				else
+				{
+					currentLineIndex++;
+					currentCharIndex = 0;
+				}
+
+				if (currentLineIndex < displayLines.size())
+				{
+					currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
+				}
+				else
+				{
+					wait = false;
+					done = true;
+				}
+			}
+		}
+		else
+		{
+			wait = false;
+			done = true;
 		}
 	}
 	else
