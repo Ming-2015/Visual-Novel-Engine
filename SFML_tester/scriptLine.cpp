@@ -262,7 +262,7 @@ float ScriptLine::getCharacterBeginBlurR(const string& name)
 	{
 		if (c->getName() == name)
 		{
-			return c->getShaderParam();
+			return c->getShaderParam("blur_radius");
 		}
 	}
 }
@@ -274,7 +274,7 @@ float ScriptLine::getBackgroundBeginBlurR(const string& name)
 		{
 			if (c->getName() == name)
 			{
-				return c->getShaderParam();
+				return c->getShaderParam("blur_radius");
 			}
 		}
 	}
@@ -310,7 +310,7 @@ void ScriptLine::setCharacterBlurRadius(const string& name, float param)
 	{
 		if (c->getName() == name)
 		{
-			c->setShaderParam(param);
+			c->setShaderParam("blur_radius", param);
 			return;
 		}
 	}
@@ -322,7 +322,7 @@ void ScriptLine::setBackgroundBlurRadius(const string& name, float param)
 	{
 		if (c->getName() == name)
 		{
-			c->setShaderParam(param);
+			c->setShaderParam("blur_radius", param);
 			return;
 		}
 	}
@@ -494,6 +494,7 @@ sf::Music* ScriptLine::setBgm(const string & groupname, const string & filename,
 			delete bgm[i];
 		}
 		bgm.clear();
+		fn_bgm.clear();
 	}
 
 	string f = "sound/" + groupname + "/" + filename;
@@ -507,6 +508,7 @@ sf::Music* ScriptLine::setBgm(const string & groupname, const string & filename,
 	}
 
 	bgm.push_back(music);
+	fn_bgm.push_back(f);
 	music->setLoop(repeat);
 	music->setVolume(volume * CONFIG->bgmVolume * CONFIG->masterVolume * 100.f);
 	music->play();
@@ -523,6 +525,7 @@ sf::Music* ScriptLine::setVoice(const string & groupname, const string & filenam
 			delete voices[i];
 		}
 		voices.clear();
+		fn_voices.clear();
 	}
 
 	string f = "sound/" + groupname + "/" + filename;
@@ -536,6 +539,7 @@ sf::Music* ScriptLine::setVoice(const string & groupname, const string & filenam
 	}
 
 	voices.push_back(music);
+	fn_voices.push_back(f);
 	music->setLoop(repeat);
 	music->setVolume(volume * CONFIG->voiceVolume * CONFIG->masterVolume * 100.f);
 	music->play();
@@ -552,6 +556,7 @@ sf::Music* ScriptLine::setSfx(const string & groupname, const string & filename,
 			delete sfx[i];
 		}
 		sfx.clear();
+		fn_sfx.clear();
 	}
 
 	string f = "sound/" + groupname + "/" + filename;
@@ -565,6 +570,7 @@ sf::Music* ScriptLine::setSfx(const string & groupname, const string & filename,
 	}
 
 	sfx.push_back(music);
+	fn_sfx.push_back(f);
 	music->setLoop(repeat);
 	music->setVolume(volume * CONFIG->sfxVolume * CONFIG->masterVolume * 100.f);
 	music->play();
@@ -630,6 +636,7 @@ void ScriptLine::stopBgm()
 		delete m;
 	}
 	bgm.clear();
+	fn_bgm.clear();
 }
 
 void ScriptLine::stopSfx()
@@ -639,7 +646,8 @@ void ScriptLine::stopSfx()
 		if (m != nullptr) m->stop();
 		delete m;
 	}
-	bgm.clear();
+	sfx.clear();
+	fn_sfx.clear();
 }
 
 void ScriptLine::stopVoice()
@@ -650,6 +658,7 @@ void ScriptLine::stopVoice()
 		delete m;
 	}
 	voices.clear();
+	fn_voices.clear();
 }
 
 void ScriptLine::pauseBgm()

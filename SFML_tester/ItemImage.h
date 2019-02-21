@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <map>
 
 #include "Utility.h"
 #include "Global.h"
@@ -39,6 +40,10 @@ protected:
 	void setImage();
 	std::string getImagePath(const std::string& name, const std::string& expression) const;
 
+	std::map<std::string, float> uniformParams;
+	sf::Shader shader;
+	bool hasShader = false;
+
 public:
 	ItemImage(string name, string expression, float xPos, float yPos);
 
@@ -68,11 +73,11 @@ public:
 	sf::FloatRect getLocalBoundary() const;
 	sf::FloatRect getGlobalBoundary() const;
 
-	bool hasShader = false;
 	void setShader(string src);
 	void tickShader(bool isTrue);
-	sf::Shader shader;
-	void setShaderParam(float shaderParam);
-	float param;
-	float getShaderParam() const;
+	void setShaderParam(std::string uniform, float shaderParam);
+	float getShaderParam(std::string uniform) const;
+
+	bool shouldUseShader() const { return hasShader; }
+	sf::Shader* getShader() { return &shader; }
 };

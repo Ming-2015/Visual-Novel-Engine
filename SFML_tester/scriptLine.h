@@ -28,8 +28,11 @@ public:
 	bool hideTextbox = true;				// hide textbox
 
 	vector<sf::Music*> bgm;		// note that all music will be directly managed by commands
-	vector<sf::Music*> voices;			
+	vector<string> fn_bgm;
+	vector<sf::Music*> voices;	
+	vector<string> fn_voices;
 	vector<sf::Music*> sfx;
+	vector<string> fn_sfx;
 
 	bool isChoice = false;					// Is user input prompted after this line?
 	vector<ChoiceImage *> choiceImages;		// If isChoice, will hold the line ID of the possible next lines  CHANGE SIZE

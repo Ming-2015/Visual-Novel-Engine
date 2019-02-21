@@ -10,9 +10,9 @@ void MainState::render(sf::RenderWindow & window)
 {
 	for (BackgroundImage* bg : scriptManager->getBackgroundImages())
 	{
-		if (bg->hasShader == true)
+		if (bg->shouldUseShader() == true)
 		{
-			window.draw(*bg, &(bg->shader));
+			window.draw(*bg, bg->getShader());
 		}
 		else
 		{
@@ -22,12 +22,14 @@ void MainState::render(sf::RenderWindow & window)
 
 	for (CharacterImage* character : scriptManager->getCharacterImages())
 	{
-		if (character->hasShader == true)
+		if (character->shouldUseShader() == true)
 		{
-			window.draw(*character, &(character->shader));
+			window.draw(*character, character->getShader());
 		}
-		else	
-		window.draw(*character);
+		else
+		{
+			window.draw(*character);
+		}
 	}
 
 	if (!scriptManager->shouldHideTextbox())

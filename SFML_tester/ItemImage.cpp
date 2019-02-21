@@ -148,9 +148,16 @@ sf::Vector2f ItemImage::getScale() const
 	return sprite.getScale();
 }
 
-float ItemImage::getShaderParam() const
+float ItemImage::getShaderParam(std::string uniform) const
 {
-	return param;
+	auto it = uniformParams.find(uniform);
+	if (it != uniformParams.end())
+	{
+		return (it)->second;
+	}
+
+	LOGGER->Log("Item", "Trying to get invalid uniformParams!");
+	return 0;
 }
 
 void ItemImage::changeExpression(string expression, float time)
@@ -306,8 +313,8 @@ void ItemImage::tickShader(bool isTrue)
 	hasShader = isTrue;
 }
 
-void ItemImage::setShaderParam(float shaderParam)
+void ItemImage::setShaderParam(std::string uniform, float shaderParam)
 {
-	param = shaderParam;
-	shader.setUniform("blur_radius", shaderParam);
+	uniformParams[uniform] = shaderParam;
+	shader.setUniform(uniform, shaderParam);
 }
