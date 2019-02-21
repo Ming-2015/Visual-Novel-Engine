@@ -144,7 +144,11 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 					// if the choice is selected... clear the command and insert new flag
 					if (c->getGlobalBoundary().contains(mousePosF))
 					{
-						GLOBAL->userFlags.insert(c->getFlag());
+						for (string flag : c->getFlags())
+						{
+							GLOBAL->userFlags.insert(flag);
+						}
+
 						currentScriptLine->clearChoices();
 
 						for (auto c : commands)

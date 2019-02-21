@@ -5,7 +5,7 @@ void main()
 {	
 	vec4 pixel = vec4(0,0,0,0);
 	
-	float increment = blur_radius / 16.0;
+	float increment = blur_radius / 5.0;
 	vec2 start = gl_TexCoord[0].xy - vec2( blur_radius, blur_radius );
 	vec2 center = gl_TexCoord[0].xy;
 	vec2 final = gl_TexCoord[0].xy + vec2( blur_radius, blur_radius );

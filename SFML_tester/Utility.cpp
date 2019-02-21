@@ -264,3 +264,26 @@ void Utility::CleanUp()
 		delete util_ptr;
 	}
 }
+
+
+std::string Utility::addNewLineToPrevWord(std::string str, unsigned int pos)
+{
+	unsigned int found = UTILITY->findLastOf(str, ' ', pos);
+	return str.substr(0, found + 1) + "\n"
+		+ str.substr(found + 1, str.length() - found + 1);
+}
+
+std::string Utility::addAllNewLines(string str, unsigned int lineLength)
+{
+	string tmp = str;
+	int currentChar = lineLength;
+
+	while (currentChar < tmp.length())
+	{
+		tmp = addNewLineToPrevWord(tmp, currentChar);
+		currentChar += lineLength + 1;
+	}
+
+	return tmp;
+}
+

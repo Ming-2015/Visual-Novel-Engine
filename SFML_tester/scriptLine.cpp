@@ -68,7 +68,7 @@ void ScriptLine::setChoices(const vector<string>& choices, const vector<string>&
 	vector<string> tmp;
 	for (int i = 0; i < choices.size(); i++)
 	{
-		tmp.push_back( addAllNewLines(choices[i], 70) );
+		tmp.push_back(UTILITY->addAllNewLines(choices[i], 60) );
 		ChoiceImage * choiceImage = new ChoiceImage(tmp[i], flags[i], choices.size(), i);
 		choiceImages.push_back(choiceImage);
 	}
@@ -436,7 +436,7 @@ void ScriptLine::setTextboxAlpha(float alpha)
 void ScriptLine::setDialogue(const string& displayname, const string& str)
 {
 	hideTextbox = false;
-	dialogue = addAllNewLines(str, 70);
+	dialogue = UTILITY->addAllNewLines(str, 70);
 	textboxImage->setTextboxColor(GLOBAL->getTextboxColor(displayname));
 
 	name = displayname;
@@ -724,25 +724,3 @@ void ScriptLine::readNewFileToAnchor(std::string filename, std::string anchor)
 		}
 	}
 }
-
-std::string ScriptLine::addNewLineToPrevWord(std::string str, unsigned int pos)
-{
-	unsigned int found = UTILITY->findLastOf(str, ' ', pos);
-	return str.substr(0, found + 1) + "\n"
-		+ str.substr(found + 1, str.length() - found + 1);
-}
-
-std::string ScriptLine::addAllNewLines(string str, unsigned int lineLength)
-{
-	string tmp = str;
-	int currentChar = lineLength;
-
-	while (currentChar < tmp.length())
-	{
-		tmp = addNewLineToPrevWord(tmp, currentChar);
-		currentChar += lineLength + 1;
-	}
-
-	return tmp;
-}
-

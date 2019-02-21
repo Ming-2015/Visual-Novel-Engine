@@ -48,6 +48,9 @@ public:
 	static Utility* GetUtility();
 	static void CleanUp();
 
+	std::string addAllNewLines(std::string str, unsigned int lineLength);
+	std::string addNewLineToPrevWord(std::string str, unsigned int pos);
+
 private:
 	Utility();
 	static Utility * util_ptr;
