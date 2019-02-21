@@ -9,6 +9,7 @@ int Engine::start()
 	window.create(sf::VideoMode(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()), CONFIG->getTitle(), sf::Style::Default & ~sf::Style::Resize);
 	window.setFramerateLimit(CONFIG->getFps());
 	
+	initFPSText();
 
 	Game game;
 
