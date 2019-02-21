@@ -41,4 +41,9 @@ private:
 	const static int OBJECT_CHARACTER = 0;
 	const static int OBJECT_BACKGROUND = 1;
 	const static int OBJECT_ALL = 2;
+
+	bool relative;
+	bool firstLoopRel = true;
+	bool lastLoopRel = false;
+	float blurDiff;
 };

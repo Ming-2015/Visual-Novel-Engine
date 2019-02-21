@@ -256,6 +256,30 @@ void ScriptLine::setBackgroundShader(const string& name, const string& shaderSrc
 	}
 }
 
+float ScriptLine::getCharacterBeginBlurR(const string& name)
+{
+	for (auto c : characterImages)
+	{
+		if (c->getName() == name)
+		{
+			return c->getShaderParam();
+		}
+	}
+}
+
+float ScriptLine::getBackgroundBeginBlurR(const string& name)
+{
+	{
+		for (auto c : backgroundImages)
+		{
+			if (c->getName() == name)
+			{
+				return c->getShaderParam();
+			}
+		}
+	}
+}
+
 void ScriptLine::tickBackgroundShader(const string& name, bool isTrue)
 {
 	for (auto c : backgroundImages)

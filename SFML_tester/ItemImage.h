@@ -73,4 +73,6 @@ public:
 	void tickShader(bool isTrue);
 	sf::Shader shader;
 	void setShaderParam(float shaderParam);
+	float param;
+	float getShaderParam() const;
 };

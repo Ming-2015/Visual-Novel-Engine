@@ -87,7 +87,7 @@ ZoomCommand::ZoomCommand(vector<string> args)
 	{
 		wait = false;
 		relative = true;
-		animationType = ANIMATION_ZOOM;
+		animationType = ANIMATION_NONE;
 	}
 	else if (flag == "relativewait" || flag == "rw")
 	{
@@ -290,5 +290,6 @@ void ZoomCommand::update(float delta_t)
 		wait = false;
 		currentScaleY = scaleY;
 		currentScaleX = scaleX;
+		done = true;
 	}
 }

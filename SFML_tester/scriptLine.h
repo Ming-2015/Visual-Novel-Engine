@@ -77,6 +77,8 @@ public:
 	void tickBackgroundShader(const string& name, bool isTrue);
 	void setCharacterBlurRadius(const string& name, float param);
 	void setBackgroundBlurRadius(const string& name, float param);
+	float getCharacterBeginBlurR(const string& name);
+	float getBackgroundBeginBlurR(const string& name);
 
 	void moveBackgroundRel(const string& name, const string& expression, float x1, float y1);
 	void moveCharacterRel(const string& name, const string& expression, float x1, float y1);

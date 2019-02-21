@@ -64,6 +64,19 @@ BlurCommand::BlurCommand(vector<string> args)
 		animationType = ANIMATION_GRADUAL;
 		currentBlurR = 0;
 	}
+	else if (flag == "gradualrelative" || flag == "gr")
+	{
+		wait = false;
+		relative = true;
+		animationType = ANIMATION_NONE;
+	}
+	else if (flag == "gradualwaitrelative" || flag == "gwr")
+	{
+		wait = true;
+		animationType = ANIMATION_GRADUAL;
+		relative = true;
+		//set currentBlurR in execute
+	}
 	else
 	{
 		LOGGER->Log("BlurCommand", "Invalid Flag");
@@ -90,7 +103,6 @@ BlurCommand::BlurCommand(vector<string> args)
 		LOGGER->Log("BlurCommand", "Invalid Object Type");
 		return;
 	}
-
 }
 
 BlurCommand::~BlurCommand()
@@ -100,7 +112,7 @@ BlurCommand::~BlurCommand()
 
 void BlurCommand::execute(ScriptLine * scriptLine)
 {
-	if (valid)
+	if (valid && relative == false)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
@@ -127,6 +139,50 @@ void BlurCommand::execute(ScriptLine * scriptLine)
 			scriptLine->setBackgroundBlurRadius(objectName, currentBlurR);
 		}
 	}
+	else if (valid && relative == true && firstLoopRel == true)
+	{
+		if (objectType == OBJECT_CHARACTER)
+		{
+			cout << endl << "I entered execute" << endl;
+			currentBlurR = scriptLine->getCharacterBeginBlurR(objectName);
+			blurDiff = blurRadius - currentBlurR;
+			firstLoopRel = false;
+		}
+		else if (objectType == OBJECT_BACKGROUND)
+		{
+			currentBlurR = scriptLine->getCharacterBeginBlurR(objectName);
+			blurDiff = blurRadius - currentBlurR;
+			firstLoopRel = false;
+		}
+		else if (objectType == OBJECT_ALL)
+		{
+			//If bgBeginBlurR =/= charBeginBlurR, relative blur will not work well
+			currentBlurR = scriptLine->getCharacterBeginBlurR(objectName);
+			blurDiff = blurRadius - currentBlurR;
+			firstLoopRel = false;
+		}
+	}
+	else if (valid && relative == true && firstLoopRel == false)
+	{
+		if (objectType == OBJECT_CHARACTER)
+		{
+			scriptLine->setCharacterBlurRadius(objectName, currentBlurR);
+		}
+		else if (objectType == OBJECT_BACKGROUND)
+		{
+			scriptLine->setBackgroundBlurRadius(objectName, currentBlurR);
+		}
+		else if (objectType == OBJECT_ALL)
+		{
+			scriptLine->setCharacterBlurRadius(objectName, currentBlurR);
+			scriptLine->setBackgroundBlurRadius(objectName, currentBlurR);
+
+		}
+		if (animationType == ANIMATION_NONE)
+		{
+			done = true;
+		}
+	}
 	else
 	{
 		done = true;
@@ -142,7 +198,7 @@ void BlurCommand::skipUpdate()
 
 void BlurCommand::update(float delta_t)
 {
-	if (valid && time > 0)
+	if (valid && relative == false)
 	{
 		if (animationType == ANIMATION_GRADUAL && currentBlurR != blurRadius)
 		{
@@ -156,5 +212,54 @@ void BlurCommand::update(float delta_t)
 				done = true;
 			}
 		}
+	}
+	else if (valid && relative == true)
+	{
+		if (firstLoopRel == true)
+		{
+			cout << endl << "I came in here" << endl;
+		}
+		else if (animationType == ANIMATION_GRADUAL && currentBlurR != blurRadius)
+		{
+			float blurOffset = delta_t / time * blurDiff;
+
+			currentBlurR += blurOffset;
+			cout << currentBlurR << endl;
+			if (blurDiff == 0)
+			{
+				lastLoopRel = true;
+				wait = false;
+				done = true;
+			}
+			else if (blurDiff > 0)
+			{
+				if (currentBlurR >= blurRadius)
+				{
+					wait = false;
+					done = true;
+				}
+			}
+			else if (blurDiff < 0)
+			{
+				if (currentBlurR <= blurRadius)
+				{
+					currentBlurR = blurRadius;
+					wait = false;
+					done = true;
+				}
+			}
+			
+			if (currentBlurR == blurRadius)
+			{
+				wait = false;
+				done = true;
+			}
+		}
+	}
+	else
+	{
+		wait = false;
+		currentBlurR = blurRadius;
+		done = true;
 	}
 }

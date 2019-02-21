@@ -148,6 +148,11 @@ sf::Vector2f ItemImage::getScale() const
 	return sprite.getScale();
 }
 
+float ItemImage::getShaderParam() const
+{
+	return param;
+}
+
 void ItemImage::changeExpression(string expression, float time)
 {
 	if (nextExpression == expression)
@@ -303,5 +308,6 @@ void ItemImage::tickShader(bool isTrue)
 
 void ItemImage::setShaderParam(float shaderParam)
 {
+	param = shaderParam;
 	shader.setUniform("blur_radius", shaderParam);
 }
