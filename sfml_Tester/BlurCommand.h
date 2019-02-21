@@ -24,7 +24,6 @@ private:
 	string flag;
 
 	string objectName;
-	string srcFile;
 
 	float time;
 	bool initialized = false;
@@ -46,4 +45,5 @@ private:
 	bool firstLoopRel = true;
 	bool lastLoopRel = false;
 	float blurDiff;
+	string srcFile = "resources/blur.frag";
 };
