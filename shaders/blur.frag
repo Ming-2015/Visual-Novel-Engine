@@ -3,6 +3,12 @@ uniform float blur_radius;
 
 void main()
 {	
+	if (blur_radius <= 0)
+	{
+		gl_FragColor = gl_Color * texture2D( texture, gl_TexCoord[0].xy);
+		return;
+	}
+	
 	vec4 pixel = vec4(0,0,0,0);
 	
 	float increment = blur_radius / 5.0;
