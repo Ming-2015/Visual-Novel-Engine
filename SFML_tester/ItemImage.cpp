@@ -292,7 +292,7 @@ void ItemImage::setShader(string src)
 {
 	if (!shader.loadFromFile(src, sf::Shader::Type::Fragment))
 	{
-		cout << "I FAILED TO LOAD SHADER FILE";
+		LOGGER->Log("ItemImage:", "Failed to load shader");
 	}
 }
 

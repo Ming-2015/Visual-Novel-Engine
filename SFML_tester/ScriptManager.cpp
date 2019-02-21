@@ -284,7 +284,7 @@ void ScriptManager::readCommands()
 				{
 					command = new FlashCommand(tokens);
 				}
-				if (cmdWord == "blur")
+				else if (cmdWord == "blur")
 				{
 					command = new BlurCommand(tokens);
 					if (command->shouldWait()) stop = true;
