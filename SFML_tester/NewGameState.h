@@ -50,5 +50,7 @@ private:
 
 	sf::String playerInput;
 	sf::Text playerText;
+
+	bool clickedSubmit = false;
 };
 

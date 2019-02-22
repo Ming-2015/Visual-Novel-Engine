@@ -122,9 +122,12 @@ void MenuState::update(float delta_t)
 		bgm.setVolume(100.0*bgmVolume*masterVolume);
 	}
 
-	if (shouldFade && isExit == true) {
-		if (clock.getElapsedTime().asMilliseconds() > 20.0f) {
-			if (currentAlpha < endAlpha) {
+	if (shouldFade && isExit == true) 
+	{
+		if (clock.getElapsedTime().asMilliseconds() > 20.0f)
+		{
+			if (currentAlpha < endAlpha) 
+			{
 				currentAlpha += 10;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 				
@@ -132,7 +135,8 @@ void MenuState::update(float delta_t)
 				float volume = 100.0*bgmVolume*masterVolume - volumeFade;
 				bgm.setVolume(volume);
 			}
-			else {
+			else 
+			{
 				shouldChangeState = true;
 				bgm.stop();
 				nextState = GameState::STATE_EXIT;
@@ -142,8 +146,10 @@ void MenuState::update(float delta_t)
 	}
 
 
-	if (shouldFade && isExit == false) {
-		if (clock.getElapsedTime().asMilliseconds() > 20.0f) {
+	if (shouldFade && isExit == false) 
+	{
+		if (clock.getElapsedTime().asMilliseconds() > 20.0f) 
+		{
 			if (currentAlpha < endAlpha) {
 				currentAlpha += 10;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
@@ -152,7 +158,8 @@ void MenuState::update(float delta_t)
 				float volume = 100.0*bgmVolume*masterVolume - volumeFade;
 				bgm.setVolume(volume);
 			}
-			else {
+			else 
+			{
 				shouldChangeState = true;
 				nextState = GameState::STATE_NEW_GAME;
 				bgm.stop();
@@ -172,15 +179,17 @@ void MenuState::handleInput(sf::Event& e, sf::RenderWindow& window) {
 	loadButton->handleInput(e, window);
 
 	// if the button is being clicked
-	if (startButton->isClicked(true))
+	if (startButton->isClicked(true) && fadeTicked == false)
 	{
+		fadeTicked = true;
 		currentAlpha = 5;
 		shouldFade = true;
 		isExit = false;
 		LOGGER->Log("MenuState", "Starting a new game");
 	}
-	if (exitButton->isClicked(true))
+	if (exitButton->isClicked(true) && fadeTicked == false)
 	{
+		fadeTicked = true;
 		currentAlpha = 5;
 		shouldFade = true;
 		isExit = true;

@@ -17,11 +17,11 @@ NewGameState::~NewGameState()
 void NewGameState::init()
 {
 	//Load Background MAKE A BACKGROUND
-	if (!background.loadFromFile("assets/background.jpg"))
-		LOGGER->Log("NewGameState", "Image not found: background.jpg");
+	if (!background.loadFromFile("assets/NewGameBackground.png"))
+		LOGGER->Log("NewGameState", "Image not found: NewGameBackground.png");
 	backgroundImage.setTexture(background);
 
-	submitButton = new MenuButton("assets/SubmitButton141x42.png", "", "", 350.0f, 520.0f, 0, 0, 0, 0, 141, 42);
+	submitButton = new MenuButton("assets/SubmitButton141x42.png", "", "", 787.0f, 590.0f, 0, 0, 0, 0, 141, 42);
 	submitButton->load();
 
 	currentAlpha = 0;
@@ -34,7 +34,7 @@ void NewGameState::init()
 	bgmVolume = CONFIG->bgmVolume;
 	bgm.setVolume(100.0*bgmVolume*masterVolume);
 	if (bgm.getStatus() != sf::Music::Playing) {
-		if (!bgm.openFromFile("assets/HGSSRoute47.WAV"))
+		if (!bgm.openFromFile("assets/NewGameState.WAV"))
 			LOGGER->Log("NewGameState", "BGM not found!");
 		bgm.play();
 	}
@@ -46,8 +46,8 @@ void NewGameState::init()
 	}
 
 	playerText.setFont(font);
-	playerText.setCharacterSize(24);
-	playerText.setPosition(60, 300);
+	playerText.setCharacterSize(50);
+	playerText.setPosition(785, 375);
 	playerText.setFillColor(sf::Color::White);
 }
 
@@ -59,7 +59,7 @@ void NewGameState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		if (e.text.unicode < 128)
 		{
-			if (playerInput.getSize() < 16)
+			if (playerInput.getSize() < 24)
 			{
 				if (e.text.unicode == 13)
 				{
@@ -68,6 +68,7 @@ void NewGameState::handleInput(sf::Event & e, sf::RenderWindow & window)
 						GLOBAL->PlayerName = playerInput;
 						currentAlpha = 5;
 						shouldFadeOut = true;
+						clickedSubmit = true;
 						LOGGER->Log("NewGameState", "Switching to Main State");
 					}
 				}
@@ -100,10 +101,11 @@ void NewGameState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		}
 	}
 
-	if (submitButton->isClicked(true))
+	if (submitButton->isClicked(true) && clickedSubmit == false)
 	{
 		if (playerInput.getSize() > 0)
 		{
+			clickedSubmit = true;
 			GLOBAL->PlayerName = playerInput;
 			currentAlpha = 5;
 			shouldFadeOut = true;
@@ -116,6 +118,9 @@ void NewGameState::handleInput(sf::Event & e, sf::RenderWindow & window)
 void NewGameState::update(float delta_t)
 {
 	submitButton->update(delta_t);
+
+	playerText.setOrigin((playerText.getLocalBounds().width / 2), (playerText.getLocalBounds().height / 2));
+	playerText.setPosition(785, 375);
 
 	if (masterVolume != CONFIG->masterVolume || bgmVolume != CONFIG->bgmVolume)
 	{

@@ -164,7 +164,6 @@ void BlurCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			cout << currentBlurR << endl;
 			scriptLine->setCharacterBlurRadius(objectName, currentBlurR);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
