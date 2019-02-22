@@ -10,6 +10,7 @@ ShowCommand::ShowCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_SHOW;
 
 	// parse the arguments
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
@@ -93,6 +94,52 @@ ShowCommand::ShowCommand(std::vector<std::string> args)
 ShowCommand::~ShowCommand()
 {
 
+}
+
+ShowCommand::ShowCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+		objectSubname = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&x1), sizeof(x1));
+		savefile.read(reinterpret_cast<char *> (&y1), sizeof(y1));
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&initialized), sizeof(initialized));
+
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+		savefile.read(reinterpret_cast<char *> (&alpha), sizeof(alpha));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("ShowCommand", "Unable to read Show Commannd from savedata");
+		valid = false;
+		throw;
+	}
+}
+
+void ShowCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+	UTILITY->writeToBinaryFile(savefile, objectSubname);
+
+	savefile.write(reinterpret_cast<const char *> (&x1), sizeof(x1));
+	savefile.write(reinterpret_cast<const char *> (&y1), sizeof(y1));
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&initialized), sizeof(initialized));
+
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+	savefile.write(reinterpret_cast<const char *> (&alpha), sizeof(alpha));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
 }
 
 void ShowCommand::execute(ScriptLine * scriptLine)

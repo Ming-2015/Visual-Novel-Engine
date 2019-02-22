@@ -9,6 +9,7 @@ ClearCommand::ClearCommand(vector<string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_CLEAR;
 
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);
@@ -70,6 +71,43 @@ ClearCommand::ClearCommand(vector<string> args)
 ClearCommand::~ClearCommand()
 {
 
+}
+
+ClearCommand::ClearCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try {
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+		savefile.read(reinterpret_cast<char *> (&alpha), sizeof(alpha));
+
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("ClearCommand", "Unable to read clear command");
+		valid = false;
+		return;
+	}
+}
+
+void ClearCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+	savefile.write(reinterpret_cast<const char *> (&alpha), sizeof(alpha));
+
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
 }
 
 void ClearCommand::execute(ScriptLine * scriptLine)

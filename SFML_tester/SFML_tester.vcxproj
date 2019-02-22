@@ -157,6 +157,7 @@
     <ClCompile Include="RemoveCommand.cpp" />
     <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SaveState.cpp" />
+    <ClCompile Include="ScriptCommand.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="SetCommand.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="ResumeCommand.h" />
     <ClInclude Include="RemoveCommand.h" />
     <ClInclude Include="RotateCommand.h" />
+    <ClInclude Include="Savedata.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />
     <ClInclude Include="ScriptManager.h" />

@@ -13,6 +13,10 @@ public:
 	DisplayCommand(std::vector<std::string> args);
 	~DisplayCommand();
 
+	// serialize the file
+	DisplayCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);
@@ -37,14 +41,6 @@ private:
 	// type of object: choice or line
 	int objectType;
 
-	const static int ANIMATION_GOREY = 2;
-	const static int ANIMATION_EXCLAIMATION = 1;
-	const static int ANIMATION_NONE = 0;
-	const static int ANIMATION_INSTANT = 3;
-
-	const static int OBJECT_LINE = 0;
-	const static int OBJECT_CHOICE = 1;
-
 	// to help animate the display line
 	std::string currentLine;
 	float timer;
@@ -52,6 +48,14 @@ private:
 
 	bool displayedChoices = false;
 	bool selectedChoice = false;
+
+	const static int ANIMATION_GOREY = 2;
+	const static int ANIMATION_EXCLAIMATION = 1;
+	const static int ANIMATION_NONE = 0;
+	const static int ANIMATION_INSTANT = 3;
+
+	const static int OBJECT_LINE = 0;
+	const static int OBJECT_CHOICE = 1;
 
 	std::string assembleString(const std::vector<std::string>& lines, int lineIndex, int charIndex);
 };

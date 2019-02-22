@@ -10,6 +10,7 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_DISPLAY;
 
 	if (args.size() < 5)
 	{
@@ -128,6 +129,58 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 
 DisplayCommand::~DisplayCommand()
 {
+}
+
+DisplayCommand::DisplayCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try {
+
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		displayName = UTILITY->readFromBinaryFile(savefile);
+		displayLines = UTILITY->readVectorFromBinaryFile(savefile);
+		userFlags = UTILITY->readVectorFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+
+		currentLine = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&timer), sizeof(timer));
+		savefile.read(reinterpret_cast<char *> (&currentLineIndex), sizeof(currentLineIndex));
+		savefile.read(reinterpret_cast<char *> (&currentCharIndex), sizeof(currentCharIndex));
+		savefile.read(reinterpret_cast<char *> (&displayedChoices), sizeof(displayedChoices));
+		savefile.read(reinterpret_cast<char *> (&selectedChoice), sizeof(selectedChoice));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("DisplayCommand", "unable to read display command from save file");
+		valid = false;
+		return;
+	}
+}
+
+void DisplayCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, displayName);
+	UTILITY->writeVectorToBinaryFile(savefile, displayLines);
+	UTILITY->writeVectorToBinaryFile(savefile, userFlags);
+
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+
+	UTILITY->writeToBinaryFile(savefile, currentLine);
+
+	savefile.write(reinterpret_cast<const char *> (&timer), sizeof(timer));
+	savefile.write(reinterpret_cast<const char *> (&currentLineIndex), sizeof(currentLineIndex));
+	savefile.write(reinterpret_cast<const char *> (&currentCharIndex), sizeof(currentCharIndex));
+	savefile.write(reinterpret_cast<const char *> (&displayedChoices), sizeof(displayedChoices));
+	savefile.write(reinterpret_cast<const char *> (&selectedChoice), sizeof(selectedChoice));
 }
 
 void DisplayCommand::execute(ScriptLine * scriptLine)

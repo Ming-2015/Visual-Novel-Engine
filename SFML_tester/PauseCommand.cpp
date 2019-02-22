@@ -10,13 +10,11 @@ PauseCommand::PauseCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_PAUSE;
 
 	// parse the arguments
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);				// column 3 : flag
-
-	objectName = args[COLUMN_ARG1];		// column 4 : object name
-	objectSubname = args[COLUMN_ARG2];	// column 5 : object sub name
 
 	finalVolume = 0.0f;
 	currentVolume = 1.0f;
@@ -87,6 +85,48 @@ PauseCommand::PauseCommand(std::vector<std::string> args)
 
 PauseCommand::~PauseCommand()
 {
+}
+
+PauseCommand::PauseCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&finalVolume), sizeof(finalVolume));
+		savefile.read(reinterpret_cast<char *> (&currentVolume), sizeof(currentVolume));
+		savefile.read(reinterpret_cast<char *> (&prevVolume), sizeof(prevVolume));
+
+		savefile.read(reinterpret_cast<char *> (&flagType), sizeof(flagType));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+		savefile.read(reinterpret_cast<char *> (&finishedAction), sizeof(finishedAction));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("PauseCommand", "Unable to read Pause command from savedata");
+		valid = false;
+		return;
+	}
+}
+
+void PauseCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&finalVolume), sizeof(finalVolume));
+	savefile.write(reinterpret_cast<const char *> (&currentVolume), sizeof(currentVolume));
+	savefile.write(reinterpret_cast<const char *> (&prevVolume), sizeof(prevVolume));
+
+	savefile.write(reinterpret_cast<const char *> (&flagType), sizeof(flagType));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+	savefile.write(reinterpret_cast<const char *> (&finishedAction), sizeof(finishedAction));
 }
 
 void PauseCommand::execute(ScriptLine * scriptLine)

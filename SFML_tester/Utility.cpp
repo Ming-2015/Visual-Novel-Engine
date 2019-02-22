@@ -273,6 +273,53 @@ std::string Utility::addNewLineToPrevWord(std::string str, unsigned int pos)
 		+ str.substr(found + 1, str.length() - found + 1);
 }
 
+void Utility::writeToBinaryFile(ofstream & file, const std::string& str) const
+{
+	if (!file)
+	{
+		LOGGER->Log("Utility", "Unable to write to file!");
+		return;
+	}
+
+	// null terminated string
+	file.write(str.c_str(), str.size() + 1);
+}
+
+std::string Utility::readFromBinaryFile(ifstream & file) const
+{
+	if (!file || file.eof())
+	{
+		LOGGER->Log("Utility", "Unable to read from file!");
+		return NULL;
+	}
+
+	std::string line;
+	std::getline(file, line, '\0');
+	return line;
+}
+
+void Utility::writeVectorToBinaryFile(ofstream & file, const std::vector<std::string> strs) const
+{
+	int size = strs.size();
+	file.write(reinterpret_cast<const char*> (&size), sizeof(size));
+	for (int i = 0; i < size; i++)
+	{
+		writeToBinaryFile(file, strs[i]);
+	}
+}
+
+std::vector<std::string> Utility::readVectorFromBinaryFile(ifstream & file) const
+{
+	std::vector<std::string> ret;
+	int size;
+	file.read(reinterpret_cast<char*> (&size), sizeof(size));
+	for (int i = 0; i < size; i++)
+	{
+		ret.push_back(readFromBinaryFile(file));
+	}
+	return ret;
+}
+
 std::string Utility::addAllNewLines(string str, unsigned int lineLength)
 {
 	string tmp = str;

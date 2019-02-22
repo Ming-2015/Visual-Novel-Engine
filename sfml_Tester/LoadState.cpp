@@ -71,8 +71,95 @@ void LoadState::init()
 	returnState.setFillColor(sf::Color::White);
 	returnState.setCharacterSize(42);
 	returnState.setPosition(880.0f, 790.0f);
+
+	// FOR TEST PURPOSES ONLY!
+	//sf::Image image;
+	//std::string title;
+	//ScriptManager* scriptManager;
+
+	//sf::Clock clock;
+	//string msg;
+	//sf::Time time;
+
+	//clock.restart();
+	//readSave("saves/savefile.dat", image, title);
+	//time = clock.getElapsedTime();
+	//msg = "Loading a save w/o scriptmanager takes: " + to_string(time.asSeconds()) + "s";
+	//LOGGER->Log("LoadState", msg);
+
+	//clock.restart();
+	//readSave("saves/savefile.dat", image, title, scriptManager);
+	//time = clock.getElapsedTime();
+	//msg = "Loading a save w/ scriptmanager takes: " + to_string( time.asSeconds() ) + "s";
+	//LOGGER->Log("LoadState", msg);
+
+	//delete scriptManager;
 }
 
 void LoadState::cleanup()
 {
+}
+
+void LoadState::readSave(const std::string & savefile, sf::Image & image, std::string & title, ScriptManager *& scriptManager)
+{
+	ifstream infile(savefile, ios::binary | ios::in);
+	if (!infile)
+	{
+		LOGGER->Log("LoadState", "Unable to load save file");
+		return;
+	}
+
+	// read the image file size
+	unsigned int fileSize;
+	infile.read(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
+	
+	// read the image data from file
+	std::vector<char> byteArray(fileSize);
+	infile.read(byteArray.data(), fileSize);
+
+	// dump it into a memory input stream
+	sf::MemoryInputStream picStream;
+	picStream.open(byteArray.data(), fileSize);
+
+	// load the image!
+	image.loadFromStream(picStream);
+	image.saveToFile("saves/ss.png");
+
+	// read the title
+	title = UTILITY->readFromBinaryFile(infile);
+
+	// read the script manager
+	scriptManager = new ScriptManager(infile);
+	infile.close();
+}
+
+void LoadState::readSave(const std::string & savefile, sf::Image & image, std::string & title)
+{
+	ifstream infile(savefile, ios::binary | ios::in);
+	if (!infile)
+	{
+		LOGGER->Log("Save State", "Unable to load save file");
+		return;
+	}
+
+
+	// read the image file size
+	unsigned int fileSize;
+	infile.read(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
+
+	// read the image data from file
+	std::vector<char> byteArray(fileSize);
+	infile.read(byteArray.data(), fileSize);
+
+	// dump it into a memory input stream
+	sf::MemoryInputStream picStream;
+	picStream.open(byteArray.data(), fileSize);
+
+	// load the image!
+	image.loadFromStream(picStream);
+	image.saveToFile("saves/ss.png");
+
+	// read the title
+	title = UTILITY->readFromBinaryFile(infile);
+	infile.close();
 }

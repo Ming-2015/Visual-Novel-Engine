@@ -36,16 +36,19 @@ protected:
 	sf::Texture texture;
 	sf::Sprite sprite;
 
+	// shader variables
+	std::map<std::string, float> uniformParams;
+	sf::Shader shader;
+	bool hasShader = false;
+	std::string fragShaderPath, vertShaderPath;
+
 	// helper functions
 	void setImage();
 	std::string getImagePath(const std::string& name, const std::string& expression) const;
 
-	std::map<std::string, float> uniformParams;
-	sf::Shader shader;
-	bool hasShader = false;
-
 public:
 	ItemImage(string name, string expression, float xPos, float yPos);
+	ItemImage(ifstream& file); // deserialize constructor
 
 	void setAlpha(float alpha);
 	void addAlpha(float alphaOffset);
@@ -73,11 +76,14 @@ public:
 	sf::FloatRect getLocalBoundary() const;
 	sf::FloatRect getGlobalBoundary() const;
 
-	void setShader(string src);
+	void setFragShader(string src);
+	void setVertShader(string src);
 	void tickShader(bool isTrue);
 	void setShaderParam(std::string uniform, float shaderParam);
 	float getShaderParam(std::string uniform) const;
 
 	bool shouldUseShader() const { return hasShader; }
 	sf::Shader* getShader() { return &shader; }
+
+	void serialize(ofstream& savefile) const;
 };

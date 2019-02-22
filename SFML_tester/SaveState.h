@@ -6,32 +6,25 @@
 #include "ScriptLine.h"
 #include "ScriptManager.h"
 #include "Global.h"
-#include <fstream>
 #include <sstream>
-#include <iostream>
 #include <vector>
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+
 using namespace std;
 
 class SaveState : public GameState{
 public:
 
-	SaveState()
-	{ 
-		scriptFileName = GLOBAL->MAIN_STATE_currentFile;
-		lineId = GLOBAL->MAIN_STATE_currentLineId;
-		init();
-		myState = GameState::STATE_SAVE;
-	}
+	SaveState( const ScriptManager* scriptManager, sf::Image screenshot );
 
-	~SaveState()
-	{
-
-	}
+	~SaveState();
 
 	int lineIDFromSave;
 	string fileNameFromSave;
-	void writeSave();
-	void readSave();
+
+	void writeSave(const std::string& filename) const;
 
 	// handle user inputs (keyboard/gamepad/mouse/etc)
 	void handleInput(sf::Event& e, sf::RenderWindow& window);
@@ -47,10 +40,8 @@ public:
 
 	void cleanup();
 
-
 private:
-	string scriptFileName;
-	unsigned int lineId;
-	string tempStr;
 
+	const ScriptManager * scriptManager;
+	sf::Image screenshot;
 };

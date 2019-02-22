@@ -3,6 +3,7 @@
 
 #include "GameState.h"
 #include "Button.h"
+#include "ScriptManager.h"
 
 class LoadState : public GameState
 {
@@ -24,6 +25,16 @@ public:
 
 	void cleanup();
 
+	// read image, title and scriptmanager
+	void readSave(const std::string& savefile, 
+		sf::Image& image, 
+		std::string& title, 
+		ScriptManager*& scriptManager);
+
+	// read only the image and title
+	void readSave(const std::string& savefile,
+		sf::Image& image,
+		std::string& title);
 
 private:
 	sf::Texture saveTexture;
@@ -31,4 +42,5 @@ private:
 	sf::Font settingsFont;
 	sf::Text startNew;
 	sf::Text returnState;
+
 };

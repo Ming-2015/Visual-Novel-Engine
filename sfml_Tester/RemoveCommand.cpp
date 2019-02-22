@@ -9,6 +9,7 @@ RemoveCommand::RemoveCommand(vector<string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_REMOVE;
 
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);
@@ -84,6 +85,42 @@ RemoveCommand::~RemoveCommand()
 
 }
 
+RemoveCommand::RemoveCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+		savefile.read(reinterpret_cast<char *> (&alpha), sizeof(alpha));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("RemoveCommand", "Unable to read Remove command from savedata");
+		valid = false;
+		return;
+	}
+}
+
+void RemoveCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+	savefile.write(reinterpret_cast<const char *> (&alpha), sizeof(alpha));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+}
+
 void RemoveCommand::execute(ScriptLine * scriptLine)
 {
 	if (valid)
@@ -98,10 +135,10 @@ void RemoveCommand::execute(ScriptLine * scriptLine)
 		}
 		else if (objectType == OBJECT_FLAG)
 		{
-			auto it = GLOBAL->userFlags.find(objectName);
-			if (it != GLOBAL->userFlags.end())
+			auto it = scriptLine->userFlags.find(objectName);
+			if (it != scriptLine->userFlags.end())
 			{
-				GLOBAL->userFlags.erase(it);
+				scriptLine->userFlags.erase(it);
 			}
 			done = true;
 		}

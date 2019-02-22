@@ -3,6 +3,30 @@
 
 void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {
+	switch (e.type)
+	{
+		case sf::Event::KeyReleased:
+		{
+			if (e.key.code == sf::Keyboard::S)
+			{
+				shouldChangeState = true;
+				nextState = STATE_SAVE;
+				GLOBAL->scriptManagerPtr = scriptManager;
+				return;
+			}
+			else if (e.key.code == sf::Keyboard::L)
+			{
+				shouldChangeState = true;
+				nextState = STATE_LOAD;
+				GLOBAL->scriptManagerPtr = scriptManager;
+				return;
+			}
+
+			break;
+		}
+	}
+
+	// handle script-related input
 	scriptManager->handleInput(e, window);
 }
 
@@ -64,7 +88,6 @@ void MainState::update(float delta_t)
 		nextState = GameState::STATE_MENU;
 	}
 
-	GLOBAL->MAIN_STATE_currentFile = scriptManager->getCurrentFileName();
 }
 
 void MainState::init()
@@ -84,9 +107,26 @@ const ScriptManager * MainState::getScriptManager()
 	return scriptManager;
 }
 
-MainState::MainState(std::string filename)
+MainState::MainState()
 {
-	scriptManager = new ScriptManager(filename);
+	scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
+	myState = GameState::STATE_MAIN;
+	init();
+}
+
+MainState::MainState(std::string savefile)
+{
+	ifstream ifile(savefile, ios::binary | ios::in);
+	if (ifile)
+	{
+		scriptManager = new ScriptManager(ifile);
+		ifile.close();
+	}
+	else
+	{
+		scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
+	}
+
 	myState = GameState::STATE_MAIN;
 	init();
 }

@@ -9,6 +9,7 @@ MoveCommand::MoveCommand(vector<string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_MOVE;
 
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);		// object type: char / bg
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);					// flag
@@ -122,6 +123,76 @@ MoveCommand::MoveCommand(vector<string> args)
 MoveCommand::~MoveCommand()
 {
 
+}
+
+MoveCommand::MoveCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+		objectSubname = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+
+		savefile.read(reinterpret_cast<char *> (&startX), sizeof(startX));
+		savefile.read(reinterpret_cast<char *> (&startY), sizeof(startY));
+		savefile.read(reinterpret_cast<char *> (&endX), sizeof(endX));
+		savefile.read(reinterpret_cast<char *> (&endY), sizeof(endY));
+
+		savefile.read(reinterpret_cast<char *> (&doneX), sizeof(doneX));
+		savefile.read(reinterpret_cast<char *> (&doneY), sizeof(doneY));
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+
+		savefile.read(reinterpret_cast<char *> (&xDiff), sizeof(xDiff));
+		savefile.read(reinterpret_cast<char *> (&yDiff), sizeof(yDiff));
+		savefile.read(reinterpret_cast<char *> (&xOffset), sizeof(xOffset));
+		savefile.read(reinterpret_cast<char *> (&yOffset), sizeof(yOffset));
+
+		savefile.read(reinterpret_cast<char *> (&relative), sizeof(relative));
+		savefile.read(reinterpret_cast<char *> (&stopMove), sizeof(stopMove));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("MoveCommand", "Unable to read Move command from savedata");
+		valid = false;
+		throw;
+	}
+}
+
+void MoveCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+	UTILITY->writeToBinaryFile(savefile, objectSubname);
+
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+
+	savefile.write(reinterpret_cast<const char *> (&startX), sizeof(startX));
+	savefile.write(reinterpret_cast<const char *> (&startY), sizeof(startY));
+	savefile.write(reinterpret_cast<const char *> (&endX), sizeof(endX));
+	savefile.write(reinterpret_cast<const char *> (&endY), sizeof(endY));
+
+	savefile.write(reinterpret_cast<const char *> (&doneX), sizeof(doneX));
+	savefile.write(reinterpret_cast<const char *> (&doneY), sizeof(doneY));
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+
+	savefile.write(reinterpret_cast<const char *> (&xDiff), sizeof(xDiff));
+	savefile.write(reinterpret_cast<const char *> (&yDiff), sizeof(yDiff));
+	savefile.write(reinterpret_cast<const char *> (&xOffset), sizeof(xOffset));
+	savefile.write(reinterpret_cast<const char *> (&yOffset), sizeof(yOffset));
+
+	savefile.write(reinterpret_cast<const char *> (&relative), sizeof(relative));
+	savefile.write(reinterpret_cast<const char *> (&stopMove), sizeof(stopMove));
 }
 
 void MoveCommand::execute(ScriptLine * scriptLine)

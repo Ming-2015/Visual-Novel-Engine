@@ -8,6 +8,10 @@ public:
 	DelayCommand(std::vector<std::string> args);
 	~DelayCommand();
 
+	// serialize the file
+	DelayCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);

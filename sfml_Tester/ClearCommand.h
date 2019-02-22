@@ -11,6 +11,10 @@ public:
 	ClearCommand(vector<string> args);
 	~ClearCommand();
 
+	// serialize the file
+	ClearCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);

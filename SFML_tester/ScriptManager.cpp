@@ -20,6 +20,136 @@ ScriptManager::~ScriptManager()
 	}
 }
 
+ScriptManager::ScriptManager(ifstream & file)
+{
+	int size;
+	file.read(reinterpret_cast<char*> (&size), sizeof(size));
+	for (int i = 0; i < size; i++)
+	{
+		int commandType;
+		int prevPos = file.tellg();
+		file.read(reinterpret_cast<char*> (&commandType), sizeof(commandType));
+		file.seekg(prevPos);
+		switch (commandType)
+		{
+			case ScriptCommand::COMMAND_BLUR:
+			{
+				commands.push_back(new BlurCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_CLEAR:
+			{
+				commands.push_back(new ClearCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_DELAY:
+			{
+				commands.push_back(new DelayCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_DISPLAY:
+			{
+				commands.push_back(new DisplayCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_FLASH:
+			{
+				commands.push_back(new FlashCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_HIDE:
+			{
+				commands.push_back(new HideCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_JUMP:
+			{
+				commands.push_back(new JumpCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_MOVE:
+			{
+				commands.push_back(new MoveCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_PAUSE:
+			{
+				commands.push_back(new PauseCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_PLAY:
+			{
+				commands.push_back(new PlayCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_REMOVE:
+			{
+				commands.push_back(new RemoveCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_RESUME:
+			{
+				commands.push_back(new ResumeCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_ROTATE:
+			{
+				commands.push_back(new RotateCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_SET:
+			{
+				commands.push_back(new SetCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_SHOW:
+			{
+				commands.push_back(new ShowCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_STOP:
+			{
+				commands.push_back(new StopCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_UNHIDE:
+			{
+				commands.push_back(new UnhideCommand(file));
+				break;
+			}
+			case ScriptCommand::COMMAND_ZOOM:
+			{
+				commands.push_back(new ZoomCommand(file));
+				break;
+			}
+			default:
+			{
+				std::string err = "Found an invalid command type code: " + commandType;
+				LOGGER->Log("ScriptManager", err);
+				break;
+			}
+		}
+	}
+
+	currentScriptLine = new ScriptLine(file);
+
+	initFileName = UTILITY->readFromBinaryFile(file);
+}
+
+void ScriptManager::serialize(ofstream & savefile) const
+{
+	int size = commands.size();
+	savefile.write(reinterpret_cast<const char*> (&size), sizeof(size));
+	for (int i = 0; i < size; i++)
+	{
+		commands[i]->serialize(savefile);
+	}
+
+	currentScriptLine->serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, initFileName);
+}
+
 std::string ScriptManager::getScriptLine() const
 {
 	return currentScriptLine->dialogue;
@@ -91,6 +221,15 @@ void ScriptManager::update(float delta_t)
 		}
 	}
 
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) 
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::RControl) )
+	{
+		for (auto c : commands)
+		{
+			c->skipUpdate();
+		}
+	}
+
 	for (auto it = commands.begin(); it != commands.end();)
 	{
 		bool incrementIt = true;
@@ -146,7 +285,7 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 					{
 						for (string flag : c->getFlags())
 						{
-							GLOBAL->userFlags.insert(flag);
+							currentScriptLine->userFlags.insert(flag);
 						}
 
 						currentScriptLine->clearChoices();
@@ -192,42 +331,6 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 				}
 			}
 
-			break;
-		}
-
-		case sf::Event::KeyPressed:
-		{
-			switch (e.key.code) 
-			{
-				case sf::Keyboard::LControl:
-				{
-					GLOBAL->skipMode = true;
-					break;
-				}
-				case sf::Keyboard::RControl:
-				{
-					GLOBAL->skipMode = true;
-					break;
-				}
-			}
-			break;
-		}
-
-		case sf::Event::KeyReleased:
-		{
-			switch (e.key.code)
-			{
-			case sf::Keyboard::LControl:
-			{
-				GLOBAL->skipMode = false;
-				break;
-			}
-			case sf::Keyboard::RControl:
-			{
-				GLOBAL->skipMode = false;
-				break;
-			}
-			}
 			break;
 		}
 	}

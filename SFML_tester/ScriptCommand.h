@@ -9,8 +9,11 @@ class ScriptCommand
 {
 public:
 
-	ScriptCommand(std::vector<std::string> args) : args(args), valid(true)
-	{ }
+	ScriptCommand(std::vector<std::string> args);
+
+	// serialize the file
+	ScriptCommand(ifstream& savefile);
+	virtual void serialize(ofstream& savefile) const;
 
 	// Make the changes to the scriptline object
 	virtual void execute(ScriptLine* scriptLine) = 0;
@@ -38,11 +41,16 @@ public:
 	static const int COMMAND_PLAY = 5;
 	static const int COMMAND_STOP = 6;
 	static const int COMMAND_PAUSE = 7;
-	static const int COMMAND_CONTINUE = 8;
+	static const int COMMAND_RESUME = 8;
 	static const int COMMAND_DISPLAY = 9;
 	static const int COMMAND_CLEAR = 10;
 	static const int COMMAND_JUMP = 11;
-	static const int COMMAND_SET = 9;
+	static const int COMMAND_SET = 12;
+	static const int COMMAND_UNHIDE = 13;
+	static const int COMMAND_HIDE = 14;
+	static const int COMMAND_DELAY = 15;
+	static const int COMMAND_BLUR = 16;
+	static const int COMMAND_FLASH = 17;
 
 	static const int COLUMN_ACTION = 0;
 	static const int COLUMN_OBJECT = 1;
@@ -57,10 +65,10 @@ public:
 
 protected:
 
+	int commandType = -1;
 	bool wait = false;
 	bool valid = true;
 	bool done = false;
-	int thisCommand = -1;
 	std::vector<std::string> args;
 
 private:

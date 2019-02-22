@@ -10,6 +10,7 @@ PlayCommand::PlayCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_PLAY;
 
 	// parse the arguments
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
@@ -97,6 +98,59 @@ PlayCommand::PlayCommand(std::vector<std::string> args)
 
 PlayCommand::~PlayCommand()
 {
+}
+
+PlayCommand::PlayCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+		objectSubname = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&finalVolume), sizeof(finalVolume));
+		savefile.read(reinterpret_cast<char *> (&currentVolume), sizeof(currentVolume));
+
+		savefile.read(reinterpret_cast<char *> (&flagType), sizeof(flagType));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+		savefile.read(reinterpret_cast<char *> (&repeat), sizeof(repeat));
+
+		savefile.read(reinterpret_cast<char *> (&clearPrev), sizeof(clearPrev));
+		savefile.read(reinterpret_cast<char *> (&finishedAction), sizeof(finishedAction));
+		savefile.read(reinterpret_cast<char *> (&played), sizeof(played));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("PlayCommand", "Unable to read Play command from savedata");
+		valid = false;
+		return;
+	}
+	played = false;
+}
+
+void PlayCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+	UTILITY->writeToBinaryFile(savefile, objectSubname);
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&finalVolume), sizeof(finalVolume));
+	savefile.write(reinterpret_cast<const char *> (&currentVolume), sizeof(currentVolume));
+
+	savefile.write(reinterpret_cast<const char *> (&flagType), sizeof(flagType));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+	savefile.write(reinterpret_cast<const char *> (&repeat), sizeof(repeat));
+
+	savefile.write(reinterpret_cast<const char *> (&clearPrev), sizeof(clearPrev));
+	savefile.write(reinterpret_cast<const char *> (&finishedAction), sizeof(finishedAction));
+	savefile.write(reinterpret_cast<const char *> (&played), sizeof(played));
 }
 
 void PlayCommand::execute(ScriptLine * scriptLine)

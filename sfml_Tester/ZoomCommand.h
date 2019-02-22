@@ -16,6 +16,10 @@ public:
 	ZoomCommand(vector<string> args);
 	~ZoomCommand();
 
+	// serialize the file
+	ZoomCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);
@@ -32,12 +36,7 @@ private:
 	float time;
 
 	int objectType;
-	const static int OBJECT_CHARACTER = 0;
-	const static int OBJECT_BACKGROUND = 1;
-
 	int animationType;
-	const static int ANIMATION_ZOOM = 1;
-	const static int ANIMATION_NONE = 0;
 
 	float currentScaleX, currentScaleY, scaleX, scaleY, scaleDiffX, scaleDiffY;
 	bool relative;
@@ -47,4 +46,11 @@ private:
 	float relScaleDiffX, relScaleDiffY;
 	float incrementedScaleX, incrementedScaleY;
 	bool firstLoopRel = true;
+
+	const static int OBJECT_CHARACTER = 0;
+	const static int OBJECT_BACKGROUND = 1;
+
+	const static int ANIMATION_ZOOM = 1;
+	const static int ANIMATION_NONE = 0;
+
 };

@@ -5,6 +5,9 @@ class TextboxImage : public ItemImage
 {
 public:
 	TextboxImage();
+	TextboxImage(ifstream& file);
+
+	void serialize(ofstream& savefile) const;
 
 	void setText(const std::string& s);
 	void setName(const std::string& s);

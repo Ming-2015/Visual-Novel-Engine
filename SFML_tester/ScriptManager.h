@@ -32,6 +32,9 @@ public:
 	ScriptManager(std::string filename);
 	~ScriptManager();
 
+	ScriptManager(ifstream& file);
+	void serialize(ofstream& savefile) const;
+
 	// get the current line info
 	std::string getScriptLine() const;
 	std::string getDisplayName() const;
@@ -55,9 +58,9 @@ public:
 	void handleInput(sf::Event & e, sf::RenderWindow & window);
 
 private:
+
 	std::vector< ScriptCommand* > commands;
 	ScriptLine * currentScriptLine;
 
 	std::string initFileName;
-	
 };

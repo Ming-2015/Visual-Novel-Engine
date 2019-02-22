@@ -10,6 +10,7 @@ JumpCommand::JumpCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_JUMP;
 
 	// parse the arguments
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
@@ -38,7 +39,7 @@ JumpCommand::JumpCommand(std::vector<std::string> args)
 	}
 	else if (objectTypeName == "anchor" || objectTypeName == "a")
 	{
-		objectType == OBJECT_ANCHOR;
+		objectType = OBJECT_ANCHOR;
 	}
 	else
 	{
@@ -83,6 +84,43 @@ JumpCommand::~JumpCommand()
 {
 }
 
+JumpCommand::JumpCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try {
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&conditionType), sizeof(conditionType));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+
+		flagExpression = UTILITY->readFromBinaryFile(savefile);
+		filename = UTILITY->readFromBinaryFile(savefile);
+		anchor = UTILITY->readFromBinaryFile(savefile);
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("JumpCommand", "Unable to read Jump Command from savedata");
+		valid = false;
+		throw;
+	}
+}
+
+void JumpCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+
+	savefile.write(reinterpret_cast<const char *> (&conditionType), sizeof(conditionType));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+
+	UTILITY->writeToBinaryFile(savefile, flagExpression);
+	UTILITY->writeToBinaryFile(savefile, filename);
+	UTILITY->writeToBinaryFile(savefile, anchor);
+}
+
 void JumpCommand::execute(ScriptLine * scriptLine)
 {
 	if (valid)
@@ -94,7 +132,7 @@ void JumpCommand::execute(ScriptLine * scriptLine)
 		}
 		else if (conditionType == CONDITION_FLAG)
 		{
-			shouldJump = UTILITY->evaluateFlagExpression(GLOBAL->userFlags, flagExpression);
+			shouldJump = UTILITY->evaluateFlagExpression(scriptLine->userFlags, flagExpression);
 		}
 
 		if (shouldJump)

@@ -12,6 +12,10 @@ public:
 	SetCommand(std::vector<std::string> args);
 	~SetCommand();
 
+	// serialize the file
+	SetCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);
@@ -31,6 +35,7 @@ private:
 	float alpha;
 
 	int objectType;
+	bool initiailized = false;
 
 	const static int ANIMATION_FADEIN = 1;
 	const static int ANIMATION_NONE = 0;
@@ -38,5 +43,4 @@ private:
 	const static int OBJECT_CHARACTER = 0;
 	const static int OBJECT_BACKGROUND = 1;
 
-	bool initiailized = false;
 };

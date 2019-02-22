@@ -12,6 +12,10 @@ public:
 	PlayCommand(std::vector<std::string> args);
 	~PlayCommand();
 
+	// serialize the file
+	PlayCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);
@@ -31,6 +35,7 @@ private:
 	int flagType;
 	int objectType;
 	bool repeat = false;
+
 	bool clearPrev = true;
 	bool finishedAction = false;
 	bool played = false;

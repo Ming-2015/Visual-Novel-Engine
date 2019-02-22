@@ -10,6 +10,7 @@ HideCommand::HideCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_HIDE;
 
 	// parse the arguments
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
@@ -68,6 +69,46 @@ HideCommand::HideCommand(std::vector<std::string> args)
 
 HideCommand::~HideCommand()
 {
+}
+
+HideCommand::HideCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+
+		savefile.read(reinterpret_cast<char *> (&currentAlpha), sizeof(currentAlpha));
+		savefile.read(reinterpret_cast<char *> (&finalAlpha), sizeof(finalAlpha));
+		savefile.read(reinterpret_cast<char *> (&doneAnimation), sizeof(doneAnimation));
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("HideCommand", "Unable to read Hide command from savedata");
+		valid = false;
+		return;
+	}
+}
+
+void HideCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+
+	savefile.write(reinterpret_cast<const char *> (&currentAlpha), sizeof(currentAlpha));
+	savefile.write(reinterpret_cast<const char *> (&finalAlpha), sizeof(finalAlpha));
+	savefile.write(reinterpret_cast<const char *> (&doneAnimation), sizeof(doneAnimation));
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
 }
 
 void HideCommand::execute(ScriptLine * scriptLine)
