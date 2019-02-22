@@ -30,7 +30,11 @@ public:
 	const std::string NewGameScriptFileLocation = "resources/ScriptLine.csv";
 	const std::string DisplayTextFont = "assets/default.ttf";
 	const std::string DisplayNameFont = "assets/MATURASC.TTF";
-	
+
+	const std::string blurFragShaderPath = "resources/blur.frag";
+
+	std::string playerName;
+
 	bool autoMode = false;
 	bool skipMode = false;
 

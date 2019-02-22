@@ -109,24 +109,23 @@ const ScriptManager * MainState::getScriptManager()
 
 MainState::MainState()
 {
-	scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
+	if (GLOBAL->scriptManagerPtr != nullptr)
+	{
+		scriptManager = GLOBAL->scriptManagerPtr;
+		GLOBAL->scriptManagerPtr = nullptr;
+	}
+	else
+	{
+		scriptManager = new ScriptManager(GLOBAL->selectedLoadFile);
+	}
 	myState = GameState::STATE_MAIN;
 	init();
 }
 
-MainState::MainState(std::string savefile)
+MainState::MainState(std::string playerName)
 {
-	ifstream ifile(savefile, ios::binary | ios::in);
-	if (ifile)
-	{
-		scriptManager = new ScriptManager(ifile);
-		ifile.close();
-	}
-	else
-	{
-		scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
-	}
-
+	scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
+	scriptManager->setPlayerName(playerName);
 	myState = GameState::STATE_MAIN;
 	init();
 }

@@ -86,7 +86,7 @@ void StateManager::manageStates()
 			{
 				prevStates.push(currentState);
 				clearPrevStates();
-				currentState = new MainState(GLOBAL->selectedLoadFile);
+				currentState = new MainState(GLOBAL->playerName);
 			}
 			break;
 

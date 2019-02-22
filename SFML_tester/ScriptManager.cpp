@@ -336,6 +336,16 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 }
 
+void ScriptManager::setPlayerName(const std::string & name)
+{
+	currentScriptLine->playerName = name;
+}
+
+std::string ScriptManager::getPlayerName() const
+{
+	return currentScriptLine->playerName;
+}
+
 bool ScriptManager::eof() const
 {
 	return currentScriptLine->file.eof();

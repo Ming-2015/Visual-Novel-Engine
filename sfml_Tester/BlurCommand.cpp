@@ -112,7 +112,6 @@ BlurCommand::BlurCommand(ifstream & savefile)
 		objectTypeName = UTILITY->readFromBinaryFile(savefile);
 		flag = UTILITY->readFromBinaryFile(savefile);
 		objectName = UTILITY->readFromBinaryFile(savefile);
-		srcFile = UTILITY->readFromBinaryFile(savefile);
 
 		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
 		savefile.read(reinterpret_cast<char *> (&initialized), sizeof(initialized));
@@ -143,7 +142,6 @@ void BlurCommand::serialize(ofstream & savefile) const
 	UTILITY->writeToBinaryFile(savefile, objectTypeName);
 	UTILITY->writeToBinaryFile(savefile, flag);
 	UTILITY->writeToBinaryFile(savefile, objectName);
-	UTILITY->writeToBinaryFile(savefile, srcFile);
 
 	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
 	savefile.write(reinterpret_cast<const char *> (&initialized), sizeof(initialized));
@@ -151,7 +149,9 @@ void BlurCommand::serialize(ofstream & savefile) const
 	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
 	savefile.write(reinterpret_cast<const char *> (&blurRadius), sizeof(blurRadius));
 	savefile.write(reinterpret_cast<const char *> (&currentBlurR), sizeof(currentBlurR));
+
 	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+
 	savefile.write(reinterpret_cast<const char *> (&relative), sizeof(relative));
 	savefile.write(reinterpret_cast<const char *> (&firstLoopRel), sizeof(firstLoopRel));
 	savefile.write(reinterpret_cast<const char *> (&lastLoopRel), sizeof(lastLoopRel));
@@ -170,7 +170,7 @@ void BlurCommand::execute(ScriptLine * scriptLine)
 		if (objectType == OBJECT_CHARACTER)
 		{
 			scriptLine->tickCharacterShader(objectName, true);
-			scriptLine->setCharacterShader(objectName, srcFile);
+			scriptLine->setCharacterShader(objectName, GLOBAL->blurFragShaderPath);
 			scriptLine->setCharacterBlurRadius(objectName, currentBlurR);
 
 			std::string msg = "Blur radius: " + to_string(currentBlurR);
@@ -179,15 +179,15 @@ void BlurCommand::execute(ScriptLine * scriptLine)
 		else if (objectType == OBJECT_BACKGROUND)
 		{
 			scriptLine->tickBackgroundShader(objectName, true);
-			scriptLine->setBackgroundShader(objectName, srcFile);
+			scriptLine->setBackgroundShader(objectName, GLOBAL->blurFragShaderPath);
 			scriptLine->setBackgroundBlurRadius(objectName, currentBlurR);
 		}
 		else if (objectType == OBJECT_ALL)
 		{
 			scriptLine->tickBackgroundShader(objectName, true);
 			scriptLine->tickCharacterShader(objectName, true);
-			scriptLine->setCharacterShader(objectName, srcFile);
-			scriptLine->setBackgroundShader(objectName, srcFile);
+			scriptLine->setCharacterShader(objectName, GLOBAL->blurFragShaderPath);
+			scriptLine->setBackgroundShader(objectName, GLOBAL->blurFragShaderPath);
 			scriptLine->setCharacterBlurRadius(objectName, currentBlurR);
 			scriptLine->setBackgroundBlurRadius(objectName, currentBlurR);
 		}
