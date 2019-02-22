@@ -15,12 +15,11 @@ BlurCommand::BlurCommand(vector<string> args)
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);
 
 	objectName = UTILITY->toLower(args[COLUMN_ARG1]);
-	srcFile = UTILITY->toLower(args[COLUMN_ARG2]);
 
-	if (args.size() > COLUMN_ARG3)
+	if (args.size() > COLUMN_ARG2)
 	{
 		try {
-			blurRadius = stof(args[COLUMN_ARG3]);
+			blurRadius = stof(args[COLUMN_ARG2]);
 		}
 		catch (exception e)
 		{
@@ -29,10 +28,10 @@ BlurCommand::BlurCommand(vector<string> args)
 	}
 
 	time = 1.5f;
-	if (args.size() > COLUMN_ARG4)
+	if (args.size() > COLUMN_ARG3)
 	{
 		try {
-			time = std::stof(args[COLUMN_ARG4]);
+			time = std::stof(args[COLUMN_ARG3]);
 		}
 		catch (exception e)
 		{
@@ -197,7 +196,6 @@ void BlurCommand::execute(ScriptLine * scriptLine)
 	{
 		if (objectType == OBJECT_CHARACTER)
 		{
-			cout << endl << "I entered execute" << endl;
 			currentBlurR = scriptLine->getCharacterBeginBlurR(objectName);
 			blurDiff = blurRadius - currentBlurR;
 			firstLoopRel = false;
@@ -271,14 +269,13 @@ void BlurCommand::update(float delta_t)
 	{
 		if (firstLoopRel == true)
 		{
-			cout << endl << "I came in here" << endl;
+
 		}
 		else if (animationType == ANIMATION_GRADUAL && currentBlurR != blurRadius)
 		{
 			float blurOffset = delta_t / time * blurDiff;
 
 			currentBlurR += blurOffset;
-			cout << currentBlurR << endl;
 			if (blurDiff == 0)
 			{
 				lastLoopRel = true;

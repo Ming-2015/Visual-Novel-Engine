@@ -29,7 +29,6 @@ private:
 	string flag;
 
 	string objectName;
-	string srcFile;
 
 	float time;
 	bool initialized = false;
@@ -51,5 +50,4 @@ private:
 	const static int OBJECT_CHARACTER = 0;
 	const static int OBJECT_BACKGROUND = 1;
 	const static int OBJECT_ALL = 2;
-
 };

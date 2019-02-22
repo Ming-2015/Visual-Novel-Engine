@@ -37,6 +37,8 @@ private:
 	sf::Clock clock;
 
 	bool shouldFade = false;
+	bool fadeTicked = false;
+	bool isExit;
 	int currentAlpha;
 	int endAlpha;
 	float volumeFade;
