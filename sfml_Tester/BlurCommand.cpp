@@ -118,9 +118,6 @@ void BlurCommand::execute(ScriptLine * scriptLine)
 			scriptLine->tickCharacterShader(objectName, true);
 			scriptLine->setCharacterShader(objectName, srcFile);
 			scriptLine->setCharacterBlurRadius(objectName, currentBlurR);
-
-			std::string msg = "Blur radius: " + to_string(currentBlurR);
-			LOGGER->Log("BlurCommand", msg);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{

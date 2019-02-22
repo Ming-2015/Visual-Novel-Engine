@@ -1,7 +1,7 @@
 #include "TextboxImage.h"
 
 TextboxImage::TextboxImage()
-	: ItemImage("assets", "textboxw.png", 0, 0)
+	: ItemImage("assets", "textboxMaster.png", 0, 0)
 {
 	initText();
 }
