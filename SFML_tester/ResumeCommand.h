@@ -9,6 +9,10 @@ public:
 	ResumeCommand(std::vector<std::string> args);
 	~ResumeCommand();
 
+	// serialize the file
+	ResumeCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);

@@ -56,6 +56,83 @@ ChoiceImage::ChoiceImage(const std::string & str, const std::string & flag, int 
 	flags = UTILITY->trim(flags);
 }
 
+ChoiceImage::ChoiceImage(ifstream & file)
+	:ItemImage(file)
+{
+	initText();
+
+	// note that we can't actually return to the init file position
+	int currentPos = file.tellg();
+
+	try
+	{
+		choice = UTILITY->readFromBinaryFile(file);
+
+		flags = UTILITY->readVectorFromBinaryFile(file);
+
+		file.read(reinterpret_cast<char *>(&numChoices), sizeof(numChoices));
+		file.read(reinterpret_cast<char *>(&index), sizeof(index));
+
+		file.read(reinterpret_cast<char *>(&choiceTextColor.r), sizeof(choiceTextColor.r));
+		file.read(reinterpret_cast<char *>(&choiceTextColor.g), sizeof(choiceTextColor.g));
+		file.read(reinterpret_cast<char *>(&choiceTextColor.b), sizeof(choiceTextColor.b));
+		file.read(reinterpret_cast<char *>(&choiceTextColor.a), sizeof(choiceTextColor.a));
+
+		file.read(reinterpret_cast<char *>(&choiceTextOutlineColor.r), sizeof(choiceTextOutlineColor.r));
+		file.read(reinterpret_cast<char *>(&choiceTextOutlineColor.g), sizeof(choiceTextOutlineColor.g));
+		file.read(reinterpret_cast<char *>(&choiceTextOutlineColor.b), sizeof(choiceTextOutlineColor.b));
+		file.read(reinterpret_cast<char *>(&choiceTextOutlineColor.a), sizeof(choiceTextOutlineColor.a));
+
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("ChoiceImage", "Unable to read from save data");
+		file.seekg(currentPos);
+		loaded = false;
+		throw;
+	}
+
+	xPos = CONFIG->getWindowWidth() / 2.0f;
+	yPos = TOP_Y + (BOTTOM_Y - TOP_Y) / float(numChoices + 1) * float(index + 1);
+
+	sprite.setPosition(xPos, yPos);
+
+	if (!choiceboxBgTex.loadFromFile(GLOBAL->ImageRoot + "assets/choicebox_bg.png"))
+	{
+		LOGGER->Log("ChoiceImage", "Unable to log choice background image");
+	}
+	choiceboxBg.setTexture(choiceboxBgTex);
+	choiceboxBg.setPosition(xPos, yPos);
+	choiceboxBg.setOrigin(choiceboxBg.getLocalBounds().width / 2.0f, choiceboxBg.getLocalBounds().height / 2.0f);
+
+	setChoiceboxColor(sf::Color(255, 0, 180));
+	setAlpha(190.f);
+
+}
+
+void ChoiceImage::serialize(ofstream & savefile)
+{
+	ItemImage::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, choice);
+
+	UTILITY->writeVectorToBinaryFile(savefile, flags);
+
+	savefile.write(reinterpret_cast<const char *>(&numChoices), sizeof(numChoices));
+	savefile.write(reinterpret_cast<const char *>(&index), sizeof(index));
+
+	savefile.write(reinterpret_cast<const char *>(&choiceTextColor.r), sizeof(choiceTextColor.r));
+	savefile.write(reinterpret_cast<const char *>(&choiceTextColor.g), sizeof(choiceTextColor.g));
+	savefile.write(reinterpret_cast<const char *>(&choiceTextColor.b), sizeof(choiceTextColor.b));
+	savefile.write(reinterpret_cast<const char *>(&choiceTextColor.a), sizeof(choiceTextColor.a));
+
+	savefile.write(reinterpret_cast<const char *>(&choiceTextOutlineColor.r), sizeof(choiceTextOutlineColor.r));
+	savefile.write(reinterpret_cast<const char *>(&choiceTextOutlineColor.g), sizeof(choiceTextOutlineColor.g));
+	savefile.write(reinterpret_cast<const char *>(&choiceTextOutlineColor.b), sizeof(choiceTextOutlineColor.b));
+	savefile.write(reinterpret_cast<const char *>(&choiceTextOutlineColor.a), sizeof(choiceTextOutlineColor.a));
+
+}
+
 std::vector<std::string> ChoiceImage::getFlags() const
 {
 	return flags;

@@ -36,6 +36,105 @@ ItemImage::ItemImage(string name, string expression, float xPos, float yPos)
 	yScale = 1.0f;
 }
 
+ItemImage::ItemImage(ifstream & file)
+{
+	int startPos = file.tellg();
+
+	try {
+		// write stuffs!
+		file.read(reinterpret_cast<char *>(&xPos), sizeof(xPos));
+		file.read(reinterpret_cast<char *>(&yPos), sizeof(yPos));
+		file.read(reinterpret_cast<char *>(&xScale), sizeof(xScale));
+		file.read(reinterpret_cast<char *>(&yScale), sizeof(yScale));
+		file.read(reinterpret_cast<char *>(&rotationDegree), sizeof(rotationDegree));
+		file.read(reinterpret_cast<char *>(&loaded), sizeof(loaded));
+
+		file.read(reinterpret_cast<char *>(&fading), sizeof(fading));
+		file.read(reinterpret_cast<char *>(&duration), sizeof(duration));
+		file.read(reinterpret_cast<char *>(&finalAlpha), sizeof(finalAlpha));
+		nextExpression = UTILITY->readFromBinaryFile(file);
+		file.read(reinterpret_cast<char *>(&nextColor.r), sizeof(nextColor.r));
+		file.read(reinterpret_cast<char *>(&nextColor.g), sizeof(nextColor.g));
+		file.read(reinterpret_cast<char *>(&nextColor.b), sizeof(nextColor.b));
+		file.read(reinterpret_cast<char *>(&nextColor.a), sizeof(nextColor.a));
+		file.read(reinterpret_cast<char *>(&nextXPos), sizeof(nextXPos));
+		file.read(reinterpret_cast<char *>(&nextYPos), sizeof(nextYPos));
+
+		name = UTILITY->readFromBinaryFile(file);
+		expression = UTILITY->readFromBinaryFile(file);
+		file.read(reinterpret_cast<char *>(&alpha), sizeof(alpha));
+		file.read(reinterpret_cast<char *>(&color.r), sizeof(color.r));
+		file.read(reinterpret_cast<char *>(&color.g), sizeof(color.g));
+		file.read(reinterpret_cast<char *>(&color.b), sizeof(color.b));
+		file.read(reinterpret_cast<char *>(&color.a), sizeof(color.a));
+
+		int uniformParamsSize;
+		file.read(reinterpret_cast<char *>(&uniformParamsSize), sizeof(uniformParamsSize));
+		for (int i = 0; i < uniformParamsSize; i++)
+		{
+			std::string paramName = UTILITY->readFromBinaryFile(file);
+			float paramValue;
+			file.read(reinterpret_cast<char *>(&paramValue), sizeof(paramValue));
+			uniformParams.insert(std::pair<std::string, float>(paramName, paramValue));
+		}
+
+		file.read(reinterpret_cast<char *>(&hasShader), sizeof(hasShader));
+		fragShaderPath = UTILITY->readFromBinaryFile(file);
+		vertShaderPath = UTILITY->readFromBinaryFile(file);
+	}
+	catch (exception e)
+	{
+		file.seekg(startPos);
+		LOGGER->Log("ItemImage", "Failed to read file!");
+		loaded = false;
+		throw;
+	}
+
+	// initialize the sprite
+	setImage();
+	color.a = alpha;
+	sprite.setColor(color);
+	sprite.setOrigin(sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f);
+	sprite.setPosition(xPos, yPos);
+	sprite.setRotation(rotationDegree);
+	sprite.setScale(xScale, yScale);
+
+	if (fading)
+	{
+		std::string filename = getImagePath(name, nextExpression);
+		if (!nextTexture.loadFromFile(filename))
+		{
+			LOGGER->Log("ItemImage", "Unable to load next expression");
+		}
+		nextSprite.setTexture(nextTexture);
+		nextSprite.setOrigin(nextSprite.getLocalBounds().width / 2.f, nextSprite.getLocalBounds().height / 2.f);
+		nextSprite.setPosition(nextXPos, nextYPos);
+		nextSprite.setColor(nextColor);
+		nextSprite.setRotation(rotationDegree);
+		nextSprite.setScale(xScale, yScale);
+	}
+	
+	if (fragShaderPath != "")
+	{
+		if (!shader.loadFromFile(fragShaderPath, sf::Shader::Fragment))
+		{
+			LOGGER->Log("ItemImage", "Unable to load fragment shader");
+		}
+	}
+	if (vertShaderPath != "")
+	{
+		if (!shader.loadFromFile(vertShaderPath, sf::Shader::Vertex))
+		{
+			LOGGER->Log("ItemImage", "Unable to load vertex shader");
+		}
+	}
+
+	for (auto it = uniformParams.begin(); it != uniformParams.end(); it++)
+	{
+		setShaderParam(it->first, it->second);
+	}
+}
+
 void ItemImage::setAlpha(float alpha)
 {
 	float a = alpha;
@@ -158,6 +257,48 @@ float ItemImage::getShaderParam(std::string uniform) const
 
 	LOGGER->Log("Item", "Trying to get invalid uniformParams!");
 	return 0;
+}
+
+void ItemImage::serialize(ofstream & savefile) const
+{
+	// write stuffs!
+	savefile.write(reinterpret_cast<const char *>(&xPos), sizeof(xPos));
+	savefile.write(reinterpret_cast<const char *>(&yPos), sizeof(yPos));
+	savefile.write(reinterpret_cast<const char *>(&xScale), sizeof(xScale));
+	savefile.write(reinterpret_cast<const char *>(&yScale), sizeof(yScale));
+	savefile.write(reinterpret_cast<const char *>(&rotationDegree), sizeof(rotationDegree));
+	savefile.write(reinterpret_cast<const char *>(&loaded), sizeof(loaded));
+
+	savefile.write(reinterpret_cast<const char *>(&fading), sizeof(fading));
+	savefile.write(reinterpret_cast<const char *>(&duration), sizeof(duration));
+	savefile.write(reinterpret_cast<const char *>(&finalAlpha), sizeof(finalAlpha));
+	UTILITY->writeToBinaryFile(savefile, nextExpression);
+	savefile.write(reinterpret_cast<const char *>(&nextColor.r), sizeof(nextColor.r));
+	savefile.write(reinterpret_cast<const char *>(&nextColor.g), sizeof(nextColor.g));
+	savefile.write(reinterpret_cast<const char *>(&nextColor.b), sizeof(nextColor.b));
+	savefile.write(reinterpret_cast<const char *>(&nextColor.a), sizeof(nextColor.a));
+	savefile.write(reinterpret_cast<const char *>(&nextXPos), sizeof(nextXPos));
+	savefile.write(reinterpret_cast<const char *>(&nextYPos), sizeof(nextYPos));
+
+	UTILITY->writeToBinaryFile(savefile, name);
+	UTILITY->writeToBinaryFile(savefile, expression);
+	savefile.write(reinterpret_cast<const char *>(&alpha), sizeof(alpha));
+	savefile.write(reinterpret_cast<const char *>(&color.r), sizeof(color.r));
+	savefile.write(reinterpret_cast<const char *>(&color.g), sizeof(color.g));
+	savefile.write(reinterpret_cast<const char *>(&color.b), sizeof(color.b));
+	savefile.write(reinterpret_cast<const char *>(&color.a), sizeof(color.a));
+
+	int uniformParamsSize = uniformParams.size();
+	savefile.write(reinterpret_cast<const char *>(&uniformParamsSize), sizeof(uniformParamsSize));
+	for (auto it = uniformParams.begin(); it != uniformParams.end(); it++)
+	{
+		UTILITY->writeToBinaryFile(savefile, it->first);
+		savefile.write(reinterpret_cast<const char *>(&(it->second)), sizeof(it->second));
+	}
+
+	savefile.write(reinterpret_cast<const char *>(&hasShader), sizeof(hasShader));
+	UTILITY->writeToBinaryFile(savefile, fragShaderPath);
+	UTILITY->writeToBinaryFile(savefile, vertShaderPath);
 }
 
 void ItemImage::changeExpression(string expression, float time)
@@ -300,12 +441,26 @@ sf::FloatRect ItemImage::getGlobalBoundary() const
 	return sprite.getGlobalBounds();
 }
 
-void ItemImage::setShader(string src)
+void ItemImage::setFragShader(string src)
 {
 	if (!shader.loadFromFile(src, sf::Shader::Type::Fragment))
 	{
-		LOGGER->Log("ItemImage:", "Failed to load shader");
+		LOGGER->Log("ItemImage:", "Failed to load fragment shader");
+		return;
 	}
+
+	fragShaderPath = src;
+}
+
+void ItemImage::setVertShader(string src)
+{
+	if (!shader.loadFromFile(src, sf::Shader::Type::Vertex))
+	{
+		LOGGER->Log("ItemImage:", "Failed to load vertex shader");
+		return;
+	}
+
+	vertShaderPath = src;
 }
 
 void ItemImage::tickShader(bool isTrue)

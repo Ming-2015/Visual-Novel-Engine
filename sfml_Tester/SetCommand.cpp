@@ -9,6 +9,7 @@ SetCommand::SetCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_SET;
 
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);
@@ -86,6 +87,53 @@ SetCommand::SetCommand(std::vector<std::string> args)
 
 SetCommand::~SetCommand()
 {
+
+}
+
+SetCommand::SetCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try 
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+		objectSubname = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&x1), sizeof(x1));
+		savefile.read(reinterpret_cast<char *> (&y1), sizeof(y1));
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+		savefile.read(reinterpret_cast<char *> (&alpha), sizeof(alpha));
+
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+		savefile.read(reinterpret_cast<char *> (&initiailized), sizeof(initiailized));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("SetCommand", "Unable to load Set command from savdata");
+		valid = false;
+		throw;
+	}
+}
+
+void SetCommand::serialize(ofstream & savefile) const
+{
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+	UTILITY->writeToBinaryFile(savefile, objectSubname);
+
+	savefile.write(reinterpret_cast<const char *> (&x1), sizeof(x1));
+	savefile.write(reinterpret_cast<const char *> (&y1), sizeof(y1));
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+	savefile.write(reinterpret_cast<const char *> (&alpha), sizeof(alpha));
+
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+	savefile.write(reinterpret_cast<const char *> (&initiailized), sizeof(initiailized));
 
 }
 

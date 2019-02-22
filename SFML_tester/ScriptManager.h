@@ -32,6 +32,9 @@ public:
 	ScriptManager(std::string filename);
 	~ScriptManager();
 
+	ScriptManager(ifstream& file);
+	void serialize(ofstream& savefile) const;
+
 	// get the current line info
 	std::string getScriptLine() const;
 	std::string getDisplayName() const;
@@ -54,10 +57,13 @@ public:
 	void update(float delta_t);
 	void handleInput(sf::Event & e, sf::RenderWindow & window);
 
+	void setPlayerName(const std::string& name);
+	std::string getPlayerName() const;
+
 private:
+
 	std::vector< ScriptCommand* > commands;
 	ScriptLine * currentScriptLine;
 
 	std::string initFileName;
-	
 };

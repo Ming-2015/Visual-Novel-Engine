@@ -51,6 +51,12 @@ public:
 	std::string addAllNewLines(std::string str, unsigned int lineLength);
 	std::string addNewLineToPrevWord(std::string str, unsigned int pos);
 
+	void writeToBinaryFile(ofstream& file, const std::string& str) const;
+	std::string readFromBinaryFile(ifstream& file) const;
+
+	void writeVectorToBinaryFile(ofstream& file, const std::vector<std::string> strs) const;
+	std::vector<std::string> readVectorFromBinaryFile(ifstream& file) const;
+
 private:
 	Utility();
 	static Utility * util_ptr;

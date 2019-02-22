@@ -17,9 +17,9 @@ public:
 
 	const ScriptManager* getScriptManager();
 
-	MainState(std::string filename);
+	MainState();
+	MainState(std::string savefile);	// for loading the main state with a save file
 	~MainState();
-
 
 private:
 

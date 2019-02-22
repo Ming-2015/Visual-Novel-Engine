@@ -64,7 +64,7 @@ void NewGameState::handleInput(sf::Event & e, sf::RenderWindow & window)
 				{
 					if (playerInput.getSize() > 0)
 					{
-						GLOBAL->PlayerName = playerInput;
+						GLOBAL->playerName = playerInput;
 						currentAlpha = 5;
 						shouldFadeOut = true;
 						clickedSubmit = true;
@@ -105,7 +105,7 @@ void NewGameState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		if (playerInput.getSize() > 0)
 		{
 			clickedSubmit = true;
-			GLOBAL->PlayerName = playerInput;
+			GLOBAL->playerName = playerInput;
 			currentAlpha = 5;
 			shouldFadeOut = true;
 			LOGGER->Log("NewGameState", "Switching to Main State");
@@ -145,13 +145,11 @@ void NewGameState::update(float delta_t)
 				bgm.stop();
 				shouldChangeState = true;
 				nextState = GameState::STATE_MAIN;
-				GLOBAL->userFlags.clear();
 			}
 			clock.restart();
 		}
 	}
 }
-
 
 void NewGameState::render(sf::RenderWindow & window)
 {

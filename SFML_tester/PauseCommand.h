@@ -14,6 +14,10 @@ public:
 	PauseCommand(std::vector<std::string> args);
 	~PauseCommand();
 
+	// serialize the file
+	PauseCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);
@@ -22,9 +26,6 @@ private:
 
 	std::string objectTypeName;
 	std::string flag;
-
-	std::string objectName;			// the name of the character or background
-	std::string objectSubname;		// the expression of character or time-of-the-day of background
 
 	float time;
 	float finalVolume = 0;

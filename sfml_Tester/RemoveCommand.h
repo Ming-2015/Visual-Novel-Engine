@@ -11,6 +11,10 @@ public:
 	RemoveCommand(vector<string> args);
 	~RemoveCommand();
 
+	// serialize the file
+	RemoveCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);
@@ -19,14 +23,11 @@ private:
 
 	std::string objectTypeName;
 	std::string flag;
-
 	std::string objectName;
 
 	float time;
-
 	int animationType;
 	float alpha;
-
 	int objectType;
 
 	const static int ANIMATION_FADEOUT = 1;

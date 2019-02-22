@@ -10,9 +10,9 @@ int Engine::start()
 	window.setFramerateLimit(CONFIG->getFps());
 	
 	initFPSText();
+	GLOBAL->windowPtr = &window;
 
 	Game game;
-
 	while (window.isOpen())
 	{
 		sf::Event event;

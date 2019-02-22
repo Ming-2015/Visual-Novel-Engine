@@ -1,38 +1,64 @@
 #include "SaveState.h"
-#include <iostream>
-#include <fstream>
+
 using namespace std;
 
-void SaveState::writeSave() {
-	ofstream myfile("Save.txt");
-	if (myfile.is_open())
-	{
-		myfile << "File Name =" << scriptFileName << '\n';		//Change?
-		myfile << "File line ID = " << lineId << '\n';	//Change?
-		myfile.close();
-	}
-	else {
-		string err = "Incorrect Save file";
-		LOGGER->Log("SaveFile", err);
-	}
+SaveState::SaveState(const ScriptManager * scriptManager, sf::Image screenshot)
+	:scriptManager(scriptManager), screenshot(screenshot)
+{
+	myState = STATE_SAVE;
+	init();
 }
 
-void SaveState::readSave() {
-	string line;
-	ifstream thefile("testSave.txt");
-	if (thefile.is_open())
+SaveState::~SaveState()
+{
+}
+
+void SaveState::writeSave(const std::string& savefile) const
+{
+	ofstream outfile(savefile, ios::binary | ios::out);
+	if (!outfile)
 	{
-		stringstream ss(line);
-		getline(ss, tempStr, '=');
-		getline(ss, fileNameFromSave, '=');
-		getline(ss, tempStr, '=');
-		getline(ss, tempStr, '=');
-		lineIDFromSave = stoi(tempStr);
+		LOGGER->Log("Save State", "Unable to create a new save file");
+		return;
 	}
-	else {
-		string err = "Incorrect Save file";
-		LOGGER->Log("SaveFile", err);
+
+	// create and read the screenshot
+	screenshot.saveToFile("_temp_ss.png");
+	ifstream ssfile("_temp_ss.png", ios::binary | ios::in);
+
+	// create a string of that size
+	std::string str;
+	ssfile.seekg(ssfile.end);
+	str.reserve(ssfile.tellg());
+	ssfile.seekg(ssfile.beg);
+
+	// read everything from the file
+	str.assign(std::istreambuf_iterator<char>(ssfile), std::istreambuf_iterator<char>());
+	unsigned int fileSize = str.length();
+	outfile.write(reinterpret_cast<const char*>(&fileSize), sizeof(fileSize));
+	outfile.write(reinterpret_cast<const char*>(str.c_str()), fileSize);
+
+	// remove screenshot
+	ssfile.close();
+	std::remove("_temp_ss.png");
+
+	std::string title = scriptManager->getDisplayName();
+	if (title == "")
+	{
+		title = scriptManager->getScriptLine();
 	}
+	else
+	{
+		title = title + ": " + scriptManager->getScriptLine();
+	}
+
+	// save the title of the script
+	UTILITY->writeToBinaryFile(outfile, title);
+
+	// save the scriptManager
+	scriptManager->serialize(outfile);
+
+	outfile.close();
 }
 
 void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
@@ -52,7 +78,14 @@ void SaveState::update(float delta_t)
 
 void SaveState::init()
 {
-	
+	//sf::Clock clock;
+	//writeSave("saves/savefile.dat");
+	//shouldChangeState = true;
+	//nextState = STATE_BACK;
+
+	//sf::Time time = clock.getElapsedTime();
+	//string msg = "Creating a save takes: " + to_string(time.asSeconds()) + "s";
+	//LOGGER->Log("SaveState", msg);
 }
 
 void SaveState::cleanup()

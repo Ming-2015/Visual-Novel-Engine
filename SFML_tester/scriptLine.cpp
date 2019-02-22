@@ -3,8 +3,6 @@ using namespace std;
 
 ScriptLine::ScriptLine() 
 {
-	characterImages = vector<CharacterImage *>();
-	backgroundImages = vector<BackgroundImage* >();
 	textboxImage = new TextboxImage();
 }
 
@@ -47,6 +45,111 @@ ScriptLine::~ScriptLine()
 			m->stop();
 			delete m;
 		}
+	}
+}
+
+ScriptLine::ScriptLine(ifstream & savefile)
+{
+	int pos;
+
+	try {
+		dialogue = UTILITY->readFromBinaryFile(savefile);
+		name = UTILITY->readFromBinaryFile(savefile);
+		textboxImage = new TextboxImage(savefile);
+		savefile.read(reinterpret_cast<char *>(&hideTextbox), sizeof(hideTextbox));
+
+		fn_bgm = UTILITY->readVectorFromBinaryFile(savefile);
+		fn_voices = UTILITY->readVectorFromBinaryFile(savefile);
+		fn_sfx = UTILITY->readVectorFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *>(&isChoice), sizeof(isChoice));
+
+		int size;
+		savefile.read(reinterpret_cast<char *>(&size), sizeof(size));
+		for (int i = 0; i < size; i++)
+		{
+			choiceImages.push_back(new ChoiceImage(savefile));
+		}
+
+		savefile.read(reinterpret_cast<char *>(&size), sizeof(size));
+		for (int i = 0; i < size; i++)
+		{
+			characterImages.push_back(new CharacterImage(savefile));
+		}
+
+		savefile.read(reinterpret_cast<char *>(&size), sizeof(size));
+		for (int i = 0; i < size; i++)
+		{
+			backgroundImages.push_back(new BackgroundImage(savefile));
+		}
+
+		filename = UTILITY->readFromBinaryFile(savefile);
+		savefile.read(reinterpret_cast<char *>(&pos), sizeof(pos));
+
+		playerName = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *>(&size), sizeof(size));
+		for (int i = 0; i < size; i++)
+		{
+			userFlags.insert( UTILITY->readFromBinaryFile(savefile) );
+		}
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("ScriptLine", "Unable to read the object from save data!");
+		return;
+	}
+
+	file.open(filename);
+	file.seekg(pos);
+}
+
+void ScriptLine::serialize(ofstream & savefile)
+{
+	UTILITY->writeToBinaryFile(savefile, dialogue);
+	UTILITY->writeToBinaryFile(savefile, name);
+	textboxImage->serialize(savefile);
+	savefile.write(reinterpret_cast<const char *>(&hideTextbox), sizeof(hideTextbox));
+
+	UTILITY->writeVectorToBinaryFile(savefile, fn_bgm);
+	UTILITY->writeVectorToBinaryFile(savefile, fn_voices);
+	UTILITY->writeVectorToBinaryFile(savefile, fn_sfx);
+
+	savefile.write(reinterpret_cast<const char *>(&isChoice), sizeof(isChoice));
+	
+	int size;
+	size = choiceImages.size();
+	savefile.write(reinterpret_cast<const char *>(&size), sizeof(size));
+	for (int i = 0; i < size; i++)
+	{
+		choiceImages[i]->serialize(savefile);
+	}
+
+	size = characterImages.size();
+	savefile.write(reinterpret_cast<const char *>(&size), sizeof(size));
+	for (int i = 0; i < size; i++)
+	{
+		characterImages[i]->serialize(savefile);
+	}
+
+	size = backgroundImages.size();
+	savefile.write(reinterpret_cast<const char *>(&size), sizeof(size));
+	for (int i = 0; i < size; i++)
+	{
+		backgroundImages[i]->serialize(savefile);
+	}
+
+	UTILITY->writeToBinaryFile(savefile, filename);
+	int pos = file.tellg();
+	savefile.write(reinterpret_cast<const char *>(&pos), sizeof(pos));
+
+	UTILITY->writeToBinaryFile(savefile, playerName);
+
+	size = userFlags.size();
+	savefile.write(reinterpret_cast<const char *>(&size), sizeof(size));
+	for (auto it = userFlags.begin(); it != userFlags.end(); it++)
+	{
+		UTILITY->writeToBinaryFile(savefile, *it);
 	}
 }
 
@@ -238,7 +341,7 @@ void ScriptLine::setCharacterShader(const string& name, const string& shaderSrc)
 	{
 		if (c->getName() == name)
 		{
-			c->setShader(shaderSrc);
+			c->setFragShader(shaderSrc);
 			return;
 		}
 	}
@@ -250,7 +353,7 @@ void ScriptLine::setBackgroundShader(const string& name, const string& shaderSrc
 	{
 		if (c->getName() == name)
 		{
-			c->setShader(shaderSrc);
+			c->setFragShader(shaderSrc);
 			return;
 		}
 	}
@@ -344,6 +447,7 @@ void ScriptLine::setCharacter(const string& name, const string& expression, floa
 	// otherwise add a new character
 	CharacterImage* c = new CharacterImage(name, expression, xPos, yPos);
 	c->setPosition(xPos, yPos);
+
 	characterImages.push_back(c);
 }
 
@@ -466,7 +570,7 @@ void ScriptLine::setDialogue(const string& displayname, const string& str)
 	name = displayname;
 	if (UTILITY->toLower(name) == "player")
 	{
-		name = GLOBAL->PlayerName;
+		name = playerName;
 	}
 
 	textboxImage->setDisplay(name, dialogue);

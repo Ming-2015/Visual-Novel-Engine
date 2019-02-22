@@ -16,6 +16,10 @@ public:
 	MoveCommand(vector<string> args);
 	~MoveCommand();
 
+	// serialize the file
+	MoveCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);
@@ -28,21 +32,24 @@ private:
 	string objectName;			// name of character | Background
 	string objectSubname;		// expression of character or time-of-the-day for background
 
+	int objectType;
+	int animationType;
+
 	float startX, startY;
 	float endX, endY;
+
 	bool doneX = false, doneY = false;
 	
 	float time;
 
-	int objectType;
+	float xDiff, yDiff;
+	float xOffset, yOffset;
+	bool relative;
+	bool stopMove = false;
+
 	const static int OBJECT_CHARACTER = 0;
 	const static int OBJECT_BACKGROUND = 1;
 
-	int animationType;
 	const static int ANIMATION_MOVE = 1;
 	const static int ANIMATION_NONE = 0;
-	float xDiff, yDiff;
-	float yOffset, xOffset;
-	bool relative;
-	bool stopMove = false;
 };

@@ -10,6 +10,7 @@ DelayCommand::DelayCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_DELAY;
 
 	// parse the arguments
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
@@ -56,6 +57,45 @@ DelayCommand::DelayCommand(std::vector<std::string> args)
 
 DelayCommand::~DelayCommand()
 {
+}
+
+DelayCommand::DelayCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try {
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&currentTime), sizeof(currentTime));
+		savefile.read(reinterpret_cast<char *> (&finishedTime), sizeof(finishedTime));
+
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("DelayCommand", "Unable to read delay command");
+		valid = false;
+		return;
+	}
+}
+
+void DelayCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&currentTime), sizeof(currentTime));
+	savefile.write(reinterpret_cast<const char *> (&finishedTime), sizeof(finishedTime));
+
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
 }
 
 void DelayCommand::execute(ScriptLine * scriptLine)

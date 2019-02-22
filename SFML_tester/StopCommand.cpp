@@ -11,6 +11,7 @@ StopCommand::StopCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_STOP;
 
 	// parse the arguments
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
@@ -88,6 +89,52 @@ StopCommand::StopCommand(std::vector<std::string> args)
 
 StopCommand::~StopCommand()
 {
+}
+
+StopCommand::StopCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+		objectSubname = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&finalVolume), sizeof(finalVolume));
+		savefile.read(reinterpret_cast<char *> (&currentVolume), sizeof(currentVolume));
+		savefile.read(reinterpret_cast<char *> (&prevVolume), sizeof(prevVolume));
+
+		savefile.read(reinterpret_cast<char *> (&flagType), sizeof(flagType));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+		savefile.read(reinterpret_cast<char *> (&finishedAction), sizeof(finishedAction));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("StopCommand", "Unable to read Stop Command from savedata");
+		valid = false;
+		throw;
+	}
+}
+
+void StopCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+	UTILITY->writeToBinaryFile(savefile, objectSubname);
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&finalVolume), sizeof(finalVolume));
+	savefile.write(reinterpret_cast<const char *> (&currentVolume), sizeof(currentVolume));
+	savefile.write(reinterpret_cast<const char *> (&prevVolume), sizeof(prevVolume));
+
+	savefile.write(reinterpret_cast<const char *> (&flagType), sizeof(flagType));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+	savefile.write(reinterpret_cast<const char *> (&finishedAction), sizeof(finishedAction));
 }
 
 void StopCommand::execute(ScriptLine * scriptLine)

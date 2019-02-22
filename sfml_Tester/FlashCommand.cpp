@@ -9,9 +9,12 @@ FlashCommand::FlashCommand(vector<string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_FLASH;
+
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);
 	objectName = UTILITY->toLower(args[COLUMN_ARG1]);
+
 	numFlash = 7;
 	if (args.size() > COLUMN_ARG2)
 	{
@@ -101,6 +104,60 @@ FlashCommand::FlashCommand(vector<string> args)
 FlashCommand::~FlashCommand()
 {
 
+}
+
+FlashCommand::FlashCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try {
+
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&numFlash), sizeof(numFlash));
+		savefile.read(reinterpret_cast<char *> (&flashCount), sizeof(flashCount));
+		savefile.read(reinterpret_cast<char *> (&showBlack), sizeof(showBlack));
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&keep), sizeof(keep));
+
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+		savefile.read(reinterpret_cast<char *> (&alpha), sizeof(alpha));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+
+		savefile.read(reinterpret_cast<char *> (&doneFade), sizeof(doneFade));
+		savefile.read(reinterpret_cast<char *> (&doneFlash), sizeof(doneFlash));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("FlashCommand", "Unable to read flash command from save data");
+		valid = false;
+		throw;
+	}
+}
+
+void FlashCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+
+	savefile.write(reinterpret_cast<const char *> (&numFlash), sizeof(numFlash));
+	savefile.write(reinterpret_cast<const char *> (&flashCount), sizeof(flashCount));
+	savefile.write(reinterpret_cast<const char *> (&showBlack), sizeof(showBlack));
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&keep), sizeof(keep));
+
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+	savefile.write(reinterpret_cast<const char *> (&alpha), sizeof(alpha));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+
+	savefile.write(reinterpret_cast<const char *> (&doneFade), sizeof(doneFade));
+	savefile.write(reinterpret_cast<const char *> (&doneFlash), sizeof(doneFlash));
 }
 
 void FlashCommand::execute(ScriptLine * scriptLine)

@@ -8,6 +8,10 @@ public:
 	JumpCommand(std::vector<std::string> args);
 	~JumpCommand();
 
+	// serialize the file
+	JumpCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);

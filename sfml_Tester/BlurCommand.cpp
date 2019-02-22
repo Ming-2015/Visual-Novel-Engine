@@ -9,6 +9,7 @@ BlurCommand::BlurCommand(vector<string> args)
 		valid = false;
 		return;
 	}
+	commandType = ScriptCommand::COMMAND_BLUR;
 
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);
@@ -104,6 +105,59 @@ BlurCommand::BlurCommand(vector<string> args)
 	}
 }
 
+BlurCommand::BlurCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try {
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&initialized), sizeof(initialized));
+
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+		savefile.read(reinterpret_cast<char *> (&blurRadius), sizeof(blurRadius));
+		savefile.read(reinterpret_cast<char *> (&currentBlurR), sizeof(currentBlurR));
+
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+
+		savefile.read(reinterpret_cast<char *> (&relative), sizeof(relative));
+		savefile.read(reinterpret_cast<char *> (&firstLoopRel), sizeof(firstLoopRel));
+		savefile.read(reinterpret_cast<char *> (&lastLoopRel), sizeof(lastLoopRel));
+		savefile.read(reinterpret_cast<char *> (&blurDiff), sizeof(blurDiff));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("BlurCommand", "Unable to read blur command");
+		valid = false;
+		return;
+	}
+}
+
+void BlurCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&initialized), sizeof(initialized));
+
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+	savefile.write(reinterpret_cast<const char *> (&blurRadius), sizeof(blurRadius));
+	savefile.write(reinterpret_cast<const char *> (&currentBlurR), sizeof(currentBlurR));
+
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+
+	savefile.write(reinterpret_cast<const char *> (&relative), sizeof(relative));
+	savefile.write(reinterpret_cast<const char *> (&firstLoopRel), sizeof(firstLoopRel));
+	savefile.write(reinterpret_cast<const char *> (&lastLoopRel), sizeof(lastLoopRel));
+	savefile.write(reinterpret_cast<const char *> (&blurDiff), sizeof(blurDiff));
+}
+
 BlurCommand::~BlurCommand()
 {
 
@@ -116,21 +170,21 @@ void BlurCommand::execute(ScriptLine * scriptLine)
 		if (objectType == OBJECT_CHARACTER)
 		{
 			scriptLine->tickCharacterShader(objectName, true);
-			scriptLine->setCharacterShader(objectName, srcFile);
+			scriptLine->setCharacterShader(objectName, GLOBAL->blurFragShaderPath);
 			scriptLine->setCharacterBlurRadius(objectName, currentBlurR);
 		}
 		else if (objectType == OBJECT_BACKGROUND)
 		{
 			scriptLine->tickBackgroundShader(objectName, true);
-			scriptLine->setBackgroundShader(objectName, srcFile);
+			scriptLine->setBackgroundShader(objectName, GLOBAL->blurFragShaderPath);
 			scriptLine->setBackgroundBlurRadius(objectName, currentBlurR);
 		}
 		else if (objectType == OBJECT_ALL)
 		{
 			scriptLine->tickBackgroundShader(objectName, true);
 			scriptLine->tickCharacterShader(objectName, true);
-			scriptLine->setCharacterShader(objectName, srcFile);
-			scriptLine->setBackgroundShader(objectName, srcFile);
+			scriptLine->setCharacterShader(objectName, GLOBAL->blurFragShaderPath);
+			scriptLine->setBackgroundShader(objectName, GLOBAL->blurFragShaderPath);
 			scriptLine->setCharacterBlurRadius(objectName, currentBlurR);
 			scriptLine->setBackgroundBlurRadius(objectName, currentBlurR);
 		}

@@ -6,5 +6,9 @@ class CharacterImage : public ItemImage
 public:
 	CharacterImage(string name, string expression, float xPos, float yPos) :
 		ItemImage(name, expression, xPos, yPos) {}
+
+	CharacterImage(ifstream& file) :
+		ItemImage(file) {}
+
 	~CharacterImage() {}
 };

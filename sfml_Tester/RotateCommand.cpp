@@ -9,6 +9,7 @@ RotateCommand::RotateCommand(vector<string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_ROTATE;
 
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);		// object type: char / bg
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);					// flag
@@ -118,6 +119,60 @@ RotateCommand::RotateCommand(vector<string> args)
 RotateCommand::~RotateCommand()
 {
 
+}
+
+RotateCommand::RotateCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+		objectSubname = UTILITY->readFromBinaryFile(savefile);
+		whichWay = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+
+		savefile.read(reinterpret_cast<char *> (&finalDegree), sizeof(finalDegree));
+		savefile.read(reinterpret_cast<char *> (&currentRotate), sizeof(angleDiff));
+		savefile.read(reinterpret_cast<char *> (&angleDiff), sizeof(objectType));
+		savefile.read(reinterpret_cast<char *> (&tempAngle), sizeof(tempAngle));
+
+		savefile.read(reinterpret_cast<char *> (&clockwise), sizeof(clockwise));
+		savefile.read(reinterpret_cast<char *> (&relative), sizeof(relative));
+		savefile.read(reinterpret_cast<char *> (&stopRotate), sizeof(stopRotate));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("RotateCommand", "Unable to read Rotate Command from savedata");
+		valid = false;
+		throw;
+	}
+}
+
+void RotateCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+	UTILITY->writeToBinaryFile(savefile, objectSubname);
+	UTILITY->writeToBinaryFile(savefile, whichWay);
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+
+	savefile.write(reinterpret_cast<const char *> (&finalDegree), sizeof(finalDegree));
+	savefile.write(reinterpret_cast<const char *> (&currentRotate), sizeof(angleDiff));
+	savefile.write(reinterpret_cast<const char *> (&angleDiff), sizeof(objectType));
+	savefile.write(reinterpret_cast<const char *> (&tempAngle), sizeof(tempAngle));
+
+	savefile.write(reinterpret_cast<const char *> (&clockwise), sizeof(clockwise));
+	savefile.write(reinterpret_cast<const char *> (&relative), sizeof(relative));
+	savefile.write(reinterpret_cast<const char *> (&stopRotate), sizeof(stopRotate));
 }
 
 void RotateCommand::execute(ScriptLine * scriptLine)

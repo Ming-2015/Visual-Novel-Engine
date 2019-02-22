@@ -12,6 +12,10 @@ public:
 	ShowCommand(std::vector<std::string> args);
 	~ShowCommand();
 
+	// serialize the file
+	ShowCommand(ifstream& savefile);
+	void serialize(ofstream& savefile) const override;
+
 	void execute(ScriptLine* scriptLine);
 	void skipUpdate();
 	void update(float delta_t);

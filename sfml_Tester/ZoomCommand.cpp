@@ -9,6 +9,7 @@ ZoomCommand::ZoomCommand(vector<string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_ZOOM;
 
 	currentScaleX = 1;
 	currentScaleY = 1;
@@ -121,6 +122,94 @@ ZoomCommand::ZoomCommand(vector<string> args)
 ZoomCommand::~ZoomCommand()
 {
 
+}
+
+ZoomCommand::ZoomCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+		objectName = UTILITY->readFromBinaryFile(savefile);
+		objectSubname = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&x1), sizeof(x1));
+		savefile.read(reinterpret_cast<char *> (&y1), sizeof(y1));
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
+
+		savefile.read(reinterpret_cast<char *> (&currentScaleX), sizeof(currentScaleX));
+		savefile.read(reinterpret_cast<char *> (&currentScaleY), sizeof(currentScaleY));
+
+		savefile.read(reinterpret_cast<char *> (&scaleX), sizeof(scaleX));
+		savefile.read(reinterpret_cast<char *> (&scaleY), sizeof(scaleY));
+
+		savefile.read(reinterpret_cast<char *> (&scaleDiffX), sizeof(scaleDiffX));
+		savefile.read(reinterpret_cast<char *> (&scaleDiffY), sizeof(scaleDiffY));
+
+		savefile.read(reinterpret_cast<char *> (&relative), sizeof(relative));
+		savefile.read(reinterpret_cast<char *> (&stopZoom), sizeof(stopZoom));
+
+		savefile.read(reinterpret_cast<char *> (&originalScaleX), sizeof(originalScaleX));
+		savefile.read(reinterpret_cast<char *> (&originalScaleY), sizeof(originalScaleY));
+
+		savefile.read(reinterpret_cast<char *> (&relScaleDiffX), sizeof(relScaleDiffX));
+		savefile.read(reinterpret_cast<char *> (&relScaleDiffY), sizeof(relScaleDiffY));
+
+		savefile.read(reinterpret_cast<char *> (&incrementedScaleX), sizeof(incrementedScaleX));
+		savefile.read(reinterpret_cast<char *> (&incrementedScaleY), sizeof(incrementedScaleY));
+
+		savefile.read(reinterpret_cast<char *> (&firstLoopRel), sizeof(firstLoopRel));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("ZoomCommand", "Unable to read Zoom Command from save data");
+		valid = false;
+		throw;
+	}
+}
+
+void ZoomCommand::serialize(ofstream & savefile) const
+{
+	ScriptCommand::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+	UTILITY->writeToBinaryFile(savefile, objectName);
+	UTILITY->writeToBinaryFile(savefile, objectSubname);
+
+	savefile.write(reinterpret_cast<const char *> (&x1), sizeof(x1));
+	savefile.write(reinterpret_cast<const char *> (&y1), sizeof(y1));
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
+
+	savefile.write(reinterpret_cast<const char *> (&currentScaleX), sizeof(currentScaleX));
+	savefile.write(reinterpret_cast<const char *> (&currentScaleY), sizeof(currentScaleY));
+
+	savefile.write(reinterpret_cast<const char *> (&scaleX), sizeof(scaleX));
+	savefile.write(reinterpret_cast<const char *> (&scaleY), sizeof(scaleY));
+
+	savefile.write(reinterpret_cast<const char *> (&scaleDiffX), sizeof(scaleDiffX));
+	savefile.write(reinterpret_cast<const char *> (&scaleDiffY), sizeof(scaleDiffY));
+
+	savefile.write(reinterpret_cast<const char *> (&relative), sizeof(relative));
+	savefile.write(reinterpret_cast<const char *> (&stopZoom), sizeof(stopZoom));
+
+	savefile.write(reinterpret_cast<const char *> (&originalScaleX), sizeof(originalScaleX));
+	savefile.write(reinterpret_cast<const char *> (&originalScaleY), sizeof(originalScaleY));
+
+	savefile.write(reinterpret_cast<const char *> (&relScaleDiffX), sizeof(relScaleDiffX));
+	savefile.write(reinterpret_cast<const char *> (&relScaleDiffY), sizeof(relScaleDiffY));
+
+	savefile.write(reinterpret_cast<const char *> (&incrementedScaleX), sizeof(incrementedScaleX));
+	savefile.write(reinterpret_cast<const char *> (&incrementedScaleY), sizeof(incrementedScaleY));
+
+	savefile.write(reinterpret_cast<const char *> (&firstLoopRel), sizeof(firstLoopRel));
 }
 
 void ZoomCommand::execute(ScriptLine * scriptLine)

@@ -41,29 +41,29 @@ void StateManager::manageStates()
 		case GameState::STATE_MENU:
 			if (currentState->myState == GameState::STATE_INIT)
 			{
-				currentState->cleanup();
-				delete currentState;
+				prevStates.push(currentState);
+				clearPrevStates();
 				currentState = new MenuState();
 			}
 			else if (currentState->myState == GameState::STATE_MAIN)
 			{
-				currentState->cleanup();
-				delete currentState;
+				prevStates.push(currentState);
+				clearPrevStates();
 				currentState = new MenuState();
 			}				
 			break;
 
 		case GameState::STATE_INIT:
-			currentState->cleanup();
-			delete currentState;
+			prevStates.push(currentState);
+			clearPrevStates();
 			currentState = new InitState();
 			break;
 
 		case GameState::STATE_NEW_GAME:
 			if (currentState->myState == GameState::STATE_MENU)
 			{
-				currentState->cleanup();
-				delete currentState;
+				prevStates.push(currentState);
+				clearPrevStates();
 				currentState = new NewGameState();
 			}
 			else if (currentState->myState == GameState::STATE_LOAD)
@@ -72,17 +72,21 @@ void StateManager::manageStates()
 				prevStates.push(currentState);
 				clearPrevStates();
 				currentState = new NewGameState();
-				LOGGER->Log("StateManager", "Starting a new game from load state");
 			}
 			break;
 
 		case GameState::STATE_MAIN:
 			if (currentState->myState == GameState::STATE_NEW_GAME)
 			{
-				currentState->cleanup();
-				delete currentState;
-				currentState = new MainState(GLOBAL->NewGameScriptFileLocation);
-				LOGGER->Log("StateManager", "Entering MainState from NewGameState");
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new MainState();
+			}
+			else if (currentState->myState == GameState::STATE_LOAD)
+			{
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new MainState(GLOBAL->playerName);
 			}
 			break;
 
@@ -91,7 +95,14 @@ void StateManager::manageStates()
 			{
 				prevStates.push(currentState);
 				currentState->shouldChangeState = false;
-				currentState = new SaveState();
+
+				sf::Vector2u windowSize = GLOBAL->windowPtr->getSize();
+				sf::Texture texture;
+				texture.create(windowSize.x, windowSize.y);
+				texture.update( *(GLOBAL->windowPtr) );
+				sf::Image screenshot = texture.copyToImage();
+
+				currentState = new SaveState( GLOBAL->scriptManagerPtr, screenshot );
 			}
 			break;
 
@@ -102,13 +113,19 @@ void StateManager::manageStates()
 				currentState->shouldChangeState = false;
 				currentState = new LoadState();
 			}
+			else if (currentState->myState == GameState::STATE_MAIN)
+			{
+				prevStates.push(currentState);
+				currentState->shouldChangeState = false;
+				currentState = new LoadState();
+			}
 			break;
 
 		case GameState::STATE_EXIT:
 			if (currentState->myState == GameState::STATE_MENU)
 			{
-				currentState->cleanup();
-				delete currentState;
+				prevStates.push(currentState);
+				clearPrevStates();
 				currentState = new ExitState();
 			}
 			break;

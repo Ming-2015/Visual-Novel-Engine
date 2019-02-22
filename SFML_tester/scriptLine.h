@@ -43,9 +43,15 @@ public:
 	std::string filename;
 	ifstream file;
 
+	string playerName = "PlayerName";
+	std::set< std::string > userFlags;
+
 public:
 	ScriptLine();
 	~ScriptLine();
+
+	ScriptLine(ifstream& file);
+	void serialize(ofstream& savefile);
 
 	void setChoices(const vector<string>& choices, const vector<string>& flags);
 	void clearChoices();

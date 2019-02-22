@@ -6,6 +6,77 @@ TextboxImage::TextboxImage()
 	initText();
 }
 
+TextboxImage::TextboxImage(ifstream & file)
+	:ItemImage(file)
+{
+	initText();
+
+	int startPos = file.tellg();
+
+	try {
+		name = UTILITY->readFromBinaryFile(file);
+		dialogue = UTILITY->readFromBinaryFile(file);
+
+		file.read(reinterpret_cast<char *>(&dialogueTextColor.r), sizeof(dialogueTextColor.r));
+		file.read(reinterpret_cast<char *>(&dialogueTextColor.g), sizeof(dialogueTextColor.g));
+		file.read(reinterpret_cast<char *>(&dialogueTextColor.b), sizeof(dialogueTextColor.b));
+		file.read(reinterpret_cast<char *>(&dialogueTextColor.a), sizeof(dialogueTextColor.a));
+
+		file.read(reinterpret_cast<char *>(&dialogueTextOutlineColor.r), sizeof(dialogueTextOutlineColor.r));
+		file.read(reinterpret_cast<char *>(&dialogueTextOutlineColor.g), sizeof(dialogueTextOutlineColor.g));
+		file.read(reinterpret_cast<char *>(&dialogueTextOutlineColor.b), sizeof(dialogueTextOutlineColor.b));
+		file.read(reinterpret_cast<char *>(&dialogueTextOutlineColor.a), sizeof(dialogueTextOutlineColor.a));
+
+		file.read(reinterpret_cast<char *>(&nameTextColor.r), sizeof(nameTextColor.r));
+		file.read(reinterpret_cast<char *>(&nameTextColor.g), sizeof(nameTextColor.g));
+		file.read(reinterpret_cast<char *>(&nameTextColor.b), sizeof(nameTextColor.b));
+		file.read(reinterpret_cast<char *>(&nameTextColor.a), sizeof(nameTextColor.a));
+
+		file.read(reinterpret_cast<char *>(&nameTextOutlineColor.r), sizeof(nameTextOutlineColor.r));
+		file.read(reinterpret_cast<char *>(&nameTextOutlineColor.g), sizeof(nameTextOutlineColor.g));
+		file.read(reinterpret_cast<char *>(&nameTextOutlineColor.b), sizeof(nameTextOutlineColor.b));
+		file.read(reinterpret_cast<char *>(&nameTextOutlineColor.a), sizeof(nameTextOutlineColor.a));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("TextboxImage", "Unable to read from file");
+		file.seekg(startPos);
+		loaded = false;
+		throw;
+	}
+
+	setDisplay(name, dialogue);
+	setAlpha(alpha);
+}
+
+void TextboxImage::serialize(ofstream & savefile) const
+{
+	ItemImage::serialize(savefile);
+
+	UTILITY->writeToBinaryFile(savefile, name);
+	UTILITY->writeToBinaryFile(savefile, dialogue);
+
+	savefile.write(reinterpret_cast<const char *>(&dialogueTextColor.r), sizeof(dialogueTextColor.r));
+	savefile.write(reinterpret_cast<const char *>(&dialogueTextColor.g), sizeof(dialogueTextColor.g));
+	savefile.write(reinterpret_cast<const char *>(&dialogueTextColor.b), sizeof(dialogueTextColor.b));
+	savefile.write(reinterpret_cast<const char *>(&dialogueTextColor.a), sizeof(dialogueTextColor.a));
+
+	savefile.write(reinterpret_cast<const char *>(&dialogueTextOutlineColor.r), sizeof(dialogueTextOutlineColor.r));
+	savefile.write(reinterpret_cast<const char *>(&dialogueTextOutlineColor.g), sizeof(dialogueTextOutlineColor.g));
+	savefile.write(reinterpret_cast<const char *>(&dialogueTextOutlineColor.b), sizeof(dialogueTextOutlineColor.b));
+	savefile.write(reinterpret_cast<const char *>(&dialogueTextOutlineColor.a), sizeof(dialogueTextOutlineColor.a));
+
+	savefile.write(reinterpret_cast<const char *>(&nameTextColor.r), sizeof(nameTextColor.r));
+	savefile.write(reinterpret_cast<const char *>(&nameTextColor.g), sizeof(nameTextColor.g));
+	savefile.write(reinterpret_cast<const char *>(&nameTextColor.b), sizeof(nameTextColor.b));
+	savefile.write(reinterpret_cast<const char *>(&nameTextColor.a), sizeof(nameTextColor.a));
+
+	savefile.write(reinterpret_cast<const char *>(&nameTextOutlineColor.r), sizeof(nameTextOutlineColor.r));
+	savefile.write(reinterpret_cast<const char *>(&nameTextOutlineColor.g), sizeof(nameTextOutlineColor.g));
+	savefile.write(reinterpret_cast<const char *>(&nameTextOutlineColor.b), sizeof(nameTextOutlineColor.b));
+	savefile.write(reinterpret_cast<const char *>(&nameTextOutlineColor.a), sizeof(nameTextOutlineColor.a));
+}
+
 void TextboxImage::setText(const std::string & s)
 {
 	dialogue = s;

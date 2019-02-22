@@ -6,6 +6,9 @@ class ChoiceImage : public ItemImage
 {
 public:
 	ChoiceImage(const std::string& str, const std::string& flag, int numChoices, int index);
+	ChoiceImage(ifstream& file);
+
+	void serialize(ofstream& savefile);
 
 	std::vector<std::string> getFlags() const;
 	std::string getText() const;

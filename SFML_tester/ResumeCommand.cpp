@@ -10,6 +10,7 @@ ResumeCommand::ResumeCommand(std::vector<std::string> args)
 		valid = false;
 		return;
 	}
+	commandType = COMMAND_RESUME;
 
 	// parse the arguments
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);	// column 2 : object type character or background
@@ -92,6 +93,47 @@ ResumeCommand::ResumeCommand(std::vector<std::string> args)
 
 ResumeCommand::~ResumeCommand()
 {
+}
+
+ResumeCommand::ResumeCommand(ifstream & savefile)
+	:ScriptCommand(savefile)
+{
+	try 
+	{
+		objectTypeName = UTILITY->readFromBinaryFile(savefile);
+		flag = UTILITY->readFromBinaryFile(savefile);
+
+		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
+		savefile.read(reinterpret_cast<char *> (&finalVolume), sizeof(finalVolume));
+		savefile.read(reinterpret_cast<char *> (&currentVolume), sizeof(currentVolume));
+
+		savefile.read(reinterpret_cast<char *> (&flagType), sizeof(flagType));
+		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
+		savefile.read(reinterpret_cast<char *> (&finishedAction), sizeof(finishedAction));
+		savefile.read(reinterpret_cast<char *> (&played), sizeof(played));
+	}
+	catch (exception e)
+	{
+		LOGGER->Log("ResumeCommand", "Unable to read Resume Command from savedata");
+		valid = false;
+		throw;
+	}
+	played = false;
+}
+
+void ResumeCommand::serialize(ofstream & savefile) const
+{
+	UTILITY->writeToBinaryFile(savefile, objectTypeName);
+	UTILITY->writeToBinaryFile(savefile, flag);
+
+	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
+	savefile.write(reinterpret_cast<const char *> (&finalVolume), sizeof(finalVolume));
+	savefile.write(reinterpret_cast<const char *> (&currentVolume), sizeof(currentVolume));
+
+	savefile.write(reinterpret_cast<const char *> (&flagType), sizeof(flagType));
+	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
+	savefile.write(reinterpret_cast<const char *> (&finishedAction), sizeof(finishedAction));
+	savefile.write(reinterpret_cast<const char *> (&played), sizeof(played));
 }
 
 void ResumeCommand::execute(ScriptLine * scriptLine)

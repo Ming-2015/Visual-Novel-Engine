@@ -86,7 +86,5 @@ void Global::initTextboxColors(const std::string& filename)
 
 Global::Global()
 {
-	userFlags = std::set<std::string>();
-
 	initTextboxColors(TextBoxColorLocation);
 }
