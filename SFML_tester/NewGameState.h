@@ -6,6 +6,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 #include "MenuButton.h"
+#include "MainButton.h"
 using namespace std;
 
 class NewGameState : public GameState
@@ -39,6 +40,7 @@ private:
 	sf::Clock clock;
 	
 	MenuButton * submitButton;
+	MainButton * testButton;
 
 	bool shouldFade = true;
 	bool shouldFadeOut = false;

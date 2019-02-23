@@ -128,10 +128,22 @@ void StateManager::manageStates()
 				clearPrevStates();
 				currentState = new ExitState();
 			}
+			else if (currentState->myState == GameState::STATE_MAIN)
+			{
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new ExitState();
+			}
 			break;
 
 		case GameState::STATE_CONFIG:
 			if (currentState->myState == GameState::STATE_MENU)
+			{
+				prevStates.push(currentState);
+				currentState->shouldChangeState = false;
+				currentState = new SettingsState();
+			}
+			else if (currentState->myState == GameState::STATE_MAIN)
 			{
 				prevStates.push(currentState);
 				currentState->shouldChangeState = false;

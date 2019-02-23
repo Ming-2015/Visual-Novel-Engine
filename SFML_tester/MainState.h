@@ -4,6 +4,7 @@
 #include "ScriptManager.h"
 #include "Global.h"
 #include "Fade.h"
+#include "DrawMainButton.h"
 
 class MainState : public GameState
 {
@@ -23,5 +24,6 @@ public:
 
 private:
 
-	ScriptManager* scriptManager;
+	ScriptManager* scriptManager = nullptr;
+	DrawMainButton* drawMainButton = nullptr;
 };

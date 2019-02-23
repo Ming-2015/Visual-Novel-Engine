@@ -9,11 +9,14 @@ bool Button::onLoad()
 	}
 	sprite.setTexture(texture);
 	sprite.setPosition(xPos, yPos);
+	spriteHover.setTexture(texture);
+	spriteHover.setPosition(xPos, yPos);
 	texWidth = sprite.getLocalBounds().width;
 	texHeight = sprite.getLocalBounds().height;
 	hasShader = false;
 	pressed = false;
 	clicked = false;
+	hovered = false;
 
 	if (vertShaderPath != "" && fragShaderPath != "")
 	{
@@ -58,11 +61,22 @@ void Button::onUpdate(float delta_t)
 
 void Button::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	if (hasShader)
+	if (hovered == false)
 	{
-		states.shader = &shader;
+		if (hasShader)
+		{
+			states.shader = &shader;
+		}
+		target.draw(sprite, states);
 	}
-	target.draw(sprite, states);
+	if (hovered == true)
+	{
+		if (hasShader)
+		{
+			states.shader = &shader;
+		}
+		target.draw(spriteHover, states);
+	}
 }
 
 void Button::onHandleInput(sf::Event & e, sf::RenderWindow & window)

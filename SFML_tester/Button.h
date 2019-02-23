@@ -34,6 +34,10 @@ protected:
 	sf::Sprite sprite;
 	sf::Shader shader;
 
+	sf::Texture textureHover;
+	sf::Sprite spriteHover;
+	sf::Shader shaderHover;
+
 	std::string texPath;
 	std::string vertShaderPath;
 	std::string fragShaderPath;
@@ -41,6 +45,7 @@ protected:
 
 	bool pressed;	// if the button is currently being pressed
 	bool clicked;	// if the button is being clicked (fully pressed then released)
+	bool hovered;	// if the button is hovered
 
 	bool onLoad();
 	void onUpdate(float delta_t);

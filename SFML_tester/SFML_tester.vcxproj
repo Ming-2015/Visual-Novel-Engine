@@ -130,6 +130,7 @@
     <ClCompile Include="ChoiceImage.cpp" />
     <ClCompile Include="DelayCommand.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
+    <ClCompile Include="DrawMainButton.cpp" />
     <ClCompile Include="FlashCommand.cpp" />
     <ClCompile Include="HideCommand.cpp" />
     <ClCompile Include="ItemImage.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="LoadState.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainButton.cpp" />
     <ClCompile Include="MainState.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MenuState.cpp" />
@@ -181,6 +183,7 @@
     <ClInclude Include="ClearCommand.h" />
     <ClInclude Include="DelayCommand.h" />
     <ClInclude Include="DisplayCommand.h" />
+    <ClInclude Include="DrawMainButton.h" />
     <ClInclude Include="FlashCommand.h" />
     <ClInclude Include="HideCommand.h" />
     <ClInclude Include="ItemImage.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="LoadState.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="MainButton.h" />
     <ClInclude Include="MainState.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MenuState.h" />
