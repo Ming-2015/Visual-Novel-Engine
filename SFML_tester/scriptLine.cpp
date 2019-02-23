@@ -835,6 +835,56 @@ void ScriptLine::resumeVoice()
 	}
 }
 
+void ScriptLine::updateSoundList()
+{
+	for (int i = 0; i < bgm.size(); i++)
+	{
+		if (bgm[i]->getStatus() == sf::Music::Stopped)
+		{
+			delete bgm[i];
+			bgm.erase(bgm.begin() + i);
+			fn_bgm.erase(fn_bgm.begin() + i);
+			i--;
+		}
+	}
+
+	for (int i = 0; i < sfx.size(); i++)
+	{
+		if (sfx[i]->getStatus() == sf::Music::Stopped)
+		{
+			delete sfx[i];
+			sfx.erase(sfx.begin() + i);
+			fn_sfx.erase(fn_sfx.begin() + i);
+			i--;
+		}
+	}
+
+	for (int i = 0; i < voices.size(); i++)
+	{
+		if (voices[i]->getStatus() == sf::Music::Stopped)
+		{
+			delete voices[i];
+			voices.erase(voices.begin() + i);
+			fn_voices.erase(fn_voices.begin() + i);
+			i--;
+		}
+	}
+}
+
+bool ScriptLine::isVoicePlayed() const
+{
+	bool done = true;
+	for (sf::Music* m : voices)
+	{
+		if (m->getStatus() != sf::Music::Stopped)
+		{
+			done = false;
+			break;
+		}
+	}
+	return done;
+}
+
 void ScriptLine::readNewFile(std::string p_filename)
 {
 	if (filename != p_filename)

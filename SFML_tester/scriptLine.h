@@ -132,6 +132,9 @@ public:
 	void resumeSfx();
 	void resumeVoice();
 
+	void updateSoundList();
+	bool isVoicePlayed() const;
+
 	void readNewFile(std::string filename);
 	void readNewFileToAnchor(std::string filename, std::string anchor);
 

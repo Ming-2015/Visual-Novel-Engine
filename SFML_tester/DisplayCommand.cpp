@@ -159,6 +159,13 @@ DisplayCommand::DisplayCommand(ifstream & savefile)
 		valid = false;
 		return;
 	}
+
+	// reset the display lines
+	autoForwardTimer = 0;
+	currentLineIndex = 0;
+	currentCharIndex = 0;
+	currentLine = "";
+	timer = 0;
 }
 
 void DisplayCommand::serialize(ofstream & savefile) const
@@ -190,6 +197,19 @@ void DisplayCommand::execute(ScriptLine * scriptLine)
 		if (objectType == OBJECT_LINE)
 		{
 			scriptLine->setDialogue(displayName, currentLine);
+
+			if (GLOBAL->autoMode)
+			{
+				if (scriptLine->isVoicePlayed())
+				{
+					shouldAdvance = true;
+				}
+				else
+				{
+					shouldAdvance = false;
+					timer = 0;
+				}
+			}
 		}
 		else if (objectType == OBJECT_CHOICE)
 		{
@@ -230,29 +250,44 @@ void DisplayCommand::skipUpdate()
 			}
 		}
 
-		else if (objectType == OBJECT_LINE && animationType == ANIMATION_NONE)
+		else if (objectType == OBJECT_LINE)
 		{
-			if (currentLineIndex < displayLines.size())
+			if (animationType == ANIMATION_NONE)
 			{
-				if (currentCharIndex < displayLines[currentLineIndex].length() - 1)
-				{
-					currentCharIndex = displayLines[currentLineIndex].length() - 1;
-				}
-				else
-				{
-					currentLineIndex++;
-					currentCharIndex = 0;
-				}
-
 				if (currentLineIndex < displayLines.size())
 				{
-					currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
+					if (currentCharIndex < displayLines[currentLineIndex].length() - 1)
+					{
+						currentCharIndex = displayLines[currentLineIndex].length() - 1;
+					}
+					else
+					{
+						currentLineIndex++;
+						currentCharIndex = 0;
+					}
+
+					if (currentLineIndex < displayLines.size())
+					{
+						currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
+					}
+					else
+					{
+						wait = false;
+						done = true;
+					}
 				}
-				else
-				{
-					wait = false;
-					done = true;
-				}
+			}
+
+			else if (animationType == ANIMATION_INSTANT)
+			{
+				wait = false;
+				done = true;
+			}
+
+			if (GLOBAL->autoMode)
+			{
+				autoForwardTimer = 0;
+				shouldAdvance = false;
 			}
 		}
 		else
@@ -270,48 +305,63 @@ void DisplayCommand::skipUpdate()
 
 void DisplayCommand::update(float delta_t)
 {
-	if (objectType == OBJECT_LINE && animationType == ANIMATION_NONE)
+	if (objectType == OBJECT_LINE)
 	{
 
-		if (currentLineIndex >= displayLines.size() || currentCharIndex >= displayLines[currentLineIndex].length() - 1)
+		if (currentLineIndex >= displayLines.size() 
+			|| currentCharIndex >= displayLines[currentLineIndex].length() - 1)
 		{
+			if (GLOBAL->autoMode && shouldAdvance)
+			{
+				autoForwardTimer += delta_t;
+				float forwardingTime = CONFIG->autoTextWaitTime * 8; // 0 - 8 sec wait time
+
+				if (autoForwardTimer > forwardingTime)
+				{
+					skipUpdate();
+				}
+			}
+
 			return;
 		}
 
-		float interval;
-		if (GLOBAL->autoMode)
+		if (animationType == ANIMATION_NONE)
 		{
-			if (CONFIG->autoTextSpeed >= 1.0f)
+			float interval;
+			if (GLOBAL->autoMode)
 			{
-				currentCharIndex = displayLines[currentLineIndex].length() - 1;
-				currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
-				return;
+				if (CONFIG->autoTextSpeed >= 1.0f)
+				{
+					currentCharIndex = displayLines[currentLineIndex].length() - 1;
+					currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
+					return;
+				}
+
+				interval = 1.0f / (CONFIG->autoTextSpeed* 9.f / 10.f + .1f) - 1.0f;
+			}
+			else
+			{
+				if (CONFIG->manualTextSpeed >= 1.0f)
+				{
+					currentCharIndex = displayLines[currentLineIndex].length() - 1;
+					currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
+					return;
+				}
+
+				interval = 1.0f / (CONFIG->manualTextSpeed * 9.f / 10.f + .1f) - 1.0f;
 			}
 
-			interval = 1.0f / (CONFIG->autoTextSpeed* 9.f / 10.f + .1f) - 1.0f;
-		}
-		else
-		{
-			if (CONFIG->manualTextSpeed >= 1.0f)
+			interval *= .03f;
+
+			timer += delta_t;
+			if (timer > interval)
 			{
-				currentCharIndex = displayLines[currentLineIndex].length() - 1;
+				int numChars = (int)(timer / interval);
+				timer -= numChars * interval;
+				currentCharIndex += numChars;	// note currentCharIndex might exceed actual length
+
 				currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
-				return;
 			}
-
-			interval = 1.0f / (CONFIG->manualTextSpeed * 9.f/10.f + .1f) - 1.0f;
-		}
-
-		interval *= .03f;
-
-		timer += delta_t;
-		if (timer > interval)
-		{
-			int numChars = (int)(timer / interval);
-			timer -= numChars * interval;
-			currentCharIndex += numChars;	// note currentCharIndex might exceed actual length
-
-			currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
 		}
 	}
 }
