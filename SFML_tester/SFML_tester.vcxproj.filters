@@ -216,6 +216,9 @@
     <ClCompile Include="SavefileImage.cpp">
       <Filter>Source Files\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="ReturnMenuPrompt.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="SavefileImage.h">
       <Filter>Header Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnMenuPrompt.h">
+      <Filter>Header Files\Script</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

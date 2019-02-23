@@ -29,6 +29,7 @@ protected:
 	void onHandleInput(sf::Event&e, sf::RenderWindow& window);
 	void setSpriteSheetPos(float startX, float startY, float endX, float endY);
 	void setSpriteSheetPos2(float startX, float startY, float endX, float endY);
+	
 
 private:
 	float scaleMultiply;
