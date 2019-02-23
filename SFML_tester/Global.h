@@ -20,7 +20,7 @@ class Global {
 public:
 
 	// Define all the global variables to be passed between states
-	std::string selectedLoadFile;
+	std::string selectedLoadFile = NewGameScriptFileLocation;
 	
 	const std::string ResourceRoot = "resources/";
 	const std::string ImageRoot = "images/";

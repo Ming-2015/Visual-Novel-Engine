@@ -80,13 +80,13 @@ void StateManager::manageStates()
 			{
 				prevStates.push(currentState);
 				clearPrevStates();
-				currentState = new MainState();
+				currentState = new MainState(GLOBAL->playerName);
 			}
 			else if (currentState->myState == GameState::STATE_LOAD)
 			{
 				prevStates.push(currentState);
 				clearPrevStates();
-				currentState = new MainState(GLOBAL->playerName);
+				currentState = new MainState();
 			}
 			break;
 
