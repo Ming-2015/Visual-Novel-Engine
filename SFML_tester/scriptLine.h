@@ -108,17 +108,17 @@ public:
 	void setDialogue(const string& displayname, const string& str);
 	void changeCharacterPosition(const string& name, float xPos, float yPos);
 
-	sf::Music* setBgm(const string& groupname, const string& filename, bool clearOthers = true, bool repeat = true, float volume = 1.0f);
-	sf::Music* setVoice(const string& groupname, const string& filename, bool clearOthers = true, bool repeat = false, float volume = 1.0f);
-	sf::Music* setSfx(const string& groupname, const string& filename, bool clearOthers = false, bool repeat = false, float volume = 1.0f);
+	void setBgm(const string& groupname, const string& filename, bool clearOthers = true, bool repeat = true, float volume = 1.0f);
+	void setVoice(const string& groupname, const string& filename, bool clearOthers = true, bool repeat = false, float volume = 1.0f);
+	void setSfx(const string& groupname, const string& filename, bool clearOthers = false, bool repeat = false, float volume = 1.0f);
 
 	void setBgmVolume(float volume, bool relative = false);
 	void setVoiceVolume(float volume, bool relative = false);
 	void setSfxVolume(float volume, bool relative = false);
 
-	void setBgmVolume(sf::Music* m, float volume);
-	void setVoiceVolume(sf::Music* m, float volume);
-	void setSfxVolume(sf::Music* mu, float volume);
+	void setBgmVolume(float volume, string folder, string name);
+	void setVoiceVolume(float volume, string folder, string name);
+	void setSfxVolume(float volume, string folder, string name);
 
 	void stopBgm();
 	void stopSfx();

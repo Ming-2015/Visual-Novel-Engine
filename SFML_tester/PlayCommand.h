@@ -40,8 +40,6 @@ private:
 	bool finishedAction = false;
 	bool played = false;
 
-	sf::Music* music = nullptr;
-
 	const static int FLAG_FADEIN = 1;
 	const static int FLAG_NONE = 0;
 

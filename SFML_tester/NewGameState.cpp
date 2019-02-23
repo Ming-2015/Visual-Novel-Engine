@@ -122,7 +122,7 @@ void NewGameState::update(float delta_t)
 	playerText.setOrigin((playerText.getLocalBounds().width / 2), (playerText.getLocalBounds().height / 2));
 	playerText.setPosition(785, 375);
 
-	if (masterVolume != CONFIG->masterVolume || bgmVolume != CONFIG->bgmVolume)
+	if (bgm.getStatus() == sf::Music::Playing && ( masterVolume != CONFIG->masterVolume || bgmVolume != CONFIG->bgmVolume) )
 	{
 		masterVolume = CONFIG->masterVolume;
 		bgmVolume = CONFIG->bgmVolume;

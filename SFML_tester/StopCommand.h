@@ -31,7 +31,7 @@ private:
 	float time;
 	float finalVolume = 0;
 	float currentVolume = 1;
-	float prevVolume = 1;
+	float timeElapsed = 0;
 
 	int flagType;
 	int objectType;

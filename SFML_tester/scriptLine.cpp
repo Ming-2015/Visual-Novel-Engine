@@ -588,7 +588,7 @@ void ScriptLine::changeCharacterPosition(const string & name, float xPos, float 
 	}
 }
 
-sf::Music* ScriptLine::setBgm(const string & groupname, const string & filename, bool clearOthers, bool repeat, float volume)
+void ScriptLine::setBgm(const string & groupname, const string & filename, bool clearOthers, bool repeat, float volume)
 {
 	if (clearOthers)
 	{
@@ -608,7 +608,7 @@ sf::Music* ScriptLine::setBgm(const string & groupname, const string & filename,
 		string err = "Unable to load bgm file: " + f;
 		LOGGER->Log("ScriptLine", err);
 		delete music;
-		return nullptr;
+		return;
 	}
 
 	bgm.push_back(music);
@@ -616,10 +616,9 @@ sf::Music* ScriptLine::setBgm(const string & groupname, const string & filename,
 	music->setLoop(repeat);
 	music->setVolume(volume * CONFIG->bgmVolume * CONFIG->masterVolume * 100.f);
 	music->play();
-	return music;
 }
 
-sf::Music* ScriptLine::setVoice(const string & groupname, const string & filename, bool clearOthers, bool repeat, float volume)
+void ScriptLine::setVoice(const string & groupname, const string & filename, bool clearOthers, bool repeat, float volume)
 {
 	if (clearOthers)
 	{
@@ -639,7 +638,7 @@ sf::Music* ScriptLine::setVoice(const string & groupname, const string & filenam
 		string err = "Unable to load music file: " + f;
 		LOGGER->Log("ScriptLine", err);
 		delete music;
-		return nullptr;
+		return;
 	}
 
 	voices.push_back(music);
@@ -647,10 +646,9 @@ sf::Music* ScriptLine::setVoice(const string & groupname, const string & filenam
 	music->setLoop(repeat);
 	music->setVolume(volume * CONFIG->voiceVolume * CONFIG->masterVolume * 100.f);
 	music->play();
-	return music;
 }
 
-sf::Music* ScriptLine::setSfx(const string & groupname, const string & filename, bool clearOthers, bool repeat, float volume)
+void ScriptLine::setSfx(const string & groupname, const string & filename, bool clearOthers, bool repeat, float volume)
 {
 	if (clearOthers)
 	{
@@ -670,7 +668,7 @@ sf::Music* ScriptLine::setSfx(const string & groupname, const string & filename,
 		string err = "Unable to load music file: " + f;
 		LOGGER->Log("ScriptLine", err);
 		delete music;
-		return nullptr;
+		return;
 	}
 
 	sfx.push_back(music);
@@ -678,7 +676,7 @@ sf::Music* ScriptLine::setSfx(const string & groupname, const string & filename,
 	music->setLoop(repeat);
 	music->setVolume(volume * CONFIG->sfxVolume * CONFIG->masterVolume * 100.f);
 	music->play();
-	return music;
+	return;
 }
 
 void ScriptLine::setBgmVolume(float volume, bool relative)
@@ -687,8 +685,8 @@ void ScriptLine::setBgmVolume(float volume, bool relative)
 	{
 		if (m != nullptr)
 		{
-			float currentFactor = relative ? m->getVolume()/100.f : 1.0f;
-			m->setVolume(volume * CONFIG->masterVolume * CONFIG->bgmVolume * 100.f * currentFactor);
+			float currentFactor = relative ? m->getVolume() / 100.f / (CONFIG->masterVolume * CONFIG->bgmVolume) : 1.0f;
+			m->setVolume(volume * currentFactor * CONFIG->masterVolume * CONFIG->bgmVolume * 100.f);
 		}
 	}
 }
@@ -699,7 +697,7 @@ void ScriptLine::setVoiceVolume(float volume, bool relative)
 	{
 		if (m != nullptr)
 		{
-			float currentFactor = relative ? m->getVolume() / 100.f : 1.0f;
+			float currentFactor = relative ? m->getVolume() / 100.f / (CONFIG->masterVolume * CONFIG->voiceVolume) : 1.0f;
 			m->setVolume(volume * CONFIG->masterVolume * CONFIG->voiceVolume * 100.f * currentFactor);
 		}
 	}
@@ -711,25 +709,49 @@ void ScriptLine::setSfxVolume(float volume, bool relative)
 	{
 		if (m != nullptr)
 		{
-			float currentFactor = relative ? m->getVolume() / 100.f : 1.0f;
+			float currentFactor = relative ? m->getVolume() / 100.f / (CONFIG->masterVolume * CONFIG->sfxVolume) : 1.0f;
 			m->setVolume(volume * CONFIG->masterVolume * CONFIG->sfxVolume * 100.f * currentFactor);
 		}
 	}
 }
 
-void ScriptLine::setBgmVolume(sf::Music * m, float volume)
+void ScriptLine::setBgmVolume(float volume, string folder, string name)
 {
-	if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->bgmVolume * 100.f);
+	string fname = "sound/" + folder + "/" + name;
+	for (int i = 0; i < fn_bgm.size(); i++)
+	{
+		if (fn_bgm[i] == fname)
+		{
+			sf::Music*& m = bgm[i];
+			if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->bgmVolume * 100.f);
+		}
+	}
 }
 
-void ScriptLine::setVoiceVolume(sf::Music * m, float volume)
+void ScriptLine::setVoiceVolume(float volume, string folder, string name)
 {
-	if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->voiceVolume * 100.f);
+	string fname = "sound/" + folder + "/" + name;
+	for (int i = 0; i < fn_voices.size(); i++)
+	{
+		if (fn_voices[i] == fname)
+		{
+			sf::Music*& m = voices[i];
+			if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->voiceVolume * 100.f);
+		}
+	}
 }
 
-void ScriptLine::setSfxVolume(sf::Music * m, float volume)
+void ScriptLine::setSfxVolume(float volume, string folder, string name)
 {
-	if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->sfxVolume * 100.f);
+	string fname = "sound/" + folder + "/" + name;
+	for (int i = 0; i < fn_sfx.size(); i++)
+	{
+		if (fn_sfx[i] == fname)
+		{
+			sf::Music*& m = sfx[i];
+			if (m != nullptr) m->setVolume(volume * CONFIG->masterVolume * CONFIG->sfxVolume * 100.f);
+		}
+	}
 }
 
 void ScriptLine::stopBgm()

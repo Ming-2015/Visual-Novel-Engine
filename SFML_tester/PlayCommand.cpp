@@ -164,17 +164,17 @@ void PlayCommand::execute(ScriptLine * scriptLine)
 			{
 				case OBJECT_BGM:
 				{
-					music = scriptLine->setBgm(objectName, objectSubname, clearPrev, repeat, currentVolume);
+					scriptLine->setBgm(objectName, objectSubname, clearPrev, repeat, currentVolume);
 					break;
 				}
 				case OBJECT_SFX:
 				{
-					music = scriptLine->setSfx(objectName, objectSubname, clearPrev, repeat, currentVolume);
+					scriptLine->setSfx(objectName, objectSubname, clearPrev, repeat, currentVolume);
 					break;
 				}
 				case OBJECT_VOICE:
 				{
-					music = scriptLine->setVoice(objectName, objectSubname, clearPrev, repeat, currentVolume);
+					scriptLine->setVoice(objectName, objectSubname, clearPrev, repeat, currentVolume);
 					break;
 				}
 			}
@@ -191,17 +191,17 @@ void PlayCommand::execute(ScriptLine * scriptLine)
 			{
 				case OBJECT_BGM:
 				{
-					scriptLine->setBgmVolume(music, currentVolume);
+					scriptLine->setBgmVolume(currentVolume, objectName, objectSubname);
 					break;
 				}
 				case OBJECT_SFX:
 				{
-					scriptLine->setSfxVolume(music, currentVolume);
+					scriptLine->setSfxVolume(currentVolume, objectName, objectSubname);
 					break;
 				}
 				case OBJECT_VOICE:
 				{
-					scriptLine->setVoiceVolume(music, currentVolume);
+					scriptLine->setVoiceVolume(currentVolume, objectName, objectSubname);
 					break;
 				}
 			}

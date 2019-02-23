@@ -18,7 +18,6 @@ PauseCommand::PauseCommand(std::vector<std::string> args)
 
 	finalVolume = 0.0f;
 	currentVolume = 1.0f;
-	prevVolume = 1.0f;
 
 	// optional argument: time
 	time = 1.5f;
@@ -98,7 +97,7 @@ PauseCommand::PauseCommand(ifstream & savefile)
 		savefile.read(reinterpret_cast<char *> (&time), sizeof(time));
 		savefile.read(reinterpret_cast<char *> (&finalVolume), sizeof(finalVolume));
 		savefile.read(reinterpret_cast<char *> (&currentVolume), sizeof(currentVolume));
-		savefile.read(reinterpret_cast<char *> (&prevVolume), sizeof(prevVolume));
+		savefile.read(reinterpret_cast<char *> (&timeElapsed), sizeof(timeElapsed));
 
 		savefile.read(reinterpret_cast<char *> (&flagType), sizeof(flagType));
 		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
@@ -122,7 +121,7 @@ void PauseCommand::serialize(ofstream & savefile) const
 	savefile.write(reinterpret_cast<const char *> (&time), sizeof(time));
 	savefile.write(reinterpret_cast<const char *> (&finalVolume), sizeof(finalVolume));
 	savefile.write(reinterpret_cast<const char *> (&currentVolume), sizeof(currentVolume));
-	savefile.write(reinterpret_cast<const char *> (&prevVolume), sizeof(prevVolume));
+	savefile.write(reinterpret_cast<const char *> (&timeElapsed), sizeof(timeElapsed));
 
 	savefile.write(reinterpret_cast<const char *> (&flagType), sizeof(flagType));
 	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
@@ -169,29 +168,23 @@ void PauseCommand::execute(ScriptLine * scriptLine)
 			{
 				case OBJECT_BGM:
 				{
-					scriptLine->setBgmVolume(1.f / prevVolume, true);
 					scriptLine->setBgmVolume(currentVolume, true);
 					break;
 				}
 				case OBJECT_SFX:
 				{
-					scriptLine->setSfxVolume(1.f / prevVolume, true);
 					scriptLine->setSfxVolume(currentVolume, true);
 					break;
 				}
 				case OBJECT_VOICE:
 				{
-					scriptLine->setVoiceVolume(1.f / prevVolume, true);
 					scriptLine->setVoiceVolume(currentVolume, true);
 					break;
 				}
 				case OBJECT_ALL:
 				{
-					scriptLine->setVoiceVolume(1.f / prevVolume, true);
 					scriptLine->setVoiceVolume(currentVolume, true);
-					scriptLine->setSfxVolume(1.f / prevVolume, true);
 					scriptLine->setSfxVolume(currentVolume, true);
-					scriptLine->setBgmVolume(1.f / prevVolume, true);
 					scriptLine->setBgmVolume(currentVolume, true);
 					break;
 				}
@@ -239,7 +232,6 @@ void PauseCommand::execute(ScriptLine * scriptLine)
 void PauseCommand::skipUpdate()
 {
 	finishedAction = true;
-	prevVolume = currentVolume;
 	currentVolume = finalVolume;
 	wait = false;
 	done = true;
@@ -249,12 +241,12 @@ void PauseCommand::update(float delta_t)
 {
 	if (valid && flagType == FLAG_FADEOUT)
 	{
-		prevVolume = currentVolume;
+		timeElapsed += delta_t;
+		float reduction = (timeElapsed*timeElapsed) / (time*time);
+		reduction = reduction * reduction;
+		currentVolume = 1.0f - reduction;
 
-		float offset = delta_t / time * (1.0f);
-		currentVolume -= offset;
-
-		if (currentVolume <= finalVolume)
+		if (currentVolume <= finalVolume || timeElapsed >= time)
 		{
 			finishedAction = true;
 			currentVolume = finalVolume;
