@@ -46,6 +46,10 @@ private:
 	float timer;
 	int currentLineIndex, currentCharIndex;
 
+	// for auto forwarding time
+	float autoForwardTimer = 0;
+	bool shouldAdvance = false;
+
 	bool displayedChoices = false;
 	bool selectedChoice = false;
 

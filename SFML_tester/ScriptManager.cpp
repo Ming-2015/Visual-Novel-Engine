@@ -264,6 +264,8 @@ void ScriptManager::update(float delta_t)
 	{
 		currentScriptLine->textboxImage->update(delta_t);
 	}
+
+	currentScriptLine->updateSoundList();
 }
 
 void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
