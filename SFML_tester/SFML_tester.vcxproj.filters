@@ -213,6 +213,9 @@
     <ClCompile Include="DrawMainButton.cpp">
       <Filter>Source Files\Script</Filter>
     </ClCompile>
+    <ClCompile Include="ReturnMenuPrompt.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -366,6 +369,9 @@
       <Filter>Header Files\Effect\Button</Filter>
     </ClInclude>
     <ClInclude Include="DrawMainButton.h">
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnMenuPrompt.h">
       <Filter>Header Files\Script</Filter>
     </ClInclude>
   </ItemGroup>

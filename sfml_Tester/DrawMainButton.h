@@ -23,6 +23,7 @@ public:
 	bool loadButtonClicked;
 	bool autoButtonClicked;
 	bool skipButtonClicked;
+	bool closeButtonClicked;
 
 private:
 
@@ -34,6 +35,7 @@ private:
 	MainButton * saveButton;
 	MainButton * autoButton;
 	MainButton * skipButton;
+	MainButton * closeButton;
 
 	vector<MainButton*> buttons;
 

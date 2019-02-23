@@ -5,6 +5,7 @@
 #include "Global.h"
 #include "Fade.h"
 #include "DrawMainButton.h"
+#include "ReturnMenuPrompt.h"
 
 class MainState : public GameState
 {
@@ -26,4 +27,5 @@ private:
 
 	ScriptManager* scriptManager = nullptr;
 	DrawMainButton* drawMainButton = nullptr;
+	ReturnMenuPrompt* returnMenuPrompt = nullptr;
 };

@@ -5,7 +5,11 @@
 
 void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {	
-	if (scriptManager->shouldHideTextbox())
+	if (!returnMenuPrompt->isHidden)
+	{
+		returnMenuPrompt->handleInput(e, window);
+	}
+	else if (scriptManager->shouldHideTextbox())
 	{
 		// what to do when the textbox is hidden?
 
@@ -16,8 +20,24 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		drawMainButton->handleInput(e, window);
 	}
 
-	//BUTTONS are hidden when textbox hidden, BUT STILL WORK
-	if (drawMainButton->configButtonClicked == true)
+
+	if (!returnMenuPrompt->isHidden)
+	{
+		if (returnMenuPrompt->noButtonClicked)
+		{
+			returnMenuPrompt->isHidden = true;
+			returnMenuPrompt->noButtonClicked = false;
+		}
+		else if (returnMenuPrompt->yesButtonClicked)
+		{
+			shouldChangeState = true;
+			////bgm.stop();
+			nextState = GameState::STATE_MENU;
+			LOGGER->Log("MenuState", "Switching to Menu State");
+			drawMainButton->exitButtonClicked = false;
+		}
+	}
+	else if (drawMainButton->configButtonClicked == true)
 	{
 
 		shouldChangeState = true;
@@ -28,13 +48,13 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 	else if (drawMainButton->exitButtonClicked == true)
 	{
-
-		cout << "I ENTERED HERE";
-		shouldChangeState = true;
-		//bgm.stop();
-		nextState = GameState::STATE_MENU;
-		LOGGER->Log("MenuState", "Switching to Menu State");
+		returnMenuPrompt->isHidden = false;
 		drawMainButton->exitButtonClicked = false;
+		//shouldChangeState = true;
+		////bgm.stop();
+		//nextState = GameState::STATE_MENU;
+		//LOGGER->Log("MenuState", "Switching to Menu State");
+		//drawMainButton->exitButtonClicked = false;
 		//Does not exit
 
 	}
@@ -74,6 +94,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		if (GLOBAL->autoMode == false)
 		{
 			GLOBAL->autoMode = true;
+			
 		}
 		else if (GLOBAL->autoMode == true)
 		{
@@ -96,6 +117,10 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		}
 		drawMainButton->skipButtonClicked = false;
 
+	}
+	else if (drawMainButton->closeButtonClicked)
+	{
+		//What to do if close button is clicked
 	}
 	else
 	{
@@ -158,6 +183,11 @@ void MainState::render(sf::RenderWindow & window)
 		window.draw(*(scriptManager->getTextboxImage()));
 		drawMainButton->render(window);
 	}
+
+	if (!returnMenuPrompt->isHidden)
+	{
+		returnMenuPrompt->render(window);
+	}
 	
 	if (scriptManager->isChoice())
 	{
@@ -174,6 +204,7 @@ void MainState::render(sf::RenderWindow & window)
 void MainState::update(float delta_t)
 {
 	drawMainButton->update(delta_t);
+	returnMenuPrompt->update(delta_t);
 	//LOGGER->Log("MainState", "Updating script manager");
 	if (scriptManager->doneAllCommands())
 	{
@@ -195,6 +226,7 @@ void MainState::init()
 	GLOBAL->skipMode = false;
 	GLOBAL->autoMode = false;
 	drawMainButton = new DrawMainButton();
+	returnMenuPrompt = new ReturnMenuPrompt();
 
 }
 
@@ -202,6 +234,7 @@ void MainState::cleanup()
 {
 	if (scriptManager) delete scriptManager;
 	if (drawMainButton) delete drawMainButton;
+	if (returnMenuPrompt) delete returnMenuPrompt;
 }
 
 const ScriptManager * MainState::getScriptManager()
