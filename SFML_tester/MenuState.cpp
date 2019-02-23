@@ -27,7 +27,7 @@ void MenuState::init()
 	volumeFade = 0.0;
 	masterVolume = CONFIG->masterVolume;
 	bgmVolume = CONFIG->bgmVolume;
-	bgm.setVolume(100.0*bgmVolume*masterVolume);
+	bgm.setVolume(100.0f*bgmVolume*masterVolume);
 	if (bgm.getStatus() != sf::Music::Playing) {
 		if (!bgm.openFromFile("assets/HGSSRoute47.WAV"))
 			LOGGER->Log("MenuState", "BGM not found!");
@@ -115,7 +115,7 @@ void MenuState::update(float delta_t)
 	settingsButton->update(delta_t);
 	loadButton->update(delta_t);
 
-	if (masterVolume != CONFIG->masterVolume || bgmVolume != CONFIG->bgmVolume)
+	if ((masterVolume != CONFIG->masterVolume || bgmVolume != CONFIG->bgmVolume) && shouldFade == false)
 	{
 		masterVolume = CONFIG->masterVolume;
 		bgmVolume = CONFIG->bgmVolume;
@@ -131,8 +131,17 @@ void MenuState::update(float delta_t)
 				currentAlpha += 10;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 				
-				volumeFade += 4;
-				float volume = 100.0*bgmVolume*masterVolume - volumeFade;
+				volumeFade += 4.0f;
+				float volume = 100.0f*bgmVolume*masterVolume - volumeFade;
+		
+				if (currentAlpha >= endAlpha)
+				{
+					currentAlpha = endAlpha;
+				}
+				if (volume <= 0.0)
+				{
+					volume = 0;
+				}
 				bgm.setVolume(volume);
 			}
 			else 
@@ -154,8 +163,17 @@ void MenuState::update(float delta_t)
 				currentAlpha += 10;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 
-				volumeFade += 4;
-				float volume = 100.0*bgmVolume*masterVolume - volumeFade;
+				volumeFade += 4.0f;
+				float volume = 100.0f*bgmVolume*masterVolume - volumeFade;
+				
+				if (currentAlpha >= endAlpha)
+				{
+					currentAlpha = endAlpha;
+				}
+				if (volume <= 0.0)
+				{
+					volume = 0;
+				}
 				bgm.setVolume(volume);
 			}
 			else 
