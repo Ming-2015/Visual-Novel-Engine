@@ -100,8 +100,61 @@ ScriptLine::ScriptLine(ifstream & savefile)
 		return;
 	}
 
+	// open the script file
 	file.open(filename);
 	file.seekg(pos);
+
+	// play the sounds that were being played then
+	for (string fn : fn_bgm)
+	{
+		sf::Music* music = new sf::Music();
+		if (!music->openFromFile(fn))
+		{
+			string err = "Unable to load bgm file: " + fn;
+			LOGGER->Log("ScriptLine", err);
+			delete music;
+			return;
+		}
+
+		bgm.push_back(music);
+		music->setLoop(true);
+		music->setVolume(1.f * CONFIG->bgmVolume * CONFIG->masterVolume * 100.f);
+		music->play();
+	}
+
+	for (string fn : fn_voices)
+	{
+		sf::Music* music = new sf::Music();
+		if (!music->openFromFile(fn))
+		{
+			string err = "Unable to load voice file: " + fn;
+			LOGGER->Log("ScriptLine", err);
+			delete music;
+			return;
+		}
+
+		voices.push_back(music);
+		music->setLoop(false);
+		music->setVolume(1.f * CONFIG->voiceVolume * CONFIG->masterVolume * 100.f);
+		music->play();
+	}
+
+	for (string fn : fn_sfx)
+	{
+		sf::Music* music = new sf::Music();
+		if (!music->openFromFile(fn))
+		{
+			string err = "Unable to load sfx file: " + fn;
+			LOGGER->Log("ScriptLine", err);
+			delete music;
+			return;
+		}
+
+		sfx.push_back(music);
+		music->setLoop(false);
+		music->setVolume(1.f * CONFIG->sfxVolume * CONFIG->masterVolume * 100.f);
+		music->play();
+	}
 }
 
 void ScriptLine::serialize(ofstream & savefile)
@@ -837,16 +890,16 @@ void ScriptLine::resumeVoice()
 
 void ScriptLine::updateSoundList()
 {
-	for (int i = 0; i < bgm.size(); i++)
-	{
-		if (bgm[i]->getStatus() == sf::Music::Stopped)
-		{
-			delete bgm[i];
-			bgm.erase(bgm.begin() + i);
-			fn_bgm.erase(fn_bgm.begin() + i);
-			i--;
-		}
-	}
+	//for (int i = 0; i < bgm.size(); i++)
+	//{
+	//	if (bgm[i]->getStatus() == sf::Music::Stopped)
+	//	{
+	//		delete bgm[i];
+	//		bgm.erase(bgm.begin() + i);
+	//		fn_bgm.erase(fn_bgm.begin() + i);
+	//		i--;
+	//	}
+	//}
 
 	for (int i = 0; i < sfx.size(); i++)
 	{
@@ -859,16 +912,16 @@ void ScriptLine::updateSoundList()
 		}
 	}
 
-	for (int i = 0; i < voices.size(); i++)
-	{
-		if (voices[i]->getStatus() == sf::Music::Stopped)
-		{
-			delete voices[i];
-			voices.erase(voices.begin() + i);
-			fn_voices.erase(fn_voices.begin() + i);
-			i--;
-		}
-	}
+	//for (int i = 0; i < voices.size(); i++)
+	//{
+	//	if (voices[i]->getStatus() == sf::Music::Stopped)
+	//	{
+	//		delete voices[i];
+	//		voices.erase(voices.begin() + i);
+	//		fn_voices.erase(fn_voices.begin() + i);
+	//		i--;
+	//	}
+	//}
 }
 
 bool ScriptLine::isVoicePlayed() const

@@ -108,6 +108,7 @@ ChoiceImage::ChoiceImage(ifstream & file)
 	setChoiceboxColor(sf::Color(255, 0, 180));
 	setAlpha(190.f);
 
+	initText();
 }
 
 void ChoiceImage::serialize(ofstream & savefile)

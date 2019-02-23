@@ -70,7 +70,7 @@ void Engine::initFPSText()
 	fpsStr = "FPS: ";
 	fpsText = sf::Text();
 	fpsFont = sf::Font();
-	if (!fpsFont.loadFromFile("assets/default.ttf"))
+	if (!fpsFont.loadFromFile(GLOBAL->UserInterfaceFont))
 	{
 		LOGGER->Log("Engine", "Unable to open dialogueFont");
 	}

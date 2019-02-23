@@ -358,7 +358,7 @@ void DisplayCommand::update(float delta_t)
 			{
 				int numChars = (int)(timer / interval);
 				timer -= numChars * interval;
-				currentCharIndex += numChars;	// note currentCharIndex might exceed actual length
+				currentCharIndex += 1;	// note currentCharIndex might exceed actual length
 
 				currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
 			}

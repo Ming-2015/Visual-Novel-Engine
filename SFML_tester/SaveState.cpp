@@ -78,14 +78,14 @@ void SaveState::update(float delta_t)
 
 void SaveState::init()
 {
-	//sf::Clock clock;
-	//writeSave("saves/savefile.dat");
-	//shouldChangeState = true;
-	//nextState = STATE_BACK;
+	sf::Clock clock;
+	writeSave("saves/savefile.dat");
+	shouldChangeState = true;
+	nextState = STATE_BACK;
 
-	//sf::Time time = clock.getElapsedTime();
-	//string msg = "Creating a save takes: " + to_string(time.asSeconds()) + "s";
-	//LOGGER->Log("SaveState", msg);
+	sf::Time time = clock.getElapsedTime();
+	string msg = "Creating a save takes: " + to_string(time.asSeconds()) + "s";
+	LOGGER->Log("SaveState", msg);
 }
 
 void SaveState::cleanup()

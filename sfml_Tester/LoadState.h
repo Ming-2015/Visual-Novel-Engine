@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "Button.h"
 #include "ScriptManager.h"
+#include "SavefileImage.h"
 
 class LoadState : public GameState
 {
@@ -26,15 +27,22 @@ public:
 	void cleanup();
 
 	// read image, title and scriptmanager
-	void readSave(const std::string& savefile, 
+	bool readSave(const std::string& savefile, 
 		sf::Image& image, 
 		std::string& title, 
 		ScriptManager*& scriptManager);
 
 	// read only the image and title
-	void readSave(const std::string& savefile,
+	bool readSave(const std::string& savefile,
 		sf::Image& image,
 		std::string& title);
+
+	const static int INDEX_SAVE_1 = 0;
+	const static int INDEX_SAVE_2 = 1;
+	const static int INDEX_SAVE_3 = 2;
+	const static int INDEX_SAVE_4 = 3;
+	const static int INDEX_SAVE_5 = 4;
+	const static int INDEX_SAVE_6 = 5;
 
 private:
 	sf::Texture saveTexture;
@@ -43,4 +51,12 @@ private:
 	sf::Text startNew;
 	sf::Text returnState;
 
+	unsigned int currentPageNumber = 0;
+	const unsigned int savePerPage = 6;
+
+	std::vector<SavefileImage *> savefileImages;
+
+	ScriptManager* scriptManager;
+
+	void loadSavesByPage(int pageNumber);
 };

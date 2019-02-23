@@ -40,7 +40,7 @@ void NewGameState::init()
 	}
 
 
-	if (!font.loadFromFile("assets/default.TTF"))
+	if (!font.loadFromFile(GLOBAL->UserInterfaceFont))
 	{
 		LOGGER->Log("SettingsState", "Unable to find default font");
 	}

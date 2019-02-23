@@ -11,7 +11,7 @@ const string Config::CF_AUTO_TEXT_SPEED = "AutoTextSpeed";
 const string Config::CF_AUTO_TEXT_WAIT_TIME = "AutoTextWaitTime";
 const string Config::CF_TEXT_FADE = "TextFade";
 const string Config::CF_SKIP_UNREAD_TEXT = "SkipUnreadText";
-const string Config::CF_FONT_FILE_NAME = "FontFileName";
+const string Config::CF_DISPLAY_TEXT_FONT_NAME = "FontFileName";
 const string Config::CF_TEXT_WINDOW_ALPHA = "TextWindowTransparency";
 
 Config* Config::currentConfig = nullptr;
@@ -39,7 +39,7 @@ void Config::write(string configFile)
 		myfile << CF_AUTO_TEXT_WAIT_TIME << "="  << to_string(autoTextWaitTime) << endl;
 		myfile << CF_TEXT_FADE << "="  << UTILITY->bool2str(textFade) << endl;
 		myfile << CF_SKIP_UNREAD_TEXT << "="  << UTILITY->bool2str(skipUnreadText) << endl;
-		myfile << CF_FONT_FILE_NAME << "="  << fontFileName << endl;
+		myfile << CF_DISPLAY_TEXT_FONT_NAME << "="  << displayTextFontName << endl;
 		myfile << CF_TEXT_WINDOW_ALPHA << "="  << to_string(textWindowAlpha) << endl;
 		myfile.close();
 	}
@@ -83,7 +83,7 @@ void Config::init()
 	autoTextWaitTime = 3.0f;
 	textFade = false;
 	skipUnreadText = false;
-	fontFileName = "assets/default.ttf";
+	displayTextFontName = GLOBAL->DisplayTextFont;
 	textWindowAlpha = 0.3f;
 }
 
@@ -154,9 +154,13 @@ void Config::parse(string configFile)
 					{
 						skipUnreadText = UTILITY->str2bool(varValue);
 					}
-					else if (varName == CF_FONT_FILE_NAME)
+					else if (varName == CF_DISPLAY_TEXT_FONT_NAME)
 					{
-						fontFileName = varValue;
+						displayTextFontName = varValue;
+						if (UTILITY->checkFileExist(displayTextFontName))
+						{
+							GLOBAL->DisplayTextFont = displayTextFontName;
+						}
 					}
 					else if (varName == CF_TEXT_WINDOW_ALPHA)
 					{

@@ -101,6 +101,7 @@ void StateManager::manageStates()
 				texture.create(windowSize.x, windowSize.y);
 				texture.update( *(GLOBAL->windowPtr) );
 				sf::Image screenshot = texture.copyToImage();
+				screenshot = UTILITY->imageDownscale(screenshot, 5, 5);
 
 				currentState = new SaveState( GLOBAL->scriptManagerPtr, screenshot );
 			}

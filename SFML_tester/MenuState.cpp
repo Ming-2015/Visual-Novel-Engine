@@ -38,7 +38,7 @@ void MenuState::init()
 		LOGGER->Log("MenuState", "Image not found: background.jpg");
 	backgroundImage.setTexture(background);
 
-	if (!font.loadFromFile("assets/MATURASC.TTF"))
+	if (!font.loadFromFile(GLOBAL->UserInterfaceButtonFont))
 		LOGGER->Log("MenuState", "Can't find font file");
 
 	startButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 520.0f, 0, 0, 0, 0, 475, 72);

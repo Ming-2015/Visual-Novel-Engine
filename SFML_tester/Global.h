@@ -28,10 +28,17 @@ public:
 	const std::string TextBoxLocation = "images/textbox/textboxMaster.png";
 	const std::string TextBoxColorLocation = "resources/TextboxColors.csv";
 	const std::string NewGameScriptFileLocation = "resources/ScriptLine.csv";
-	const std::string DisplayTextFont = "assets/default.ttf";
-	const std::string DisplayNameFont = "assets/MATURASC.TTF";
+
+	std::string DisplayTextFont = "resources/default.ttf";
+	std::string DisplayNameFont = "resources/MATURASC.TTF";
+	std::string UserInterfaceFont = "resources/default.TTF";
+	std::string UserInterfaceButtonFont = "resources/MATURASC.TTF";
 
 	const std::string blurFragShaderPath = "resources/blur.frag";
+
+	const std::string SavefileRoot = "saves/";
+	const std::string SavefilePrefix = "save_";
+	const std::string SavefileSuffix = ".usd";
 
 	std::string playerName;
 

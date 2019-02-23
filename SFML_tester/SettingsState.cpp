@@ -173,7 +173,7 @@ void SettingsState::init()
 	sliders.push_back(Slider::createSettingsSlider(435.0f, 580.0f, CONFIG->sfxVolume));
 	sliders.push_back(Slider::createSettingsSlider(435.0f, 680.0f, CONFIG->textWindowAlpha));
 
-	if (!settingsFont.loadFromFile("assets/default.TTF"))
+	if (!settingsFont.loadFromFile(GLOBAL->UserInterfaceFont))
 	{
 		LOGGER->Log("SettingsState", "Unable to find default font");
 	}

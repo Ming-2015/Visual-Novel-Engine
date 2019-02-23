@@ -1,6 +1,7 @@
 #pragma once
 #include "Utility.h"
 #include "Logger.h"
+#include "Global.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -40,7 +41,7 @@ public:
 	float autoTextWaitTime;			// wait time after auto text finished displaying
 	bool textFade;					// toggle text fade animation
 	bool skipUnreadText;			// allow skipping read/unread text (not sure how to implement this yet)
-	string fontFileName;			// name of the font file (.ttf) we are using for the text
+	string displayTextFontName;		// name of the font file (.ttf) we are using for the text
 	float textWindowAlpha;			// text window transparency (alpha)
 
 	static const string CF_MASTER_VOLUME;
@@ -53,7 +54,7 @@ public:
 	static const string CF_AUTO_TEXT_WAIT_TIME;
 	static const string CF_TEXT_FADE;
 	static const string CF_SKIP_UNREAD_TEXT;
-	static const string CF_FONT_FILE_NAME;
+	static const string CF_DISPLAY_TEXT_FONT_NAME;
 	static const string CF_TEXT_WINDOW_ALPHA;
 
 	static Config * GetConfig();

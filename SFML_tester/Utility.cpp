@@ -320,6 +320,53 @@ std::vector<std::string> Utility::readVectorFromBinaryFile(ifstream & file) cons
 	return ret;
 }
 
+sf::Image Utility::imageDownscale(const sf::Image & original, unsigned int xFactor, unsigned int yFactor) const
+{
+	sf::Image newImage;
+
+	unsigned int width = original.getSize().x;
+	unsigned int height = original.getSize().y;
+	unsigned int thumbWidth = width / xFactor;
+	unsigned int thumbHeight = height / yFactor;
+
+	newImage.create(thumbWidth, thumbHeight);
+	unsigned int areaSize = xFactor * yFactor;
+
+	for (unsigned int new_y = 0; new_y < thumbHeight; new_y++) // y on output
+	{
+		for (unsigned int new_x = 0; new_x < thumbWidth; new_x++)
+		{
+			unsigned int r = 0, g = 0, b = 0, a = 0;
+			
+			for (unsigned int original_y = new_y * yFactor; original_y < new_y * yFactor + yFactor; original_y++)
+			{
+				for (unsigned int original_x = new_x * xFactor; original_x < new_x * xFactor + xFactor; original_x++)
+				{
+					r += original.getPixel(original_x, original_y).r;
+					g += original.getPixel(original_x, original_y).g;
+					b += original.getPixel(original_x, original_y).b;
+					a += original.getPixel(original_x, original_y).a;
+				}
+			}
+
+			r /= areaSize;
+			g /= areaSize;
+			b /= areaSize;
+			a /= areaSize;
+
+			newImage.setPixel(new_x, new_y, sf::Color(r, g, b, a));
+		}
+	}
+
+	return newImage;
+}
+
+bool Utility::checkFileExist(const std::string & filepath) const
+{
+	struct stat buffer;
+	return (stat(filepath.c_str(), &buffer) == 0);
+}
+
 std::string Utility::addAllNewLines(string str, unsigned int lineLength)
 {
 	string tmp = str;

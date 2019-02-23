@@ -38,22 +38,21 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		//Does not exit
 
 	}
-	else if (drawMainButton->quickLoadButtonClicked == true && !scriptManager->shouldHideTextbox())
+	else if (drawMainButton->quickLoadButtonClicked == true)
 	{
 
 		//quick load options
 		drawMainButton->quickLoadButtonClicked = false;
 
 	}
-	else if (drawMainButton->loadButtonClicked == true && !scriptManager->shouldHideTextbox())
+	else if (drawMainButton->loadButtonClicked == true)
 	{
-
-
 		//load options
 		drawMainButton->loadButtonClicked = false;
-
+		shouldChangeState = true;
+		nextState = STATE_LOAD;	
 	}
-	else if (drawMainButton->quickSaveButtonClicked == true && !scriptManager->shouldHideTextbox())
+	else if (drawMainButton->quickSaveButtonClicked == true)
 	{
 
 		//quickSave options
@@ -61,16 +60,15 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 
 	}
-	else if (drawMainButton->saveButtonClicked == true && !scriptManager->shouldHideTextbox())
+	else if (drawMainButton->saveButtonClicked == true )
 	{
 
 		//save options
 		drawMainButton->saveButtonClicked = false;
 
 	}
-	else if (drawMainButton->autoButtonClicked == true && !scriptManager->shouldHideTextbox())
+	else if (drawMainButton->autoButtonClicked == true )
 	{
-
 		if (GLOBAL->autoMode == false)
 		{
 			GLOBAL->autoMode = true;
@@ -80,9 +78,8 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			GLOBAL->autoMode = false;
 		}
 		drawMainButton->autoButtonClicked = false;
-
-
 	}
+
 	else if (drawMainButton->skipButtonClicked == true && !scriptManager->shouldHideTextbox())
 	{
 
@@ -114,7 +111,6 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			{
 				shouldChangeState = true;
 				nextState = STATE_LOAD;
-				GLOBAL->scriptManagerPtr = scriptManager;
 				return;
 			}
 
@@ -191,11 +187,9 @@ void MainState::update(float delta_t)
 
 void MainState::init()
 {
-	scriptManager->init();
 	GLOBAL->skipMode = false;
 	GLOBAL->autoMode = false;
 	drawMainButton = new DrawMainButton();
-
 }
 
 void MainState::cleanup()
@@ -218,7 +212,7 @@ MainState::MainState()
 	}
 	else
 	{
-		scriptManager = new ScriptManager(GLOBAL->selectedLoadFile);
+		scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
 	}
 	myState = GameState::STATE_MAIN;
 	init();

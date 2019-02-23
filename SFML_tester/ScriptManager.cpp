@@ -221,8 +221,8 @@ void ScriptManager::update(float delta_t)
 		}
 	}
 
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) 
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::RControl) )
+	else if ( (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) 
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) && GLOBAL->windowPtr->hasFocus() )
 	{
 		for (auto c : commands)
 		{

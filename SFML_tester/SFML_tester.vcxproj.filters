@@ -213,6 +213,9 @@
     <ClCompile Include="DrawMainButton.cpp">
       <Filter>Source Files\Script</Filter>
     </ClCompile>
+    <ClCompile Include="SavefileImage.cpp">
+      <Filter>Source Files\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="DrawMainButton.h">
       <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="SavefileImage.h">
+      <Filter>Header Files\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
