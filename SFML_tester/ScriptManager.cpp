@@ -3,7 +3,7 @@
 ScriptManager::ScriptManager(std::string filename) :
 	initFileName(filename)
 {
-	//init();
+	init();
 }
 
 ScriptManager::~ScriptManager()

@@ -5,7 +5,7 @@ BlurCommand::BlurCommand(vector<string> args)
 {
 	if (UTILITY->toLower(args[COLUMN_ACTION]) != "blur")
 	{
-		LOGGER->Log("ShowCommand", "Invalid Command Input");
+		LOGGER->Log("BlurCommand", "Invalid Command Input");
 		valid = false;
 		return;
 	}
@@ -14,8 +14,11 @@ BlurCommand::BlurCommand(vector<string> args)
 	objectTypeName = UTILITY->toLower(args[COLUMN_OBJECT]);
 	flag = UTILITY->toLower(args[COLUMN_FLAG]);
 
+	// object name in arg1
 	objectName = UTILITY->toLower(args[COLUMN_ARG1]);
 
+	// blur radius in arg2
+	blurRadius = 0;
 	if (args.size() > COLUMN_ARG2)
 	{
 		try {
