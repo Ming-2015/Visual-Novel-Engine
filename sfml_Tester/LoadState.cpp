@@ -94,7 +94,7 @@ void LoadState::update(float delta_t)
 
 void LoadState::init()
 {
-	if (!saveTexture.loadFromFile(GLOBAL->ImageRoot + "assets/LoadPage.png"))
+	if (!saveTexture.loadFromFile(GLOBAL->AssetRoot + "LoadPage.png"))
 	{
 		LOGGER->Log("LoadState", "Image not found: LoadPage.png");
 	}

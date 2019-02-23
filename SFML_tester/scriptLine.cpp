@@ -654,7 +654,7 @@ void ScriptLine::setBgm(const string & groupname, const string & filename, bool 
 		fn_bgm.clear();
 	}
 
-	string f = "sound/" + groupname + "/" + filename;
+	string f = GLOBAL->SoundRoot + groupname + "/" + filename;
 	sf::Music* music = new sf::Music();
 	if (!music->openFromFile(f))
 	{
@@ -684,7 +684,7 @@ void ScriptLine::setVoice(const string & groupname, const string & filename, boo
 		fn_voices.clear();
 	}
 
-	string f = "sound/" + groupname + "/" + filename;
+	string f = GLOBAL->SoundRoot + groupname + "/" + filename;
 	sf::Music* music = new sf::Music();
 	if (!music->openFromFile(f))
 	{
@@ -714,7 +714,7 @@ void ScriptLine::setSfx(const string & groupname, const string & filename, bool 
 		fn_sfx.clear();
 	}
 
-	string f = "sound/" + groupname + "/" + filename;
+	string f = GLOBAL->SoundRoot + groupname + "/" + filename;
 	sf::Music* music = new sf::Music();
 	if (!music->openFromFile(f))
 	{
@@ -770,7 +770,7 @@ void ScriptLine::setSfxVolume(float volume, bool relative)
 
 void ScriptLine::setBgmVolume(float volume, string folder, string name)
 {
-	string fname = "sound/" + folder + "/" + name;
+	string fname = GLOBAL->SoundRoot + folder + "/" + name;
 	for (int i = 0; i < fn_bgm.size(); i++)
 	{
 		if (fn_bgm[i] == fname)
@@ -783,7 +783,7 @@ void ScriptLine::setBgmVolume(float volume, string folder, string name)
 
 void ScriptLine::setVoiceVolume(float volume, string folder, string name)
 {
-	string fname = "sound/" + folder + "/" + name;
+	string fname = GLOBAL->SoundRoot + folder + "/" + name;
 	for (int i = 0; i < fn_voices.size(); i++)
 	{
 		if (fn_voices[i] == fname)
@@ -796,7 +796,7 @@ void ScriptLine::setVoiceVolume(float volume, string folder, string name)
 
 void ScriptLine::setSfxVolume(float volume, string folder, string name)
 {
-	string fname = "sound/" + folder + "/" + name;
+	string fname = GLOBAL->SoundRoot + folder + "/" + name;
 	for (int i = 0; i < fn_sfx.size(); i++)
 	{
 		if (fn_sfx[i] == fname)

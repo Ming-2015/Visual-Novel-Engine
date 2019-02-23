@@ -39,7 +39,7 @@ ChoiceImage::ChoiceImage(const std::string & str, const std::string & flag, int 
 
 	sprite.setPosition(xPos, yPos);
 
-	if (!choiceboxBgTex.loadFromFile(GLOBAL->ImageRoot + "assets/choicebox_bg.png"))
+	if (!choiceboxBgTex.loadFromFile(GLOBAL->AssetRoot + "choicebox_bg.png"))
 	{
 		LOGGER->Log("ChoiceImage", "Unable to log choice background image");
 	}
@@ -97,7 +97,7 @@ ChoiceImage::ChoiceImage(ifstream & file)
 
 	sprite.setPosition(xPos, yPos);
 
-	if (!choiceboxBgTex.loadFromFile(GLOBAL->ImageRoot + "assets/choicebox_bg.png"))
+	if (!choiceboxBgTex.loadFromFile(GLOBAL->AssetRoot + "choicebox_bg.png"))
 	{
 		LOGGER->Log("ChoiceImage", "Unable to log choice background image");
 	}

@@ -16,11 +16,11 @@ NewGameState::~NewGameState()
 
 void NewGameState::init()
 {
-	if (!background.loadFromFile("assets/NewGameBackground.png"))
+	if (!background.loadFromFile(GLOBAL->AssetRoot + "NewGameBackground.png"))
 		LOGGER->Log("NewGameState", "Image not found: NewGameBackground.png");
 	backgroundImage.setTexture(background);
 
-	submitButton = new MenuButton("assets/SubmitButton141x42.png", "", "", 787.0f, 590.0f, 0, 0, 0, 0, 141, 42);
+	submitButton = new MenuButton(GLOBAL->AssetRoot + "SubmitButton141x42.png", "", "", 787.0f, 590.0f, 0, 0, 0, 0, 141, 42);
 	submitButton->load();
 
 	currentAlpha = 0;
@@ -34,7 +34,7 @@ void NewGameState::init()
 	bgmVolume = CONFIG->bgmVolume;
 	bgm.setVolume(100.0*bgmVolume*masterVolume);
 	if (bgm.getStatus() != sf::Music::Playing) {
-		if (!bgm.openFromFile("assets/NewGameState.WAV"))
+		if (!bgm.openFromFile(GLOBAL->MusicRoot + "NewGameState.WAV"))
 			LOGGER->Log("NewGameState", "BGM not found!");
 		bgm.play();
 	}

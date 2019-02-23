@@ -1,4 +1,5 @@
 #pragma once
+#include "Global.h"
 #include "Effect.hpp"
 #include <string>
 
@@ -33,7 +34,7 @@ public:
 
 	static Slider * createSettingsSlider(float xPos, float yPos, float initVal=0.8f)
 	{
-		return new Slider("assets/scrollbar1.png", "assets/rescrollbar_thumb.png", "", "", xPos, yPos, 250.0f, 20.0f, 35.0f, 35.0f, initVal);
+		return new Slider(GLOBAL->AssetRoot + "scrollbar1.png", GLOBAL->AssetRoot + "rescrollbar_thumb.png", "", "", xPos, yPos, 250.0f, 20.0f, 35.0f, 35.0f, initVal);
 	}
 
 	float getValue() const; // get the slider position, from 0.0 to 1.0

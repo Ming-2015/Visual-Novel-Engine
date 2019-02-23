@@ -29,28 +29,28 @@ void MenuState::init()
 	bgmVolume = CONFIG->bgmVolume;
 	bgm.setVolume(100.0f*bgmVolume*masterVolume);
 	if (bgm.getStatus() != sf::Music::Playing) {
-		if (!bgm.openFromFile("assets/HGSSRoute47.WAV"))
+		if (!bgm.openFromFile(GLOBAL->MusicRoot + "HGSSRoute47.WAV"))
 			LOGGER->Log("MenuState", "BGM not found!");
 		bgm.play();
 	}
 
-	if (!background.loadFromFile("assets/background.jpg"))
+	if (!background.loadFromFile(GLOBAL->AssetRoot + "background.jpg"))
 		LOGGER->Log("MenuState", "Image not found: background.jpg");
 	backgroundImage.setTexture(background);
 
 	if (!font.loadFromFile(GLOBAL->UserInterfaceButtonFont))
 		LOGGER->Log("MenuState", "Can't find font file");
 
-	startButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 520.0f, 0, 0, 0, 0, 475, 72);
+	startButton = new MenuButton(GLOBAL->AssetRoot + "MenuButtons600wx288h3.png", "", "", 350.0f, 520.0f, 0, 0, 0, 0, 475, 72);
 	startButton->load();
 
-	loadButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 610.0f, 0, 0, 0, 72, 335, 72);
+	loadButton = new MenuButton(GLOBAL->AssetRoot + "MenuButtons600wx288h3.png", "", "", 350.0f, 610.0f, 0, 0, 0, 72, 335, 72);
 	loadButton->load();
 
-	settingsButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 700.0f, 0, 0, 0, 144, 225, 72);
+	settingsButton = new MenuButton(GLOBAL->AssetRoot + "MenuButtons600wx288h3.png", "", "", 350.0f, 700.0f, 0, 0, 0, 144, 225, 72);
 	settingsButton->load();
 
-	exitButton = new MenuButton("assets/MenuButtons600wx288h3.png", "", "", 350.0f, 790.0f, 0, 0, 0, 216, 125, 72);
+	exitButton = new MenuButton(GLOBAL->AssetRoot + "MenuButtons600wx288h3.png", "", "", 350.0f, 790.0f, 0, 0, 0, 216, 125, 72);
 	exitButton->load();
 
 	//THIS MIGHT NOT BE NEEDED, TESTING PURPOSES FOR NOW

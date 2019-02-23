@@ -81,12 +81,12 @@ bool SavefileImage::onLoad()
 	saveText.setFillColor(sf::Color(0, 0, 0, 255));
 	saveText.setCharacterSize(16);
 
-	if (!bgUnselectedTex.loadFromFile(GLOBAL->ImageRoot + "assets/savebox.png"))
+	if (!bgUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "savebox.png"))
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/savebox.png");
 	}
 
-	if (!bgSelectedTex.loadFromFile(GLOBAL->ImageRoot + "assets/savebox_selected.png"))
+	if (!bgSelectedTex.loadFromFile(GLOBAL->AssetRoot + "savebox_selected.png"))
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/savebox_selected.png");
 	}

@@ -2,17 +2,17 @@
 
 void ReturnMenuPrompt::init()
 {
-	if (!boxTexture.loadFromFile("assets/MainMenuPrompt2.png"))
+	if (!boxTexture.loadFromFile(GLOBAL->AssetRoot + "MainMenuPrompt2.png"))
 	{
 		LOGGER->Log("ReturnMenuPrompt", "Image not found: MainMenuPrompt.png");
 	}
 	boxSprite.setTexture(boxTexture);
 
-	noButton = new MainButton("assets/no78x106.png", "", "", 910.0f, 490.0f, 0, 0, 0, 0, 78, 53, 0, 53, 78, 53);
+	noButton = new MainButton(GLOBAL->AssetRoot + "no78x106.png", "", "", 910.0f, 490.0f, 0, 0, 0, 0, 78, 53, 0, 53, 78, 53);
 	noButton->load();
 	buttons.push_back(noButton);
 
-	yesButton = new MainButton("assets/yes92x108.png", "", "", 710.0f, 490.0f, 0, 0, 0, 0, 92, 54, 0, 54, 92, 54);
+	yesButton = new MainButton(GLOBAL->AssetRoot + "yes92x108.png", "", "", 710.0f, 490.0f, 0, 0, 0, 0, 92, 54, 0, 54, 92, 54);
 	yesButton->load();
 	buttons.push_back(yesButton);
 

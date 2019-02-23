@@ -140,30 +140,30 @@ void SettingsState::update(float delta_t)
 
 void SettingsState::init()
 {
-	if (!configTexture.loadFromFile("assets/ConfigurationsPage.png"))
+	if (!configTexture.loadFromFile(GLOBAL->AssetRoot + "ConfigurationsPage.png"))
 		LOGGER->Log("MenuState", "Image not found: ConfigurationsPage.png");
 	configBackground.setTexture(configTexture);
 
-	zeroButtons.push_back(new MenuButton("assets/scrollBarZero.png", "", "", 400.0f, 290.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 290.0f, 0, 0, 0, 0, 64, 29));
 	zeroButtons[0]->load();
-	zeroButtons.push_back(new MenuButton("assets/scrollBarZero.png", "", "", 400.0f, 390.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 390.0f, 0, 0, 0, 0, 64, 29));
 	zeroButtons[1]->load();
-	zeroButtons.push_back(new MenuButton("assets/scrollBarZero.png", "", "", 400.0f, 490.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 490.0f, 0, 0, 0, 0, 64, 29));
 	zeroButtons[2]->load();
-	zeroButtons.push_back(new MenuButton("assets/scrollBarZero.png", "", "", 400.0f, 590.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 590.0f, 0, 0, 0, 0, 64, 29));
 	zeroButtons[3]->load();
-	zeroButtons.push_back(new MenuButton("assets/scrollBarZero.png", "", "", 400.0f, 690.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 690.0f, 0, 0, 0, 0, 64, 29));
 	zeroButtons[4]->load();
 
-	hundredButtons.push_back(new MenuButton("assets/scrollBarHundred.png", "", "", 715.0f, 290.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 290.0f, 0, 0, 0, 0, 64, 29));
 	hundredButtons[0]->load();
-	hundredButtons.push_back(new MenuButton("assets/scrollBarHundred.png", "", "", 715.0f, 390.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 390.0f, 0, 0, 0, 0, 64, 29));
 	hundredButtons[1]->load();
-	hundredButtons.push_back(new MenuButton("assets/scrollBarHundred.png", "", "", 715.0f, 490.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 490.0f, 0, 0, 0, 0, 64, 29));
 	hundredButtons[2]->load();
-	hundredButtons.push_back(new MenuButton("assets/scrollBarHundred.png", "", "", 715.0f, 590.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 590.0f, 0, 0, 0, 0, 64, 29));
 	hundredButtons[3]->load();
-	hundredButtons.push_back(new MenuButton("assets/scrollBarHundred.png", "", "", 715.0f, 690.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 690.0f, 0, 0, 0, 0, 64, 29));
 	hundredButtons[4]->load();
 
 

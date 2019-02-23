@@ -136,7 +136,7 @@ void SaveState::update(float delta_t)
 void SaveState::init()
 {
 	// initialize background stuffs
-	if (!saveTexture.loadFromFile(GLOBAL->ImageRoot + "assets/LoadPage.png"))
+	if (!saveTexture.loadFromFile(GLOBAL->AssetRoot + "LoadPage.png"))
 	{
 		LOGGER->Log("SaveState", "Image not found: LoadPage.png");
 	}
