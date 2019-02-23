@@ -54,7 +54,7 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 	switch (e.type)
 	{
-		case sf::Event::MouseButtonPressed:
+		case sf::Event::MouseButtonReleased:
 		{
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
