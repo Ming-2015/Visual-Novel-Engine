@@ -29,6 +29,7 @@ void NewGameState::init()
 	rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 	rectangle.setPosition(0, 0);
 
+	volumeFade = 0.0;
 	masterVolume = CONFIG->masterVolume;
 	bgmVolume = CONFIG->bgmVolume;
 	bgm.setVolume(100.0*bgmVolume*masterVolume);
@@ -37,7 +38,7 @@ void NewGameState::init()
 			LOGGER->Log("NewGameState", "BGM not found!");
 		bgm.play();
 	}
-	volumeFade = 0.0;
+
 
 	if (!font.loadFromFile("assets/default.TTF"))
 	{
@@ -138,6 +139,15 @@ void NewGameState::update(float delta_t)
 
 				volumeFade += 4;
 				float volume = 100.0*bgmVolume*masterVolume - volumeFade;
+
+				if (currentAlpha >= endAlpha)
+				{
+					currentAlpha = endAlpha;
+				}
+				if (volume <= 0.0)
+				{
+					volume = 0;
+				}
 				bgm.setVolume(volume);
 			}
 			else
