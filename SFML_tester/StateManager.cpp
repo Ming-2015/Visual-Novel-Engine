@@ -50,7 +50,7 @@ void StateManager::manageStates()
 				prevStates.push(currentState);
 				clearPrevStates();
 				currentState = new MenuState();
-			}				
+			}
 			break;
 
 		case GameState::STATE_INIT:

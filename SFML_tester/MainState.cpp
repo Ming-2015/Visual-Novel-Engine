@@ -7,52 +7,125 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {
 	drawMainButton->handleInput(e, window);
 	
-	if (drawMainButton->configButtonClicked == true)
+	//BUTTONS are hidden when textbox hidden, BUT STILL WORK
+	 if (drawMainButton->configButtonClicked == true)
 	{
-		shouldChangeState = true;
-		nextState = GameState::STATE_CONFIG;
-		LOGGER->Log("MenuState", "Opening settings");
-		drawMainButton->configButtonClicked = false;
-		//DOES NO SWITCH TO SETTINGS PAGE
+		 if (scriptManager->shouldHideTextbox())
+		 {
+			 drawMainButton->configButtonClicked = false;
+		 }
+		 else
+		 {
+			 shouldChangeState = true;
+			 nextState = GameState::STATE_CONFIG;
+			 LOGGER->Log("MenuState", "Opening settings");
+			 drawMainButton->configButtonClicked = false;
+		 }
 	}
 	else if (drawMainButton->exitButtonClicked == true)
 	{
-		shouldChangeState = true;
-		//bgm.stop();
-		nextState = GameState::STATE_EXIT;
-		LOGGER->Log("MenuState", "Switching to Exit State");
-		drawMainButton->exitButtonClicked = false;
-		//Does not exit
+		 if (scriptManager->shouldHideTextbox())
+		 {
+			 drawMainButton->exitButtonClicked = false;
+		 }
+		 else
+		 {
+			 cout << "I ENTERED HERE";
+			 shouldChangeState = true;
+			 //bgm.stop();
+			 nextState = GameState::STATE_MENU;
+			 LOGGER->Log("MenuState", "Switching to Menu State");
+			 drawMainButton->exitButtonClicked = false;
+			 //Does not exit
+		 }
 	}
-	else if (drawMainButton->quickLoadButtonClicked == true)
+	else if (drawMainButton->quickLoadButtonClicked == true && !scriptManager->shouldHideTextbox())
 	{
-		//quick load options
-		drawMainButton->quickLoadButtonClicked = false;
+		 if (scriptManager->shouldHideTextbox())
+		 {
+			 drawMainButton->quickLoadButtonClicked = false;
+		 }
+		 else
+		 {
+			 //quick load options
+			 drawMainButton->quickLoadButtonClicked = false;
+		 }
 	}
-	else if (drawMainButton->loadButtonClicked == true)
+	else if (drawMainButton->loadButtonClicked == true && !scriptManager->shouldHideTextbox())
 	{
-		//load options
-		drawMainButton->loadButtonClicked = false;
+		 if (scriptManager->shouldHideTextbox())
+		 {
+			 drawMainButton->loadButtonClicked = false;
+		 }
+		 else
+		 {
+			 //load options
+			 drawMainButton->loadButtonClicked = false;
+		 }
 	}
-	else if (drawMainButton->quickSaveButtonClicked == true)
+	else if (drawMainButton->quickSaveButtonClicked == true && !scriptManager->shouldHideTextbox())
 	{
-		//quickSave options
-		drawMainButton->quickSaveButtonClicked = false;
+		 if (scriptManager->shouldHideTextbox())
+		 {
+			 drawMainButton->quickSaveButtonClicked = false;
+		 }
+		 else
+		 {
+			 //quickSave options
+			 drawMainButton->quickSaveButtonClicked = false;
+		 }
+		
 	}
-	else if (drawMainButton->saveButtonClicked == true)
+	else if (drawMainButton->saveButtonClicked == true && !scriptManager->shouldHideTextbox())
 	{
-		//save options
-		drawMainButton->saveButtonClicked = false;
+		 if (scriptManager->shouldHideTextbox())
+		 {
+			 drawMainButton->saveButtonClicked = false;
+		 }
+		 else
+		 {
+			 //save options
+			 drawMainButton->saveButtonClicked = false;
+		 }
 	}
-	else if (drawMainButton->autoButtonClicked == true)
+	else if (drawMainButton->autoButtonClicked == true && !scriptManager->shouldHideTextbox())
 	{
-		//auto options
-		drawMainButton->autoButtonClicked = false;
+		 if (scriptManager->shouldHideTextbox())
+		 {
+			 drawMainButton->autoButtonClicked = false;
+		 }
+		 else
+		 {
+			 if (GLOBAL->autoMode == false)
+			 {
+				 GLOBAL->autoMode = true;
+			 }
+			 else if (GLOBAL->autoMode == true)
+			 {
+				 GLOBAL->autoMode = false;
+			 }
+			 drawMainButton->autoButtonClicked = false;
+		 }
+		
 	}
-	else if (drawMainButton->skipButtonClicked == true)
+	else if (drawMainButton->skipButtonClicked == true && !scriptManager->shouldHideTextbox())
 	{
-		//skip button options
-		drawMainButton->skipButtonClicked = false;
+		if (scriptManager->shouldHideTextbox())
+		{
+			drawMainButton->skipButtonClicked = false;
+		}
+		else
+		{
+			if (GLOBAL->skipMode == false)
+			{
+				GLOBAL->skipMode = true;
+			}
+			else if (GLOBAL->skipMode == true)
+			{
+				GLOBAL->skipMode = false;
+			}
+			drawMainButton->skipButtonClicked = false;
+		}
 	}
 	else
 	{
