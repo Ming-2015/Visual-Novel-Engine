@@ -219,6 +219,9 @@
     <ClCompile Include="ReturnMenuPrompt.cpp">
       <Filter>Source Files\Script</Filter>
     </ClCompile>
+    <ClCompile Include="SavedataUtility.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="ReturnMenuPrompt.h">
       <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="SavedataUtility.h">
+      <Filter>Header Files\Other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -159,6 +159,7 @@
     <ClCompile Include="RemoveCommand.cpp" />
     <ClCompile Include="ReturnMenuPrompt.cpp" />
     <ClCompile Include="RotateCommand.cpp" />
+    <ClCompile Include="SavedataUtility.cpp" />
     <ClCompile Include="SavefileImage.cpp" />
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptCommand.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="ReturnMenuPrompt.h" />
     <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="Savedata.h" />
+    <ClInclude Include="SavedataUtility.h" />
     <ClInclude Include="SavefileImage.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />

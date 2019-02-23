@@ -13,53 +13,53 @@ SaveState::~SaveState()
 {
 }
 
-void SaveState::writeSave(const std::string& savefile) const
-{
-	ofstream outfile(savefile, ios::binary | ios::out);
-	if (!outfile)
-	{
-		LOGGER->Log("Save State", "Unable to create a new save file");
-		return;
-	}
-
-	// create and read the screenshot
-	screenshot.saveToFile("_temp_ss.png");
-	ifstream ssfile("_temp_ss.png", ios::binary | ios::in);
-
-	// create a string of that size
-	std::string str;
-	ssfile.seekg(ssfile.end);
-	str.reserve(ssfile.tellg());
-	ssfile.seekg(ssfile.beg);
-
-	// read everything from the file
-	str.assign(std::istreambuf_iterator<char>(ssfile), std::istreambuf_iterator<char>());
-	unsigned int fileSize = str.length();
-	outfile.write(reinterpret_cast<const char*>(&fileSize), sizeof(fileSize));
-	outfile.write(reinterpret_cast<const char*>(str.c_str()), fileSize);
-
-	// remove screenshot
-	ssfile.close();
-	std::remove("_temp_ss.png");
-
-	std::string title = scriptManager->getDisplayName();
-	if (title == "")
-	{
-		title = scriptManager->getScriptLine();
-	}
-	else
-	{
-		title = title + ": " + scriptManager->getScriptLine();
-	}
-
-	// save the title of the script
-	UTILITY->writeToBinaryFile(outfile, title);
-
-	// save the scriptManager
-	scriptManager->serialize(outfile);
-
-	outfile.close();
-}
+//void SaveState::writeSave(const std::string& savefile) const
+//{
+//	ofstream outfile(savefile, ios::binary | ios::out);
+//	if (!outfile)
+//	{
+//		LOGGER->Log("Save State", "Unable to create a new save file");
+//		return;
+//	}
+//
+//	// create and read the screenshot
+//	screenshot.saveToFile("_temp_ss.png");
+//	ifstream ssfile("_temp_ss.png", ios::binary | ios::in);
+//
+//	// create a string of that size
+//	std::string str;
+//	ssfile.seekg(ssfile.end);
+//	str.reserve(ssfile.tellg());
+//	ssfile.seekg(ssfile.beg);
+//
+//	// read everything from the file
+//	str.assign(std::istreambuf_iterator<char>(ssfile), std::istreambuf_iterator<char>());
+//	unsigned int fileSize = str.length();
+//	outfile.write(reinterpret_cast<const char*>(&fileSize), sizeof(fileSize));
+//	outfile.write(reinterpret_cast<const char*>(str.c_str()), fileSize);
+//
+//	// remove screenshot
+//	ssfile.close();
+//	std::remove("_temp_ss.png");
+//
+//	std::string title = scriptManager->getDisplayName();
+//	if (title == "")
+//	{
+//		title = scriptManager->getScriptLine();
+//	}
+//	else
+//	{
+//		title = title + ": " + scriptManager->getScriptLine();
+//	}
+//
+//	// save the title of the script
+//	UTILITY->writeToBinaryFile(outfile, title);
+//
+//	// save the scriptManager
+//	scriptManager->serialize(outfile);
+//
+//	outfile.close();
+//}
 
 void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {
@@ -75,14 +75,14 @@ void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			std::string savefile = GLOBAL->SavefileRoot + GLOBAL->SavefilePrefix +
 				to_string(currentPageNumber*savePerPage + i) + GLOBAL->SavefileSuffix;
 
-			writeSave(savefile);
+			SAVEDATAUTILITY->writeSave(savefile, screenshot, scriptManager);
 
 			std::string title;
 			sf::Image image;
 
 			if (UTILITY->checkFileExist(savefile))
 			{
-				readSave(savefile, image, title);
+				SAVEDATAUTILITY->readSave(savefile, image, title);
 				savefileImages[i]->setImage(image);
 				savefileImages[i]->setString(title);
 			}
@@ -191,7 +191,7 @@ void SaveState::loadSavesByPage(int pageNumber)
 
 		if (UTILITY->checkFileExist(savefile))
 		{
-			readSave(savefile, image, title);
+			SAVEDATAUTILITY->readSave(savefile, image, title);
 			savefileImages[i - currentSave]->setImage(image);
 			savefileImages[i - currentSave]->setString(title);
 		}
@@ -202,33 +202,33 @@ void SaveState::loadSavesByPage(int pageNumber)
 	}
 }
 
-bool SaveState::readSave(const std::string & savefile, sf::Image & image, std::string & title)
-{
-	ifstream infile(savefile, ios::binary | ios::in);
-	if (!infile)
-	{
-		LOGGER->Log("LoadState", "Unable to load save file");
-		return false;
-	}
-
-	// read the image file size
-	unsigned int fileSize;
-	infile.read(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
-
-	// read the image data from file
-	std::vector<char> byteArray(fileSize);
-	infile.read(byteArray.data(), fileSize);
-
-	// dump it into a memory input stream
-	sf::MemoryInputStream picStream;
-	picStream.open(byteArray.data(), fileSize);
-
-	// load the image!
-	image.loadFromStream(picStream);
-
-	// read the title
-	title = UTILITY->readFromBinaryFile(infile);
-	infile.close();
-
-	return true;
-}
+//bool SaveState::readSave(const std::string & savefile, sf::Image & image, std::string & title)
+//{
+//	ifstream infile(savefile, ios::binary | ios::in);
+//	if (!infile)
+//	{
+//		LOGGER->Log("LoadState", "Unable to load save file");
+//		return false;
+//	}
+//
+//	// read the image file size
+//	unsigned int fileSize;
+//	infile.read(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
+//
+//	// read the image data from file
+//	std::vector<char> byteArray(fileSize);
+//	infile.read(byteArray.data(), fileSize);
+//
+//	// dump it into a memory input stream
+//	sf::MemoryInputStream picStream;
+//	picStream.open(byteArray.data(), fileSize);
+//
+//	// load the image!
+//	image.loadFromStream(picStream);
+//
+//	// read the title
+//	title = UTILITY->readFromBinaryFile(infile);
+//	infile.close();
+//
+//	return true;
+//}

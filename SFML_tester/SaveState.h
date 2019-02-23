@@ -14,6 +14,7 @@
 #include "ScriptManager.h"
 #include "Global.h"
 #include "SavefileImage.h"
+#include "SavedataUtility.h"
 
 using namespace std;
 
@@ -22,8 +23,6 @@ public:
 
 	SaveState( const ScriptManager* scriptManager, sf::Image screenshot );
 	~SaveState();
-
-	void writeSave(const std::string& filename) const;
 
 	// handle user inputs (keyboard/gamepad/mouse/etc)
 	void handleInput(sf::Event& e, sf::RenderWindow& window);
@@ -54,7 +53,6 @@ private:
 	sf::Image screenshot;
 
 	void loadSavesByPage(int pageNumber);
-	bool readSave(const std::string & savefile, sf::Image & image, std::string & title);
 
 	const static int INDEX_SAVE_1 = 0;
 	const static int INDEX_SAVE_2 = 1;

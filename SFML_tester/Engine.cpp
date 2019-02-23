@@ -54,6 +54,7 @@ int Engine::start()
 	Logger::Cleanup();
 	Config::Cleanup();
 	Utility::CleanUp();
+	SavedataUtility::CleanUp();
 
 	return 0;
 }
