@@ -155,7 +155,7 @@ void TextboxImage::initText()
 	dialogueText.setOutlineColor(dialogueTextOutlineColor);
 	dialogueText.setOutlineThickness(3);
 	dialogueText.setCharacterSize(32);
-	dialogueText.setPosition(230.0f, 705.0f);
+	dialogueText.setPosition(300.0f, 725.0f);
 
 	nameTextOutlineColor = sf::Color(0, 0, 0);
 	nameTextColor = sf::Color(255, 255, 255);
@@ -171,6 +171,6 @@ void TextboxImage::initText()
 	nameText.setOutlineColor(nameTextOutlineColor);
 	nameText.setOutlineThickness(2);
 	nameText.setCharacterSize(32);
-	nameText.setPosition(230.0f, 643.0f);
+	nameText.setPosition(190.0f, 655.0f);
 }
 
