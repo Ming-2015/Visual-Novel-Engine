@@ -84,7 +84,6 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		//quickSave options
 		drawMainButton->quickSaveButtonClicked = false;
-		scriptManager->hideTextbox();
 	}
 	else if (drawMainButton->saveButtonClicked == true )
 	{
@@ -127,6 +126,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		//What to do if close button is clicked
 		drawMainButton->closeButtonClicked = false;
+		scriptManager->hideTextbox();
 	}
 	else
 	{
