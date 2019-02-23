@@ -25,7 +25,7 @@ public:
 	const std::string ResourceRoot = "resources/";
 	const std::string ImageRoot = "images/";
 
-	const std::string TextBoxLocation = "images/textbox/textboxw.png";
+	const std::string TextBoxLocation = "images/textbox/textboxMaster.png";
 	const std::string TextBoxColorLocation = "resources/TextboxColors.csv";
 	const std::string NewGameScriptFileLocation = "resources/ScriptLine.csv";
 	const std::string DisplayTextFont = "assets/default.ttf";

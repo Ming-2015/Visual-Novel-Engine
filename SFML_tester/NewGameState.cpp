@@ -16,7 +16,6 @@ NewGameState::~NewGameState()
 
 void NewGameState::init()
 {
-	//Load Background MAKE A BACKGROUND
 	if (!background.loadFromFile("assets/NewGameBackground.png"))
 		LOGGER->Log("NewGameState", "Image not found: NewGameBackground.png");
 	backgroundImage.setTexture(background);
