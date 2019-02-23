@@ -9,19 +9,27 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		returnMenuPrompt->handleInput(e, window);
 	}
-	else if (scriptManager->shouldHideTextbox())
-	{
-		// what to do when the textbox is hidden?
-
-	}
-	// don't allow the buttons to handle input when the scriptManager is hiding the textbox
-	else
+	// only update the buttons if you don't need to draw
+	else if (!scriptManager->shouldHideTextbox())
 	{
 		drawMainButton->handleInput(e, window);
 	}
 
 
-	if (!returnMenuPrompt->isHidden)
+	if ( scriptManager->isTextboxClosed() )
+	{
+		switch (e.type)
+		{
+			case sf::Event::MouseButtonReleased:
+			{
+				if (GLOBAL->windowPtr->hasFocus())
+				{
+					scriptManager->showTextbox();
+				}
+			}
+		}
+	}
+	else if (!returnMenuPrompt->isHidden)
 	{
 		if (returnMenuPrompt->noButtonClicked)
 		{
@@ -74,11 +82,9 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 	else if (drawMainButton->quickSaveButtonClicked == true)
 	{
-
 		//quickSave options
 		drawMainButton->quickSaveButtonClicked = false;
-
-
+		scriptManager->hideTextbox();
 	}
 	else if (drawMainButton->saveButtonClicked == true )
 	{
@@ -126,24 +132,24 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		switch (e.type)
 		{
-		case sf::Event::KeyReleased:
-		{
-			if (e.key.code == sf::Keyboard::S)
+			case sf::Event::KeyReleased:
 			{
-				shouldChangeState = true;
-				nextState = STATE_SAVE;
-				GLOBAL->scriptManagerPtr = scriptManager;
-				return;
-			}
-			else if (e.key.code == sf::Keyboard::L)
-			{
-				shouldChangeState = true;
-				nextState = STATE_LOAD;
-				return;
-			}
+				if (e.key.code == sf::Keyboard::S)
+				{
+					shouldChangeState = true;
+					nextState = STATE_SAVE;
+					GLOBAL->scriptManagerPtr = scriptManager;
+					return;
+				}
+				else if (e.key.code == sf::Keyboard::L)
+				{
+					shouldChangeState = true;
+					nextState = STATE_LOAD;
+					return;
+				}
 
-			break;
-		}
+				break;
+			}
 		}
 
 		// handle script-related input

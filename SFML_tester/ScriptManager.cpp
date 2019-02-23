@@ -167,7 +167,7 @@ const TextboxImage * ScriptManager::getTextboxImage() const
 
 bool ScriptManager::shouldHideTextbox() const
 {
-	return currentScriptLine->hideTextbox;
+	return currentScriptLine->hideTextbox || shouldCloseTextbox;
 }
 
 std::vector<ChoiceImage*> ScriptManager::getChoices() const
@@ -346,6 +346,21 @@ void ScriptManager::setPlayerName(const std::string & name)
 std::string ScriptManager::getPlayerName() const
 {
 	return currentScriptLine->playerName;
+}
+
+void ScriptManager::hideTextbox()
+{
+	shouldCloseTextbox = true;
+}
+
+void ScriptManager::showTextbox()
+{
+	shouldCloseTextbox = false;
+}
+
+bool ScriptManager::isTextboxClosed()
+{
+	return shouldCloseTextbox;
 }
 
 bool ScriptManager::eof() const

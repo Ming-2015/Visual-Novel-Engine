@@ -60,10 +60,15 @@ public:
 	void setPlayerName(const std::string& name);
 	std::string getPlayerName() const;
 
+	void hideTextbox();
+	void showTextbox();
+	bool isTextboxClosed();
+
 private:
 
 	std::vector< ScriptCommand* > commands;
 	ScriptLine * currentScriptLine;
 
 	std::string initFileName;
+	bool shouldCloseTextbox = false;
 };
