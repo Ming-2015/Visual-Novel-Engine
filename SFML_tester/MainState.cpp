@@ -85,7 +85,9 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 		//save options
 		drawMainButton->saveButtonClicked = false;
-
+		shouldChangeState = true;
+		nextState = STATE_SAVE;
+		GLOBAL->scriptManagerPtr = scriptManager;
 	}
 	else if (drawMainButton->autoButtonClicked == true )
 	{
@@ -101,7 +103,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		drawMainButton->autoButtonClicked = false;
 	}
 
-	else if (drawMainButton->skipButtonClicked == true && !scriptManager->shouldHideTextbox())
+	else if (drawMainButton->skipButtonClicked == true)
 	{
 
 		if (GLOBAL->skipMode == false)
@@ -115,9 +117,10 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		drawMainButton->skipButtonClicked = false;
 
 	}
-	else if (drawMainButton->closeButtonClicked)
+	else if (drawMainButton->closeButtonClicked == true)
 	{
 		//What to do if close button is clicked
+		drawMainButton->closeButtonClicked = false;
 	}
 	else
 	{

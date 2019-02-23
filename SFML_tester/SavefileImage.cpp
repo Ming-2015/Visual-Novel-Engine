@@ -27,7 +27,7 @@ void SavefileImage::setString(const std::string & title)
 		saveTitle = saveTitle.substr(0, stringLength-3);
 		saveTitle += "...";
 	}
-	saveText.setString(title);
+	saveText.setString(saveTitle);
 }
 
 void SavefileImage::useDefaultSprite()

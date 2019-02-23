@@ -81,7 +81,6 @@ void LoadState::render(sf::RenderWindow & window)
 	for (int i = 0; i < savePerPage; i++)
 	{
 		window.draw(*(savefileImages[i]) );
-		//window.draw(saveTitles[i]);
 	}
 }
 
@@ -95,15 +94,15 @@ void LoadState::update(float delta_t)
 
 void LoadState::init()
 {
-	if (!saveTexture.loadFromFile("assets/LoadPage.png"))
+	if (!saveTexture.loadFromFile(GLOBAL->ImageRoot + "assets/LoadPage.png"))
 	{
-		LOGGER->Log("MenuState", "Image not found: LoadPage.png");
+		LOGGER->Log("LoadState", "Image not found: LoadPage.png");
 	}
 	saveBackground.setTexture(saveTexture);
 
 	if (!settingsFont.loadFromFile(GLOBAL->UserInterfaceButtonFont))
 	{
-		LOGGER->Log("SettingsState", "Unable to find default font");
+		LOGGER->Log("LoadState", "Unable to find default font");
 	}
 
 	startNew.setFont(settingsFont);
@@ -113,7 +112,7 @@ void LoadState::init()
 	startNew.setPosition(380.0f, 790.0f);
 
 	returnState.setFont(settingsFont);
-	returnState.setString("Return to Menu");
+	returnState.setString("Return");
 	returnState.setFillColor(sf::Color::White);
 	returnState.setCharacterSize(42);
 	returnState.setPosition(880.0f, 790.0f);

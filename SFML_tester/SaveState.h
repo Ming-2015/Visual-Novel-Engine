@@ -1,4 +1,11 @@
 #pragma once
+
+#include <sstream>
+#include <vector>
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+
 #include "scriptLine.h"
 #include "Utility.h"
 #include "logger.h"
@@ -6,11 +13,7 @@
 #include "ScriptLine.h"
 #include "ScriptManager.h"
 #include "Global.h"
-#include <sstream>
-#include <vector>
-#include <iostream>
-#include <fstream>
-#include <stdio.h>
+#include "SavefileImage.h"
 
 using namespace std;
 
@@ -18,11 +21,7 @@ class SaveState : public GameState{
 public:
 
 	SaveState( const ScriptManager* scriptManager, sf::Image screenshot );
-
 	~SaveState();
-
-	int lineIDFromSave;
-	string fileNameFromSave;
 
 	void writeSave(const std::string& filename) const;
 
@@ -41,7 +40,26 @@ public:
 	void cleanup();
 
 private:
+	sf::Texture saveTexture;
+	sf::Sprite saveBackground;
+	sf::Font settingsFont;
+	sf::Text returnState;
+
+	unsigned int currentPageNumber = 0;
+	const unsigned int savePerPage = 6;
+
+	std::vector<SavefileImage *> savefileImages;
 
 	const ScriptManager * scriptManager;
 	sf::Image screenshot;
+
+	void loadSavesByPage(int pageNumber);
+	bool readSave(const std::string & savefile, sf::Image & image, std::string & title);
+
+	const static int INDEX_SAVE_1 = 0;
+	const static int INDEX_SAVE_2 = 1;
+	const static int INDEX_SAVE_3 = 2;
+	const static int INDEX_SAVE_4 = 3;
+	const static int INDEX_SAVE_5 = 4;
+	const static int INDEX_SAVE_6 = 5;
 };

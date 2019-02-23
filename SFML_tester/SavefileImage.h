@@ -42,7 +42,7 @@ protected:
 	bool clicked = false;
 	bool pressed = false;
 
-	const unsigned int stringLength = 30;
+	const unsigned int stringLength = 45;
 	const unsigned int borderSize = 15;
 
 	void setToScale();
