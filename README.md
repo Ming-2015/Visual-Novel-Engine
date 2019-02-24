@@ -13,9 +13,9 @@ For a list of complete and updated commands, open Script Format Reference.xlsx (
 # Demo
 [Youtube demo](https://www.youtube.com/watch?v=OfRA-XLtyR0): This is a demo video of a work-in-progress version of the program. At the end of the video there's a sample script that you can reference.
 
-![screenshot]
+[screenshot]
 
-[screenshot]: https://imgur.com/I8XI8sq
+[screenshot]: https://i.imgur.com/I8XI8sq.png
 
 # Setup instructions after cloning
 0. Install Visual Studio 2017 (Community edition should work fine) with C++ support
