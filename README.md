@@ -25,8 +25,10 @@ For a list of complete and updated commands, open Script Format Reference.xlsx (
 2. Go to Build on the menu and click "Build Solution" (for both Debug and Release preferably)
 ..* If you have difficulty building the solution because it is missing some library, it is most likely because the SFML library is not linked properly. Go to https://www.sfml-dev.org/tutorials/2.5/start-vc.php and follow all the steps to properly link the library
 
-3. Copy the .dll files from SFML/SFML-2.5.1/bin folder to where your executable .exe file is located (usually Debug and Release folder in your project folder after you built)
+3. Copy the .dll files from SFML/SFML-2.5.1/bin folder to where your executable (.exe) file is located (usually Debug and Release folders in your project folder after you built)
 
 4. request from [me](mailto:caiyiming2015@gmail.com) or [Ed](mailto:Kentoruya@gmail.com) for the various asset folders (images, sound, resources), or copy those folders from a working game made with our engine
+
+5. copy all the asset folders into where your executables (.exe) files are. (usually Debug and Release folders)
 
 5. Run the program
