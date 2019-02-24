@@ -484,6 +484,7 @@ void ScriptManager::readCommands()
 				}
 				else if (cmdWord == "display")
 				{
+					GLOBAL->playerName = getPlayerName();
 					command = new DisplayCommand(tokens);
 				}
 				else if (cmdWord == "set")

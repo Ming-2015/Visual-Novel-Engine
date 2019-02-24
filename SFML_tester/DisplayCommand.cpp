@@ -72,7 +72,7 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 		{
 			if (args[i].empty()) break;
 
-			displayLines.push_back(args[i]);
+			displayLines.push_back(UTILITY->replaceAllSubstrings(args[i], "[player]", GLOBAL->playerName));
 		}
 	}
 	else if (objectType == OBJECT_CHOICE)
@@ -101,7 +101,7 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 
 			if (choice)
 			{
-				displayLines.push_back(args[i]);
+				displayLines.push_back( UTILITY->replaceAllSubstrings( args[i], "[player]", GLOBAL->playerName) );
 			}
 			else
 			{
