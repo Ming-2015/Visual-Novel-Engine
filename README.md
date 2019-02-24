@@ -1,12 +1,17 @@
 # Introduction
 This project was originally intended as an exercise to brush up our C++ skills, while also having fun building something. Eventually, it spinned out of control and the code size got gigantic within a short few weeks.
 
-*Visual Novel Engine* is a versatile Visual Novel engine written in C++, and relies heavily on (https://www.sfml-dev.org/ "SFML") for rendering and audio (the audio counterpart is actually OpenAL, which SFML is using).
+*Visual Novel Engine* is a versatile Visual Novel engine written in C++, and relies heavily on [SFML](https://www.sfml-dev.org/ "SFML") for rendering and audio (the audio counterpart is actually OpenAL, which SFML is using).
 
 # Design
 *Visual Novel Engine* is designed to be easily customizable, allowing creators to add all sorts of features or animations, sound effects, etc. with relative ease. 
 
 We basically created a whole new 'scripting language' that allows the script writer to add various commands, such as show character, set background, play music, display text, fadein/fadeout character sprites, etc. easily, and with a lot of control too! There's a lot of animation commands that accepts a Time argument as input, which allows you to time all your animated scenes perfectly.   
+
+For a list of complete and updated commands, open Script Format Reference.xlsx (note that commands marked in Red or Yellow are not fully functional or implemented yet)
+
+# Demo
+[Youtube demo](https://www.youtube.com/watch?v=OfRA-XLtyR0)
 
 # Setup instructions after cloning
 0. Install Visual Studio 2017 (Community edition should work fine) with C++ support
@@ -18,6 +23,6 @@ We basically created a whole new 'scripting language' that allows the script wri
 
 3. Copy the .dll files from SFML/SFML-2.5.1/bin folder to where your executable .exe file is located (usually Debug and Release folder in your project folder after you built)
 
-4. request from (mailto:caiyiming2015@gmail.com "me") or (mailto:Kentoruya@gmail.com "Ed") for the various asset folders (images, sound, resources), or copy those folders from a working game made with our engine
+4. request from [me](mailto:caiyiming2015@gmail.com) or [Ed](mailto:Kentoruya@gmail.com) for the various asset folders (images, sound, resources), or copy those folders from a working game made with our engine
 
 5. Run the program
