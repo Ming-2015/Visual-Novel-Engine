@@ -11,7 +11,11 @@ We basically created a whole new 'scripting language' that allows the script wri
 For a list of complete and updated commands, open Script Format Reference.xlsx (note that commands marked in Red or Yellow are not fully functional or implemented yet)
 
 # Demo
-[Youtube demo](https://www.youtube.com/watch?v=OfRA-XLtyR0)
+[Youtube demo](https://www.youtube.com/watch?v=OfRA-XLtyR0): This is a demo video of a work-in-progress version of the program. At the end of the video there's a sample script that you can reference.
+
+![screenshot]
+
+[screenshot]: https://imgur.com/gallery/cvHFQjB
 
 # Setup instructions after cloning
 0. Install Visual Studio 2017 (Community edition should work fine) with C++ support
