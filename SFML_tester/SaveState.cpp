@@ -50,7 +50,16 @@ void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		case sf::Event::MouseButtonReleased:
 		{
-			if (returnState.getGlobalBounds().contains(mousePosF))
+			if (e.mouseButton.button == sf::Mouse::Left)
+			{
+				if (returnState.getGlobalBounds().contains(mousePosF))
+				{
+					nextState = GameState::STATE_BACK;
+					shouldChangeState = true;
+					LOGGER->Log("SaveState", "Returning to prev state");
+				}
+			}
+			else if (e.mouseButton.button == sf::Mouse::Right)
 			{
 				nextState = GameState::STATE_BACK;
 				shouldChangeState = true;

@@ -51,6 +51,12 @@ void StateManager::manageStates()
 				clearPrevStates();
 				currentState = new MenuState();
 			}
+			else if (currentState->myState == GameState::STATE_NEW_GAME)
+			{
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new MenuState();
+			}
 			break;
 
 		case GameState::STATE_INIT:

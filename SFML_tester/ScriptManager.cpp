@@ -311,40 +311,59 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 			break;
 		}
 
-		case sf::Event::MouseButtonReleased:
+		case sf::Event::MouseWheelScrolled:
 		{
-			// if user needs to select a choice
-			if (currentScriptLine->isChoice)
-			{
-				for (auto c : getChoices())
-				{
-					// if the choice is selected... clear the command and insert new flag
-					if (c->getGlobalBoundary().contains(mousePosF))
-					{
-						for (string flag : c->getFlags())
-						{
-							currentScriptLine->userFlags.insert(flag);
-						}
-
-						currentScriptLine->clearChoices();
-
-						for (auto c : commands)
-						{
-							c->execute(currentScriptLine);
-							c->skipUpdate();
-						}
-
-						break;
-					}
-				}
-			}
-
-			// otherwise skip the command update
-			else
+			if (e.mouseWheelScroll.delta < 0)
 			{
 				for (auto c : commands)
 				{
 					c->skipUpdate();
+				}
+			}
+			else if (e.mouseWheelScroll.delta > 0)
+			{
+				// show backlog
+			}
+			break;
+		}
+
+		case sf::Event::MouseButtonReleased:
+		{
+			if (e.mouseButton.button == sf::Mouse::Left)
+			{
+				// if user needs to select a choice
+				if (currentScriptLine->isChoice)
+				{
+					for (auto c : getChoices())
+					{
+						// if the choice is selected... clear the command and insert new flag
+						if (c->getGlobalBoundary().contains(mousePosF))
+						{
+							for (string flag : c->getFlags())
+							{
+								currentScriptLine->userFlags.insert(flag);
+							}
+
+							currentScriptLine->clearChoices();
+
+							for (auto c : commands)
+							{
+								c->execute(currentScriptLine);
+								c->skipUpdate();
+							}
+
+							break;
+						}
+					}
+				}
+				
+				// otherwise skip the command update
+				else
+				{
+					for (auto c : commands)
+					{
+						c->skipUpdate();
+					}
 				}
 			}
 			break;

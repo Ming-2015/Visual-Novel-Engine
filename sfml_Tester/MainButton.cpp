@@ -29,37 +29,45 @@ void MainButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 
 	switch (e.type)
 	{
-	case sf::Event::MouseMoved:
-	{
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		if (sprite.getGlobalBounds().contains(mousePosF))
+		case sf::Event::MouseMoved:
 		{
-			hovered = true;
-			//Show Sprite 2
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+			if (sprite.getGlobalBounds().contains(mousePosF))
+			{
+				hovered = true;
+				//Show Sprite 2
+			}
+			else
+			{
+				hovered = false;
+				//Do nothing
+			}
 		}
-		else
+		break;
+		case sf::Event::MouseButtonPressed:
 		{
-			hovered = false;
-			//Do nothing
+			if (e.mouseButton.button == sf::Mouse::Left)
+			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				if (sprite.getGlobalBounds().contains(mousePosF))
+				{
+					pressed = true;
+				}
+			}
 		}
-	}
-	break;
-	case sf::Event::MouseButtonPressed:
-	{
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		if (sprite.getGlobalBounds().contains(mousePosF))
+		break;
+		case sf::Event::MouseButtonReleased:
 		{
-			pressed = true;
-		}
-	}
-	break;
-	case sf::Event::MouseButtonReleased:
-		if (pressed)
-		{
-			pressed = false;
-			clicked = true;
+			if (e.mouseButton.button == sf::Mouse::Left)
+			{
+				if (pressed)
+				{
+					pressed = false;
+					clicked = true;
+				}
+			}
 		}
 	}
 }

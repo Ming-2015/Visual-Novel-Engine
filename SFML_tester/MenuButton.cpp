@@ -26,42 +26,51 @@ void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 
 	switch (e.type)
 	{
-	case sf::Event::MouseMoved:
-	{
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		if (sprite.getGlobalBounds().contains(mousePosF))
+		case sf::Event::MouseMoved:
 		{
-			if (clock.getElapsedTime().asMilliseconds() > 100.00f) {
-				while (scaleMultiply < 1.015) {
-					sprite.setScale(sf::Vector2f((1.0f*scaleMultiply), (1.0f*scaleMultiply)));
-					scaleMultiply += 0.005;
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+			if (sprite.getGlobalBounds().contains(mousePosF))
+			{
+				if (clock.getElapsedTime().asMilliseconds() > 100.00f) {
+					while (scaleMultiply < 1.015) {
+						sprite.setScale(sf::Vector2f((1.0f*scaleMultiply), (1.0f*scaleMultiply)));
+						scaleMultiply += 0.005;
+					}
+					clock.restart();
 				}
-				clock.restart();
 			}
+			else
+			{
+				sprite.setScale(sf::Vector2f(1.0f, 1.0f));
+				scaleMultiply = 1.0;
+			}
+			break;
 		}
-		else
+		case sf::Event::MouseButtonPressed:
 		{
-			sprite.setScale(sf::Vector2f(1.0f, 1.0f));
-			scaleMultiply = 1.0;
+			if (e.mouseButton.button == sf::Mouse::Left)
+			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				if (sprite.getGlobalBounds().contains(mousePosF))
+				{
+					pressed = true;
+				}
+			}
+			break;
 		}
-	}
-	break;
-	case sf::Event::MouseButtonPressed:
-	{
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		if (sprite.getGlobalBounds().contains(mousePosF))
-		{
-			pressed = true;
-		}
-	}
-	break;
-	case sf::Event::MouseButtonReleased:
-		if (pressed)
-		{
-			pressed = false;
-			clicked = true;
+		case sf::Event::MouseButtonReleased:
+		{			
+			if (e.mouseButton.button == sf::Mouse::Left)
+			{
+				if (pressed)
+				{
+					pressed = false;
+					clicked = true;
+				}
+				break;
+			}
 		}
 	}
 }

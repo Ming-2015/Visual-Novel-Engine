@@ -100,6 +100,14 @@ void NewGameState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			}
 		}
 	}
+	else if (e.type == sf::Event::MouseButtonReleased)
+	{
+		if (e.mouseButton.button == sf::Mouse::Right)
+		{
+			shouldChangeState = true;
+			nextState = STATE_MENU;
+		}
+	}
 
 	if (submitButton->isClicked(true) && clickedSubmit == false)
 	{

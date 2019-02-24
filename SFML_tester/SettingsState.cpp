@@ -56,22 +56,31 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		case sf::Event::MouseButtonReleased:
 		{
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			if (texts[TEXT_SAVE].getGlobalBounds().contains(mousePosF))
+			if (e.mouseButton.button == sf::Mouse::Left)
 			{
-				CONFIG->masterVolume = sliders[SLIDER_MASTER]->getValue();
-				CONFIG->bgmVolume = sliders[SLIDER_BGM]->getValue();
-				CONFIG->sfxVolume = sliders[SLIDER_SFX]->getValue();
-				CONFIG->voiceVolume = sliders[SLIDER_VOICE]->getValue();
-				CONFIG->textWindowAlpha = sliders[SLIDER_ALPHA]->getValue();
-				CONFIG->write("config.ini");
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				if (texts[TEXT_SAVE].getGlobalBounds().contains(mousePosF))
+				{
+					CONFIG->masterVolume = sliders[SLIDER_MASTER]->getValue();
+					CONFIG->bgmVolume = sliders[SLIDER_BGM]->getValue();
+					CONFIG->sfxVolume = sliders[SLIDER_SFX]->getValue();
+					CONFIG->voiceVolume = sliders[SLIDER_VOICE]->getValue();
+					CONFIG->textWindowAlpha = sliders[SLIDER_ALPHA]->getValue();
+					CONFIG->write("config.ini");
 
+					nextState = GameState::STATE_BACK;
+					shouldChangeState = true;
+					LOGGER->Log("SettingsState", "Returning to Main Menu");
+				}
+				break;
+			}
+			else if (e.mouseButton.button == sf::Mouse::Right)
+			{
 				nextState = GameState::STATE_BACK;
 				shouldChangeState = true;
-				LOGGER->Log("SettingsState", "Returning to Main Menu");
+				LOGGER->Log("SettingsState", "Returning to Main Menu without saving!");
 			}
-			break;
 		}
 	}
 

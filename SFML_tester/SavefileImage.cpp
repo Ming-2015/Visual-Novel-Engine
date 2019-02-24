@@ -131,19 +131,25 @@ void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 
 		case sf::Event::MouseButtonPressed:
 		{
-			if (bgSprite.getGlobalBounds().contains(mousePosF))
+			if (e.mouseButton.button == sf::Mouse::Left)
 			{
-				pressed = true;
+				if (bgSprite.getGlobalBounds().contains(mousePosF))
+				{
+					pressed = true;
+				}
 			}
 			break;
 		}
 
 		case sf::Event::MouseButtonReleased:
 		{
-			if (pressed)
+			if (e.mouseButton.button == sf::Mouse::Left)
 			{
-				pressed = false;
-				clicked = true;
+				if (pressed)
+				{
+					pressed = false;
+					clicked = true;
+				}
 			}
 			break;
 		}

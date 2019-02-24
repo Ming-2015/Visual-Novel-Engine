@@ -48,19 +48,28 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		case sf::Event::MouseButtonReleased:
 		{
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			if (returnState.getGlobalBounds().contains(mousePosF))
+			if (e.mouseButton.button == sf::Mouse::Left)
+			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				if (returnState.getGlobalBounds().contains(mousePosF))
+				{
+					nextState = GameState::STATE_BACK;
+					shouldChangeState = true;
+					LOGGER->Log("LoadState", "Returning to prev state");
+				}
+				if (startNew.getGlobalBounds().contains(mousePosF))
+				{
+					shouldChangeState = true;
+					nextState = GameState::STATE_NEW_GAME;
+					LOGGER->Log("LoadState", "Starting a new game");
+				}
+			}
+			else if (e.mouseButton.button == sf::Mouse::Right)
 			{
 				nextState = GameState::STATE_BACK;
 				shouldChangeState = true;
 				LOGGER->Log("LoadState", "Returning to prev state");
-			}
-			if (startNew.getGlobalBounds().contains(mousePosF))
-			{
-				shouldChangeState = true;
-				nextState = GameState::STATE_NEW_GAME;
-				LOGGER->Log("LoadState", "Starting a new game");
 			}
 			break;
 		}
