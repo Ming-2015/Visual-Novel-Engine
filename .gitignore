@@ -331,3 +331,7 @@ ASALocalRun/
 .mfractor/
 *.db
 .vs/Visual Novel Engine/v15/Browse.VC.db
+
+# SFML docs and examples
+SFML/SFML-2.5.1/doc
+SFML/SFML-2.5.1/examples
