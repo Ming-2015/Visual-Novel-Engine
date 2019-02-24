@@ -13,7 +13,7 @@ For a list of complete and updated commands, open Script Format Reference.xlsx (
 # Demo
 [Youtube demo](https://www.youtube.com/watch?v=OfRA-XLtyR0): This is a demo video of a work-in-progress version of the program. At the end of the video there's a sample script that you can reference.
 
-[screenshot]
+![screenshot]
 
 [screenshot]: https://i.imgur.com/I8XI8sq.png
 
