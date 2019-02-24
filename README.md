@@ -15,7 +15,7 @@ For a list of complete and updated commands, open Script Format Reference.xlsx (
 
 ![screenshot]
 
-[screenshot]: https://imgur.com/gallery/cvHFQjB
+[screenshot]: https://imgur.com/I8XI8sq
 
 # Setup instructions after cloning
 0. Install Visual Studio 2017 (Community edition should work fine) with C++ support
