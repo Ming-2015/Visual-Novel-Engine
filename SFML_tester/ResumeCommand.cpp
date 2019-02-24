@@ -25,7 +25,7 @@ ResumeCommand::ResumeCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("ResumeCommand", "Failed to convert time into float");
+			//LOGGER->Log("ResumeCommand", "Failed to convert time into float");
 		}
 	}
 
@@ -37,7 +37,7 @@ ResumeCommand::ResumeCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("ResumeCommand", "Failed to convert volume into float");
+			//LOGGER->Log("ResumeCommand", "Failed to convert volume into float");
 		}
 	}
 

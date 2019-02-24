@@ -22,6 +22,9 @@ public:
 		endSpriteSheetYPos2(endY2)
 	{}
 
+	void setAlpha(float alpha);
+	void addAlpha(float offset);
+
 protected:
 	bool onLoad();
 	void onUpdate(float delta_t);
@@ -29,9 +32,9 @@ protected:
 	void onHandleInput(sf::Event&e, sf::RenderWindow& window);
 	void setSpriteSheetPos(float startX, float startY, float endX, float endY);
 	void setSpriteSheetPos2(float startX, float startY, float endX, float endY);
-	
 
 private:
+	float alpha = 255.f;
 	float scaleMultiply;
 	sf::Clock clock;
 	float startSpriteSheetXPos;

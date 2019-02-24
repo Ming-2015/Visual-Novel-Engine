@@ -47,13 +47,19 @@ void ReturnMenuPrompt::render(sf::RenderWindow & window)
 
 void ReturnMenuPrompt::update(float delta_t)
 {
-	noButton->update(delta_t);
-	yesButton->update(delta_t);
+	for (MainButton* button : buttons)
+	{
+		button->update(delta_t);
+	}
 }
 
 void ReturnMenuPrompt::cleanup()
 {
-
+	for (MainButton* button : buttons)
+	{
+		if (button) delete button;
+	}
+	buttons.clear();
 }
 
 ReturnMenuPrompt::ReturnMenuPrompt()
@@ -63,5 +69,5 @@ ReturnMenuPrompt::ReturnMenuPrompt()
 
 ReturnMenuPrompt::~ReturnMenuPrompt()
 {
-
+	cleanup();
 }

@@ -13,54 +13,6 @@ SaveState::~SaveState()
 {
 }
 
-//void SaveState::writeSave(const std::string& savefile) const
-//{
-//	ofstream outfile(savefile, ios::binary | ios::out);
-//	if (!outfile)
-//	{
-//		LOGGER->Log("Save State", "Unable to create a new save file");
-//		return;
-//	}
-//
-//	// create and read the screenshot
-//	screenshot.saveToFile("_temp_ss.png");
-//	ifstream ssfile("_temp_ss.png", ios::binary | ios::in);
-//
-//	// create a string of that size
-//	std::string str;
-//	ssfile.seekg(ssfile.end);
-//	str.reserve(ssfile.tellg());
-//	ssfile.seekg(ssfile.beg);
-//
-//	// read everything from the file
-//	str.assign(std::istreambuf_iterator<char>(ssfile), std::istreambuf_iterator<char>());
-//	unsigned int fileSize = str.length();
-//	outfile.write(reinterpret_cast<const char*>(&fileSize), sizeof(fileSize));
-//	outfile.write(reinterpret_cast<const char*>(str.c_str()), fileSize);
-//
-//	// remove screenshot
-//	ssfile.close();
-//	std::remove("_temp_ss.png");
-//
-//	std::string title = scriptManager->getDisplayName();
-//	if (title == "")
-//	{
-//		title = scriptManager->getScriptLine();
-//	}
-//	else
-//	{
-//		title = title + ": " + scriptManager->getScriptLine();
-//	}
-//
-//	// save the title of the script
-//	UTILITY->writeToBinaryFile(outfile, title);
-//
-//	// save the scriptManager
-//	scriptManager->serialize(outfile);
-//
-//	outfile.close();
-//}
-
 void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {
 	for (int i = 0; i < savePerPage; i++)
@@ -72,8 +24,8 @@ void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		if (savefileImages[i]->isClicked(true))
 		{
-			std::string savefile = GLOBAL->SavefileRoot + GLOBAL->SavefilePrefix +
-				to_string(currentPageNumber*savePerPage + i) + GLOBAL->SavefileSuffix;
+			std::string savefile = SAVEDATAUTILITY->SavefileRoot + SAVEDATAUTILITY->SavefilePrefix +
+				to_string(currentPageNumber*savePerPage + i) + SAVEDATAUTILITY->SavefileSuffix;
 
 			SAVEDATAUTILITY->writeSave(savefile, screenshot, scriptManager);
 
@@ -185,7 +137,7 @@ void SaveState::loadSavesByPage(int pageNumber)
 	int currentSave = pageNumber * savePerPage;
 	for (int i = currentSave; i < currentSave + savePerPage; i++)
 	{
-		std::string savefile = GLOBAL->SavefileRoot + GLOBAL->SavefilePrefix + to_string(i) + GLOBAL->SavefileSuffix;
+		std::string savefile = SAVEDATAUTILITY->SavefileRoot + SAVEDATAUTILITY->SavefilePrefix + to_string(i) + SAVEDATAUTILITY->SavefileSuffix;
 		std::string title;
 		sf::Image image;
 

@@ -28,7 +28,7 @@ MoveCommand::MoveCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("MoveCommand", "Failed to convert startX and startY values to float values");
+			//LOGGER->Log("MoveCommand", "Failed to convert startX and startY values to float values");
 		}
 	}
 
@@ -43,7 +43,7 @@ MoveCommand::MoveCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("MoveCommand", "Failed to convert endX and endY values to float values");
+			//LOGGER->Log("MoveCommand", "Failed to convert endX and endY values to float values");
 		}
 	}
 
@@ -56,7 +56,7 @@ MoveCommand::MoveCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("MoveCommand", "Failed to convert time into float value");
+			//LOGGER->Log("MoveCommand", "Failed to convert time into float value");
 		}
 	}
 

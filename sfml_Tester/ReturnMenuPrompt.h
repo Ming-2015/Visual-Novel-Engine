@@ -23,8 +23,8 @@ private:
 	sf::Texture boxTexture;
 	sf::Sprite boxSprite;
 
-	MainButton * yesButton;
-	MainButton * noButton;
+	MainButton * yesButton = nullptr;
+	MainButton * noButton = nullptr;
 
 	vector<MainButton*> buttons;
 

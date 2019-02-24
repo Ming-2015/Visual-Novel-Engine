@@ -15,21 +15,54 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		drawMainButton->handleInput(e, window);
 	}
 
-
-	if ( scriptManager->isTextboxClosed() )
+	// stop skipMode if user presses a button
+	if (GLOBAL->skipMode)
 	{
 		switch (e.type)
 		{
-			case sf::Event::MouseButtonReleased:
+			case sf::Event::KeyReleased:
+			{
+				if (e.key.code == sf::Keyboard::Enter)
+				{
+					GLOBAL->skipMode = false;
+				}	
+				break;
+			}
+			case sf::Event::MouseButtonPressed:
 			{
 				if (GLOBAL->windowPtr->hasFocus())
 				{
-					scriptManager->showTextbox();
+					GLOBAL->skipMode = false;
 				}
+				break;
 			}
 		}
 	}
-	else if (!returnMenuPrompt->isHidden)
+
+	if (GLOBAL->autoMode)
+	{
+		switch (e.type)
+		{
+			case sf::Event::KeyReleased:
+			{
+				if (e.key.code == sf::Keyboard::Enter)
+				{
+					GLOBAL->autoMode = false;
+				}					
+				break;
+			}
+			case sf::Event::MouseButtonPressed:
+			{
+				if (GLOBAL->windowPtr->hasFocus())
+				{
+					GLOBAL->autoMode = false;
+				}
+				break;
+			}
+		}
+	}
+
+	if (!returnMenuPrompt->isHidden)
 	{
 		if (returnMenuPrompt->noButtonClicked)
 		{
@@ -45,6 +78,29 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			drawMainButton->exitButtonClicked = false;
 		}
 	}
+	else if ( scriptManager->isTextboxClosed() )
+	{
+		switch (e.type)
+		{
+			case sf::Event::KeyReleased:
+			{
+				if (e.key.code == sf::Keyboard::Enter || e.key.code == sf::Keyboard::H )
+				{
+					scriptManager->showTextbox();
+				}					
+				break;
+			}
+
+			case sf::Event::MouseButtonReleased:
+			{
+				if (GLOBAL->windowPtr->hasFocus())
+				{
+					scriptManager->showTextbox();
+				}
+				break;
+			}
+		}
+	}
 	else if (drawMainButton->configButtonClicked == true)
 	{
 
@@ -58,20 +114,26 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		returnMenuPrompt->isHidden = false;
 		drawMainButton->exitButtonClicked = false;
-		//shouldChangeState = true;
-		////bgm.stop();
-		//nextState = GameState::STATE_MENU;
-		//LOGGER->Log("MenuState", "Switching to Menu State");
-		//drawMainButton->exitButtonClicked = false;
-		//Does not exit
-
 	}
 	else if (drawMainButton->quickLoadButtonClicked == true)
 	{
-
 		//quick load options
 		drawMainButton->quickLoadButtonClicked = false;
 
+		int saveId = 1;
+		std::string fname = SAVEDATAUTILITY->SavefileRoot +
+			SAVEDATAUTILITY->QuickSavefilePrefix + to_string(saveId) +
+			SAVEDATAUTILITY->QuickSavefileSuffix;
+
+		sf::Image image;
+		std::string title;
+
+		delete scriptManager;
+		if (UTILITY->checkFileExist(fname) && 
+			!SAVEDATAUTILITY->readSave(fname, image, title, scriptManager))
+		{
+			LOGGER->Log("MainState", "Failed to load quick save file");
+		}
 	}
 	else if (drawMainButton->loadButtonClicked == true)
 	{
@@ -84,10 +146,41 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		//quickSave options
 		drawMainButton->quickSaveButtonClicked = false;
+
+		int saveId = 6;
+		std::string fname = SAVEDATAUTILITY->SavefileRoot +
+			SAVEDATAUTILITY->QuickSavefilePrefix + to_string(saveId) +
+			SAVEDATAUTILITY->QuickSavefileSuffix;
+		if (UTILITY->checkFileExist(fname) && !remove(fname.c_str()))
+		{
+			LOGGER->Log("MainState", "Unable to delete past quick save data");
+		}
+		
+		saveId--;
+		std::string newfname;
+		for (; saveId >= 1; saveId--)
+		{
+			fname = SAVEDATAUTILITY->SavefileRoot +
+				SAVEDATAUTILITY->QuickSavefilePrefix + to_string(saveId) +
+				SAVEDATAUTILITY->QuickSavefileSuffix;
+			newfname = SAVEDATAUTILITY->SavefileRoot +
+				SAVEDATAUTILITY->QuickSavefilePrefix + to_string(saveId+1) +
+				SAVEDATAUTILITY->QuickSavefileSuffix;
+
+			if (UTILITY->checkFileExist(fname) && !rename(fname.c_str(), newfname.c_str()))
+			{
+				LOGGER->Log("MainState", "Unable to rename quick save data");
+			}
+		}
+
+		// for some reason this is necessary
+		const ScriptManager* copy = scriptManager;
+
+		SAVEDATAUTILITY->writeSave(fname, 
+			UTILITY->getScreenshot(window, 5, 5), copy);
 	}
 	else if (drawMainButton->saveButtonClicked == true )
 	{
-
 		//save options
 		drawMainButton->saveButtonClicked = false;
 		shouldChangeState = true;
@@ -96,31 +189,16 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 	else if (drawMainButton->autoButtonClicked == true )
 	{
-		if (GLOBAL->autoMode == false)
-		{
-			GLOBAL->autoMode = true;
-			
-		}
-		else if (GLOBAL->autoMode == true)
-		{
-			GLOBAL->autoMode = false;
-		}
+		GLOBAL->autoMode = !GLOBAL->autoMode;
+		GLOBAL->skipMode = false;
 		drawMainButton->autoButtonClicked = false;
 	}
 
 	else if (drawMainButton->skipButtonClicked == true)
 	{
-
-		if (GLOBAL->skipMode == false)
-		{
-			GLOBAL->skipMode = true;
-		}
-		else if (GLOBAL->skipMode == true)
-		{
-			GLOBAL->skipMode = false;
-		}
+		GLOBAL->skipMode = !GLOBAL->skipMode;
+		GLOBAL->autoMode = false;
 		drawMainButton->skipButtonClicked = false;
-
 	}
 	else if (drawMainButton->closeButtonClicked == true)
 	{
@@ -147,7 +225,32 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 					nextState = STATE_LOAD;
 					return;
 				}
+				else if (e.key.code == sf::Keyboard::A)
+				{
+					GLOBAL->autoMode = !GLOBAL->autoMode;
+					GLOBAL->skipMode = false;
+					return;
+				}
+				else if (e.key.code == sf::Keyboard::Escape)
+				{
+					returnMenuPrompt->isHidden = false;
+					return;
+				}
+				else if (e.key.code == sf::Keyboard::H)
+				{
+					scriptManager->hideTextbox();
+					return;
+				}
 
+				break;
+			}
+			case sf::Event::MouseButtonReleased:
+			{
+				if (e.mouseButton.button == sf::Mouse::Right)
+				{
+					scriptManager->hideTextbox();
+					return;
+				}
 				break;
 			}
 		}
@@ -194,7 +297,7 @@ void MainState::render(sf::RenderWindow & window)
 		returnMenuPrompt->render(window);
 	}
 	
-	if (scriptManager->isChoice())
+	if (scriptManager->isChoice() && !scriptManager->shouldHideTextbox())
 	{
 		for (auto c : scriptManager->getChoices())
 		{
@@ -210,12 +313,13 @@ void MainState::update(float delta_t)
 {
 	drawMainButton->update(delta_t);
 	returnMenuPrompt->update(delta_t);
-	//LOGGER->Log("MainState", "Updating script manager");
+
 	if (scriptManager->doneAllCommands())
 	{
 		scriptManager->readCommands();
 	}
 	scriptManager->update(delta_t);
+	drawMainButton->setAlpha(scriptManager->getTextboxImage()->getAlpha());
 
 	if (scriptManager->eof())
 	{
@@ -229,8 +333,11 @@ void MainState::init()
 {
 	GLOBAL->skipMode = false;
 	GLOBAL->autoMode = false;
-	drawMainButton = new DrawMainButton();
-	returnMenuPrompt = new ReturnMenuPrompt();
+	if (drawMainButton == nullptr)
+		drawMainButton = new DrawMainButton();
+	if (returnMenuPrompt == nullptr)
+		returnMenuPrompt = new ReturnMenuPrompt();	
+	myState = GameState::STATE_MAIN;
 }
 
 void MainState::cleanup()
@@ -256,7 +363,6 @@ MainState::MainState()
 	{
 		scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
 	}
-	myState = GameState::STATE_MAIN;
 	init();
 }
 
@@ -264,7 +370,6 @@ MainState::MainState(std::string playerName)
 {
 	scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
 	scriptManager->setPlayerName(playerName);
-	myState = GameState::STATE_MAIN;
 	init();
 }
 

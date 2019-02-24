@@ -34,7 +34,7 @@ RotateCommand::RotateCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("RotateCommand", "Failed to ARG5 store as string");
+			//LOGGER->Log("RotateCommand", "Failed to ARG5 store as string");
 		}
 	}
 
@@ -47,7 +47,7 @@ RotateCommand::RotateCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("RotateCommand", "Failed to convert degree to float values");
+			//LOGGER->Log("RotateCommand", "Failed to convert degree to float values");
 		}
 	}
 
@@ -59,7 +59,7 @@ RotateCommand::RotateCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("MoveCommand", "Failed to convert time into float value");
+			//LOGGER->Log("MoveCommand", "Failed to convert time into float value");
 		}
 	}
 

@@ -26,7 +26,7 @@ BlurCommand::BlurCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("BlurCommand", "Failed to convert blurRadius into float");
+			//LOGGER->Log("BlurCommand", "Failed to convert blurRadius into float");
 		}
 	}
 
@@ -38,7 +38,7 @@ BlurCommand::BlurCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("BlurCommand", "Failed to convert time into float");
+			//LOGGER->Log("BlurCommand", "Failed to convert time into float");
 		}
 	}
 

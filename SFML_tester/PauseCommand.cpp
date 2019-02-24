@@ -28,7 +28,7 @@ PauseCommand::PauseCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("PauseCommand", "Failed to convert time into float");
+			//LOGGER->Log("PauseCommand", "Failed to convert time into float");
 		}
 	}
 

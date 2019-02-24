@@ -41,9 +41,10 @@ std::vector<std::string> Utility::split(const std::string& s, char delimiter)
 }
 
 bool Utility::str2bool(string s) {
-	if (s == "true" || s== "TRUE")
+	string b = toLower(s);
+	if (b == "true" || b == "t")
 		return true;
-	else if (s == "false" || s == "FALSE")
+	else if (b == "false" || b == "f")
 		return false;
 	throw exception("bad string");
 }
@@ -365,6 +366,26 @@ bool Utility::checkFileExist(const std::string & filepath) const
 {
 	struct stat buffer;
 	return (stat(filepath.c_str(), &buffer) == 0);
+}
+
+sf::Image Utility::getScreenshot(const sf::RenderWindow & window, unsigned int xScale, unsigned int yScale) const
+{
+	int x = xScale, y = yScale;
+	if (xScale < 1 || yScale < 1)
+	{
+		LOGGER->Log("Utility", "Unable to get screenshot of scale 0. Returning default size.");
+		x = 1;
+		y = 1;
+	}
+
+	sf::Vector2u windowSize = window.getSize();
+	sf::Texture texture;
+	texture.create(windowSize.x, windowSize.y);
+	texture.update(window);
+	sf::Image screenshot = texture.copyToImage();
+	screenshot = UTILITY->imageDownscale(screenshot, x, y);
+
+	return screenshot;
 }
 
 std::string Utility::addAllNewLines(string str, unsigned int lineLength)

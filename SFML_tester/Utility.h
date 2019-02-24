@@ -69,6 +69,9 @@ public:
 	// check if a file exists
 	bool checkFileExist(const std::string& filepath) const;
 
+	// get screenshot
+	sf::Image getScreenshot(const sf::RenderWindow& window, unsigned int xScale, unsigned int yScale) const;
+
 private:
 	Utility();
 	static Utility * util_ptr;

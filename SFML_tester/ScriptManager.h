@@ -71,4 +71,11 @@ private:
 
 	std::string initFileName;
 	bool shouldCloseTextbox = false;
+
+	float s_masterVolume = CONFIG->masterVolume;
+	float s_bgmVolume = CONFIG->bgmVolume;
+	float s_sfxVolume = CONFIG->sfxVolume;
+	float s_voiceVolume = CONFIG->voiceVolume;
+
+	void advanceText();
 };

@@ -79,3 +79,15 @@ void MainButton::setSpriteSheetPos2(float startX, float startY, float endX, floa
 	endSpriteSheetXPos2 = endX;
 	endSpriteSheetYPos2 = endY;
 }
+
+void MainButton::setAlpha(float a)
+{
+	alpha = a;
+	sprite.setColor(sf::Color(255, 255, 255, alpha));
+}
+
+void MainButton::addAlpha(float offset)
+{
+	alpha += offset;
+	sprite.setColor(sf::Color(255, 255, 255, alpha));
+}

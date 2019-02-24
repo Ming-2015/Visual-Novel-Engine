@@ -25,7 +25,7 @@ DelayCommand::DelayCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("DelayCommand", "Failed to convert time into float");
+			//LOGGER->Log("DelayCommand", "Failed to convert time into float");
 		}
 	}
 

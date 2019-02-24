@@ -24,7 +24,7 @@ RemoveCommand::RemoveCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("RemoveCommand", "Failed to convert time into float");
+			//LOGGER->Log("RemoveCommand", "Failed to convert time into float");
 		}
 	}
 

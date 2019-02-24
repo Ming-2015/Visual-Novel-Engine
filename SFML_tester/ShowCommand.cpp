@@ -43,7 +43,7 @@ ShowCommand::ShowCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("ShowCommand", "Failed to convert time into float");
+			//LOGGER->Log("ShowCommand", "Failed to convert time into float");
 		}
 	}
 

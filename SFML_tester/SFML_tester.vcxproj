@@ -215,7 +215,6 @@
     <ClInclude Include="RemoveCommand.h" />
     <ClInclude Include="ReturnMenuPrompt.h" />
     <ClInclude Include="RotateCommand.h" />
-    <ClInclude Include="Savedata.h" />
     <ClInclude Include="SavedataUtility.h" />
     <ClInclude Include="SavefileImage.h" />
     <ClInclude Include="SaveState.h" />

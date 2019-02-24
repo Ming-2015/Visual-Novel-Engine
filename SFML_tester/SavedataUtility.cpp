@@ -45,7 +45,7 @@ void SavedataUtility::writeSave(const std::string & filename, const sf::Image & 
 	ofstream outfile(filename, ios::binary | ios::out);
 	if (!outfile)
 	{
-		LOGGER->Log("Save State", "Unable to create a new save file");
+		LOGGER->Log("SavedataUtility", "Unable to create a new save file");
 		return;
 	}
 

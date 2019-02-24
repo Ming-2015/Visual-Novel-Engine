@@ -96,14 +96,8 @@ void StateManager::manageStates()
 				prevStates.push(currentState);
 				currentState->shouldChangeState = false;
 
-				sf::Vector2u windowSize = GLOBAL->windowPtr->getSize();
-				sf::Texture texture;
-				texture.create(windowSize.x, windowSize.y);
-				texture.update( *(GLOBAL->windowPtr) );
-				sf::Image screenshot = texture.copyToImage();
-				screenshot = UTILITY->imageDownscale(screenshot, 5, 5);
-
-				currentState = new SaveState( GLOBAL->scriptManagerPtr, screenshot );
+				currentState = new SaveState( GLOBAL->scriptManagerPtr, 
+					UTILITY->getScreenshot(*(GLOBAL->windowPtr), 5, 5 ) );
 			}
 			break;
 

@@ -10,21 +10,21 @@ void DrawMainButton::init()
 	exitButton->load();
 	buttons.push_back(exitButton);
 
+	QSButton = new MainButton(GLOBAL->AssetRoot + "QuickSave53x106.png", "", "", 1437.0f, 900.0f, 0, 0, 0, 0, 53, 53, 0, 53, 53, 53);
+	QSButton->load();
+	buttons.push_back(QSButton);
+
 	QLButton = new MainButton(GLOBAL->AssetRoot + "QuickLoad64x104.png", "", "", 1507.0f, 900.0f, 0, 0, 0, 0, 64, 52, 0, 52, 64, 52);
 	QLButton->load();
 	buttons.push_back(QLButton);
 
-	loadButton = new MainButton(GLOBAL->AssetRoot + "Load63x104.png", "", "", 1437.0f, 900.0f, 0, 0, 0, 0, 63, 52, 0, 52, 63, 52);
-	loadButton->load();
-	buttons.push_back(loadButton);
-
-	QSButton = new MainButton(GLOBAL->AssetRoot + "QuickSave53x106.png", "", "", 1367.0f, 900.0f, 0, 0, 0, 0, 53, 53, 0, 53, 53, 53);
-	QSButton->load();
-	buttons.push_back(QSButton);
-
 	saveButton = new MainButton(GLOBAL->AssetRoot + "Save53x102.png", "", "", 1302.0f, 900.0f, 0, 0, 0, 0, 53, 51, 0, 51, 53, 51);
 	saveButton->load();
 	buttons.push_back(saveButton);
+
+	loadButton = new MainButton(GLOBAL->AssetRoot + "Load63x104.png", "", "", 1367.0f, 900.0f, 0, 0, 0, 0, 63, 52, 0, 52, 63, 52);
+	loadButton->load();
+	buttons.push_back(loadButton);
 
 	autoButton = new MainButton(GLOBAL->AssetRoot + "Auto72x88.png", "", "", 1230.0f, 898.0f, 0, 0, 0, 0, 72, 44, 0, 44, 72, 44);
 	autoButton->load();
@@ -45,7 +45,6 @@ void DrawMainButton::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		button->handleInput(e, window);
 	}
-
 
 	if (configButton->isClicked(true))
 	{
@@ -95,20 +94,36 @@ void DrawMainButton::render(sf::RenderWindow & window)
 
 void DrawMainButton::update(float delta_t)
 {
-	configButton->update(delta_t);
-	exitButton->update(delta_t);
-	QLButton->update(delta_t);
-	loadButton->update(delta_t);
-	QSButton->update(delta_t);
-	saveButton->update(delta_t);
-	autoButton->update(delta_t);
-	skipButton->update(delta_t);
-	closeButton->update(delta_t);
+	for (MainButton* button : buttons)
+	{
+		button->update(delta_t);
+	}
 }
 
 void DrawMainButton::cleanup()
 {
+	for (MainButton* button : buttons)
+	{
+		delete button;
+	}
+	buttons.clear();
+}
 
+void DrawMainButton::setAlpha(float a)
+{
+	for (MainButton* button : buttons)
+	{
+		button->setAlpha(a);
+	}
+
+}
+
+void DrawMainButton::addAlpha(float offset)
+{
+	for (MainButton* button : buttons)
+	{
+		button->addAlpha(offset);
+	}
 }
 
 DrawMainButton::DrawMainButton()
@@ -118,6 +133,6 @@ DrawMainButton::DrawMainButton()
 
 DrawMainButton::~DrawMainButton()
 {
-
+	cleanup();
 }
 

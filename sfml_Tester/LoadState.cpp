@@ -22,8 +22,8 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		if (savefileImages[i]->isClicked(true))
 		{
-			std::string savefile = GLOBAL->SavefileRoot + GLOBAL->SavefilePrefix +
-				to_string(currentPageNumber*savePerPage + i) + GLOBAL->SavefileSuffix;
+			std::string savefile = SAVEDATAUTILITY->SavefileRoot + SAVEDATAUTILITY->SavefilePrefix +
+				to_string(currentPageNumber*savePerPage + i) + SAVEDATAUTILITY->SavefileSuffix;
 
 			sf::Image img;
 			std::string str;
@@ -214,7 +214,7 @@ void LoadState::loadSavesByPage(int pageNumber)
 	int currentSave = pageNumber * savePerPage;
 	for (int i = currentSave; i < currentSave + savePerPage; i++)
 	{
-		std::string savefile = GLOBAL->SavefileRoot + GLOBAL->SavefilePrefix + to_string(i) + GLOBAL->SavefileSuffix;
+		std::string savefile = SAVEDATAUTILITY->SavefileRoot + SAVEDATAUTILITY->SavefilePrefix + to_string(i) + SAVEDATAUTILITY->SavefileSuffix;
 		std::string title;
 		sf::Image image;
 

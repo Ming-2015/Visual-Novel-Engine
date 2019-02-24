@@ -23,7 +23,7 @@ FlashCommand::FlashCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("FlashCommand", "Failed to convert numFlash into int");
+			//LOGGER->Log("FlashCommand", "Failed to convert numFlash into int");
 		}
 	}
 	time = 1.5f;
@@ -34,7 +34,7 @@ FlashCommand::FlashCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("FlashCommand", "Failed to convert time into float");
+			//LOGGER->Log("FlashCommand", "Failed to convert time into float");
 		}
 	}
 	keep = true;
@@ -45,7 +45,7 @@ FlashCommand::FlashCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("FlashCommand", "Failed to convert keep into bool");
+			//LOGGER->Log("FlashCommand", "Failed to convert keep into bool");
 		}
 	}
 

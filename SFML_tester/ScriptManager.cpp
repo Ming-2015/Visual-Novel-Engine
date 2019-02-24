@@ -266,6 +266,30 @@ void ScriptManager::update(float delta_t)
 	}
 
 	currentScriptLine->updateSoundList();
+
+	// check the volumes - NOTE THAT WE ARE UPDATING ONE SCRIPTMANAGER AT A TIME
+	if (s_masterVolume != CONFIG->masterVolume)
+	{
+		s_masterVolume = CONFIG->masterVolume;
+		currentScriptLine->setBgmVolume(1.0, false);
+		currentScriptLine->setSfxVolume(1.0, false);
+		currentScriptLine->setVoiceVolume(1.0, false);
+	}
+	if (s_bgmVolume != CONFIG->bgmVolume)
+	{
+		s_bgmVolume = CONFIG->bgmVolume;
+		currentScriptLine->setBgmVolume(1.0, false);
+	}
+	if (s_sfxVolume != CONFIG->sfxVolume)
+	{
+		s_sfxVolume = CONFIG->sfxVolume;
+		currentScriptLine->setSfxVolume(1.0, false);
+	}
+	if (s_voiceVolume != CONFIG->voiceVolume)
+	{
+		s_voiceVolume = CONFIG->voiceVolume;
+		currentScriptLine->setVoiceVolume(1.0, false);
+	}
 }
 
 void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
@@ -275,6 +299,18 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 	switch (e.type)
 	{
+		case sf::Event::KeyReleased:
+		{
+			if (e.key.code == sf::Keyboard::Enter && !currentScriptLine->isChoice)
+			{
+				for (auto c : commands)
+				{
+					c->skipUpdate();
+				}
+			}
+			break;
+		}
+
 		case sf::Event::MouseButtonReleased:
 		{
 			// if user needs to select a choice
@@ -361,6 +397,11 @@ void ScriptManager::showTextbox()
 bool ScriptManager::isTextboxClosed()
 {
 	return shouldCloseTextbox;
+}
+
+void ScriptManager::advanceText()
+{
+
 }
 
 bool ScriptManager::eof() const

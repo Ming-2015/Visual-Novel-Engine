@@ -58,7 +58,7 @@ ZoomCommand::ZoomCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("ZoomCommand", "Failed to convert time into float value");
+			//LOGGER->Log("ZoomCommand", "Failed to convert time into float value");
 		}
 	}
 

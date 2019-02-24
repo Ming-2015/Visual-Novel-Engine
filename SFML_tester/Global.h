@@ -40,10 +40,6 @@ public:
 
 	const std::string blurFragShaderPath = "resources/blur.frag";
 
-	const std::string SavefileRoot = "saves/";
-	const std::string SavefilePrefix = "save_";
-	const std::string SavefileSuffix = ".usd";
-
 	std::string playerName;
 
 	bool autoMode = false;

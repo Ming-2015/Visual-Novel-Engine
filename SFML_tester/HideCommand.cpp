@@ -25,7 +25,7 @@ HideCommand::HideCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("HideCommand", "Failed to convert time into float");
+			//LOGGER->Log("HideCommand", "Failed to convert time into float");
 		}
 	}
 

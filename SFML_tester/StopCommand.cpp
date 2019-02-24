@@ -33,7 +33,7 @@ StopCommand::StopCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("StopCommand", "Failed to convert time into float");
+			//LOGGER->Log("StopCommand", "Failed to convert time into float");
 		}
 	}
 

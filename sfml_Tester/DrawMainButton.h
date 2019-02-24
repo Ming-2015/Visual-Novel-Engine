@@ -12,6 +12,9 @@ public:
 	void init();
 	void cleanup();
 
+	void setAlpha(float a);
+	void addAlpha(float offset);
+
 	DrawMainButton();
 	~DrawMainButton();
 

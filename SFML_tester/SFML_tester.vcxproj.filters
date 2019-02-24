@@ -368,9 +368,6 @@
     <ClInclude Include="BlurCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
-    <ClInclude Include="Savedata.h">
-      <Filter>Header Files\Other</Filter>
-    </ClInclude>
     <ClInclude Include="MainButton.h">
       <Filter>Header Files\Effect\Button</Filter>
     </ClInclude>

@@ -6,6 +6,9 @@
 #include "Fade.h"
 #include "DrawMainButton.h"
 #include "ReturnMenuPrompt.h"
+#include "SavedataUtility.h"
+
+#include <stdio.h>
 
 class MainState : public GameState
 {

@@ -28,7 +28,7 @@ PlayCommand::PlayCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("PlayCommand", "Failed to convert time into float");
+			//LOGGER->Log("PlayCommand", "Failed to convert time into float");
 		}
 	}
 

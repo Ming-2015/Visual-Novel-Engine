@@ -27,7 +27,7 @@ SetCommand::SetCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("ShowCommand", "Failed to convert x and y values into floats");
+			//LOGGER->Log("ShowCommand", "Failed to convert x and y values into floats");
 		}
 	}
 
@@ -39,7 +39,7 @@ SetCommand::SetCommand(std::vector<std::string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("ShowCommand", "Failed to convert time into float");
+			//LOGGER->Log("ShowCommand", "Failed to convert time into float");
 		}
 	}
 

@@ -22,7 +22,7 @@ ClearCommand::ClearCommand(vector<string> args)
 		}
 		catch (exception e)
 		{
-			LOGGER->Log("ClearCommand", "Failed to convert time into float");
+			//LOGGER->Log("ClearCommand", "Failed to convert time into float");
 		}
 	}
 
