@@ -72,6 +72,8 @@ public:
 	// get screenshot
 	sf::Image getScreenshot(const sf::RenderWindow& window, unsigned int xScale, unsigned int yScale) const;
 
+	std::string replaceAllSubstrings(const std::string& line, const std::string& start, const std::string& end) const;
+
 private:
 	Utility();
 	static Utility * util_ptr;

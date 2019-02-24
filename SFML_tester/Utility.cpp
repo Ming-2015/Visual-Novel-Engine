@@ -388,6 +388,23 @@ sf::Image Utility::getScreenshot(const sf::RenderWindow & window, unsigned int x
 	return screenshot;
 }
 
+std::string Utility::replaceAllSubstrings(const std::string& line, const std::string& start, const std::string& end) const
+{
+	std::string ret = line;
+
+	// start finding the first to replace
+	int index = ret.find(start);
+	while (index != std::string::npos)
+	{
+		ret.replace(index, start.length(), end);
+		index += end.length();
+
+		index = ret.find(start, index);
+	}
+
+	return ret;
+}
+
 std::string Utility::addAllNewLines(string str, unsigned int lineLength)
 {
 	string tmp = str;

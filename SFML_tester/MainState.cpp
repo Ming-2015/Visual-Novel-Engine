@@ -292,11 +292,6 @@ void MainState::render(sf::RenderWindow & window)
 		drawMainButton->render(window);
 	}
 
-	if (!returnMenuPrompt->isHidden)
-	{
-		returnMenuPrompt->render(window);
-	}
-	
 	if (scriptManager->isChoice() && !scriptManager->shouldHideTextbox())
 	{
 		for (auto c : scriptManager->getChoices())
@@ -307,6 +302,12 @@ void MainState::render(sf::RenderWindow & window)
 			}
 		}
 	}
+
+	if (!returnMenuPrompt->isHidden)
+	{
+		returnMenuPrompt->render(window);
+	}
+
 }
 
 void MainState::update(float delta_t)
