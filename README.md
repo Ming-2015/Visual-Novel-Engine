@@ -32,3 +32,6 @@ For a list of complete and updated commands, open Script Format Reference.xlsx (
 5. copy all the asset folders into where your executables (.exe) files are. (usually Debug and Release folders)
 
 5. Run the program
+
+# Copyrights
+We are using the default Github license, which means that we retain all rights to our source code and no one may reproduce, distribute, or create derivative works from our work. Please notify us if you wish to collaborate in the project.
