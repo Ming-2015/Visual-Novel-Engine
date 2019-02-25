@@ -18,6 +18,9 @@ public:
 
 	void setAlpha(float alpha);
 	void addAlpha(float alpha);
+	void setTextboxAlpha(float alpha);
+
+	float getFontAlpha() const;
 
 private:
 	void initText();
@@ -33,4 +36,6 @@ private:
 	sf::Color nameTextColor;
 	sf::Color nameTextOutlineColor;
 	std::string name;
+
+	float fontAlpha = 255.f;
 };

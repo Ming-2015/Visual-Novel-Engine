@@ -76,6 +76,7 @@ private:
 	float s_bgmVolume = CONFIG->bgmVolume;
 	float s_sfxVolume = CONFIG->sfxVolume;
 	float s_voiceVolume = CONFIG->voiceVolume;
+	float s_textWindowAlpha = CONFIG->textWindowAlpha;
 
 	void advanceText();
 };

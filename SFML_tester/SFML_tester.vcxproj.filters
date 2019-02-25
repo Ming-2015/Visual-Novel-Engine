@@ -61,10 +61,16 @@
     <Filter Include="Source Files\Script\ScriptCommands">
       <UniqueIdentifier>{75c0280e-ad57-4515-9866-641272bdd49f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Script\ItemImage">
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{c4930564-9da4-4399-b076-408961bb2691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{99ce6d90-f194-4211-b6ab-9793c550fba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\ItemImage">
       <UniqueIdentifier>{845ac392-689e-46ef-b787-fb061f568a48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Script\ItemImage">
+    <Filter Include="Source Files\UI\ItemImage">
       <UniqueIdentifier>{141f4a95-7b42-4f68-bc00-60acce7b0a03}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -166,10 +172,10 @@
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
     <ClCompile Include="ItemImage.cpp">
-      <Filter>Source Files\Script\ItemImage</Filter>
+      <Filter>Source Files\UI\ItemImage</Filter>
     </ClCompile>
     <ClCompile Include="TextboxImage.cpp">
-      <Filter>Source Files\Script\ItemImage</Filter>
+      <Filter>Source Files\UI\ItemImage</Filter>
     </ClCompile>
     <ClCompile Include="PauseCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
@@ -196,7 +202,7 @@
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
     <ClCompile Include="ChoiceImage.cpp">
-      <Filter>Source Files\Script\ItemImage</Filter>
+      <Filter>Source Files\UI\ItemImage</Filter>
     </ClCompile>
     <ClCompile Include="JumpCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
@@ -210,17 +216,17 @@
     <ClCompile Include="MainButton.cpp">
       <Filter>Source Files\Effect\Button</Filter>
     </ClCompile>
-    <ClCompile Include="DrawMainButton.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
     <ClCompile Include="SavefileImage.cpp">
       <Filter>Source Files\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="ReturnMenuPrompt.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
     <ClCompile Include="SavedataUtility.cpp">
       <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="ReturnMenuPrompt.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawMainButton.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -324,16 +330,16 @@
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
     <ClInclude Include="ItemImage.h">
-      <Filter>Header Files\Script\ItemImage</Filter>
+      <Filter>Header Files\UI\ItemImage</Filter>
     </ClInclude>
     <ClInclude Include="CharacterImage.h">
-      <Filter>Header Files\Script\ItemImage</Filter>
+      <Filter>Header Files\UI\ItemImage</Filter>
     </ClInclude>
     <ClInclude Include="BackgroundImage.h">
-      <Filter>Header Files\Script\ItemImage</Filter>
+      <Filter>Header Files\UI\ItemImage</Filter>
     </ClInclude>
     <ClInclude Include="TextboxImage.h">
-      <Filter>Header Files\Script\ItemImage</Filter>
+      <Filter>Header Files\UI\ItemImage</Filter>
     </ClInclude>
     <ClInclude Include="PauseCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
@@ -360,7 +366,7 @@
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
     <ClInclude Include="ChoiceImage.h">
-      <Filter>Header Files\Script\ItemImage</Filter>
+      <Filter>Header Files\UI\ItemImage</Filter>
     </ClInclude>
     <ClInclude Include="JumpCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
@@ -371,17 +377,17 @@
     <ClInclude Include="MainButton.h">
       <Filter>Header Files\Effect\Button</Filter>
     </ClInclude>
-    <ClInclude Include="DrawMainButton.h">
-      <Filter>Header Files\Script</Filter>
-    </ClInclude>
     <ClInclude Include="SavefileImage.h">
       <Filter>Header Files\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="ReturnMenuPrompt.h">
-      <Filter>Header Files\Script</Filter>
-    </ClInclude>
     <ClInclude Include="SavedataUtility.h">
       <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawMainButton.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnMenuPrompt.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

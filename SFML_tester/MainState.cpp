@@ -320,7 +320,7 @@ void MainState::update(float delta_t)
 		scriptManager->readCommands();
 	}
 	scriptManager->update(delta_t);
-	drawMainButton->setAlpha(scriptManager->getTextboxImage()->getAlpha());
+	drawMainButton->setAlpha(scriptManager->getTextboxImage()->getFontAlpha());
 
 	if (scriptManager->eof())
 	{

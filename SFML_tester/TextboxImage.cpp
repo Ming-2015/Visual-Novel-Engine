@@ -36,6 +36,9 @@ TextboxImage::TextboxImage(ifstream & file)
 		file.read(reinterpret_cast<char *>(&nameTextOutlineColor.g), sizeof(nameTextOutlineColor.g));
 		file.read(reinterpret_cast<char *>(&nameTextOutlineColor.b), sizeof(nameTextOutlineColor.b));
 		file.read(reinterpret_cast<char *>(&nameTextOutlineColor.a), sizeof(nameTextOutlineColor.a));
+
+
+		file.read(reinterpret_cast<char *>(&fontAlpha), sizeof(fontAlpha));
 	}
 	catch (exception e)
 	{
@@ -46,7 +49,8 @@ TextboxImage::TextboxImage(ifstream & file)
 	}
 
 	setDisplay(name, dialogue);
-	setAlpha(alpha);
+	setAlpha(fontAlpha);
+	setTextboxAlpha(alpha);
 }
 
 void TextboxImage::serialize(ofstream & savefile) const
@@ -75,6 +79,8 @@ void TextboxImage::serialize(ofstream & savefile) const
 	savefile.write(reinterpret_cast<const char *>(&nameTextOutlineColor.g), sizeof(nameTextOutlineColor.g));
 	savefile.write(reinterpret_cast<const char *>(&nameTextOutlineColor.b), sizeof(nameTextOutlineColor.b));
 	savefile.write(reinterpret_cast<const char *>(&nameTextOutlineColor.a), sizeof(nameTextOutlineColor.a));
+
+	savefile.write(reinterpret_cast<const char *>(&fontAlpha), sizeof(fontAlpha));
 }
 
 void TextboxImage::setText(const std::string & s)
@@ -106,12 +112,14 @@ void TextboxImage::setTextboxColor(sf::Color color)
 {
 	this->color = color;
 	this->color.a = alpha;
-	sprite.setColor(color);
+	sprite.setColor(this->color);
 }
 
 void TextboxImage::setAlpha(float alpha)
 {
-	ItemImage::setAlpha(alpha);
+	//ItemImage::setAlpha(alpha);
+
+	fontAlpha = alpha;
 
 	dialogueTextColor.a = (sf::Uint8) alpha;
 	dialogueTextOutlineColor.a = (sf::Uint8) alpha;
@@ -122,11 +130,14 @@ void TextboxImage::setAlpha(float alpha)
 	nameTextOutlineColor.a = (sf::Uint8) alpha;
 	nameText.setFillColor(nameTextColor);
 	nameText.setOutlineColor(nameTextOutlineColor);
+
 }
 
 void TextboxImage::addAlpha(float alpha)
 {
-	ItemImage::addAlpha(alpha);
+	//ItemImage::addAlpha(alpha);
+
+	fontAlpha += alpha;
 
 	dialogueTextColor.a += (sf::Uint8) alpha;
 	dialogueTextOutlineColor.a += (sf::Uint8) alpha;
@@ -139,10 +150,30 @@ void TextboxImage::addAlpha(float alpha)
 	nameText.setOutlineColor(nameTextOutlineColor);
 }
 
+void TextboxImage::setTextboxAlpha(float alpha)
+{
+	ItemImage::setAlpha(alpha);
+
+	dialogueTextColor.a = (sf::Uint8) fontAlpha;
+	dialogueTextOutlineColor.a = (sf::Uint8) fontAlpha;
+	dialogueText.setFillColor(dialogueTextColor);
+	dialogueText.setOutlineColor(dialogueTextOutlineColor);
+
+	nameTextColor.a = (sf::Uint8) fontAlpha;
+	nameTextOutlineColor.a = (sf::Uint8) fontAlpha;
+	nameText.setFillColor(nameTextColor);
+	nameText.setOutlineColor(nameTextOutlineColor);
+}
+
+float TextboxImage::getFontAlpha() const
+{
+	return fontAlpha;
+}
+
 void TextboxImage::initText()
 {
 	dialogueTextOutlineColor = sf::Color(0, 0, 0);
-	dialogueTextColor = sf::Color(255, 255, 255);
+	dialogueTextColor = sf::Color(255, 255, 255, fontAlpha);
 	dialogueFont = sf::Font();
 	if (!dialogueFont.loadFromFile(GLOBAL->DisplayTextFont))
 	{
@@ -158,7 +189,7 @@ void TextboxImage::initText()
 	dialogueText.setPosition(300.0f, 725.0f);
 
 	nameTextOutlineColor = sf::Color(0, 0, 0);
-	nameTextColor = sf::Color(255, 255, 255);
+	nameTextColor = sf::Color(255, 255, 255, fontAlpha);
 	nameFont = sf::Font();
 	if (!nameFont.loadFromFile(GLOBAL->DisplayNameFont))
 	{

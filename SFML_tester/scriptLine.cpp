@@ -4,6 +4,7 @@ using namespace std;
 ScriptLine::ScriptLine() 
 {
 	textboxImage = new TextboxImage();
+	textboxImage->setTextboxAlpha(CONFIG->textWindowAlpha * 255.f);
 }
 
 ScriptLine::~ScriptLine()
@@ -612,6 +613,7 @@ void ScriptLine::setAllBackgroundAlpha(float alpha)
 void ScriptLine::setTextboxAlpha(float alpha)
 {
 	textboxImage->setAlpha(alpha);
+	textboxImage->setTextboxAlpha(alpha*CONFIG->textWindowAlpha);
 }
 
 void ScriptLine::setDialogue(const string& displayname, const string& str)

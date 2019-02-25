@@ -290,6 +290,11 @@ void ScriptManager::update(float delta_t)
 		s_voiceVolume = CONFIG->voiceVolume;
 		currentScriptLine->setVoiceVolume(1.0, false);
 	}
+	if (s_textWindowAlpha != CONFIG->textWindowAlpha)
+	{
+		s_textWindowAlpha = CONFIG->textWindowAlpha;
+		currentScriptLine->textboxImage->setTextboxAlpha(s_textWindowAlpha * 255.f);
+	}
 }
 
 void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
