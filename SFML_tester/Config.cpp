@@ -73,14 +73,14 @@ void Config::init()
 	windowHeight = 900;
 	windowTitle = "Visual Novel Engine";
 	fps = 60;
-	masterVolume = 1.0f;
-	bgmVolume = 0.5f;
+	masterVolume = 0.8f;
+	bgmVolume = 0.8f;
 	voiceVolume = 1.0f;
 	sfxVolume = 1.0f;
 	enableFullscreen = windowed;
-	manualTextSpeed = 1.0f;
-	autoTextSpeed = 1.0f;
-	autoTextWaitTime = 3.0f;
+	manualTextSpeed = 0.8f;
+	autoTextSpeed = 0.7f;
+	autoTextWaitTime = 0.3f;
 	textFade = false;
 	skipUnreadText = false;
 	displayTextFontName = GLOBAL->DisplayTextFont;
@@ -166,7 +166,7 @@ void Config::parse(string configFile)
 					{
 						textWindowAlpha = stof(varValue);
 					}
-					else
+					else if (varName != "")
 					{
 						string err = "Invalid config option found: " + varName;
 						LOGGER->Log("Config", err);
