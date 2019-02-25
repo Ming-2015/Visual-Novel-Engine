@@ -35,3 +35,10 @@ For a list of complete and updated commands, open Script Format Reference.xlsx (
 
 # Copyrights
 We are using the default Github license, which means that we retain all rights to our source code and no one may reproduce, distribute, or create derivative works from our work. Please notify us if you wish to collaborate in the project.
+
+# TODOs
+* Log (or history) function, Log button somewhere on the textbox, and possibly voice playback
+* make config, save and load states more pretty
+* add 'pages' to the save/load states, so that users can have more data to choose from
+* implement the various config elements in the config page, and make sure they are responsive
+* add Loop related commands (see Script Command Reference.xlsx which will be complicated)
