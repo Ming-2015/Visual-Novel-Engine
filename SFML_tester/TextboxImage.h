@@ -16,8 +16,8 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void setTextboxColor(sf::Color color);
 
-	void setAlpha(float alpha);
-	void addAlpha(float alpha);
+	void setFontAlpha(float alpha);
+	void addFontAlpha(float alpha);
 	void setTextboxAlpha(float alpha);
 
 	float getFontAlpha() const;

@@ -612,7 +612,7 @@ void ScriptLine::setAllBackgroundAlpha(float alpha)
 
 void ScriptLine::setTextboxAlpha(float alpha)
 {
-	textboxImage->setAlpha(alpha);
+	textboxImage->setFontAlpha(alpha);
 	textboxImage->setTextboxAlpha(alpha*CONFIG->textWindowAlpha);
 }
 

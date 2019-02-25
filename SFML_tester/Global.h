@@ -29,14 +29,15 @@ public:
 	const std::string SoundRoot = "sound/";
 	const std::string MusicRoot = SoundRoot + "music/";
 
-	const std::string TextBoxLocation = "images/textbox/textboxMaster.png";
-	const std::string TextBoxColorLocation = "resources/TextboxColors.csv";
-	const std::string NewGameScriptFileLocation = "resources/ScriptLine.csv";
+	const std::string TextBoxLocation = ImageRoot + "textbox/textboxMaster.png";
+	const std::string TextBoxColorLocation = ResourceRoot + "TextboxColors.csv";
+	const std::string NewGameScriptFileLocation = ResourceRoot + "ScriptLine.csv";
 
-	std::string DisplayTextFont = "resources/default.ttf";	// might make it changeable
-	const std::string DisplayNameFont = "resources/MATURASC.TTF";
-	const std::string UserInterfaceFont = "resources/default.TTF";
-	const std::string UserInterfaceButtonFont = "resources/MATURASC.TTF";
+	std::string DisplayTextFont = ResourceRoot + "default.ttf";	// might make it changeable
+	const std::string DisplayNameFont = ResourceRoot + "MATURASC.TTF";
+	const std::string UserInterfaceFont = ResourceRoot + "default.TTF";
+	const std::string UserInterfaceButtonFont = ResourceRoot + "MATURASC.TTF";
+	const std::string ConfirmationPromptFont = ResourceRoot + "Alice.ttf";
 
 	const std::string blurFragShaderPath = "resources/blur.frag";
 

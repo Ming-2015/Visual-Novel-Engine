@@ -5,7 +5,7 @@
 
 void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {	
-	if (!returnMenuPrompt->isHidden)
+	if (!returnMenuPrompt->shouldBeHidden())
 	{
 		returnMenuPrompt->handleInput(e, window);
 	}
@@ -62,14 +62,13 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		}
 	}
 
-	if (!returnMenuPrompt->isHidden)
+	if (!returnMenuPrompt->shouldBeHidden())
 	{
-		if (returnMenuPrompt->noButtonClicked)
+		if (returnMenuPrompt->isNoButtonClicked(true))
 		{
-			returnMenuPrompt->isHidden = true;
-			returnMenuPrompt->noButtonClicked = false;
+			returnMenuPrompt->hidePrompt(true);
 		}
-		else if (returnMenuPrompt->yesButtonClicked)
+		else if (returnMenuPrompt->isYesButtonClicked(true))
 		{
 			shouldChangeState = true;
 			////bgm.stop();
@@ -112,7 +111,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 	else if (drawMainButton->exitButtonClicked == true)
 	{
-		returnMenuPrompt->isHidden = false;
+		returnMenuPrompt->hidePrompt(false);
 		drawMainButton->exitButtonClicked = false;
 	}
 	else if (drawMainButton->quickLoadButtonClicked == true)
@@ -233,7 +232,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 				}
 				else if (e.key.code == sf::Keyboard::Escape)
 				{
-					returnMenuPrompt->isHidden = false;
+					returnMenuPrompt->hidePrompt(false);
 					return;
 				}
 				else if (e.key.code == sf::Keyboard::H)
@@ -303,7 +302,7 @@ void MainState::render(sf::RenderWindow & window)
 		}
 	}
 
-	if (!returnMenuPrompt->isHidden)
+	if (!returnMenuPrompt->shouldBeHidden())
 	{
 		returnMenuPrompt->render(window);
 	}
@@ -337,7 +336,7 @@ void MainState::init()
 	if (drawMainButton == nullptr)
 		drawMainButton = new DrawMainButton();
 	if (returnMenuPrompt == nullptr)
-		returnMenuPrompt = new ReturnMenuPrompt();	
+		returnMenuPrompt = new ConfirmationPrompt("Return To Menu?", "mainToMenu");	
 	myState = GameState::STATE_MAIN;
 }
 

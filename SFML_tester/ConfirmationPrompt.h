@@ -2,7 +2,7 @@
 #include "MainButton.h"
 #include "Global.h"
 
-class ReturnMenuPrompt
+class ConfirmationPrompt
 {
 public:
 	void handleInput(sf::Event& e, sf::RenderWindow& window);				// handle user inputs (keyboard/gamepad/mouse/etc)
@@ -11,12 +11,14 @@ public:
 	void init();
 	void cleanup();
 
-	ReturnMenuPrompt();
-	~ReturnMenuPrompt();
+	ConfirmationPrompt(std::string prompt, std::string title);
+	~ConfirmationPrompt();
 
-	bool isHidden;
-	bool noButtonClicked;
-	bool yesButtonClicked;
+	bool shouldBeHidden() const;
+	void hidePrompt(bool hide);
+
+	bool isNoButtonClicked(bool reset = false);
+	bool isYesButtonClicked(bool reset = false);
 
 private:
 
@@ -28,4 +30,13 @@ private:
 
 	vector<MainButton*> buttons;
 
+	std::string prompt;
+	std::string title;
+
+	sf::Font font;
+	sf::Text text;
+
+	bool isHidden;
+	bool noButtonClicked;
+	bool yesButtonClicked;
 };

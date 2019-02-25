@@ -222,10 +222,10 @@
     <ClCompile Include="SavedataUtility.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
-    <ClCompile Include="ReturnMenuPrompt.cpp">
+    <ClCompile Include="DrawMainButton.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="DrawMainButton.cpp">
+    <ClCompile Include="ConfirmationPrompt.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -386,7 +386,7 @@
     <ClInclude Include="DrawMainButton.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="ReturnMenuPrompt.h">
+    <ClInclude Include="ConfirmationPrompt.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>

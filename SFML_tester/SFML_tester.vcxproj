@@ -157,7 +157,7 @@
     <ClCompile Include="PlayCommand.cpp" />
     <ClCompile Include="ResumeCommand.cpp" />
     <ClCompile Include="RemoveCommand.cpp" />
-    <ClCompile Include="ReturnMenuPrompt.cpp" />
+    <ClCompile Include="ConfirmationPrompt.cpp" />
     <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SavedataUtility.cpp" />
     <ClCompile Include="SavefileImage.cpp" />
@@ -213,7 +213,7 @@
     <ClInclude Include="PlayCommand.h" />
     <ClInclude Include="ResumeCommand.h" />
     <ClInclude Include="RemoveCommand.h" />
-    <ClInclude Include="ReturnMenuPrompt.h" />
+    <ClInclude Include="ConfirmationPrompt.h" />
     <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="SavedataUtility.h" />
     <ClInclude Include="SavefileImage.h" />

@@ -49,7 +49,7 @@ TextboxImage::TextboxImage(ifstream & file)
 	}
 
 	setDisplay(name, dialogue);
-	setAlpha(fontAlpha);
+	setFontAlpha(fontAlpha);
 	setTextboxAlpha(alpha);
 }
 
@@ -115,7 +115,7 @@ void TextboxImage::setTextboxColor(sf::Color color)
 	sprite.setColor(this->color);
 }
 
-void TextboxImage::setAlpha(float alpha)
+void TextboxImage::setFontAlpha(float alpha)
 {
 	//ItemImage::setAlpha(alpha);
 
@@ -133,7 +133,7 @@ void TextboxImage::setAlpha(float alpha)
 
 }
 
-void TextboxImage::addAlpha(float alpha)
+void TextboxImage::addFontAlpha(float alpha)
 {
 	//ItemImage::addAlpha(alpha);
 
