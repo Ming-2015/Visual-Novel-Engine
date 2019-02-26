@@ -72,11 +72,11 @@ void ButtonHighlight::update(float delta_t)
 
 void ButtonHighlight::cleanup()
 {
-	for (sf::Sprite sprite : sprites)
+	/*for (sf::Sprite sprite : sprites)
 	{
 		if (&sprite) delete &sprite;
 	}
-	sprites.clear();
+	sprites.clear();*/
 	//Might not need this
 
 	for (MenuButton* button : buttons)

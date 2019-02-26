@@ -191,9 +191,42 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		GLOBAL->autoMode = !GLOBAL->autoMode;
 		GLOBAL->skipMode = false;
 		drawMainButton->autoButtonClicked = false;
+		if (buttonHighlight->autoHidden == true)
+		{
+			buttonHighlight->autoButtonClicked = true;
+			buttonHighlight->autoHidden = false;
+		}
+		else if (buttonHighlight->autoHidden == false)
+		{
+			buttonHighlight->autoButtonClicked = false;
+			buttonHighlight->autoHidden = true;
+		}
+		
 	}
 
 	else if (drawMainButton->skipButtonClicked == true)
+	{
+		GLOBAL->skipMode = !GLOBAL->skipMode;
+		GLOBAL->autoMode = false;
+		drawMainButton->skipButtonClicked = false;
+		if (buttonHighlight->skipHidden == true)
+		{
+			buttonHighlight->skipButtonClicked = true;
+			buttonHighlight->skipHidden = false;
+		}
+		else if (buttonHighlight->skipHidden == false)
+		{
+			buttonHighlight->skipButtonClicked = false;
+			buttonHighlight->skipHidden = true;
+		}
+	}
+	else if (buttonHighlight->autoButtonClicked == true)
+	{
+		GLOBAL->autoMode = !GLOBAL->autoMode;
+		GLOBAL->skipMode = false;
+		drawMainButton->autoButtonClicked = false;
+	}
+	else if (buttonHighlight->skipButtonClicked == true)
 	{
 		GLOBAL->skipMode = !GLOBAL->skipMode;
 		GLOBAL->autoMode = false;
@@ -307,12 +340,17 @@ void MainState::render(sf::RenderWindow & window)
 		returnMenuPrompt->render(window);
 	}
 
+	if (buttonHighlight->autoHidden == false || buttonHighlight->skipHidden == false)
+	{
+		buttonHighlight->render(window);
+	}
 }
 
 void MainState::update(float delta_t)
 {
 	drawMainButton->update(delta_t);
 	returnMenuPrompt->update(delta_t);
+	buttonHighlight->update(delta_t);
 
 	if (scriptManager->doneAllCommands())
 	{
@@ -337,6 +375,8 @@ void MainState::init()
 		drawMainButton = new DrawMainButton();
 	if (returnMenuPrompt == nullptr)
 		returnMenuPrompt = new ConfirmationPrompt("Return To Menu?", "mainToMenu");	
+	if (buttonHighlight == nullptr)
+		buttonHighlight = new ButtonHighlight();
 	myState = GameState::STATE_MAIN;
 }
 
@@ -345,6 +385,7 @@ void MainState::cleanup()
 	if (scriptManager) delete scriptManager;
 	if (drawMainButton) delete drawMainButton;
 	if (returnMenuPrompt) delete returnMenuPrompt;
+	if (buttonHighlight) delete buttonHighlight;
 }
 
 const ScriptManager * MainState::getScriptManager()

@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="BlurCommand.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonHighlight.cpp" />
     <ClCompile Include="ChoiceImage.cpp" />
     <ClCompile Include="DelayCommand.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="BackgroundImage.h" />
     <ClInclude Include="BlurCommand.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonHighlight.h" />
     <ClInclude Include="CharacterImage.h" />
     <ClInclude Include="ChoiceImage.h" />
     <ClInclude Include="ClearCommand.h" />
