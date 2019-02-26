@@ -32,5 +32,4 @@ private:
 	ScriptManager* scriptManager = nullptr;
 	DrawMainButton* drawMainButton = nullptr;
 	ConfirmationPrompt* returnMenuPrompt = nullptr;
-	ButtonHighlight* buttonHighlight = nullptr;
 };

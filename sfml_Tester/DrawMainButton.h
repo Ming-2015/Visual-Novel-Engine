@@ -15,6 +15,9 @@ public:
 	void setAlpha(float a);
 	void addAlpha(float offset);
 
+	void highlightAutoButton(bool h);
+	void highlightSkipButton(bool h);
+
 	DrawMainButton();
 	~DrawMainButton();
 

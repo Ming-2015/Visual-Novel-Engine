@@ -25,6 +25,8 @@ public:
 	void setAlpha(float alpha);
 	void addAlpha(float offset);
 
+	bool highlight = false;
+
 protected:
 	bool onLoad();
 	void onUpdate(float delta_t);
@@ -45,6 +47,7 @@ private:
 	float startSpriteSheetYPos2;
 	float endSpriteSheetXPos2;
 	float endSpriteSheetYPos2;
+
 
 
 	// Here's all the variables in the button class, for reference

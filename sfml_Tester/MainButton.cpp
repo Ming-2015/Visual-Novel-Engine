@@ -20,7 +20,19 @@ void MainButton::onUpdate(float delta_t)
 
 void MainButton::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	Button::onDraw(target, states);
+	if (hasShader)
+	{
+		states.shader = &shader;
+	}
+
+	if (hovered || highlight)
+	{
+		target.draw(spriteHover, states);
+	}
+	else
+	{
+		target.draw(sprite, states);
+	}
 }
 
 void MainButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)

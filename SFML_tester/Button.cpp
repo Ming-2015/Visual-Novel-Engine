@@ -61,20 +61,17 @@ void Button::onUpdate(float delta_t)
 
 void Button::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 {
+	if (hasShader)
+	{
+		states.shader = &shader;
+	}
+
 	if (hovered == false)
 	{
-		if (hasShader)
-		{
-			states.shader = &shader;
-		}
 		target.draw(sprite, states);
 	}
-	if (hovered == true)
+	else
 	{
-		if (hasShader)
-		{
-			states.shader = &shader;
-		}
 		target.draw(spriteHover, states);
 	}
 }

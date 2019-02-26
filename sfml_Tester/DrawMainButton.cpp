@@ -126,6 +126,17 @@ void DrawMainButton::addAlpha(float offset)
 	}
 }
 
+void DrawMainButton::highlightAutoButton(bool h)
+{
+	autoButton->highlight = h;
+}
+
+void DrawMainButton::highlightSkipButton(bool h)
+{
+	skipButton->highlight = h;
+
+}
+
 DrawMainButton::DrawMainButton()
 {
 	init();
