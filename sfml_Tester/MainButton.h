@@ -45,6 +45,8 @@ private:
 	float startSpriteSheetYPos2;
 	float endSpriteSheetXPos2;
 	float endSpriteSheetYPos2;
+
+
 	// Here's all the variables in the button class, for reference
 	// sf::Texture texture;
 	// sf::Sprite sprite;

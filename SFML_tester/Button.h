@@ -38,6 +38,8 @@ protected:
 	sf::Sprite spriteHover;
 	sf::Shader shaderHover;
 
+
+
 	std::string texPath;
 	std::string vertShaderPath;
 	std::string fragShaderPath;
