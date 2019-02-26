@@ -228,6 +228,9 @@
     <ClCompile Include="ConfirmationPrompt.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="ButtonHighlight.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -387,6 +390,9 @@
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="ConfirmationPrompt.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonHighlight.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>

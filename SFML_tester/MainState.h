@@ -6,6 +6,7 @@
 #include "Fade.h"
 #include "DrawMainButton.h"
 #include "ConfirmationPrompt.h"
+#include "ButtonHighlight.h"
 #include "SavedataUtility.h"
 
 #include <stdio.h>
@@ -31,4 +32,5 @@ private:
 	ScriptManager* scriptManager = nullptr;
 	DrawMainButton* drawMainButton = nullptr;
 	ConfirmationPrompt* returnMenuPrompt = nullptr;
+	ButtonHighlight* buttonHighlight = nullptr;
 };
