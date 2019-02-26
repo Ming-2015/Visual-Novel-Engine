@@ -33,13 +33,13 @@ ClearCommand::ClearCommand(vector<string> args)
 		time = 0;
 		alpha = 0.0f;
 	}
-	else if (flag == "fadeout")
+	else if (flag == "fadeout" || flag == "fo")
 	{
 		wait = false;
 		animationType = ANIMATION_FADEOUT;
 		alpha = 255;
 	}
-	else if (flag == "fadeoutwait")
+	else if (flag == "fadeoutwait" || flag == "fow")
 	{
 		wait = true;
 		animationType = ANIMATION_FADEOUT;

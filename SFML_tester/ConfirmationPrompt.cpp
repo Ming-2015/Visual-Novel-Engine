@@ -25,13 +25,13 @@ void ConfirmationPrompt::init()
 	text.setFont(font);
 
 	text.setStyle(sf::Text::Bold);
-	text.setFillColor( sf::Color(255,255,255,255) );
-	text.setOutlineColor( sf::Color( 50,50,50,255 ) );
+	text.setFillColor( sf::Color(255,255,255,220) );
+	text.setOutlineColor( sf::Color( 50,50,50,150 ) );
 	text.setOutlineThickness(3);
 	text.setCharacterSize(64);
 	text.setString(prompt);
 
-	text.setPosition(800, 290);
+	text.setPosition(805, 290);
 	text.setOrigin(text.getLocalBounds().width / 2.f, text.getLocalBounds().height / 2.f);
 }
 
