@@ -312,7 +312,7 @@ void MainState::update(float delta_t)
 
 
 	drawMainButton->highlightAutoButton(GLOBAL->autoMode);
-	drawMainButton->highlightSkipButton(GLOBAL->skipMode);
+	drawMainButton->highlightSkipButton(GLOBAL->skipMode || GLOBAL->ctrlSkipMode);
 }
 
 void MainState::init()

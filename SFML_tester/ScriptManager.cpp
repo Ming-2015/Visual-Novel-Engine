@@ -228,7 +228,13 @@ void ScriptManager::update(float delta_t)
 		{
 			c->skipUpdate();
 		}
+		GLOBAL->ctrlSkipMode = true;
 	}
+	else
+	{
+		GLOBAL->ctrlSkipMode = false;
+	}
+
 
 	for (auto it = commands.begin(); it != commands.end();)
 	{

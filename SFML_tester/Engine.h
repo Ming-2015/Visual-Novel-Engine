@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Config.h"
 #include "SavedataUtility.h"
+#include <math.h>
 
 class Engine 
 {
@@ -15,7 +16,6 @@ public:
 private:
 	sf::RenderWindow window;	// the window to be rendered
 
-	void initFPSText();
 	sf::Clock gameClock;
 	sf::Time prevTime;
 	float delta_t;
@@ -23,6 +23,8 @@ private:
 	std::string fpsStr;
 	sf::Text fpsText;
 	sf::Font fpsFont;
-
 	bool displayFPS = true;
+
+	void initFPSText();
+	void initWindowSize(sf::RenderWindow& window);
 };

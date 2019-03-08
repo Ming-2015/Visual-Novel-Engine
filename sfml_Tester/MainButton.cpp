@@ -10,12 +10,23 @@ bool MainButton::onLoad()
 	scaleMultiply = 1;
 	sprite.setOrigin(sf::Vector2f(texWidth / 2, texHeight / 2));
 	spriteHover.setOrigin(sf::Vector2f(texWidth / 2, texHeight / 2));
+
 	return ret;
 }
 
 void MainButton::onUpdate(float delta_t)
 {
 	Button::onUpdate(delta_t);
+
+	highlightColor.a = alpha;
+	if (highlight && !hovered)
+	{
+		spriteHover.setColor(highlightColor);
+	}
+	else
+	{
+		spriteHover.setColor(defaultColor);
+	}
 }
 
 void MainButton::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -103,13 +114,17 @@ void MainButton::setSpriteSheetPos2(float startX, float startY, float endX, floa
 void MainButton::setAlpha(float a)
 {
 	alpha = a;
-	sprite.setColor(sf::Color(255, 255, 255, alpha));
-	spriteHover.setColor(sf::Color(255, 255, 255, alpha));
+	defaultColor.a = alpha;
+	highlightColor.a = alpha;
+	sprite.setColor(defaultColor);
+	spriteHover.setColor( highlight && !hovered ? highlightColor : defaultColor);
 }
 
 void MainButton::addAlpha(float offset)
 {
 	alpha += offset;
-	sprite.setColor(sf::Color(255, 255, 255, alpha));
-	spriteHover.setColor(sf::Color(255, 255, 255, alpha));
+	defaultColor.a = alpha;
+	highlightColor.a = alpha;
+	sprite.setColor(defaultColor);
+	spriteHover.setColor( highlight && !hovered ? highlightColor : defaultColor );
 }

@@ -43,6 +43,9 @@ public:
 	bool skipUnreadText;			// allow skipping read/unread text (not sure how to implement this yet)
 	string displayTextFontName;		// name of the font file (.ttf) we are using for the text
 	float textWindowAlpha;			// text window transparency (alpha)
+	int windowWidth, windowHeight;	// window width and height
+
+	const int defaultWidth = 1600, defaultHeight = 900;
 
 	static const string CF_MASTER_VOLUME;
 	static const string CF_BGM_VOLUME;
@@ -56,12 +59,13 @@ public:
 	static const string CF_SKIP_UNREAD_TEXT;
 	static const string CF_DISPLAY_TEXT_FONT_NAME;
 	static const string CF_TEXT_WINDOW_ALPHA;
+	static const string CF_WINDOW_WIDTH;
+	static const string CF_WINDOW_HEIGHT;
 
 	static Config * GetConfig();
 	static void Cleanup();
 
 private:
-	int windowWidth, windowHeight;	// window widht and height
 	string windowTitle;				// window title
 	float fps;						// fps 
 

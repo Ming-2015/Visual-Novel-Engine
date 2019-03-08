@@ -45,6 +45,7 @@ public:
 
 	bool autoMode = false;
 	bool skipMode = false;
+	bool ctrlSkipMode = false;
 
 	sf::RenderWindow* windowPtr = nullptr;
 	ScriptManager* scriptManagerPtr = nullptr;

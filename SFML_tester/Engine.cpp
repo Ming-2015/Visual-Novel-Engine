@@ -5,12 +5,14 @@ int Engine::start()
 	// initialize configs
 	CONFIG->parse("config.ini");
 
-	// create an unresizable window
 	window.create(sf::VideoMode(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()), CONFIG->getTitle(), sf::Style::Default & ~sf::Style::Resize);
 	window.setFramerateLimit(CONFIG->getFps());
 	
 	initFPSText();
 	GLOBAL->windowPtr = &window;
+
+	// change window size based on config data
+	initWindowSize(window);
 
 	Game game;
 	while (window.isOpen())
@@ -82,4 +84,28 @@ void Engine::initFPSText()
 	fpsText.setFillColor(sf::Color(255, 255, 255, 255));
 	fpsText.setCharacterSize(24);
 	fpsText.setPosition(0, 0);
+}
+
+void Engine::initWindowSize(sf::RenderWindow & window)
+{
+
+	// create an unresizable window
+	float windowZoom = float(CONFIG->defaultWidth) / float(CONFIG->getWindowWidth());
+	float aspectRatio = float(CONFIG->getWindowWidth()) / float(CONFIG->getWindowHeight());
+	if (fabs(aspectRatio - CONFIG->defaultWidth / CONFIG->defaultHeight) > 0.01f)
+	{
+		std::string err;
+
+		err = "Bad Aspect Ratio: " + to_string(aspectRatio) + " compared to " + to_string(16.f / 9.f);
+		LOGGER->Log("Engine", err);
+		err = "Window Width: " + to_string(CONFIG->getWindowWidth());
+		LOGGER->Log("Engine", err);
+		err = "Window Height: " + to_string(CONFIG->getWindowHeight());
+		LOGGER->Log("Engine", err);
+	}
+	sf::View defView = window.getView();
+	sf::View newView = defView;
+	newView.zoom(windowZoom);
+	newView.setCenter(CONFIG->defaultWidth / 2.0f, CONFIG->defaultHeight / 2.0f);
+	window.setView(newView);
 }

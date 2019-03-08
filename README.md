@@ -42,3 +42,4 @@ We are using the default Github license, which means that we retain all rights t
 * add 'pages' to the save/load states, so that users can have more data to choose from
 * implement the various config elements in the config page, and make sure they are responsive
 * add Loop related commands (see Script Command Reference.xlsx which will be complicated)
+* add video playback capabilities to the game

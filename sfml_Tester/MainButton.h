@@ -26,6 +26,8 @@ public:
 	void addAlpha(float offset);
 
 	bool highlight = false;
+	sf::Color highlightColor = sf::Color(255,255,255,255);
+	sf::Color defaultColor = sf::Color(255, 255, 255, 255);
 
 protected:
 	bool onLoad();
@@ -47,8 +49,6 @@ private:
 	float startSpriteSheetYPos2;
 	float endSpriteSheetXPos2;
 	float endSpriteSheetYPos2;
-
-
 
 	// Here's all the variables in the button class, for reference
 	// sf::Texture texture;

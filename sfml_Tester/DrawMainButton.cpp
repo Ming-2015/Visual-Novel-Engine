@@ -29,10 +29,12 @@ void DrawMainButton::init()
 	autoButton = new MainButton(GLOBAL->AssetRoot + "Auto72x88.png", "", "", 1230.0f, 898.0f, 0, 0, 0, 0, 72, 44, 0, 44, 72, 44);
 	autoButton->load();
 	buttons.push_back(autoButton);
+	autoButton->highlightColor = sf::Color(210, 100, 240, 255);
 
 	skipButton = new MainButton(GLOBAL->AssetRoot + "Skip69x98.png", "", "", 1157.0f, 902.0f, 0, 0, 0, 0, 69, 49, 0, 49, 69, 49);
 	skipButton->load();
 	buttons.push_back(skipButton);
+	skipButton->highlightColor = sf::Color(255, 60, 60, 255);
 
 	closeButton = new MainButton(GLOBAL->AssetRoot + "CloseButton34x70.png", "", "", 1520.0f, 735.0f, 0, 0, 0, 0, 34, 35, 0, 35, 34, 35);
 	closeButton->load();

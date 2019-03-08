@@ -13,6 +13,8 @@ const string Config::CF_TEXT_FADE = "TextFade";
 const string Config::CF_SKIP_UNREAD_TEXT = "SkipUnreadText";
 const string Config::CF_DISPLAY_TEXT_FONT_NAME = "FontFileName";
 const string Config::CF_TEXT_WINDOW_ALPHA = "TextWindowTransparency";
+const string Config::CF_WINDOW_WIDTH = "WindowWidth";
+const string Config::CF_WINDOW_HEIGHT = "WindowHeight";
 
 Config* Config::currentConfig = nullptr;
 
@@ -41,6 +43,8 @@ void Config::write(string configFile)
 		myfile << CF_SKIP_UNREAD_TEXT << "="  << UTILITY->bool2str(skipUnreadText) << endl;
 		myfile << CF_DISPLAY_TEXT_FONT_NAME << "="  << displayTextFontName << endl;
 		myfile << CF_TEXT_WINDOW_ALPHA << "="  << to_string(textWindowAlpha) << endl;
+		myfile << CF_WINDOW_WIDTH << "=" << to_string(windowWidth) << endl;
+		myfile << CF_WINDOW_HEIGHT << "=" << to_string(windowHeight) << endl;
 		myfile.close();
 	}
 	else
@@ -165,6 +169,14 @@ void Config::parse(string configFile)
 					else if (varName == CF_TEXT_WINDOW_ALPHA)
 					{
 						textWindowAlpha = stof(varValue);
+					}
+					else if (varName == CF_WINDOW_WIDTH)
+					{
+						windowWidth = stoi(varValue);
+					}
+					else if (varName == CF_WINDOW_HEIGHT)
+					{
+						windowHeight = stoi(varValue);
 					}
 					else if (varName != "")
 					{
