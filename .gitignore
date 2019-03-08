@@ -335,3 +335,4 @@ ASALocalRun/
 # SFML docs and examples
 SFML/SFML-2.5.1/doc
 SFML/SFML-2.5.1/examples
+!sfeMovie/
