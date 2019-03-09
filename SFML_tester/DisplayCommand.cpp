@@ -366,7 +366,22 @@ void DisplayCommand::update(float delta_t)
 	}
 }
 
-std::string DisplayCommand::assembleString(const std::vector<std::string>& lines, int lineIndex, int charIndex)
+std::string DisplayCommand::getFullLine() const
+{
+	return assembleString(displayLines, displayLines.size() - 1, displayLines[currentLineIndex].length() - 1);
+}
+
+std::string DisplayCommand::getName() const
+{
+	return displayName;
+}
+
+bool DisplayCommand::isLine() const
+{
+	return objectType == OBJECT_LINE;
+}
+
+std::string DisplayCommand::assembleString(const std::vector<std::string>& lines, int lineIndex, int charIndex) const
 {
 	std::string str = "";
 	for (int i = 0; i < lineIndex; i++)

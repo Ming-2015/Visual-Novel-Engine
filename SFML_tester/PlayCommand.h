@@ -20,6 +20,9 @@ public:
 	void skipUpdate();
 	void update(float delta_t);
 
+	bool isVoice() const;
+	std::string getFilename() const;
+
 private:
 
 	std::string objectTypeName;

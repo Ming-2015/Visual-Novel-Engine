@@ -4,6 +4,7 @@
 #include <istream>
 #include "Utility.h"
 #include "ScriptLine.h"
+#include "Linelog.h"
 #include "ItemImage.h"
 #include "ScriptCommand.h"
 #include "ShowCommand.h"
@@ -64,6 +65,11 @@ public:
 	void showTextbox();
 	bool isTextboxClosed();
 
+	bool shouldUpdateLog(bool reset = false);
+	LineLogItem getLogItem() const;
+	std::string getPrevBgmFilename() const;
+	std::string getPrevVoiceFilename();
+
 private:
 
 	std::vector< ScriptCommand* > commands;
@@ -79,4 +85,8 @@ private:
 	float s_textWindowAlpha = CONFIG->textWindowAlpha;
 
 	void advanceText();
+
+	bool updateLog = false;
+	LineLogItem logItem;
+	std::string logVoicefile; 
 };

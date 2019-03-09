@@ -92,7 +92,7 @@ void Engine::initWindowSize(sf::RenderWindow & window)
 	// create an unresizable window
 	float windowZoom = float(CONFIG->defaultWidth) / float(CONFIG->getWindowWidth());
 	float aspectRatio = float(CONFIG->getWindowWidth()) / float(CONFIG->getWindowHeight());
-	if (fabs(aspectRatio - CONFIG->defaultWidth / CONFIG->defaultHeight) > 0.01f)
+	if (fabs(aspectRatio - float(CONFIG->defaultWidth) / float(CONFIG->defaultHeight) ) > 0.01f)
 	{
 		std::string err;
 

@@ -246,3 +246,13 @@ void PlayCommand::update(float delta_t)
 		finishedAction = true;
 	}
 }
+
+bool PlayCommand::isVoice() const
+{
+	return objectType == OBJECT_VOICE;
+}
+
+std::string PlayCommand::getFilename() const
+{
+	return GLOBAL->SoundRoot + objectName + "/" + objectSubname;
+}

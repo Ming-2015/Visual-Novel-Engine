@@ -61,6 +61,10 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			drawMainButton->exitButtonClicked = false;
 		}
 	}
+	else if (linelog->shouldDisplay())
+	{
+		linelog->handleInput(e, window);
+	}
 	else if ( scriptManager->isTextboxClosed() )
 	{
 		switch (e.type)
@@ -236,6 +240,15 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 				}
 				break;
 			}
+			case sf::Event::MouseWheelScrolled:
+			{
+				if (e.mouseWheelScroll.delta > 0)
+				{
+					linelog->displayLog(true);
+					return;
+				}
+				break;
+			}
 		}
 
 		// handle script-related input
@@ -269,8 +282,9 @@ void MainState::render(sf::RenderWindow & window)
 		}
 	}
 
-	if (!scriptManager->shouldHideTextbox())
+	if (!scriptManager->shouldHideTextbox() && !linelog->shouldDisplay())
 	{
+		drawMainButton->setAlpha(scriptManager->getTextboxImage()->getFontAlpha());
 		window.draw(*(scriptManager->getTextboxImage()));
 		drawMainButton->render(window);
 	}
@@ -286,6 +300,8 @@ void MainState::render(sf::RenderWindow & window)
 		}
 	}
 
+	linelog->render(window);
+
 	if (!returnMenuPrompt->shouldBeHidden())
 	{
 		returnMenuPrompt->render(window);
@@ -294,22 +310,32 @@ void MainState::render(sf::RenderWindow & window)
 
 void MainState::update(float delta_t)
 {
+	linelog->update(delta_t);
 	drawMainButton->update(delta_t);
 	returnMenuPrompt->update(delta_t);
 
+	// read new commands if done with all previous commands
 	if (scriptManager->doneAllCommands())
 	{
 		scriptManager->readCommands();
 	}
-	scriptManager->update(delta_t);
-	drawMainButton->setAlpha(scriptManager->getTextboxImage()->getFontAlpha());
 
+	// update scriptmanager 
+	scriptManager->update(delta_t);
+	if (scriptManager->shouldUpdateLog(true))
+	{
+		LineLogItem logItem = scriptManager->getLogItem();
+		logItem.voiceFile = scriptManager->getPrevVoiceFilename();
+		logItem.musicFile = scriptManager->getPrevBgmFilename();
+		linelog->addLogItem(logItem);
+	}
+
+	// return if reached end of script (unexpectedly)
 	if (scriptManager->eof())
 	{
 		shouldChangeState = true;
 		nextState = GameState::STATE_MENU;
 	}
-
 
 	drawMainButton->highlightAutoButton(GLOBAL->autoMode);
 	drawMainButton->highlightSkipButton(GLOBAL->skipMode || GLOBAL->ctrlSkipMode);
@@ -324,6 +350,7 @@ void MainState::init()
 	if (returnMenuPrompt == nullptr)
 		returnMenuPrompt = new ConfirmationPrompt("Return To Menu?", "mainToMenu");	
 	myState = GameState::STATE_MAIN;
+	linelog = new LineLog();
 }
 
 void MainState::cleanup()
@@ -331,6 +358,7 @@ void MainState::cleanup()
 	if (scriptManager) delete scriptManager;
 	if (drawMainButton) delete drawMainButton;
 	if (returnMenuPrompt) delete returnMenuPrompt;
+	if (linelog) delete linelog;
 }
 
 const ScriptManager * MainState::getScriptManager()
@@ -361,4 +389,5 @@ MainState::MainState(std::string playerName)
 
 MainState::~MainState()
 {
+	cleanup();
 }

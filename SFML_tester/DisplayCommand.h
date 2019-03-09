@@ -21,6 +21,10 @@ public:
 	void skipUpdate();
 	void update(float delta_t);
 
+	std::string getFullLine() const;
+	std::string getName() const;
+	bool isLine() const;
+
 private:
 
 	std::string objectTypeName;
@@ -61,5 +65,5 @@ private:
 	const static int OBJECT_LINE = 0;
 	const static int OBJECT_CHOICE = 1;
 
-	std::string assembleString(const std::vector<std::string>& lines, int lineIndex, int charIndex);
+	std::string assembleString(const std::vector<std::string>& lines, int lineIndex, int charIndex) const;
 };

@@ -429,6 +429,30 @@ bool ScriptManager::isTextboxClosed()
 	return shouldCloseTextbox;
 }
 
+bool ScriptManager::shouldUpdateLog(bool reset)
+{
+	bool temp = updateLog;
+	if (reset) updateLog = false;
+	return temp;
+}
+
+LineLogItem ScriptManager::getLogItem() const
+{
+	return logItem;
+}
+
+std::string ScriptManager::getPrevBgmFilename() const
+{
+	return currentScriptLine->fn_bgm.size() == 0 ? "" : currentScriptLine->fn_bgm[0];
+}
+
+std::string ScriptManager::getPrevVoiceFilename() 
+{
+	std::string temp = logVoicefile;
+	logVoicefile = "";
+	return temp;
+}
+
 void ScriptManager::advanceText()
 {
 
@@ -496,7 +520,18 @@ void ScriptManager::readCommands()
 				else if (cmdWord == "display")
 				{
 					GLOBAL->playerName = getPlayerName();
-					command = new DisplayCommand(tokens);
+					DisplayCommand* displayCommand = new DisplayCommand(tokens);
+					command = displayCommand;
+
+					if (displayCommand->isLine())
+					{
+						updateLog = true;
+						logItem.name = displayCommand->getName();
+						logItem.line = displayCommand->getFullLine();
+						logItem.flags = currentScriptLine->userFlags;
+						logItem.scriptFile = currentScriptLine->filename;
+						logItem.scriptFilePos = currentScriptLine->file.tellg();
+					}
 				}
 				else if (cmdWord == "set")
 				{
@@ -516,7 +551,12 @@ void ScriptManager::readCommands()
 				}
 				else if (cmdWord == "play")
 				{
-					command = new PlayCommand(tokens);
+					PlayCommand* playCommand = new PlayCommand(tokens);
+					command = playCommand;
+					if (playCommand->isVoice())
+					{
+						logVoicefile = playCommand->getFilename();
+					}
 				}
 				else if (cmdWord == "stop")
 				{

@@ -231,6 +231,12 @@
     <ClCompile Include="ButtonHighlight.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Linelog.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="LogBar.cpp">
+      <Filter>Source Files\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -394,6 +400,15 @@
     </ClInclude>
     <ClInclude Include="ButtonHighlight.h">
       <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Linelog.h">
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="LineLogItem.h">
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="LogBar.h">
+      <Filter>Header Files\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

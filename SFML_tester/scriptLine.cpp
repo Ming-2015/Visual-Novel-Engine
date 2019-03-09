@@ -914,16 +914,16 @@ void ScriptLine::updateSoundList()
 		}
 	}
 
-	//for (int i = 0; i < voices.size(); i++)
-	//{
-	//	if (voices[i]->getStatus() == sf::Music::Stopped)
-	//	{
-	//		delete voices[i];
-	//		voices.erase(voices.begin() + i);
-	//		fn_voices.erase(fn_voices.begin() + i);
-	//		i--;
-	//	}
-	//}
+	for (int i = 0; i < voices.size(); i++)
+	{
+		if (voices[i]->getStatus() == sf::Music::Stopped)
+		{
+			delete voices[i];
+			voices.erase(voices.begin() + i);
+			fn_voices.erase(fn_voices.begin() + i);
+			i--;
+		}
+	}
 }
 
 bool ScriptLine::isVoicePlayed() const
