@@ -88,6 +88,11 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			}
 		}
 	}
+	else if (drawMainButton->logButtonClicked == true)
+	{
+		linelog->displayLog(true);
+		drawMainButton->logButtonClicked = false;
+	}
 	else if (drawMainButton->configButtonClicked == true)
 	{
 
