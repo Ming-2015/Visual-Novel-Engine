@@ -58,15 +58,15 @@ bool LogBar::onLoad()
 	nameText.setFont(font);
 	nameText.setStyle(sf::Text::Bold);
 	nameText.setOutlineThickness(3);
-	nameText.setFillColor(sf::Color(0, 0, 0, 255));
-	nameText.setOutlineColor(sf::Color(255, 255, 255, 255));
+	nameText.setFillColor(sf::Color(255, 255, 255, 255));
+	nameText.setOutlineColor(sf::Color(0, 0, 0, 255));
 	nameText.setCharacterSize(36);
 
 	lineText.setFont(font);
 	lineText.setStyle(sf::Text::Bold);
 	lineText.setOutlineThickness(2);
-	lineText.setFillColor(sf::Color(0, 0, 0, 255));
-	lineText.setOutlineColor(sf::Color(255, 255, 255, 255));
+	lineText.setFillColor(sf::Color(255, 255, 255, 255));
+	lineText.setOutlineColor(sf::Color(0, 0, 0, 255));
 	lineText.setCharacterSize(24);
 
 	if (!bgUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "logBar.png"))

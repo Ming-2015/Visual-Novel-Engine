@@ -282,25 +282,30 @@ void MainState::render(sf::RenderWindow & window)
 		}
 	}
 
-	if (!scriptManager->shouldHideTextbox() && !linelog->shouldDisplay())
+	if (linelog->shouldDisplay())
 	{
-		drawMainButton->setAlpha(scriptManager->getTextboxImage()->getFontAlpha());
-		window.draw(*(scriptManager->getTextboxImage()));
-		drawMainButton->render(window);
+		linelog->render(window);
 	}
-
-	if (scriptManager->isChoice() && !scriptManager->shouldHideTextbox())
+	else
 	{
-		for (auto c : scriptManager->getChoices())
+		if (!scriptManager->shouldHideTextbox())
 		{
-			if (c != nullptr)
+			drawMainButton->setAlpha(scriptManager->getTextboxImage()->getFontAlpha());
+			window.draw(*(scriptManager->getTextboxImage()));
+			drawMainButton->render(window);
+		}
+
+		if (scriptManager->isChoice() && !scriptManager->shouldHideTextbox())
+		{
+			for (auto c : scriptManager->getChoices())
 			{
-				window.draw(*c);
+				if (c != nullptr)
+				{
+					window.draw(*c);
+				}
 			}
 		}
 	}
-
-	linelog->render(window);
 
 	if (!returnMenuPrompt->shouldBeHidden())
 	{
@@ -310,31 +315,37 @@ void MainState::render(sf::RenderWindow & window)
 
 void MainState::update(float delta_t)
 {
-	linelog->update(delta_t);
-	drawMainButton->update(delta_t);
-	returnMenuPrompt->update(delta_t);
-
-	// read new commands if done with all previous commands
-	if (scriptManager->doneAllCommands())
+	if (linelog->shouldDisplay())
 	{
-		scriptManager->readCommands();
+		linelog->update(delta_t);
 	}
-
-	// update scriptmanager 
-	scriptManager->update(delta_t);
-	if (scriptManager->shouldUpdateLog(true))
+	else
 	{
-		LineLogItem logItem = scriptManager->getLogItem();
-		logItem.voiceFile = scriptManager->getPrevVoiceFilename();
-		logItem.musicFile = scriptManager->getPrevBgmFilename();
-		linelog->addLogItem(logItem);
-	}
+		drawMainButton->update(delta_t);
+		returnMenuPrompt->update(delta_t);
 
-	// return if reached end of script (unexpectedly)
-	if (scriptManager->eof())
-	{
-		shouldChangeState = true;
-		nextState = GameState::STATE_MENU;
+		// read new commands if done with all previous commands
+		if (scriptManager->doneAllCommands())
+		{
+			scriptManager->readCommands();
+		}
+
+		// update scriptmanager 
+		scriptManager->update(delta_t);
+		if (scriptManager->shouldUpdateLog(true))
+		{
+			LineLogItem logItem = scriptManager->getLogItem();
+			logItem.voiceFile = scriptManager->getPrevVoiceFilename();
+			logItem.musicFile = scriptManager->getPrevBgmFilename();
+			linelog->addLogItem(logItem);
+		}
+
+		// return if reached end of script (unexpectedly)
+		if (scriptManager->eof())
+		{
+			shouldChangeState = true;
+			nextState = GameState::STATE_MENU;
+		}
 	}
 
 	drawMainButton->highlightAutoButton(GLOBAL->autoMode);

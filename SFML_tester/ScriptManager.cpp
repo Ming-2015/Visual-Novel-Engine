@@ -526,7 +526,14 @@ void ScriptManager::readCommands()
 					if (displayCommand->isLine())
 					{
 						updateLog = true;
-						logItem.name = displayCommand->getName();
+
+						std::string name = displayCommand->getName();
+						if (UTILITY->toLower(name) == "player")
+						{
+							name = getPlayerName();
+						}
+
+						logItem.name = name;
 						logItem.line = displayCommand->getFullLine();
 						logItem.flags = currentScriptLine->userFlags;
 						logItem.scriptFile = currentScriptLine->filename;
