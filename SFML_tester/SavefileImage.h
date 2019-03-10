@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Effect.hpp"
 #include "Global.h"
+#include "Config.h"
 
 class SavefileImage : public Effect
 {

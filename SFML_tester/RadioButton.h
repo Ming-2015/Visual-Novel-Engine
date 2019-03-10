@@ -1,6 +1,7 @@
 #pragma once
 #include "Button.h"
 #include "Global.h"
+#include "Config.h"
 
 class RadioButton : public Button
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Button.h"
+#include "Config.h"
 #include <string>
 
 class MenuButton : public Button

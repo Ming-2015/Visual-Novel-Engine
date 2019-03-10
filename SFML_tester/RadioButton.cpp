@@ -62,24 +62,24 @@ bool RadioButton::onLoad()
 
 void RadioButton::onUpdate(float delta_t)
 {
-	bool shouldUnselect = false;
-	for (int i = 0; i < otherRadioButtons.size(); i++)
-	{
-		if (otherRadioButtons[i] == this || !otherRadioButtons[i])
-		{
-			continue;
-		}
+	//bool shouldUnselect = false;
+	//for (int i = 0; i < otherRadioButtons.size(); i++)
+	//{
+	//	if (otherRadioButtons[i] == this || !otherRadioButtons[i])
+	//	{
+	//		continue;
+	//	}
 
-		if (otherRadioButtons[i]->getSelected())
-		{
-			shouldUnselect = true;
-			break;
-		}
-	}
-	if (shouldUnselect)
-	{
-		setSelected(false);
-	}
+	//	if (otherRadioButtons[i]->getSelected())
+	//	{
+	//		shouldUnselect = true;
+	//		break;
+	//	}
+	//}
+	//if (shouldUnselect)
+	//{
+	//	setSelected(false);
+	//}
 }
 
 void RadioButton::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -91,8 +91,7 @@ void RadioButton::onDraw(sf::RenderTarget & target, sf::RenderStates states) con
 
 void RadioButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 {
-	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+	sf::Vector2f mousePosF = CONFIG->getCursorPosition(window);
 	switch (e.type)
 	{
 		case sf::Event::MouseMoved:

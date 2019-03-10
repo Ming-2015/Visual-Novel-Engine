@@ -26,5 +26,4 @@ private:
 	bool displayFPS = true;
 
 	void initFPSText();
-	void initWindowSize(sf::RenderWindow& window);
 };

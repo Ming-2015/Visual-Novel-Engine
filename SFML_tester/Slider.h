@@ -1,6 +1,7 @@
 #pragma once
 #include "Global.h"
 #include "Effect.hpp"
+#include "Config.h"
 #include <string>
 
 class Slider : public Effect

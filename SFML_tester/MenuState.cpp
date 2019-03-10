@@ -52,38 +52,6 @@ void MenuState::init()
 
 	exitButton = new MenuButton(GLOBAL->AssetRoot + "MenuButtons600wx288h3.png", "", "", 350.0f, 790.0f, 0, 0, 0, 216, 125, 72);
 	exitButton->load();
-
-	//THIS MIGHT NOT BE NEEDED, TESTING PURPOSES FOR NOW
-	/*
-	startText.setFont(font);
-	startText.setStyle(sf::Text::Bold);
-	startText.setString("Create New Game");
-	startText.setFillColor(sf::Color::White);
-	startText.setCharacterSize(48);
-	startText.setPosition(50.0f, 320.0f);
-
-	loadText.setFont(font);
-	loadText.setStyle(sf::Text::Bold);
-	loadText.setString("Load Game");
-	loadText.setFillColor(sf::Color::White);
-	loadText.setCharacterSize(48);
-	loadText.setPosition(50.0f, 380.0f);
-
-	settingsText.setFont(font);
-	settingsText.setStyle(sf::Text::Bold);
-	settingsText.setString("Settings");
-	settingsText.setFillColor(sf::Color::White);
-	settingsText.setCharacterSize(48);
-	settingsText.setPosition(50.0f, 440.0f);
-
-	
-	exitText.setFont(font);
-	exitText.setStyle(sf::Text::Bold);
-	exitText.setString("Exit");
-	exitText.setFillColor(sf::Color::White);
-	exitText.setCharacterSize(48);
-	exitText.setPosition(50.0f, 500.0f);
-	*/
 }
 
 void MenuState::cleanup()
@@ -102,10 +70,6 @@ void MenuState::render(sf::RenderWindow& window) {
 	window.draw(*settingsButton);
 	window.draw(*exitButton);
 	window.draw(rectangle);
-	//window.draw(startText);
-	//window.draw(loadText);
-	//window.draw(settingsText);
-	//window.draw(exitText);
 }
 
 void MenuState::update(float delta_t)

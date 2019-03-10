@@ -23,6 +23,20 @@ Config::Config()
 	init();
 }
 
+void Config::initWindowResize(sf::RenderWindow & window,
+	int originalWidth, int originalHeight, 
+	int windowWidth, int windowHeight)
+{
+	// set the window zoom to the smaller of the 2 sizes
+	float windowZoom = std::max(float(originalWidth) / float(windowWidth), float(originalHeight) / float(windowHeight));
+
+	sf::View defView = window.getView();
+	sf::View newView = defView;
+	newView.zoom(windowZoom);
+	newView.setCenter(originalWidth / 2.0f, originalHeight / 2.0f);
+	window.setView(newView);
+}
+
 void Config::write(string configFile) 
 {
 	ofstream myfile(configFile);
@@ -69,6 +83,35 @@ void Config::Cleanup()
 	{
 		delete currentConfig;
 	}
+}
+
+void Config::resetWindowSize(sf::RenderWindow & window)
+{
+	if (CONFIG->enableFullscreen == FullscreenOpts::fullscreen)
+	{
+		window.create(sf::VideoMode(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()),
+			CONFIG->getTitle(), sf::Style::Default | sf::Style::Fullscreen);
+	}
+	else if (CONFIG->enableFullscreen == FullscreenOpts::windowed)
+	{
+		window.create(sf::VideoMode(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()),
+			CONFIG->getTitle(), sf::Style::Default & ~sf::Style::Resize);
+	}
+	else if (CONFIG->enableFullscreen == FullscreenOpts::borderless)
+	{
+		window.create(sf::VideoMode::getDesktopMode(),
+			CONFIG->getTitle(), sf::Style::None);
+	}
+	initWindowResize(window, CONFIG->defaultWidth, CONFIG->defaultHeight, 
+		window.getSize().x, window.getSize().y);
+	window.setFramerateLimit(CONFIG->getFps());
+}
+
+sf::Vector2f Config::getCursorPosition(sf::RenderWindow & window)
+{
+	sf::Vector2i mousePos =( sf::Mouse::getPosition(window) );
+
+	return window.mapPixelToCoords(mousePos);
 }
 
 void Config::init()

@@ -24,12 +24,11 @@ void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 {
 	Button::onHandleInput(e, window);
 
+	sf::Vector2f mousePosF = CONFIG->getCursorPosition(window);
 	switch (e.type)
 	{
 		case sf::Event::MouseMoved:
 		{
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 			if (sprite.getGlobalBounds().contains(mousePosF))
 			{
 				if (clock.getElapsedTime().asMilliseconds() > 100.00f) {
@@ -51,8 +50,6 @@ void MenuButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 		{
 			if (e.mouseButton.button == sf::Mouse::Left)
 			{
-				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-				sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 				if (sprite.getGlobalBounds().contains(mousePosF))
 				{
 					pressed = true;

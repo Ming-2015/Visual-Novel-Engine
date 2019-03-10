@@ -52,7 +52,7 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		}
 	}
 
-	for (RadioButton * radioButton : enableFullscreenRadioButtons)
+	for (RadioButton * radioButton : displayOptionButtons)
 	{
 		if (radioButton != nullptr)
 		{
@@ -66,8 +66,7 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		{
 			if (e.mouseButton.button == sf::Mouse::Left)
 			{
-				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-				sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				sf::Vector2f mousePosF = CONFIG->getCursorPosition(window);
 				if (texts[TEXT_SAVE].getGlobalBounds().contains(mousePosF))
 				{
 					CONFIG->masterVolume = sliders[SLIDER_MASTER]->getValue();
@@ -76,6 +75,20 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 					CONFIG->voiceVolume = sliders[SLIDER_VOICE]->getValue();
 					CONFIG->textWindowAlpha = sliders[SLIDER_ALPHA]->getValue();
 					
+					// save previous option to see if there's a need to reset window
+					FullscreenOpts prevFullscreenOps = CONFIG->enableFullscreen;
+
+					// check which option is being selected
+					CONFIG->enableFullscreen = static_cast<FullscreenOpts>
+						(fullScreenButton->getSelected() ? FullscreenOpts::fullscreen : 
+						borderlessButton->getSelected() ? FullscreenOpts::borderless : 
+							FullscreenOpts::windowed);
+					
+					if (CONFIG->enableFullscreen != prevFullscreenOps)
+					{
+						CONFIG->resetWindowSize(window);
+					}
+
 					CONFIG->write("config.ini");
 
 					nextState = GameState::STATE_BACK;
@@ -127,7 +140,7 @@ void SettingsState::render(sf::RenderWindow & window)
 		}
 	}
 
-	for (RadioButton * radioButton : enableFullscreenRadioButtons)
+	for (RadioButton * radioButton : displayOptionButtons)
 	{
 		if (radioButton != nullptr)
 		{
@@ -162,7 +175,7 @@ void SettingsState::update(float delta_t)
 		}
 	}
 
-	for (RadioButton * radioButton : enableFullscreenRadioButtons)
+	for (RadioButton * radioButton : displayOptionButtons)
 	{
 		if (radioButton != nullptr)
 		{
@@ -233,22 +246,26 @@ void SettingsState::init()
 		}
 	}
 
-	enableFullscreenRadioButtons.push_back(fullScreenButton = new RadioButton("Fullscreen", 1200, 400));
-	enableFullscreenRadioButtons.push_back(windowedButton = new RadioButton("Windowed", 1400, 400));
-	for (auto b : enableFullscreenRadioButtons)
+	displayOptionButtons.push_back(windowedButton = new RadioButton("Windowed", 1000, 400));
+	displayOptionButtons.push_back(fullScreenButton = new RadioButton("Fullscreen", 1150, 400));
+	displayOptionButtons.push_back(borderlessButton = new RadioButton("Borderless", 1300, 400));
+	for (auto b : displayOptionButtons)
 	{
 		b->load();
+		b->setOtherRadioButtons(displayOptionButtons);
 	}
 	
-	fullScreenButton->setOtherRadioButtons(enableFullscreenRadioButtons);
-	windowedButton->setOtherRadioButtons(enableFullscreenRadioButtons);
-	if (CONFIG->enableFullscreen)
+	if (CONFIG->enableFullscreen == FullscreenOpts::fullscreen)
 	{
 		fullScreenButton->setSelected(true);
 	}
-	else
+	else if (CONFIG->enableFullscreen == FullscreenOpts::windowed)
 	{
 		windowedButton->setSelected(true);
+	}
+	else if (CONFIG->enableFullscreen == FullscreenOpts::borderless)
+	{
+		borderlessButton->setSelected(true);
 	}
 }
 
@@ -269,7 +286,7 @@ void SettingsState::cleanup()
 		if (b != nullptr) delete b;
 	}
 
-	for (RadioButton* b : enableFullscreenRadioButtons)
+	for (RadioButton* b : displayOptionButtons)
 	{
 		if (b != nullptr) delete b;
 	}

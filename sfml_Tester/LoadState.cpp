@@ -73,8 +73,7 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		{
 			if (e.mouseButton.button == sf::Mouse::Left)
 			{
-				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-				sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				sf::Vector2f mousePosF = CONFIG->getCursorPosition(window);
 				if (returnState.getGlobalBounds().contains(mousePosF))
 				{
 					nextState = GameState::STATE_BACK;

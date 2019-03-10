@@ -101,8 +101,7 @@ void LogBar::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 
 void LogBar::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 {
-	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+	sf::Vector2f mousePosF = CONFIG->getCursorPosition(window);
 	switch (e.type)
 	{
 	case sf::Event::MouseMoved:

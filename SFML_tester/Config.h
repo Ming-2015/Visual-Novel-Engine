@@ -16,7 +16,7 @@ enum FullscreenOpts
 {
 	fullscreen = 1,
 	windowed = 2,
-	fullscreenWindowed = 3,
+	borderless = 3,
 };
 
 class Config 
@@ -65,6 +65,9 @@ public:
 	static Config * GetConfig();
 	static void Cleanup();
 
+	void resetWindowSize(sf::RenderWindow&window);
+	sf::Vector2f getCursorPosition(sf::RenderWindow&window);
+
 private:
 	string windowTitle;				// window title
 	float fps;						// fps 
@@ -73,4 +76,9 @@ private:
 	Config();	// empty constructor
 
 	static Config * currentConfig;
+	
+	// Resize window to scale
+	void initWindowResize(sf::RenderWindow& window, 
+		int originalWidth, int originalHeight, 
+		int windowWidth, int windowHeight);
 };

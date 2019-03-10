@@ -36,9 +36,10 @@ private:
 	std::vector<MenuButton*> hundredButtons;
 
 	// the various radio buttons
-	std::vector<RadioButton *> enableFullscreenRadioButtons;
+	std::vector<RadioButton *> displayOptionButtons;
 	RadioButton* fullScreenButton;
 	RadioButton* windowedButton;
+	RadioButton* borderlessButton;
 
 	sf::Font settingsFont;
 	sf::Texture configTexture;

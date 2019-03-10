@@ -1,4 +1,5 @@
 #pragma once
+#include "Config.h"
 #include "Button.h"
 #include <string>
 using namespace std;
