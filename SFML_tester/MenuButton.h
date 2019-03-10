@@ -9,7 +9,7 @@ public:
 	MenuButton(std::string texPath, std::string vertShaderPath,
 		std::string fragShaderPath, float xPos, float yPos,
 		float r_width, float r_height, float startX, float startY, float endX, float endY) :
-		Button(texPath, vertShaderPath, fragShaderPath, xPos, yPos, r_width, r_height),
+		Button(texPath, vertShaderPath, fragShaderPath, xPos, yPos),
 		startSpriteSheetXPos(startX),
 		startSpriteSheetYPos(startY),
 		endSpriteSheetXPos(endX),

@@ -5,8 +5,15 @@ bool MainButton::onLoad()
 	bool ret = Button::onLoad();
 	sf::IntRect rectSourceSprite(startSpriteSheetXPos, startSpriteSheetYPos, endSpriteSheetXPos, endSpriteSheetYPos);
 	sf::IntRect rectSourceSprite2(startSpriteSheetXPos2, startSpriteSheetYPos2, endSpriteSheetXPos2, endSpriteSheetYPos2);
+	
+	// original sprite is automatically set with the texture
 	sprite.setTextureRect(rectSourceSprite);
+	
+	// new sprite doesn't have the hover sprite
+	spriteHover.setTexture(texture);
+	spriteHover.setPosition(xPos, yPos);
 	spriteHover.setTextureRect(rectSourceSprite2);
+
 	scaleMultiply = 1;
 	sprite.setOrigin(sf::Vector2f(texWidth / 2, texHeight / 2));
 	spriteHover.setOrigin(sf::Vector2f(texWidth / 2, texHeight / 2));
