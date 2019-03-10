@@ -139,7 +139,6 @@ void LoadState::update(float delta_t)
 	{
 		if (clock.getElapsedTime().asMilliseconds() > 20.0f)
 		{
-			cout << currentAlpha << endl;
 			if (currentAlpha < endAlpha) {
 				currentAlpha += 10;
 				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
