@@ -158,6 +158,7 @@
     <ClCompile Include="NewGameState.cpp" />
     <ClCompile Include="PauseCommand.cpp" />
     <ClCompile Include="PlayCommand.cpp" />
+    <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="ResumeCommand.cpp" />
     <ClCompile Include="RemoveCommand.cpp" />
     <ClCompile Include="ConfirmationPrompt.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="NewGameState.h" />
     <ClInclude Include="PauseCommand.h" />
     <ClInclude Include="PlayCommand.h" />
+    <ClInclude Include="RadioButton.h" />
     <ClInclude Include="ResumeCommand.h" />
     <ClInclude Include="RemoveCommand.h" />
     <ClInclude Include="ConfirmationPrompt.h" />

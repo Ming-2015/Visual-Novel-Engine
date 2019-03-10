@@ -9,8 +9,6 @@ bool Button::onLoad()
 	}
 	sprite.setTexture(texture);
 	sprite.setPosition(xPos, yPos);
-	spriteHover.setTexture(texture);
-	spriteHover.setPosition(xPos, yPos);
 	texWidth = sprite.getLocalBounds().width;
 	texHeight = sprite.getLocalBounds().height;
 	hasShader = false;
@@ -66,14 +64,7 @@ void Button::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 		states.shader = &shader;
 	}
 
-	if (hovered == false)
-	{
-		target.draw(sprite, states);
-	}
-	else
-	{
-		target.draw(spriteHover, states);
-	}
+	target.draw(sprite, states);
 }
 
 void Button::onHandleInput(sf::Event & e, sf::RenderWindow & window)

@@ -6,6 +6,7 @@
 #include "Slider.h"
 #include "Button.h"
 #include "MenuButton.h"
+#include "RadioButton.h"
 
 class SettingsState : public GameState
 {
@@ -29,10 +30,15 @@ public:
 
 private:
 
-	std::vector<Slider * > sliders;
+	std::vector<Slider *> sliders;
 	std::vector<sf::Text> texts;
 	std::vector<MenuButton*> zeroButtons;
 	std::vector<MenuButton*> hundredButtons;
+
+	// the various radio buttons
+	std::vector<RadioButton *> enableFullscreenRadioButtons;
+	RadioButton* fullScreenButton;
+	RadioButton* windowedButton;
 
 	sf::Font settingsFont;
 	sf::Texture configTexture;

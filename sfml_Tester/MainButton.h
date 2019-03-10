@@ -11,7 +11,7 @@ public:
 		std::string fragShaderPath, float xPos, float yPos,
 		float r_width, float r_height,
 		float startX, float startY, float endX, float endY, float startX2, float startY2, float endX2, float endY2) :
-		Button(texPath, vertShaderPath, fragShaderPath, xPos, yPos, r_width, r_height),
+		Button(texPath, vertShaderPath, fragShaderPath, xPos, yPos),
 		startSpriteSheetXPos(startX),
 		startSpriteSheetYPos(startY),
 		endSpriteSheetXPos(endX),
@@ -38,6 +38,8 @@ protected:
 	void setSpriteSheetPos2(float startX, float startY, float endX, float endY);
 
 private:
+
+	sf::Sprite spriteHover;
 	float alpha = 255.f;
 	float scaleMultiply;
 	sf::Clock clock;

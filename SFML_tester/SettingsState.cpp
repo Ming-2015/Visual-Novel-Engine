@@ -52,6 +52,14 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		}
 	}
 
+	for (RadioButton * radioButton : enableFullscreenRadioButtons)
+	{
+		if (radioButton != nullptr)
+		{
+			radioButton->handleInput(e, window);
+		}
+	}
+
 	switch (e.type)
 	{
 		case sf::Event::MouseButtonReleased:
@@ -67,6 +75,7 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 					CONFIG->sfxVolume = sliders[SLIDER_SFX]->getValue();
 					CONFIG->voiceVolume = sliders[SLIDER_VOICE]->getValue();
 					CONFIG->textWindowAlpha = sliders[SLIDER_ALPHA]->getValue();
+					
 					CONFIG->write("config.ini");
 
 					nextState = GameState::STATE_BACK;
@@ -83,7 +92,6 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			}
 		}
 	}
-
 }
 
 void SettingsState::render(sf::RenderWindow & window)
@@ -118,6 +126,14 @@ void SettingsState::render(sf::RenderWindow & window)
 			window.draw(*button);
 		}
 	}
+
+	for (RadioButton * radioButton : enableFullscreenRadioButtons)
+	{
+		if (radioButton != nullptr)
+		{
+			window.draw(*radioButton);
+		}
+	}
 }
 
 void SettingsState::update(float delta_t)
@@ -143,6 +159,14 @@ void SettingsState::update(float delta_t)
 		if (buttons != nullptr)
 		{
 			buttons->update(delta_t);
+		}
+	}
+
+	for (RadioButton * radioButton : enableFullscreenRadioButtons)
+	{
+		if (radioButton != nullptr)
+		{
+			radioButton->update(delta_t);
 		}
 	}
 }
@@ -208,6 +232,24 @@ void SettingsState::init()
 			slider->load();
 		}
 	}
+
+	enableFullscreenRadioButtons.push_back(fullScreenButton = new RadioButton("Fullscreen", 1200, 400));
+	enableFullscreenRadioButtons.push_back(windowedButton = new RadioButton("Windowed", 1400, 400));
+	for (auto b : enableFullscreenRadioButtons)
+	{
+		b->load();
+	}
+	
+	fullScreenButton->setOtherRadioButtons(enableFullscreenRadioButtons);
+	windowedButton->setOtherRadioButtons(enableFullscreenRadioButtons);
+	if (CONFIG->enableFullscreen)
+	{
+		fullScreenButton->setSelected(true);
+	}
+	else
+	{
+		windowedButton->setSelected(true);
+	}
 }
 
 void SettingsState::cleanup()
@@ -215,5 +257,20 @@ void SettingsState::cleanup()
 	for (Slider * slider : sliders)
 	{
 		if (slider != nullptr) delete slider;
+	}
+
+	for (MenuButton * b : zeroButtons)
+	{
+		if (b != nullptr) delete b;
+	}
+
+	for (MenuButton* b : hundredButtons)
+	{
+		if (b != nullptr) delete b;
+	}
+
+	for (RadioButton* b : enableFullscreenRadioButtons)
+	{
+		if (b != nullptr) delete b;
 	}
 }

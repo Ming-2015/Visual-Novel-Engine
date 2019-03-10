@@ -237,6 +237,9 @@
     <ClCompile Include="LogBar.cpp">
       <Filter>Source Files\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="RadioButton.cpp">
+      <Filter>Source Files\Effect\Button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -409,6 +412,9 @@
     </ClInclude>
     <ClInclude Include="LogBar.h">
       <Filter>Header Files\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="RadioButton.h">
+      <Filter>Header Files\Effect\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

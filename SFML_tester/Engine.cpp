@@ -15,6 +15,7 @@ int Engine::start()
 	initWindowSize(window);
 
 	Game game;
+
 	while (window.isOpen())
 	{
 		sf::Event event;

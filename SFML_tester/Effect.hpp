@@ -50,7 +50,7 @@ public:
         }
         else
         {
-			LOGGER->Log("Effect", "Shader not supported");
+			LOGGER->Log("Effect", "Shader not supported, or effect no loaded yet!");
         }
     }
 
