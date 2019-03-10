@@ -44,8 +44,9 @@ void SavefileImage::useDefaultSprite()
 void SavefileImage::setPosition(int x, int y)
 {
 	bgSprite.setPosition(x, y);
+	bgBoxSprite.setPosition(x - 15, y - 13);
 	saveSprite.setPosition(x + borderSize, y + borderSize);
-	saveText.setPosition(x, y + 215);
+	saveText.setPosition(x + 260, y + 20);
 }
 
 bool SavefileImage::isClicked(bool reset)
@@ -85,13 +86,17 @@ bool SavefileImage::onLoad()
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/savebox.png");
 	}
-
-	if (!bgSelectedTex.loadFromFile(GLOBAL->AssetRoot + "savebox_selected.png"))
+	if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack.png"))
+	{
+		LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack.png");
+	}
+	if (!bgBoxSelectedTex.loadFromFile(GLOBAL->AssetRoot + "savebox_selected.png"))
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/savebox_selected.png");
 	}
 
 	bgSprite.setTexture(bgUnselectedTex);
+	bgBoxSprite.setTexture(bgBoxUnselectedTex);
 
 	return true;
 }
@@ -103,6 +108,7 @@ void SavefileImage::onUpdate(float delta_t)
 
 void SavefileImage::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 {
+	target.draw(bgBoxSprite, states);
 	target.draw(bgSprite, states);
 	target.draw(saveSprite, states);
 	target.draw(saveText, states);
@@ -110,21 +116,22 @@ void SavefileImage::onDraw(sf::RenderTarget & target, sf::RenderStates states) c
 
 void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 {
+
 	sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 	switch (e.type)
 	{
 		case sf::Event::MouseMoved:
 		{
-			if (bgSprite.getGlobalBounds().contains(mousePosF))
+			if (bgSprite.getGlobalBounds().contains(mousePosF) || bgBoxSprite.getGlobalBounds().contains(mousePosF))
 			{
 				hovered = true;
-				bgSprite.setTexture(bgSelectedTex);
+				bgBoxSprite.setTexture(bgBoxSelectedTex);
 			}
 			else
 			{
 				hovered = false;
-				bgSprite.setTexture(bgUnselectedTex);
+				bgBoxSprite.setTexture(bgBoxUnselectedTex);
 			}
 			break;
 		}
@@ -133,7 +140,7 @@ void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 		{
 			if (e.mouseButton.button == sf::Mouse::Left)
 			{
-				if (bgSprite.getGlobalBounds().contains(mousePosF))
+				if (bgSprite.getGlobalBounds().contains(mousePosF) || bgBoxSprite.getGlobalBounds().contains(mousePosF))
 				{
 					pressed = true;
 				}

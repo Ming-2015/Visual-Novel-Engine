@@ -26,12 +26,16 @@ void DrawMainButton::init()
 	loadButton->load();
 	buttons.push_back(loadButton);
 
-	autoButton = new MainButton(GLOBAL->AssetRoot + "Auto72x88.png", "", "", 1230.0f, 898.0f, 0, 0, 0, 0, 72, 44, 0, 44, 72, 44);
+	logButton = new MainButton(GLOBAL->AssetRoot + "Log64X126.png", "", "", 1232.0f, 905.0f, 0, 0, 0, 0, 64, 63, 0, 63, 64, 63);
+	logButton->load();
+	buttons.push_back(logButton);
+
+	autoButton = new MainButton(GLOBAL->AssetRoot + "Auto72x88.png", "", "", 1157.0f, 898.0f, 0, 0, 0, 0, 72, 44, 0, 44, 72, 44);
 	autoButton->load();
 	buttons.push_back(autoButton);
 	autoButton->highlightColor = sf::Color(210, 100, 240, 255);
 
-	skipButton = new MainButton(GLOBAL->AssetRoot + "Skip69x98.png", "", "", 1157.0f, 902.0f, 0, 0, 0, 0, 69, 49, 0, 49, 69, 49);
+	skipButton = new MainButton(GLOBAL->AssetRoot + "Skip69x98.png", "", "", 1085.0f, 902.0f, 0, 0, 0, 0, 69, 49, 0, 49, 69, 49);
 	skipButton->load();
 	buttons.push_back(skipButton);
 	skipButton->highlightColor = sf::Color(255, 60, 60, 255);
@@ -71,6 +75,10 @@ void DrawMainButton::handleInput(sf::Event & e, sf::RenderWindow & window)
 	if (saveButton->isClicked(true))
 	{
 		saveButtonClicked = true;
+	}
+	if (logButton->isClicked(true))
+	{
+		logButtonClicked = true;
 	}
 	if (autoButton->isClicked(true))
 	{

@@ -13,6 +13,29 @@ LoadState::~LoadState()
 
 void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {
+	for (MainButton* button : buttons)
+	{
+		button->handleInput(e, window);
+	}
+
+	if (menuButton->isClicked(true))
+	{
+		shouldChangeState = true;
+		nextState = GameState::STATE_MENU;
+		LOGGER->Log("LoadState", "Switching to Menu State");
+	}
+	if (returnButton->isClicked(true))
+	{
+		nextState = GameState::STATE_BACK;
+		shouldChangeState = true;
+		LOGGER->Log("LoadState", "Returning to Previous State");
+	}
+	if (quitButton->isClicked(true))
+	{
+		LOGGER->Log("MenuState", "Switching to Exit State");
+		exitGame = true;
+	}
+
 	for (int i = 0; i < savePerPage; i++)
 	{
 		savefileImages[i]->handleInput(e, window);
@@ -91,6 +114,13 @@ void LoadState::render(sf::RenderWindow & window)
 	{
 		window.draw(*(savefileImages[i]) );
 	}
+
+	for (MainButton* button : buttons)
+	{
+		window.draw(*button);
+	}
+	
+	window.draw(rectangle);
 }
 
 void LoadState::update(float delta_t)
@@ -98,6 +128,34 @@ void LoadState::update(float delta_t)
 	for (int i = 0; i < savePerPage; i++)
 	{
 		savefileImages[i]->update(delta_t);
+	}
+
+	for (MainButton* button : buttons)
+	{
+		button->update(delta_t);
+	}
+
+	if (exitGame == true)
+	{
+		if (clock.getElapsedTime().asMilliseconds() > 20.0f)
+		{
+			cout << currentAlpha << endl;
+			if (currentAlpha < endAlpha) {
+				currentAlpha += 10;
+				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
+
+				if (currentAlpha >= endAlpha)
+				{
+					currentAlpha = endAlpha;
+				}
+			}
+			else
+			{
+				shouldChangeState = true;
+				nextState = GameState::STATE_EXIT;
+			}
+			clock.restart();
+		}
 	}
 }
 
@@ -136,12 +194,34 @@ void LoadState::init()
 	// load images and titles
 	loadSavesByPage(0);
 
-	savefileImages[INDEX_SAVE_1]->setPosition(170, 260);
-	savefileImages[INDEX_SAVE_2]->setPosition(613, 257);
-	savefileImages[INDEX_SAVE_3]->setPosition(1069, 256);
-	savefileImages[INDEX_SAVE_4]->setPosition(161, 521);
-	savefileImages[INDEX_SAVE_5]->setPosition(614, 519);
-	savefileImages[INDEX_SAVE_6]->setPosition(1070, 520);
+	savefileImages[INDEX_SAVE_1]->setPosition(170, 160);
+	savefileImages[INDEX_SAVE_2]->setPosition(870, 160);
+	savefileImages[INDEX_SAVE_3]->setPosition(170, 340);
+	savefileImages[INDEX_SAVE_4]->setPosition(870, 340);
+	savefileImages[INDEX_SAVE_5]->setPosition(170, 520);
+	savefileImages[INDEX_SAVE_6]->setPosition(870, 520);
+	savefileImages[INDEX_SAVE_7]->setPosition(170, 700);
+	savefileImages[INDEX_SAVE_8]->setPosition(870, 700);
+
+	menuButton = new MainButton(GLOBAL->AssetRoot + "Menu115x80.png", "", "", 1228.0f, 93.0f, 0, 0, 0, 40, 115, 40, 0, 0, 115, 40);
+	menuButton->load();
+	buttons.push_back(menuButton);
+
+	returnButton = new MainButton(GLOBAL->AssetRoot + "Return135x82.png", "", "", 1050.0f, 93.0f, 0, 0, 0, 41, 135, 41, 0, 0, 135, 41);
+	returnButton->load();
+	buttons.push_back(returnButton);
+
+	quitButton = new MainButton(GLOBAL->AssetRoot + "Quit84x80.png", "", "", 1393.0f, 93.0f, 0, 0, 0, 40, 84, 40, 0, 0, 84, 40);
+	quitButton->load();
+	buttons.push_back(quitButton);
+
+	currentAlpha = 0;
+	endAlpha = 255;
+
+	rectangle.setSize(sf::Vector2f(1600, 900));
+	rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
+	rectangle.setPosition(0, 0);
+	exitGame = false;
 }
 
 void LoadState::cleanup()
@@ -150,6 +230,11 @@ void LoadState::cleanup()
 	{
 		if (save != nullptr) delete save;
 	}
+	for (MainButton* button : buttons)
+	{
+		delete button;
+	}
+	buttons.clear();
 }
 
 //bool LoadState::readSave(const std::string & savefile, sf::Image & image, std::string & title, ScriptManager *& scriptManager)

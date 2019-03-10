@@ -30,6 +30,7 @@ public:
 	bool autoButtonClicked;
 	bool skipButtonClicked;
 	bool closeButtonClicked;
+	bool logButtonClicked;
 
 private:
 
@@ -42,6 +43,7 @@ private:
 	MainButton * autoButton;
 	MainButton * skipButton;
 	MainButton * closeButton;
+	MainButton * logButton;
 
 	vector<MainButton*> buttons;
 

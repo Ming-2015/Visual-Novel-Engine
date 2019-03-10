@@ -88,7 +88,7 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			{
 				nextState = GameState::STATE_BACK;
 				shouldChangeState = true;
-				LOGGER->Log("SettingsState", "Returning to Main Menu without saving!");
+				LOGGER->Log("SettingsState", "Returning to Previous State");
 			}
 		}
 	}

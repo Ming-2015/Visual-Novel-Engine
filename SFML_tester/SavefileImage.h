@@ -36,7 +36,10 @@ protected:
 
 	sf::Sprite bgSprite;
 	sf::Texture bgUnselectedTex;
-	sf::Texture bgSelectedTex;
+
+	sf::Sprite bgBoxSprite;
+	sf::Texture bgBoxUnselectedTex;
+	sf::Texture bgBoxSelectedTex;
 
 	bool hovered = false;
 	bool clicked = false;

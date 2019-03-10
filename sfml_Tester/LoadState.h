@@ -6,6 +6,7 @@
 #include "ScriptManager.h"
 #include "SavefileImage.h"
 #include "SavedataUtility.h"
+#include "MainButton.h"
 
 class LoadState : public GameState
 {
@@ -44,6 +45,8 @@ public:
 	const static int INDEX_SAVE_4 = 3;
 	const static int INDEX_SAVE_5 = 4;
 	const static int INDEX_SAVE_6 = 5;
+	const static int INDEX_SAVE_7 = 6;
+	const static int INDEX_SAVE_8 = 7;
 
 private:
 	sf::Texture saveTexture;
@@ -52,12 +55,24 @@ private:
 	sf::Text startNew;
 	sf::Text returnState;
 
+	MainButton * menuButton;
+	MainButton * returnButton;
+	MainButton * quitButton;
+
+	vector<MainButton*> buttons;
+
+
 	unsigned int currentPageNumber = 0;
-	const unsigned int savePerPage = 6;
+	const unsigned int savePerPage = 8;
 
 	std::vector<SavefileImage *> savefileImages;
 
 	ScriptManager* scriptManager;
 
 	void loadSavesByPage(int pageNumber);
+
+	int currentAlpha, endAlpha;
+	bool exitGame;
+	sf::RectangleShape rectangle;
+	sf::Clock clock;
 };
