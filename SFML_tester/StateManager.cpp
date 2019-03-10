@@ -57,6 +57,12 @@ void StateManager::manageStates()
 				clearPrevStates();
 				currentState = new MenuState();
 			}
+			else if (currentState->myState == GameState::STATE_LOAD)
+			{
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new MenuState();
+			}
 			break;
 
 		case GameState::STATE_INIT:
@@ -130,6 +136,12 @@ void StateManager::manageStates()
 				currentState = new ExitState();
 			}
 			else if (currentState->myState == GameState::STATE_MAIN)
+			{
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new ExitState();
+			}
+			else if (currentState->myState == GameState::STATE_LOAD)
 			{
 				prevStates.push(currentState);
 				clearPrevStates();
