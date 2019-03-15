@@ -1,4 +1,11 @@
 #pragma once
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <chrono>
+#include <time.h>
+#include <stdio.h>
+#undef _CRT_SECURE_NO_WARNINGS
+
 #include "ScriptManager.h"
 
 #define SAVEDATAUTILITY SavedataUtility::GetUtility()
@@ -14,7 +21,8 @@ public:
 	const std::string QuickSavefilePrefix = "qsave_";
 	const std::string QuickSavefileSuffix = ".usd";
 
-	bool readSave(const std::string & savefile, sf::Image & image, std::string & title) const;
+	bool readSave(const std::string & savefile, sf::Image & image, std::string & title,
+		std::string & savetime) const;
 	void writeSave(const std::string& filename,
 		const sf::Image & image,
 		const ScriptManager*& scriptManager) const;
@@ -23,6 +31,7 @@ public:
 	bool readSave(const std::string& savefile,
 		sf::Image& image,
 		std::string& title,
+		std::string& time,
 		ScriptManager*& scriptManager) const;
 
 	static SavedataUtility* GetUtility();

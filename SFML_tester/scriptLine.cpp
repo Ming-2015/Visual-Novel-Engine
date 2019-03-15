@@ -707,7 +707,7 @@ void ScriptLine::setSfx(const string & groupname, const string & filename, bool 
 {
 	if (clearOthers)
 	{
-		for (int i = 0; i < bgm.size(); i++)
+		for (int i = 0; i < sfx.size(); i++)
 		{
 			sfx[i]->stop();
 			delete sfx[i];
@@ -835,7 +835,7 @@ void ScriptLine::stopVoice()
 {
 	for (auto m : voices)
 	{
-		if (m != nullptr) m->stop();
+		if (m != nullptr) m->pause();
 		delete m;
 	}
 	voices.clear();
@@ -914,16 +914,16 @@ void ScriptLine::updateSoundList()
 		}
 	}
 
-	for (int i = 0; i < voices.size(); i++)
-	{
-		if (voices[i]->getStatus() == sf::Music::Stopped)
-		{
-			delete voices[i];
-			voices.erase(voices.begin() + i);
-			fn_voices.erase(fn_voices.begin() + i);
-			i--;
-		}
-	}
+	//for (int i = 0; i < voices.size(); i++)
+	//{
+	//	if (voices[i]->getStatus() == sf::Music::Stopped)
+	//	{
+	//		delete voices[i];
+	//		voices.erase(voices.begin() + i);
+	//		fn_voices.erase(fn_voices.begin() + i);
+	//		i--;
+	//	}
+	//}
 }
 
 bool ScriptLine::isVoicePlayed() const

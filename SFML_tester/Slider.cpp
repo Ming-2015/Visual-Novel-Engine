@@ -28,6 +28,7 @@ bool Slider::onLoad()
 		LOGGER->Log("Slider", "Error loading slider texture");
 		return false;
 	}
+	sliderTexture.setSmooth(true);
 	sliderSprite.setTexture(sliderTexture);
 	sliderTexWidth = sliderSprite.getLocalBounds().width;
 	sliderTexHeight = sliderSprite.getLocalBounds().height;
@@ -45,6 +46,7 @@ bool Slider::onLoad()
 		LOGGER->Log("Slider", "Error loading knob texture");
 		return false;
 	}
+	knobTexture.setSmooth(true);
 	knobSprite.setTexture(knobTexture);
 	knobTexWidth = knobSprite.getLocalBounds().width;
 	knobTexHeight = knobSprite.getLocalBounds().height;

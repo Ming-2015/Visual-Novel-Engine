@@ -28,17 +28,6 @@ public:
 
 	void cleanup();
 
-	//// read image, title and scriptmanager
-	//bool readSave(const std::string& savefile, 
-	//	sf::Image& image, 
-	//	std::string& title, 
-	//	ScriptManager*& scriptManager);
-
-	//// read only the image and title
-	//bool readSave(const std::string& savefile,
-	//	sf::Image& image,
-	//	std::string& title);
-
 	const static int INDEX_SAVE_1 = 0;
 	const static int INDEX_SAVE_2 = 1;
 	const static int INDEX_SAVE_3 = 2;

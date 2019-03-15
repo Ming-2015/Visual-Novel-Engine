@@ -10,6 +10,7 @@ void ItemImage::setImage()
 		loaded = false;
 		return;
 	}
+	texture.setSmooth(true);
 
 	sprite.setTexture(texture);
 	loaded = true;
@@ -106,6 +107,7 @@ ItemImage::ItemImage(ifstream & file)
 		{
 			LOGGER->Log("ItemImage", "Unable to load next expression");
 		}
+		nextTexture.setSmooth(true);
 		nextSprite.setTexture(nextTexture);
 		nextSprite.setOrigin(nextSprite.getLocalBounds().width / 2.f, nextSprite.getLocalBounds().height / 2.f);
 		nextSprite.setPosition(nextXPos, nextYPos);
@@ -341,6 +343,7 @@ void ItemImage::changeExpression(string expression, float time)
 			LOGGER->Log("ItemImage", err);
 			return;
 		}
+		nextTexture.setSmooth(true);
 		nextSprite.setTexture(nextTexture);
 		
 		nextSprite.setOrigin(nextSprite.getLocalBounds().width / 2.0f, nextSprite.getLocalBounds().height / 2.0f);

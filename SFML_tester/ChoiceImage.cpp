@@ -43,6 +43,7 @@ ChoiceImage::ChoiceImage(const std::string & str, const std::string & flag, int 
 	{
 		LOGGER->Log("ChoiceImage", "Unable to log choice background image");
 	}
+	choiceboxBgTex.setSmooth(true);
 	choiceboxBg.setTexture(choiceboxBgTex);
 	choiceboxBg.setPosition(xPos, yPos);
 	choiceboxBg.setOrigin(choiceboxBg.getLocalBounds().width / 2.0f, choiceboxBg.getLocalBounds().height / 2.0f);
@@ -101,6 +102,7 @@ ChoiceImage::ChoiceImage(ifstream & file)
 	{
 		LOGGER->Log("ChoiceImage", "Unable to log choice background image");
 	}
+	choiceboxBgTex.setSmooth(true);
 	choiceboxBg.setTexture(choiceboxBgTex);
 	choiceboxBg.setPosition(xPos, yPos);
 	choiceboxBg.setOrigin(choiceboxBg.getLocalBounds().width / 2.0f, choiceboxBg.getLocalBounds().height / 2.0f);

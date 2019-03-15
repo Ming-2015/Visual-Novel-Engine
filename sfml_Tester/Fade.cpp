@@ -17,6 +17,7 @@ bool Fade::onLoad()
 {
 	if (!picInTexture.loadFromFile(filename))
 		LOGGER->Log("Fade", "Fade Unsuccessful. Picture not found.");
+	picInTexture.setSmooth(true);
 	picInSprite.setTexture(picInTexture);
 
 	return true;

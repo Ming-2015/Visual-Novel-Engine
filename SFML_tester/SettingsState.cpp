@@ -188,6 +188,7 @@ void SettingsState::init()
 {
 	if (!configTexture.loadFromFile(GLOBAL->AssetRoot + "ConfigurationsPage.png"))
 		LOGGER->Log("MenuState", "Image not found: ConfigurationsPage.png");
+	configTexture.setSmooth(true);
 	configBackground.setTexture(configTexture);
 
 	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 290.0f, 0, 0, 0, 0, 64, 29));

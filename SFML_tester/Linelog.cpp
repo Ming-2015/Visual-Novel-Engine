@@ -6,6 +6,7 @@ LineLog::LineLog()
 	{
 		LOGGER->Log("LineLog", "Unable to load log background");
 	}
+	logBackgroundImage.setSmooth(true);
 	logBackground.setTexture(logBackgroundImage);
 
 	logBars.push_back(new LogBar());

@@ -7,7 +7,8 @@ SavedataUtility::SavedataUtility()
 
 }
 
-bool SavedataUtility::readSave(const std::string & savefile, sf::Image & image, std::string & title) const
+bool SavedataUtility::readSave(const std::string & savefile, sf::Image & image, 
+	std::string & title, std::string & savetime) const
 {
 	ifstream infile(savefile, ios::binary | ios::in);
 	if (!infile)
@@ -34,6 +35,9 @@ bool SavedataUtility::readSave(const std::string & savefile, sf::Image & image, 
 	// read the title
 	title = UTILITY->readFromBinaryFile(infile);
 
+	// read the time
+	savetime = UTILITY->readFromBinaryFile(infile);
+
 	// read the script manager
 	infile.close();
 
@@ -51,6 +55,9 @@ void SavedataUtility::writeSave(const std::string & filename, const sf::Image & 
 
 	// create and read the screenshot
 	image.saveToFile("_temp_ss.png");
+	sf::Texture tex;
+	tex.update(image);
+
 	ifstream ssfile("_temp_ss.png", ios::binary | ios::in);
 
 	// create a string of that size
@@ -82,13 +89,21 @@ void SavedataUtility::writeSave(const std::string & filename, const sf::Image & 
 	// save the title of the script
 	UTILITY->writeToBinaryFile(outfile, title);
 
+	// get time and save it to the script
+	std::time_t time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+	std::string str_time = std::ctime(&time);
+
+	UTILITY->writeToBinaryFile(outfile, str_time);
+
 	// save the scriptManager
 	scriptManager->serialize(outfile);
 
 	outfile.close();
 }
 
-bool SavedataUtility::readSave(const std::string & savefile, sf::Image & image, std::string & title, ScriptManager *& scriptManager) const
+bool SavedataUtility::readSave(const std::string & savefile, sf::Image & image, std::string & title,
+	std::string& savetime, ScriptManager *& scriptManager) const
 {
 	ifstream infile(savefile, ios::binary | ios::in);
 	if (!infile)
@@ -114,6 +129,9 @@ bool SavedataUtility::readSave(const std::string & savefile, sf::Image & image, 
 
 	// read the title
 	title = UTILITY->readFromBinaryFile(infile);
+
+	// read the time
+	savetime = UTILITY->readFromBinaryFile(infile);
 
 	// read the script manager
 	scriptManager = new ScriptManager(infile);

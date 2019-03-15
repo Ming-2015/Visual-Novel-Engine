@@ -36,6 +36,7 @@ void MenuState::init()
 
 	if (!background.loadFromFile(GLOBAL->AssetRoot + "background.jpg"))
 		LOGGER->Log("MenuState", "Image not found: background.jpg");
+	background.setSmooth(true);
 	backgroundImage.setTexture(background);
 
 	if (!font.loadFromFile(GLOBAL->UserInterfaceButtonFont))

@@ -50,7 +50,8 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 			sf::Image img;
 			std::string str;
-			if (SAVEDATAUTILITY->readSave(savefile, img, str, scriptManager))
+			std::string savetime;
+			if (SAVEDATAUTILITY->readSave(savefile, img, str, savetime, scriptManager))
 			{
 				GLOBAL->scriptManagerPtr = scriptManager;
 
@@ -163,6 +164,7 @@ void LoadState::init()
 	{
 		LOGGER->Log("LoadState", "Image not found: LoadPage.png");
 	}
+	saveTexture.setSmooth(true);
 	saveBackground.setTexture(saveTexture);
 
 	if (!settingsFont.loadFromFile(GLOBAL->UserInterfaceButtonFont))
@@ -235,71 +237,6 @@ void LoadState::cleanup()
 	buttons.clear();
 }
 
-//bool LoadState::readSave(const std::string & savefile, sf::Image & image, std::string & title, ScriptManager *& scriptManager)
-//{
-//	ifstream infile(savefile, ios::binary | ios::in);
-//	if (!infile)
-//	{
-//		LOGGER->Log("LoadState", "Unable to load save file");
-//		return false;
-//	}
-//
-//	// read the image file size
-//	unsigned int fileSize;
-//	infile.read(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
-//
-//	// read the image data from file
-//	std::vector<char> byteArray(fileSize);
-//	infile.read(byteArray.data(), fileSize);
-//
-//	// dump it into a memory input stream
-//	sf::MemoryInputStream picStream;
-//	picStream.open(byteArray.data(), fileSize);
-//
-//	// load the image!
-//	image.loadFromStream(picStream);
-//
-//	// read the title
-//	title = UTILITY->readFromBinaryFile(infile);
-//
-//	// read the script manager
-//	scriptManager = new ScriptManager(infile);
-//	infile.close();
-//
-//	return true;
-//}
-//
-//bool LoadState::readSave(const std::string & savefile, sf::Image & image, std::string & title)
-//{
-//	ifstream infile(savefile, ios::binary | ios::in);
-//	if (!infile)
-//	{
-//		LOGGER->Log("LoadState", "Unable to load save file");
-//		return false;
-//	}
-//
-//	// read the image file size
-//	unsigned int fileSize;
-//	infile.read(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
-//
-//	// read the image data from file
-//	std::vector<char> byteArray(fileSize);
-//	infile.read(byteArray.data(), fileSize);
-//
-//	// dump it into a memory input stream
-//	sf::MemoryInputStream picStream;
-//	picStream.open(byteArray.data(), fileSize);
-//
-//	// load the image!
-//	image.loadFromStream(picStream);
-//
-//	// read the title
-//	title = UTILITY->readFromBinaryFile(infile);
-//	infile.close();
-//
-//	return true;
-//}
-
 void LoadState::loadSavesByPage(int pageNumber)
 {
 	// load the first page
@@ -309,10 +246,11 @@ void LoadState::loadSavesByPage(int pageNumber)
 		std::string savefile = SAVEDATAUTILITY->SavefileRoot + SAVEDATAUTILITY->SavefilePrefix + to_string(i) + SAVEDATAUTILITY->SavefileSuffix;
 		std::string title;
 		sf::Image image;
+		std::string savetime;
 
 		if (UTILITY->checkFileExist(savefile))
 		{
-			SAVEDATAUTILITY->readSave(savefile, image, title);
+			SAVEDATAUTILITY->readSave(savefile, image, title, savetime);
 			savefileImages[i - currentSave]->setImage(image);
 			savefileImages[i - currentSave]->setString(title);
 		}

@@ -6,6 +6,7 @@ void ConfirmationPrompt::init()
 	{
 		LOGGER->Log("ConfirmationPrompt", "Image not found: MainMenuPrompt.png");
 	}
+	boxTexture.setSmooth(true);
 	boxSprite.setTexture(boxTexture);
 
 	noButton = new MainButton(GLOBAL->AssetRoot + "no78x106.png", "", "", 910.0f, 490.0f, 0, 0, 0, 0, 78, 53, 0, 53, 78, 53);

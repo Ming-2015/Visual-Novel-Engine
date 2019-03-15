@@ -7,6 +7,7 @@ void ButtonHighlight::init()
 	{
 		LOGGER->Log("ButtonHighlight", "Image not found: MainMenuPrompt.png");
 	}
+	autoTexture.setSmooth(true);
 	autoSprite.setTexture(autoTexture);
 	sprites.push_back(autoSprite);
 
@@ -14,6 +15,7 @@ void ButtonHighlight::init()
 	{
 		LOGGER->Log("ButtonHighlight", "Image not found: MainMenuPrompt.png");
 	}
+	skipTexture.setSmooth(true);
 	skipSprite.setTexture(autoTexture);
 	sprites.push_back(skipSprite);
 

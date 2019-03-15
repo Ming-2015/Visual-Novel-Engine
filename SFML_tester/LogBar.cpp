@@ -73,11 +73,13 @@ bool LogBar::onLoad()
 	{
 		LOGGER->Log("LogBar", "Unable to load images/assets/logBar.png");
 	}
+	bgUnselectedTex.setSmooth(true);
 
 	if (!bgSelectedTex.loadFromFile(GLOBAL->AssetRoot + "logBar_selected.png"))
 	{
 		LOGGER->Log("LogBar", "Unable to load images/assets/logBar_selected.png");
 	}
+	bgSelectedTex.setSmooth(true);
 
 	bgSprite.setTexture(bgUnselectedTex);
 

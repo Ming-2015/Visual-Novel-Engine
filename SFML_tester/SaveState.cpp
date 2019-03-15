@@ -31,10 +31,11 @@ void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 			std::string title;
 			sf::Image image;
+			std::string savetime;
 
 			if (UTILITY->checkFileExist(savefile))
 			{
-				SAVEDATAUTILITY->readSave(savefile, image, title);
+				SAVEDATAUTILITY->readSave(savefile, image, title, savetime);
 				savefileImages[i]->setImage(image);
 				savefileImages[i]->setString(title);
 			}
@@ -100,6 +101,7 @@ void SaveState::init()
 	{
 		LOGGER->Log("SaveState", "Image not found: LoadPage.png");
 	}
+	saveTexture.setSmooth(true);
 	saveBackground.setTexture(saveTexture);
 
 	if (!settingsFont.loadFromFile(GLOBAL->UserInterfaceButtonFont))
@@ -148,10 +150,11 @@ void SaveState::loadSavesByPage(int pageNumber)
 		std::string savefile = SAVEDATAUTILITY->SavefileRoot + SAVEDATAUTILITY->SavefilePrefix + to_string(i) + SAVEDATAUTILITY->SavefileSuffix;
 		std::string title;
 		sf::Image image;
+		std::string savetime;
 
 		if (UTILITY->checkFileExist(savefile))
 		{
-			SAVEDATAUTILITY->readSave(savefile, image, title);
+			SAVEDATAUTILITY->readSave(savefile, image, title, savetime);
 			savefileImages[i - currentSave]->setImage(image);
 			savefileImages[i - currentSave]->setString(title);
 		}
@@ -161,34 +164,3 @@ void SaveState::loadSavesByPage(int pageNumber)
 		}
 	}
 }
-
-//bool SaveState::readSave(const std::string & savefile, sf::Image & image, std::string & title)
-//{
-//	ifstream infile(savefile, ios::binary | ios::in);
-//	if (!infile)
-//	{
-//		LOGGER->Log("LoadState", "Unable to load save file");
-//		return false;
-//	}
-//
-//	// read the image file size
-//	unsigned int fileSize;
-//	infile.read(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
-//
-//	// read the image data from file
-//	std::vector<char> byteArray(fileSize);
-//	infile.read(byteArray.data(), fileSize);
-//
-//	// dump it into a memory input stream
-//	sf::MemoryInputStream picStream;
-//	picStream.open(byteArray.data(), fileSize);
-//
-//	// load the image!
-//	image.loadFromStream(picStream);
-//
-//	// read the title
-//	title = UTILITY->readFromBinaryFile(infile);
-//	infile.close();
-//
-//	return true;
-//}

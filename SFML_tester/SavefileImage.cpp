@@ -36,6 +36,7 @@ void SavefileImage::useDefaultSprite()
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/nodata.png");
 	}
+	saveTex.setSmooth(true);
 
 	saveSprite.setTexture(saveTex);
 	setToScale();
@@ -86,14 +87,17 @@ bool SavefileImage::onLoad()
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/savebox.png");
 	}
+	bgUnselectedTex.setSmooth(true);
 	if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack.png"))
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack.png");
 	}
+	bgBoxUnselectedTex.setSmooth(true);
 	if (!bgBoxSelectedTex.loadFromFile(GLOBAL->AssetRoot + "savebox_selected.png"))
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/savebox_selected.png");
 	}
+	bgBoxSelectedTex.setSmooth(true);
 
 	bgSprite.setTexture(bgUnselectedTex);
 	bgBoxSprite.setTexture(bgBoxUnselectedTex);

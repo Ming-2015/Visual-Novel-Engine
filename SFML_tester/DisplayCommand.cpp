@@ -404,7 +404,7 @@ void DisplayCommand::update(float delta_t)
 				if (currentLineIndex < displayLines.size() && 
 					currentCharIndex >= displayLines[currentLineIndex].length())
 				{
-					currentCharIndex = displayLines[currentCharIndex].length() - 1;
+					currentCharIndex = displayLines[currentLineIndex].length() - 1;
 				}
 
 				currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);

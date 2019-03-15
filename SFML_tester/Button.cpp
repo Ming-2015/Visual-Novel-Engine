@@ -7,6 +7,7 @@ bool Button::onLoad()
 		LOGGER->Log("Button", "Error loading button texture");
 		return false;
 	}
+	texture.setSmooth(true);
 	sprite.setTexture(texture);
 	sprite.setPosition(xPos, yPos);
 	texWidth = sprite.getLocalBounds().width;

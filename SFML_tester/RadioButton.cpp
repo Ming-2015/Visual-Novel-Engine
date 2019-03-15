@@ -41,6 +41,7 @@ bool RadioButton::onLoad()
 		LOGGER->Log("RadioButton", "Unable to load unselected radio button texture");
 		ret = false;
 	}
+	textureSelected.setSmooth(true);
 
 	if (!buttonFont.loadFromFile(GLOBAL->UserInterfaceFont))
 	{

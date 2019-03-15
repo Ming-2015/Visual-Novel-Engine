@@ -119,10 +119,11 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 		sf::Image image;
 		std::string title;
+		std::string savetime;
 
 		delete scriptManager;
 		if (UTILITY->checkFileExist(fname) && 
-			!SAVEDATAUTILITY->readSave(fname, image, title, scriptManager))
+			!SAVEDATAUTILITY->readSave(fname, image, title, savetime, scriptManager))
 		{
 			LOGGER->Log("MainState", "Failed to load quick save file");
 		}
