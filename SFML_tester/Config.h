@@ -44,6 +44,7 @@ public:
 	string displayTextFontName;		// name of the font file (.ttf) we are using for the text
 	float textWindowAlpha;			// text window transparency (alpha)
 	int windowWidth, windowHeight;	// window width and height
+	int menuIteration;
 	bool stopVoiceNextLine;			// should we stop voice after entering next line?
 
 	const int defaultWidth = 1600, defaultHeight = 900;
@@ -62,6 +63,7 @@ public:
 	static const string CF_TEXT_WINDOW_ALPHA;
 	static const string CF_WINDOW_WIDTH;
 	static const string CF_WINDOW_HEIGHT;
+	static const string CF_MENU_ITERATOR;
 	static const string CF_STOP_VOICE_NEXT_LINE;
 
 	static Config * GetConfig();
