@@ -18,6 +18,16 @@ MenuState::~MenuState()
 
 void MenuState::init() 
 {
+	if (CONFIG->menuIteration < 3)
+	{
+		CONFIG->menuIteration++;
+	}
+	else if (CONFIG->menuIteration >= 3)
+	{
+		CONFIG->menuIteration = 1;
+	}
+	CONFIG->write("config.ini");
+	cout << CONFIG->menuIteration;
 	currentAlpha = 0;
 	endAlpha = 255;
 	rectangle.setSize(sf::Vector2f(1600, 900));
