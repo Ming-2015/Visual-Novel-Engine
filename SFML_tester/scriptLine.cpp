@@ -677,7 +677,7 @@ void ScriptLine::setVoice(const string & groupname, const string & filename, boo
 {
 	if (clearOthers)
 	{
-		for (int i = 0; i < bgm.size(); i++)
+		for (int i = 0; i < voices.size(); i++)
 		{
 			voices[i]->stop();
 			delete voices[i];

@@ -21,6 +21,9 @@ public:
 	bool isPressed() const;
 	bool isOnHover() const;
 
+	void setActive(bool a) { active = a; }
+	bool isActive() const { return active; }
+
 protected:
 
 	bool onLoad();
@@ -44,4 +47,6 @@ protected:
 	bool hovered = false;
 	bool clicked = false;
 	bool pressed = false;
+
+	bool active = true;
 };

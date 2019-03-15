@@ -39,6 +39,9 @@ private:
 	// if the display command is a choice, what are the next locations?
 	std::vector<std::string> userFlags;
 
+	// if the display command is a voiced line, what are the voice files?
+	std::vector<std::string> voiceFiles;
+
 	// type of animation
 	int animationType;
 
@@ -57,6 +60,9 @@ private:
 	bool displayedChoices = false;
 	bool selectedChoice = false;
 
+	// play the voice
+	bool playedVoice = false;
+
 	const static int ANIMATION_GOREY = 2;
 	const static int ANIMATION_EXCLAIMATION = 1;
 	const static int ANIMATION_NONE = 0;
@@ -64,6 +70,7 @@ private:
 
 	const static int OBJECT_LINE = 0;
 	const static int OBJECT_CHOICE = 1;
+	const static int OBJECT_VOICED_LINE = 2;
 
 	std::string assembleString(const std::vector<std::string>& lines, int lineIndex, int charIndex) const;
 };

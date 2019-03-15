@@ -89,18 +89,23 @@ bool LogBar::onLoad()
 
 void LogBar::onUpdate(float delta_t)
 {
-
+	if (!active) return;
 }
 
 void LogBar::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 {
+	if (!active) return;
+	
 	target.draw(bgSprite, states);
 	target.draw(nameText, states);
 	target.draw(lineText, states);
+	
 }
 
 void LogBar::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 {
+	if (!active) return;
+
 	sf::Vector2f mousePosF = CONFIG->getCursorPosition(window);
 	switch (e.type)
 	{
