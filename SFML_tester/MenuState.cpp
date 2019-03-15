@@ -6,7 +6,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 
-MenuState::MenuState() 
+MenuState::MenuState()
 {
 	myState = GameState::STATE_MENU;
 	init();
@@ -16,7 +16,7 @@ MenuState::~MenuState()
 {
 }
 
-void MenuState::init() 
+void MenuState::init()
 {
 	if (CONFIG->menuIteration < 3)
 	{
@@ -27,11 +27,10 @@ void MenuState::init()
 		CONFIG->menuIteration = 1;
 	}
 	CONFIG->write("config.ini");
-	cout << CONFIG->menuIteration;
 	currentAlpha = 0;
 	endAlpha = 255;
 	rectangle.setSize(sf::Vector2f(1600, 900));
-	rectangle.setFillColor(sf::Color::Color(0,0,0,currentAlpha));
+	rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 	rectangle.setPosition(0, 0);
 
 	volumeFade = 0.0;
@@ -44,6 +43,24 @@ void MenuState::init()
 		bgm.play();
 	}
 
+	/*if (CONFIG->menuIteration == 1)
+	{
+		if (!background.loadFromFile(GLOBAL->AssetRoot + "CHANGE_THIS"))
+			LOGGER->Log("MenuState", "Image not found: background.jpg");
+		backgroundImage.setTexture(background);
+	}
+	else if (CONFIG->menuIteration == 2)
+	{
+		if (!background.loadFromFile(GLOBAL->AssetRoot + "CHANGE_THIS"))
+			LOGGER->Log("MenuState", "Image not found: background.jpg");
+		backgroundImage.setTexture(background);
+	}
+	else if (CONFIG->menuIteration == 3)
+	{
+		if (!background.loadFromFile(GLOBAL->AssetRoot + "CHANGE_THIS"))
+			LOGGER->Log("MenuState", "Image not found: background.jpg");
+		backgroundImage.setTexture(background);
+	}*/
 	if (!background.loadFromFile(GLOBAL->AssetRoot + "background.jpg"))
 		LOGGER->Log("MenuState", "Image not found: background.jpg");
 	backgroundImage.setTexture(background);
