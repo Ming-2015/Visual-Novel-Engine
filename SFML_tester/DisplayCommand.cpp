@@ -31,6 +31,11 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 	{
 		objectType = OBJECT_CHOICE;
 	}
+	else if (objectTypeName == "voicedline" || objectTypeName == "v" || objectTypeName == "vl" ||
+		objectTypeName == "voiced" || objectTypeName == "voice" || objectTypeName == "voiceline")
+	{
+		objectType = OBJECT_VOICED_LINE;
+	}
 	else
 	{
 		string err = "Invalid Object Type: " + objectTypeName;
@@ -110,6 +115,25 @@ DisplayCommand::DisplayCommand(std::vector<std::string> args)
 			choice = !choice;
 		}
 	}
+	// alternatively adding line and voice file
+	else if (objectType == OBJECT_VOICED_LINE)
+	{
+		int i = COLUMN_ARG2;
+		bool isLine = true;
+		while (i < args.size() && !args[i].empty())
+		{
+			if (isLine)
+			{
+				displayLines.push_back(UTILITY->replaceAllSubstrings(args[i], "[player]", GLOBAL->playerName));
+			}
+			else
+			{
+				voiceFiles.push_back(args[i]);
+			}
+			isLine = !isLine;	// toggle isLine
+			i++;
+		}
+	}
 
 	wait = true;
 	done = false;
@@ -141,6 +165,7 @@ DisplayCommand::DisplayCommand(ifstream & savefile)
 		displayName = UTILITY->readFromBinaryFile(savefile);
 		displayLines = UTILITY->readVectorFromBinaryFile(savefile);
 		userFlags = UTILITY->readVectorFromBinaryFile(savefile);
+		voiceFiles = UTILITY->readVectorFromBinaryFile(savefile);
 
 		savefile.read(reinterpret_cast<char *> (&animationType), sizeof(animationType));
 		savefile.read(reinterpret_cast<char *> (&objectType), sizeof(objectType));
@@ -177,6 +202,7 @@ void DisplayCommand::serialize(ofstream & savefile) const
 	UTILITY->writeToBinaryFile(savefile, displayName);
 	UTILITY->writeVectorToBinaryFile(savefile, displayLines);
 	UTILITY->writeVectorToBinaryFile(savefile, userFlags);
+	UTILITY->writeVectorToBinaryFile(savefile, voiceFiles);
 
 	savefile.write(reinterpret_cast<const char *> (&animationType), sizeof(animationType));
 	savefile.write(reinterpret_cast<const char *> (&objectType), sizeof(objectType));
@@ -194,7 +220,7 @@ void DisplayCommand::execute(ScriptLine * scriptLine)
 {
 	if (valid)
 	{
-		if (objectType == OBJECT_LINE)
+		if (objectType == OBJECT_LINE || objectType == OBJECT_VOICED_LINE)
 		{
 			scriptLine->setDialogue(displayName, currentLine);
 
@@ -207,8 +233,18 @@ void DisplayCommand::execute(ScriptLine * scriptLine)
 				else
 				{
 					shouldAdvance = false;
-					timer = 0;
 				}
+			}
+
+			if (objectType == OBJECT_VOICED_LINE && !playedVoice && currentLineIndex < voiceFiles.size())
+			{
+				scriptLine->setVoice(".", voiceFiles[currentLineIndex]);
+				playedVoice = true;
+			}
+
+			if (done && CONFIG->stopVoiceNextLine)
+			{
+				scriptLine->stopVoice();
 			}
 		}
 		else if (objectType == OBJECT_CHOICE)
@@ -250,8 +286,15 @@ void DisplayCommand::skipUpdate()
 			}
 		}
 
-		else if (objectType == OBJECT_LINE)
+		else if (objectType == OBJECT_LINE || objectType == OBJECT_VOICED_LINE)
 		{
+			// reset timer for auto mode
+			if (GLOBAL->autoMode)
+			{
+				autoForwardTimer = 0;
+				shouldAdvance = false;
+			}
+
 			if (animationType == ANIMATION_NONE)
 			{
 				if (currentLineIndex < displayLines.size())
@@ -264,6 +307,9 @@ void DisplayCommand::skipUpdate()
 					{
 						currentLineIndex++;
 						currentCharIndex = 0;
+
+						// move on to the next voice
+						playedVoice = false;
 					}
 
 					if (currentLineIndex < displayLines.size())
@@ -283,12 +329,6 @@ void DisplayCommand::skipUpdate()
 				wait = false;
 				done = true;
 			}
-
-			if (GLOBAL->autoMode)
-			{
-				autoForwardTimer = 0;
-				shouldAdvance = false;
-			}
 		}
 		else
 		{
@@ -305,7 +345,7 @@ void DisplayCommand::skipUpdate()
 
 void DisplayCommand::update(float delta_t)
 {
-	if (objectType == OBJECT_LINE)
+	if (objectType == OBJECT_LINE || objectType == OBJECT_VOICED_LINE)
 	{
 
 		if (currentLineIndex >= displayLines.size() 
@@ -358,7 +398,14 @@ void DisplayCommand::update(float delta_t)
 			{
 				int numChars = (int)(timer / interval);
 				timer -= numChars * interval;
-				currentCharIndex += 1;	// note currentCharIndex might exceed actual length
+				currentCharIndex += numChars;	// note currentCharIndex might exceed actual length
+
+				// boundary checks
+				if (currentLineIndex < displayLines.size() && 
+					currentCharIndex >= displayLines[currentLineIndex].length())
+				{
+					currentCharIndex = displayLines[currentCharIndex].length() - 1;
+				}
 
 				currentLine = assembleString(displayLines, currentLineIndex, currentCharIndex);
 			}

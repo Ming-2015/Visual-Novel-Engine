@@ -216,10 +216,12 @@ void LineLog::handleInput(sf::Event & e, sf::RenderWindow & window)
 				if (e.mouseWheelScroll.delta > 0)
 				{
 					bottom++;
-					if (bottom > logItems.size() - 4)
+					if (bottom > int(logItems.size()) - 4)
 					{
 						bottom = logItems.size() - 4;
 					}
+
+					if (bottom < 0) bottom = 0;
 				}
 				else if (e.mouseWheelScroll.delta < 0)
 				{
@@ -230,6 +232,7 @@ void LineLog::handleInput(sf::Event & e, sf::RenderWindow & window)
 						displaying = false;
 					}
 				}
+				break;
 			}
 		}
 	}
@@ -262,8 +265,15 @@ void LineLog::update(float delta_t)
 
 			if (i < logItems.size())
 			{
-				logBars[i - bottom]->setName(logItems[ logItems.size() - 1 - i ].name );
+				logBars[i - bottom]->setActive(true);
+				logBars[i - bottom]->setName(logItems[logItems.size() - 1 - i ].name );
 				logBars[i - bottom]->setLine(logItems[logItems.size() - 1 - i].line);
+			}
+			else
+			{
+				logBars[i - bottom]->setActive(false);
+				logBars[i - bottom]->setName("");
+				logBars[i - bottom]->setLine("");
 			}
 		}
 	}
