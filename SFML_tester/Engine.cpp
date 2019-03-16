@@ -4,9 +4,6 @@ int Engine::start()
 {
 	// initialize configs
 	CONFIG->parse("config.ini");
-
-	//window.create(sf::VideoMode(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()), CONFIG->getTitle(), sf::Style::Default & ~sf::Style::Resize);
-	//window.setFramerateLimit(CONFIG->getFps());
 	CONFIG->resetWindowSize(window);
 	
 	initFPSText();
@@ -47,6 +44,12 @@ int Engine::start()
 			fpsStr = "FPS: " + to_string((int)fps);
 			fpsText.setString(fpsStr);
 			window.draw(fpsText);
+
+			//if (fps < CONFIG->getFps() / 2.0f)
+			//{
+			//	std::string msg = "Warning!! FPS is dropping to " + to_string(fps);
+			//	LOGGER->Log("Engine", msg);
+			//}
 		}
 
 		window.display();

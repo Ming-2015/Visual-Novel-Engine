@@ -37,9 +37,19 @@ For a list of complete and updated commands, open Script Format Reference.xlsx (
 We are using the default Github license, which means that we retain all rights to our source code and no one may reproduce, distribute, or create derivative works from our work. Please notify us if you wish to collaborate in the project.
 
 # TODOs
-* Make log look more pretty, and add some voice playback and/or jump feature
-* make config, save and load states more pretty
+## Cosmetic and Features
+* make in-game log, config, save and load states more pretty
 * add 'pages' to the save/load states, so that users can have more data to choose from
 * implement the various config elements in the config page, and make sure they are responsive
+
+## Script Commands
 * add Loop related commands (see Script Command Reference.xlsx which will be complicated)
 * add screen-swap animations, other than fadein/fadeout
+
+## System optimization
+* improve run-time performance by loading all needed assets at load time 
+* possibly use PhysFS, so that we can archieve all files in a passport-protected zip file and load that during runtime
+
+
+
+

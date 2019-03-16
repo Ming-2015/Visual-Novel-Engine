@@ -55,9 +55,6 @@ void SavedataUtility::writeSave(const std::string & filename, const sf::Image & 
 
 	// create and read the screenshot
 	image.saveToFile("_temp_ss.png");
-	sf::Texture tex;
-	tex.update(image);
-
 	ifstream ssfile("_temp_ss.png", ios::binary | ios::in);
 
 	// create a string of that size
@@ -91,8 +88,9 @@ void SavedataUtility::writeSave(const std::string & filename, const sf::Image & 
 
 	// get time and save it to the script
 	std::time_t time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-
 	std::string str_time = std::ctime(&time);
+	str_time = UTILITY->replaceAllSubstrings(str_time, "\n", "");
+	LOGGER->Log("SavedataUtility", str_time);
 
 	UTILITY->writeToBinaryFile(outfile, str_time);
 

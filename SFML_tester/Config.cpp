@@ -123,7 +123,7 @@ void Config::init()
 	windowWidth = 1600;
 	windowHeight = 900;
 	windowTitle = "Visual Novel Engine";
-	fps = 60;
+	fps = 120;
 	masterVolume = 0.8f;
 	bgmVolume = 0.8f;
 	voiceVolume = 1.0f;
