@@ -122,6 +122,15 @@ ScriptManager::ScriptManager(ifstream & file)
 				commands.push_back(new ZoomCommand(file));
 				break;
 			}
+			case ScriptCommand::COMMAND_STARTLOOP:
+			{
+				commands.push_back(new StartLoopCommand(file, currentScriptLine));
+				break;
+			}
+			case ScriptCommand::COMMAND_STOPLOOP:
+			{
+				commands.push_back(new StopCommand(file));
+			}
 			default:
 			{
 				std::string err = "Found an invalid command type code: " + commandType;
@@ -213,6 +222,11 @@ void ScriptManager::init()
 
 void ScriptManager::update(float delta_t)
 {
+	if (doneAllCommands())
+	{
+		readCommands();
+	}
+
 	if (GLOBAL->skipMode)
 	{
 		for (auto c : commands)
@@ -245,7 +259,7 @@ void ScriptManager::update(float delta_t)
 			(*it)->update(delta_t);
 			(*it)->execute(currentScriptLine);
 
-			if ((*it)->isDone())
+			if ((*it)->isDone() || !(*it)->validArgs() )
 			{
 				delete *it;
 				it = commands.erase(it);
@@ -428,28 +442,9 @@ bool ScriptManager::isTextboxClosed()
 	return shouldCloseTextbox;
 }
 
-bool ScriptManager::shouldUpdateLog(bool reset)
+LineLog * ScriptManager::getLineLog() const
 {
-	bool temp = updateLog;
-	if (reset) updateLog = false;
-	return temp;
-}
-
-LineLogItem ScriptManager::getLogItem() const
-{
-	return logItem;
-}
-
-std::string ScriptManager::getPrevBgmFilename() const
-{
-	return currentScriptLine->fn_bgm.size() == 0 ? "" : currentScriptLine->fn_bgm[0];
-}
-
-std::string ScriptManager::getPrevVoiceFilename() 
-{
-	std::string temp = logVoicefile;
-	logVoicefile = "";
-	return temp;
+	return currentScriptLine->linelog;
 }
 
 void ScriptManager::advanceText()
@@ -518,14 +513,11 @@ void ScriptManager::readCommands()
 				}
 				else if (cmdWord == "display")
 				{
-					GLOBAL->playerName = getPlayerName();
 					DisplayCommand* displayCommand = new DisplayCommand(tokens);
 					command = displayCommand;
 
 					if (displayCommand->isLine())
 					{
-						updateLog = true;
-
 						std::string name = displayCommand->getName();
 						if (UTILITY->toLower(name) == "player")
 						{
@@ -537,6 +529,9 @@ void ScriptManager::readCommands()
 						logItem.flags = currentScriptLine->userFlags;
 						logItem.scriptFile = currentScriptLine->filename;
 						logItem.scriptFilePos = currentScriptLine->file.tellg();
+						logItem.voiceFile = currentScriptLine->getPrevVoiceFilename();
+						logItem.musicFile = currentScriptLine->getPrevBgmFileName();
+						currentScriptLine->linelog->addLogItem(logItem);
 					}
 				}
 				else if (cmdWord == "set")
@@ -557,12 +552,7 @@ void ScriptManager::readCommands()
 				}
 				else if (cmdWord == "play")
 				{
-					PlayCommand* playCommand = new PlayCommand(tokens);
-					command = playCommand;
-					if (playCommand->isVoice())
-					{
-						logVoicefile = playCommand->getFilename();
-					}
+					command = new PlayCommand(tokens);
 				}
 				else if (cmdWord == "stop")
 				{
@@ -592,6 +582,30 @@ void ScriptManager::readCommands()
 				{
 					command = new JumpCommand(tokens);
 				}
+				else if (cmdWord == "startloop")
+				{
+					command = new StartLoopCommand(tokens, currentScriptLine);
+				}
+				else if (cmdWord == "endloop")
+				{
+					LOGGER->Log("ScriptManager", "Invalid Endloop command: Not inside a loop");
+				}
+				else if (cmdWord == "breakloop")
+				{
+					LOGGER->Log("ScriptManager", "Invalid BreakLoop command: not inside a loop");
+				}
+				else if (cmdWord == "continueloop")
+				{
+					LOGGER->Log("ScriptManager", "Invalid ContinueLoop command: not inside a loop");
+				}
+				else if (cmdWord == "clearloop")
+				{
+					LOGGER->Log("ScriptManager", "Invalid ClearLoop command: not inside a loop");
+				}
+				else if (cmdWord == "stoploop")
+				{
+					command = new StopLoopCommand(tokens);
+				}
 				else if (cmdWord != "")
 				{
 					string msg = "Invalid Command found: " + cmdWord;
@@ -599,6 +613,7 @@ void ScriptManager::readCommands()
 					command = nullptr;
 				}
 
+				// check if the scriptreader should stop reading
 				if (command != nullptr)
 				{
 					if (command->shouldWait()) stop = true;
@@ -606,9 +621,26 @@ void ScriptManager::readCommands()
 				}
 			}
 		}
+
+		// remove the loops, if necessary
+		for (int i = 0; i < currentScriptLine->loopsToRemove.size(); i++)
+		{
+			auto it = StartLoopCommand::loopMap.find(currentScriptLine->loopsToRemove[i]);
+			if (it == StartLoopCommand::loopMap.end())
+			{
+				std::string err = "Unable to find Loop with name: " + currentScriptLine->loopsToRemove[i];
+				LOGGER->Log("ScriptManager", err);
+			}
+			else
+			{
+				(*it).second->stopLoop();
+			}
+		}
+		currentScriptLine->loopsToRemove.clear();
 	}
 	else
 	{
 		LOGGER->Log("ScriptManager", "Reached EOF of current Script File!");
 	}
+
 }

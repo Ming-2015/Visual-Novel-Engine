@@ -15,6 +15,7 @@
 #include "BackgroundImage.h"
 #include "TextboxImage.h"
 #include "ChoiceImage.h"
+#include "Linelog.h"
 
 using namespace std;
 
@@ -45,6 +46,10 @@ public:
 
 	string playerName = "PlayerName";
 	std::set< std::string > userFlags;
+
+	LineLog* linelog = nullptr;
+
+	std::vector<std::string> loopsToRemove;
 
 public:
 	ScriptLine();
@@ -137,6 +142,11 @@ public:
 
 	void readNewFile(std::string filename);
 	void readNewFileToAnchor(std::string filename, std::string anchor);
+
+	std::string getPrevBgmFileName() const;
+	std::string getPrevVoiceFilename() const;
+
+	void removeLoop(std::string loopName);
 
 private:
 

@@ -120,6 +120,9 @@ SetCommand::SetCommand(ifstream & savefile)
 
 void SetCommand::serialize(ofstream & savefile) const
 {
+
+	ScriptCommand::serialize(savefile);
+
 	UTILITY->writeToBinaryFile(savefile, objectTypeName);
 	UTILITY->writeToBinaryFile(savefile, flag);
 	UTILITY->writeToBinaryFile(savefile, objectName);

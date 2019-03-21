@@ -240,6 +240,12 @@
     <ClCompile Include="RadioButton.cpp">
       <Filter>Source Files\Effect\Button</Filter>
     </ClCompile>
+    <ClCompile Include="StartLoopCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="StopLoopCommand.cpp">
+      <Filter>Source Files\Script\ScriptCommands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -415,6 +421,12 @@
     </ClInclude>
     <ClInclude Include="RadioButton.h">
       <Filter>Header Files\Effect\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="StartLoopCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="StopLoopCommand.h">
+      <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

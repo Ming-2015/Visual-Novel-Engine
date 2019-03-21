@@ -51,6 +51,11 @@ public:
 	static const int COMMAND_DELAY = 15;
 	static const int COMMAND_BLUR = 16;
 	static const int COMMAND_FLASH = 17;
+	static const int COMMAND_STARTLOOP = 18;
+	static const int COMMAND_ENDLOOP = 19;
+	static const int COMMAND_STOPLOOP = 20;
+	static const int COMMAND_BREAKLOOP = 21;
+	static const int COMMAND_CONTINUELOOP = 22;
 
 	static const int COLUMN_ACTION = 0;
 	static const int COLUMN_OBJECT = 1;

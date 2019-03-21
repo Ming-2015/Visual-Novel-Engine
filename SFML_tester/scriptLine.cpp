@@ -3,6 +3,7 @@ using namespace std;
 
 ScriptLine::ScriptLine() 
 {
+	linelog = new LineLog();
 	textboxImage = new TextboxImage();
 	textboxImage->setTextboxAlpha(CONFIG->textWindowAlpha * 255.f);
 }
@@ -47,6 +48,8 @@ ScriptLine::~ScriptLine()
 			delete m;
 		}
 	}
+
+	if (linelog) delete linelog;
 }
 
 ScriptLine::ScriptLine(ifstream & savefile)
@@ -156,6 +159,8 @@ ScriptLine::ScriptLine(ifstream & savefile)
 		music->setVolume(1.f * CONFIG->sfxVolume * CONFIG->masterVolume * 100.f);
 		music->play();
 	}
+
+	linelog = new LineLog();
 }
 
 void ScriptLine::serialize(ofstream & savefile)
@@ -953,6 +958,21 @@ void ScriptLine::readNewFile(std::string p_filename)
 	{
 		file.seekg(file.beg);
 	}
+}
+
+std::string ScriptLine::getPrevBgmFileName() const
+{
+	return fn_bgm.size() <= 0 ? "" : fn_bgm[fn_bgm.size() - 1];
+}
+
+std::string ScriptLine::getPrevVoiceFilename() const
+{
+	return fn_voices.size() <= 0 ? "" : fn_voices[fn_voices.size() - 1];
+}
+
+void ScriptLine::removeLoop(std::string loopName)
+{
+	loopsToRemove.push_back(loopName);
 }
 
 void ScriptLine::readNewFileToAnchor(std::string filename, std::string anchor)

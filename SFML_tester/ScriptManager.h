@@ -25,6 +25,8 @@
 #include "UnhideCommand.h"
 #include "JumpCommand.h"
 #include "BlurCommand.h"
+#include "StartLoopCommand.h"
+#include "StopLoopCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager
@@ -65,10 +67,7 @@ public:
 	void showTextbox();
 	bool isTextboxClosed();
 
-	bool shouldUpdateLog(bool reset = false);
-	LineLogItem getLogItem() const;
-	std::string getPrevBgmFilename() const;
-	std::string getPrevVoiceFilename();
+	LineLog* getLineLog() const;
 
 private:
 
@@ -86,7 +85,6 @@ private:
 
 	void advanceText();
 
-	bool updateLog = false;
 	LineLogItem logItem;
 	std::string logVoicefile; 
 };

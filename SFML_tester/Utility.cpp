@@ -141,6 +141,7 @@ std::string Utility::toLower(const std::string & str)
 {
 	std::string tmp = str;
 	for (auto & c : tmp) c = tolower(c);
+	tmp = trim(tmp);
 	return tmp;
 }
 

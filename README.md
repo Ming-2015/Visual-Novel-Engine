@@ -43,7 +43,6 @@ We are using the default Github license, which means that we retain all rights t
 * implement the various config elements in the config page, and make sure they are responsive
 
 ## Script Commands
-* add Loop related commands (see Script Command Reference.xlsx which will be complicated)
 * add screen-swap animations, other than fadein/fadeout
 
 ## System optimization
