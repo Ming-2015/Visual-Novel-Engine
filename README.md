@@ -37,17 +37,17 @@ For a list of complete and updated commands, open Script Format Reference.xlsx (
 We are using the default Github license, which means that we retain all rights to our source code and no one may reproduce, distribute, or create derivative works from our work. Please notify us if you wish to collaborate in the project.
 
 # TODOs
-## Cosmetic and Features
+### Cosmetic and Features
 * make in-game log, config, save and load states more pretty
 * add 'pages' to the save/load states, so that users can have more data to choose from
 * implement the various config elements in the config page, and make sure they are responsive
 
-## Script Commands
+### Script Commands
 * add screen-swap animations, other than fadein/fadeout
 
-## System optimization
+### System optimization
 * improve run-time performance by loading all needed assets at load time 
-* possibly use PhysFS, so that we can archieve all files in a passport-protected zip file and load that during runtime
+* possibly use PhysFS, so that we can archieve all files in a password-protected zip file and load that during runtime
 
 
 
