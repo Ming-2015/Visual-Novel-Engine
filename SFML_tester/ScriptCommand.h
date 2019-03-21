@@ -4,6 +4,7 @@
 
 #include "scriptLine.h"
 #include "Utility.h"
+#include "ScriptCommandFactory.h"
 
 class ScriptCommand
 {
@@ -33,6 +34,10 @@ public:
 	// Check if the command is done executing; delete if done in script manager
 	bool isDone() { return done; }
 
+	// get the command type of this command
+	int getCommandType() const { return commandType; }
+
+	static const int COMMAND_INVALID = -1;
 	static const int COMMAND_SHOW = 0;
 	static const int COMMAND_MOVE = 1;
 	static const int COMMAND_ZOOM = 2;
@@ -56,6 +61,8 @@ public:
 	static const int COMMAND_STOPLOOP = 20;
 	static const int COMMAND_BREAKLOOP = 21;
 	static const int COMMAND_CONTINUELOOP = 22;
+	static const int COMMAND_CLEARLOOP = 23;
+	static const int COMMAND_ANCHOR = 24;
 
 	static const int COLUMN_ACTION = 0;
 	static const int COLUMN_OBJECT = 1;

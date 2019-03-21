@@ -148,6 +148,8 @@ public:
 
 	void removeLoop(std::string loopName);
 
+	void appendLineToLog(std::string name, std::string line, std::vector<std::string> voicefiles);
+
 private:
 
 };

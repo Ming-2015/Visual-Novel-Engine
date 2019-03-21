@@ -167,6 +167,7 @@
     <ClCompile Include="SavefileImage.cpp" />
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptCommand.cpp" />
+    <ClCompile Include="ScriptCommandFactory.cpp" />
     <ClCompile Include="ScriptLine.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="SetCommand.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="SavefileImage.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />
+    <ClInclude Include="ScriptCommandFactory.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="ScriptLine.h" />
     <ClInclude Include="SetCommand.h" />

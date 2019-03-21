@@ -177,6 +177,7 @@ DisplayCommand::DisplayCommand(ifstream & savefile)
 		savefile.read(reinterpret_cast<char *> (&currentCharIndex), sizeof(currentCharIndex));
 		savefile.read(reinterpret_cast<char *> (&displayedChoices), sizeof(displayedChoices));
 		savefile.read(reinterpret_cast<char *> (&selectedChoice), sizeof(selectedChoice));
+		savefile.read(reinterpret_cast<char *> (&doneAddingToLog), sizeof(doneAddingToLog));
 	}
 	catch (exception e)
 	{
@@ -191,6 +192,7 @@ DisplayCommand::DisplayCommand(ifstream & savefile)
 	currentCharIndex = 0;
 	currentLine = "";
 	timer = 0;
+	doneAddingToLog = false;
 }
 
 void DisplayCommand::serialize(ofstream & savefile) const
@@ -214,6 +216,7 @@ void DisplayCommand::serialize(ofstream & savefile) const
 	savefile.write(reinterpret_cast<const char *> (&currentCharIndex), sizeof(currentCharIndex));
 	savefile.write(reinterpret_cast<const char *> (&displayedChoices), sizeof(displayedChoices));
 	savefile.write(reinterpret_cast<const char *> (&selectedChoice), sizeof(selectedChoice));
+	savefile.write(reinterpret_cast<const char *> (&doneAddingToLog), sizeof(doneAddingToLog));
 }
 
 void DisplayCommand::execute(ScriptLine * scriptLine)
@@ -223,6 +226,16 @@ void DisplayCommand::execute(ScriptLine * scriptLine)
 		if (objectType == OBJECT_LINE || objectType == OBJECT_VOICED_LINE)
 		{
 			scriptLine->setDialogue(displayName, currentLine);
+
+			if (!doneAddingToLog)
+			{
+				doneAddingToLog = true;
+				scriptLine->appendLineToLog(
+					displayName,
+					assembleString(displayLines, displayLines.size() - 1, displayLines[displayLines.size() - 1].length() - 1),
+					voiceFiles
+				);
+			}
 
 			if (GLOBAL->autoMode)
 			{

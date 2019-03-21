@@ -975,6 +975,24 @@ void ScriptLine::removeLoop(std::string loopName)
 	loopsToRemove.push_back(loopName);
 }
 
+void ScriptLine::appendLineToLog(std::string name, std::string line, std::vector<std::string> voicefiles)
+{
+	if (UTILITY->toLower(name) == "player")
+	{
+		name = GLOBAL->playerName;
+	}
+
+	LineLogItem logItem;
+	logItem.name = name;
+	logItem.line = line;
+	logItem.flags = userFlags;
+	logItem.scriptFile = filename;
+	logItem.scriptFilePos = file.tellg();
+	logItem.voiceFile = voicefiles;
+	logItem.musicFile = getPrevBgmFileName();
+	linelog->addLogItem(logItem);
+}
+
 void ScriptLine::readNewFileToAnchor(std::string filename, std::string anchor)
 {
 	readNewFile(filename);

@@ -37,12 +37,12 @@ LineLog::~LineLog()
 void LineLog::addLogItem(std::string name, 
 	std::string line, 
 	std::string musicFile,
-	std::string voiceFile, 
+	std::vector<std::string> voiceFile, 
 	std::string scriptFile, 
 	unsigned int scriptFileSeekg, 
 	std::set<std::string> flags)
 {
-	logItems.push_back(LineLogItem(name, line, musicFile, voiceFile, scriptFile, scriptFileSeekg, flags));
+	logItems.push_back(LineLogItem(name, line, voiceFile, musicFile, scriptFile, scriptFileSeekg, flags));
 	
 	// ensure logcount doesn't exceed max log items
 	while (logItems.size() > MAX_LOGITEMS)
@@ -95,12 +95,12 @@ std::string LineLog::getMusicFile(int i)
 	return logItems[logItems.size() - 1 - i].musicFile;
 }
 
-std::string LineLog::getVoiceFile(int i)
+std::vector<std::string> LineLog::getVoiceFile(int i)
 {
 	if (i > logItems.size() - 1)
 	{
 		LOGGER->Log("LineLog", "Invalid index");
-		return std::string();
+		return std::vector<std::string>();
 	}
 
 	return logItems[logItems.size() - 1 - i].voiceFile;

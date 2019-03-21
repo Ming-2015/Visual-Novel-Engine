@@ -4,7 +4,7 @@ class LineLogItem {
 public:
 	std::string name;
 	std::string line;
-	std::string voiceFile;
+	std::vector<std::string> voiceFile;
 	std::string musicFile;
 	
 	std::string scriptFile;
@@ -16,7 +16,7 @@ public:
 
 	LineLogItem(std::string name,
 		std::string line,
-		std::string voiceFile,
+		std::vector<std::string> voiceFile,
 		std::string musicFile,
 		std::string scriptFile,
 		unsigned int scriptFilePos,

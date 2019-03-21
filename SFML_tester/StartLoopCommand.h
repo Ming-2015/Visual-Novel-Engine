@@ -6,35 +6,15 @@
 
 #include "ScriptCommand.h"
 
-#include "ShowCommand.h"
-#include "DisplayCommand.h"
-#include "SetCommand.h"
-#include "MoveCommand.h"
-#include "RotateCommand.h"
-#include "ZoomCommand.h"
-#include "PlayCommand.h"
-#include "StopCommand.h"
-#include "PauseCommand.h"
-#include "ResumeCommand.h"
-#include "RemoveCommand.h"
-#include "ClearCommand.h"
-#include "FlashCommand.h"
-#include "HideCommand.h"
-#include "DelayCommand.h"
-#include "UnhideCommand.h"
-#include "JumpCommand.h"
-#include "BlurCommand.h"
-#include "StopLoopCommand.h"
-
 class StartLoopCommand : public ScriptCommand
 {
 public:
 
-	StartLoopCommand(std::vector<std::string> args, ScriptLine* currentScriptLine);
+	StartLoopCommand(std::vector<std::string> args);
 	~StartLoopCommand();
 
 	// serialize the file
-	StartLoopCommand(ifstream& savefile, ScriptLine* currentScriptLine);
+	StartLoopCommand(ifstream& savefile);
 	void serialize(ofstream& savefile) const override;
 
 	void execute(ScriptLine* scriptLine);
@@ -58,6 +38,7 @@ private:
 	int loopCount = 0;
 	int commandIdx = 0;
 
+	bool initialized = false;
 	std::vector< std::vector<std::string> > tokensList;
 	std::vector<ScriptCommand*> executingCommandsList;
 
@@ -67,5 +48,6 @@ private:
 	const static int OBJECT_LOOP = 0;
 
 	bool doneAllCommands() const;
-	void readCommands(ScriptLine* currentScriptLine, int& commandIdx, int& loopCount, const int& maxLoopCount);
+	void readCommands(ScriptLine* currentScriptLine, std::vector<ScriptCommand*>& executingCommandsList, int& commandIdx, int& loopCount, const int& maxLoopCount);
+	void initTokensList(ScriptLine* currentScriptLine, std::vector<std::vector<std::string>>& tokensList);
 };

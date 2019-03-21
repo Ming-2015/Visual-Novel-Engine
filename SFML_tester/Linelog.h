@@ -16,7 +16,7 @@ public:
 		std::string name,
 		std::string line,
 		std::string musicFile,
-		std::string voiceFile,
+		std::vector<std::string> voiceFile,
 		std::string scriptFile,
 		unsigned int scriptFileSeekg,
 		std::set< std::string > flags
@@ -27,7 +27,7 @@ public:
 	std::string getName(int numPrev);
 	std::string getLine(int numPrev);
 	std::string getMusicFile(int numPrev);
-	std::string getVoiceFile(int numPrev);
+	std::vector<std::string> getVoiceFile(int numPrev);
 	std::string getScriptFile(int numPrev);
 	unsigned int getScriptFilePos(int numPrev);
 	std::set< std::string > getFlags(int numPrev);

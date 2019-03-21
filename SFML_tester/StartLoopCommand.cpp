@@ -2,7 +2,7 @@
 
 std::map < std::string, StartLoopCommand* > StartLoopCommand::loopMap;
 
-StartLoopCommand::StartLoopCommand(std::vector<std::string> args, ScriptLine* currentScriptLine)
+StartLoopCommand::StartLoopCommand(std::vector<std::string> args)
 	: ScriptCommand(args)
 {
 	// checking if the first argument is show
@@ -54,13 +54,14 @@ StartLoopCommand::StartLoopCommand(std::vector<std::string> args, ScriptLine* cu
 	}
 
 	// check the flag validity
+	wait = true; // need to wait 1 iteration to reach execute
 	if (flag == "" || flag == "none" || time == 0)
 	{
-		wait = false;
+		flagType = FLAG_NONE;
 	}
 	else if (flag == "wait" || flag == "w")
 	{
-		wait = true;
+		flagType = FLAG_WAIT;
 	}
 	else
 	{
@@ -80,60 +81,13 @@ StartLoopCommand::StartLoopCommand(std::vector<std::string> args, ScriptLine* cu
 		LOGGER->Log("StartLoopCommand", "Invalid Object Type");
 		return;
 	}
-
-	// read the commands within the bound of the loop
-	if (currentScriptLine->file.is_open() && !currentScriptLine->file.eof())
-	{
-		bool stop = false;
-		while (!stop)
-		{
-			if (currentScriptLine->file.eof())
-			{
-				LOGGER->Log("StartLoopCommand", "EOF of file reached unexpectedly!");
-				break;
-			}
-
-			std::string line;
-			std::getline(currentScriptLine->file, line);
-			line = UTILITY->cutLine(line, "#");	// use # for comments
-
-			std::vector<std::string> tokens = UTILITY->split(line, '|');
-			tokens = UTILITY->trim(tokens);
-			if (tokens.size() > 0)
-			{
-				std::string cmdWord = UTILITY->toLower(tokens[0]);
-
-				// if its an endloop command, stop reading
-				if (cmdWord == "endloop")
-				{
-					stop = true;
-				}
-				// otherwise add it to the list
-				else if (cmdWord != "")
-				{
-					tokensList.push_back(tokens);
-				}
-
-			}
-		}
-	}
-	else
-	{
-		LOGGER->Log("StartLoopCommand", "Invalid script file!");
-		valid = false;
-		return;
-	}
-
-	// initialize the executingCommandsList
-	readCommands(currentScriptLine, commandIdx, loopCount, totalNumLoop);
-
 }
 
 StartLoopCommand::~StartLoopCommand()
 {
 }
 
-StartLoopCommand::StartLoopCommand(ifstream & savefile, ScriptLine* currentScriptLine)
+StartLoopCommand::StartLoopCommand(ifstream & savefile)
 	: ScriptCommand(savefile)
 {
 
@@ -148,6 +102,8 @@ StartLoopCommand::StartLoopCommand(ifstream & savefile, ScriptLine* currentScrip
 	savefile.read(reinterpret_cast<char *> (&loopCount), sizeof(loopCount));
 	savefile.read(reinterpret_cast<char *> (&commandIdx), sizeof(commandIdx));
 
+	savefile.read(reinterpret_cast<char *> (&initialized), sizeof(initialized));
+
 	int size;
 	savefile.read(reinterpret_cast<char *> (&size), sizeof(size));
 	for (int i = 0; i < size; i++)
@@ -159,117 +115,11 @@ StartLoopCommand::StartLoopCommand(ifstream & savefile, ScriptLine* currentScrip
 	for (int i = 0; i < size; i++)
 	{
 		int commandType;
-		int prevPos = savefile.tellg();
-		savefile.read(reinterpret_cast<char*> (&commandType), sizeof(commandType));
-		savefile.seekg(prevPos);
-		switch (commandType)
+		ScriptCommand* command = nullptr;
+		ScriptCommandFactory::GenerateCommandByFile(savefile, command, commandType);
+		if (command != nullptr)
 		{
-		case ScriptCommand::COMMAND_BLUR:
-		{
-			executingCommandsList.push_back(new BlurCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_CLEAR:
-		{
-			executingCommandsList.push_back(new ClearCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_DELAY:
-		{
-			executingCommandsList.push_back(new DelayCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_DISPLAY:
-		{
-			executingCommandsList.push_back(new DisplayCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_FLASH:
-		{
-			executingCommandsList.push_back(new FlashCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_HIDE:
-		{
-			executingCommandsList.push_back(new HideCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_JUMP:
-		{
-			executingCommandsList.push_back(new JumpCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_MOVE:
-		{
-			executingCommandsList.push_back(new MoveCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_PAUSE:
-		{
-			executingCommandsList.push_back(new PauseCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_PLAY:
-		{
-			executingCommandsList.push_back(new PlayCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_REMOVE:
-		{
-			executingCommandsList.push_back(new RemoveCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_RESUME:
-		{
-			executingCommandsList.push_back(new ResumeCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_ROTATE:
-		{
-			executingCommandsList.push_back(new RotateCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_SET:
-		{
-			executingCommandsList.push_back(new SetCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_SHOW:
-		{
-			executingCommandsList.push_back(new ShowCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_STOP:
-		{
-			executingCommandsList.push_back(new StopCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_UNHIDE:
-		{
-			executingCommandsList.push_back(new UnhideCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_ZOOM:
-		{
-			executingCommandsList.push_back(new ZoomCommand(savefile));
-			break;
-		}
-		case ScriptCommand::COMMAND_STARTLOOP:
-		{
-			executingCommandsList.push_back(new StartLoopCommand(savefile, currentScriptLine));
-			break;
-		}
-		case ScriptCommand::COMMAND_STOPLOOP:
-		{
-			executingCommandsList.push_back(new StopLoopCommand(savefile));
-			break;
-		}
-		default:
-		{
-			std::string err = "Found an invalid command type code: " + commandType;
-			LOGGER->Log("ScriptManager", err);
-			break;
-		}
+			executingCommandsList.push_back(command);
 		}
 	}
 	if (valid)
@@ -293,6 +143,8 @@ void StartLoopCommand::serialize(ofstream & savefile) const
 	savefile.write(reinterpret_cast<const char *> (&loopCount), sizeof(loopCount));
 	savefile.write(reinterpret_cast<const char *> (&commandIdx), sizeof(commandIdx));
 
+	savefile.write(reinterpret_cast<const char *> (&initialized), sizeof(initialized));
+
 	// write the list of command tokens
 	int size = tokensList.size();
 	savefile.write(reinterpret_cast<const char *> (&size), sizeof(size));
@@ -313,6 +165,26 @@ void StartLoopCommand::serialize(ofstream & savefile) const
 void StartLoopCommand::execute(ScriptLine * scriptLine)
 {
 	if (!valid) return;
+
+	if (!initialized)
+	{
+		initialized = true;
+
+		// initialize tokens list
+		initTokensList(scriptLine, tokensList);
+
+		// initialize the executingCommandsList
+		readCommands(scriptLine, executingCommandsList, commandIdx, loopCount, totalNumLoop);
+	}
+
+	if (flagType == FLAG_NONE)
+	{
+		wait = false;
+	}
+	else if (flagType == FLAG_WAIT)
+	{
+		wait = true;
+	}
 
 	// execute all the commands and delete the ones that are done
 	for (auto it = executingCommandsList.begin(); it != executingCommandsList.end();)
@@ -337,7 +209,7 @@ void StartLoopCommand::execute(ScriptLine * scriptLine)
 	// read new commands if needed
 	if (doneAllCommands())
 	{
-		readCommands(scriptLine, commandIdx, loopCount, totalNumLoop);
+		readCommands(scriptLine, executingCommandsList, commandIdx, loopCount, totalNumLoop);
 	}
 
 	// if everything is executed, stop the loop
@@ -404,6 +276,7 @@ bool StartLoopCommand::doneAllCommands() const
 }
 
 void StartLoopCommand::readCommands(ScriptLine* currentScriptLine, 
+	std::vector<ScriptCommand*>& executingCommandsList,
 	int& commandIdx, int& loopCount, const int& maxLoopCount)
 {
 	// edge cases
@@ -415,111 +288,11 @@ void StartLoopCommand::readCommands(ScriptLine* currentScriptLine,
 	while (!shouldStop)
 	{
 		std::vector<std::string> tokens = tokensList[commandIdx];
-
-		std::string cmdWord = UTILITY->toLower(tokens[0]);
+		int commandType;
 		ScriptCommand* command = nullptr;
+		ScriptCommandFactory::GenerateCommandByTokens(tokens, command, commandType);
 
-		if (cmdWord == "show")
-		{
-			command = new ShowCommand(tokens);
-		}
-		else if (cmdWord == "remove")
-		{
-			command = new RemoveCommand(tokens);
-		}
-		else if (cmdWord == "clear")
-		{
-			command = new ClearCommand(tokens);
-		}
-		else if (cmdWord == "flash")
-		{
-			command = new FlashCommand(tokens);
-		}
-		else if (cmdWord == "blur")
-		{
-			command = new BlurCommand(tokens);
-		}
-		else if (cmdWord == "display")
-		{
-			DisplayCommand* displayCommand = new DisplayCommand(tokens);
-			command = displayCommand;
-
-			if (displayCommand->isLine())
-			{
-				std::string name = displayCommand->getName();
-				if (UTILITY->toLower(name) == "player")
-				{
-					name = GLOBAL->playerName;
-				}
-
-				LineLogItem logItem;
-				logItem.name = name;
-				logItem.line = displayCommand->getFullLine();
-				logItem.flags = currentScriptLine->userFlags;
-				logItem.scriptFile = currentScriptLine->filename;
-				logItem.scriptFilePos = currentScriptLine->file.tellg();
-				logItem.voiceFile = currentScriptLine->getPrevVoiceFilename();
-				logItem.musicFile = currentScriptLine->getPrevBgmFileName();
-				currentScriptLine->linelog->addLogItem(logItem);
-			}
-		}
-		else if (cmdWord == "set")
-		{
-			command = new SetCommand(tokens);
-		}
-		else if (cmdWord == "move")
-		{
-			command = new MoveCommand(tokens);
-		}
-		else if (cmdWord == "rotate")
-		{
-			command = new RotateCommand(tokens);
-		}
-		else if (cmdWord == "zoom")
-		{
-			command = new ZoomCommand(tokens);
-		}
-		else if (cmdWord == "play")
-		{
-			command = new PlayCommand(tokens);
-		}
-		else if (cmdWord == "stop")
-		{
-			command = new StopCommand(tokens);
-		}
-		else if (cmdWord == "pause")
-		{
-			command = new PauseCommand(tokens);
-		}
-		else if (cmdWord == "resume")
-		{
-			command = new ResumeCommand(tokens);
-		}
-		else if (cmdWord == "hide")
-		{
-			command = new HideCommand(tokens);
-		}
-		else if (cmdWord == "delay")
-		{
-			command = new DelayCommand(tokens);
-		}
-		else if (cmdWord == "unhide")
-		{
-			command = new UnhideCommand(tokens);
-		}
-		else if (cmdWord == "jump" && tokens.size() >= 4)
-		{
-			command = new JumpCommand(tokens);
-		}
-		else if (cmdWord == "startloop")
-		{
-			command = new StartLoopCommand(tokens, currentScriptLine);
-		}
-		else if (cmdWord == "endloop")
-		{
-			LOGGER->Log("StartLoopCommand", "Unexpectedly found an endloop command!");
-		}
-		else if (cmdWord == "breakloop")
+		if (commandType == COMMAND_BREAKLOOP)
 		{
 			std::string flag = UTILITY->toLower(tokens[COLUMN_FLAG]);
 			std::string flagStr = tokens.size() > COLUMN_ARG1 ? tokens[COLUMN_ARG1] : "";
@@ -545,8 +318,11 @@ void StartLoopCommand::readCommands(ScriptLine* currentScriptLine,
 				shouldStop = true;
 			}
 		}
-		else if (cmdWord == "continueloop")
+		else if (commandType == COMMAND_CONTINUELOOP)
 		{
+			command = nullptr;
+			commandType = ScriptCommand::COMMAND_CONTINUELOOP;
+
 			std::string flag = UTILITY->toLower(tokens[COLUMN_FLAG]);
 			std::string flagStr = tokens.size() > COLUMN_ARG1 ? tokens[COLUMN_ARG1] : "";
 
@@ -571,8 +347,11 @@ void StartLoopCommand::readCommands(ScriptLine* currentScriptLine,
 				commandIdx = tokensList.size() - 1;
 			}
 		}
-		else if (cmdWord == "clearloop")
+		else if (commandType == COMMAND_CLEARLOOP)
 		{
+			command = nullptr;
+			commandType = ScriptCommand::COMMAND_CLEARLOOP;
+
 			std::string flag = UTILITY->toLower(tokens[COLUMN_FLAG]);
 			std::string flagStr = tokens.size() > COLUMN_ARG1 ? tokens[COLUMN_ARG1] : "";
 
@@ -601,16 +380,6 @@ void StartLoopCommand::readCommands(ScriptLine* currentScriptLine,
 				executingCommandsList.clear();
 			}
 		}
-		else if (cmdWord == "stoploop")
-		{
-			command = new StopLoopCommand(tokens);
-		}
-		else if (cmdWord != "")
-		{
-			string msg = "Invalid Command found: " + cmdWord;
-			LOGGER->Log("StartLoopCommand", msg);
-			command = nullptr;
-		}
 
 		// check if the scriptreader should stop reading
 		if (command != nullptr)
@@ -630,5 +399,50 @@ void StartLoopCommand::readCommands(ScriptLine* currentScriptLine,
 				break;
 			}
 		}
+	}
+}
+
+void StartLoopCommand::initTokensList(ScriptLine * currentScriptLine, std::vector<std::vector<std::string>>& tokensList)
+{
+	// read the commands within the bound of the loop
+	if (currentScriptLine->file.is_open() && !currentScriptLine->file.eof())
+	{
+		bool stop = false;
+		while (!stop)
+		{
+			if (currentScriptLine->file.eof())
+			{
+				LOGGER->Log("StartLoopCommand", "EOF of file reached unexpectedly!");
+				break;
+			}
+
+			std::string line;
+			std::getline(currentScriptLine->file, line);
+			line = UTILITY->cutLine(line, "#");	// use # for comments
+
+			std::vector<std::string> tokens = UTILITY->split(line, '|');
+			tokens = UTILITY->trim(tokens);
+			if (tokens.size() > 0)
+			{
+				std::string cmdWord = UTILITY->toLower(tokens[0]);
+
+				// if its an endloop command, stop reading
+				if (cmdWord == "endloop")
+				{
+					stop = true;
+				}
+				// otherwise add it to the list
+				else if (cmdWord != "")
+				{
+					tokensList.push_back(tokens);
+				}
+
+			}
+		}
+	}
+	else
+	{
+		LOGGER->Log("StartLoopCommand", "Invalid script file!");
+		return;
 	}
 }

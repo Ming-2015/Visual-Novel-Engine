@@ -27,116 +27,12 @@ ScriptManager::ScriptManager(ifstream & file)
 	for (int i = 0; i < size; i++)
 	{
 		int commandType;
-		int prevPos = file.tellg();
-		file.read(reinterpret_cast<char*> (&commandType), sizeof(commandType));
-		file.seekg(prevPos);
-		switch (commandType)
+		ScriptCommand* command = nullptr;		
+		ScriptCommandFactory::GenerateCommandByFile(file, command, commandType);
+
+		if (command != nullptr)
 		{
-			case ScriptCommand::COMMAND_BLUR:
-			{
-				commands.push_back(new BlurCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_CLEAR:
-			{
-				commands.push_back(new ClearCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_DELAY:
-			{
-				commands.push_back(new DelayCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_DISPLAY:
-			{
-				commands.push_back(new DisplayCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_FLASH:
-			{
-				commands.push_back(new FlashCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_HIDE:
-			{
-				commands.push_back(new HideCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_JUMP:
-			{
-				commands.push_back(new JumpCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_MOVE:
-			{
-				commands.push_back(new MoveCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_PAUSE:
-			{
-				commands.push_back(new PauseCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_PLAY:
-			{
-				commands.push_back(new PlayCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_REMOVE:
-			{
-				commands.push_back(new RemoveCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_RESUME:
-			{
-				commands.push_back(new ResumeCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_ROTATE:
-			{
-				commands.push_back(new RotateCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_SET:
-			{
-				commands.push_back(new SetCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_SHOW:
-			{
-				commands.push_back(new ShowCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_STOP:
-			{
-				commands.push_back(new StopCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_UNHIDE:
-			{
-				commands.push_back(new UnhideCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_ZOOM:
-			{
-				commands.push_back(new ZoomCommand(file));
-				break;
-			}
-			case ScriptCommand::COMMAND_STARTLOOP:
-			{
-				commands.push_back(new StartLoopCommand(file, currentScriptLine));
-				break;
-			}
-			case ScriptCommand::COMMAND_STOPLOOP:
-			{
-				commands.push_back(new StopCommand(file));
-			}
-			default:
-			{
-				std::string err = "Found an invalid command type code: " + commandType;
-				LOGGER->Log("ScriptManager", err);
-				break;
-			}
+			commands.push_back(command);
 		}
 	}
 
@@ -488,129 +384,26 @@ void ScriptManager::readCommands()
 			tokens = UTILITY->trim(tokens);
 			if (tokens.size() > 0)
 			{
-				std::string cmdWord = UTILITY->toLower(tokens[0]);
 				ScriptCommand* command = nullptr;
+				int commandType;
 
-				if (cmdWord == "show")
-				{
-					command = new ShowCommand(tokens);
-				}
-				else if (cmdWord == "remove")
-				{
-					command = new RemoveCommand(tokens);
-				}
-				else if (cmdWord == "clear")
-				{
-					command = new ClearCommand(tokens);
-				}
-				else if (cmdWord == "flash")
-				{
-					command = new FlashCommand(tokens);
-				}
-				else if (cmdWord == "blur")
-				{
-					command = new BlurCommand(tokens);
-				}
-				else if (cmdWord == "display")
-				{
-					DisplayCommand* displayCommand = new DisplayCommand(tokens);
-					command = displayCommand;
+				ScriptCommandFactory::GenerateCommandByTokens(tokens, command, commandType);
 
-					if (displayCommand->isLine())
-					{
-						std::string name = displayCommand->getName();
-						if (UTILITY->toLower(name) == "player")
-						{
-							name = getPlayerName();
-						}
-
-						logItem.name = name;
-						logItem.line = displayCommand->getFullLine();
-						logItem.flags = currentScriptLine->userFlags;
-						logItem.scriptFile = currentScriptLine->filename;
-						logItem.scriptFilePos = currentScriptLine->file.tellg();
-						logItem.voiceFile = currentScriptLine->getPrevVoiceFilename();
-						logItem.musicFile = currentScriptLine->getPrevBgmFileName();
-						currentScriptLine->linelog->addLogItem(logItem);
-					}
-				}
-				else if (cmdWord == "set")
-				{
-					command = new SetCommand(tokens);
-				}
-				else if (cmdWord == "move")
-				{
-					command = new MoveCommand(tokens);
-				}
-				else if (cmdWord == "rotate")
-				{
-					command = new RotateCommand(tokens);
-				}
-				else if (cmdWord == "zoom")
-				{
-					command = new ZoomCommand(tokens);
-				}
-				else if (cmdWord == "play")
-				{
-					command = new PlayCommand(tokens);
-				}
-				else if (cmdWord == "stop")
-				{
-					command = new StopCommand(tokens);
-				}
-				else if (cmdWord == "pause")
-				{
-					command = new PauseCommand(tokens);
-				}
-				else if (cmdWord == "resume")
-				{
-					command = new ResumeCommand(tokens);
-				}
-				else if (cmdWord == "hide")
-				{
-					command = new HideCommand(tokens);
-				}
-				else if (cmdWord == "delay")
-				{
-					command = new DelayCommand(tokens);
-				}
-				else if (cmdWord == "unhide")
-				{
-					command = new UnhideCommand(tokens);
-				}
-				else if (cmdWord == "jump" && tokens.size() >= 4)
-				{
-					command = new JumpCommand(tokens);
-				}
-				else if (cmdWord == "startloop")
-				{
-					command = new StartLoopCommand(tokens, currentScriptLine);
-				}
-				else if (cmdWord == "endloop")
+				if (commandType == ScriptCommand::COMMAND_ENDLOOP)
 				{
 					LOGGER->Log("ScriptManager", "Invalid Endloop command: Not inside a loop");
 				}
-				else if (cmdWord == "breakloop")
+				else if (commandType == ScriptCommand::COMMAND_BREAKLOOP)
 				{
 					LOGGER->Log("ScriptManager", "Invalid BreakLoop command: not inside a loop");
 				}
-				else if (cmdWord == "continueloop")
+				else if (commandType == ScriptCommand::COMMAND_CONTINUELOOP)
 				{
 					LOGGER->Log("ScriptManager", "Invalid ContinueLoop command: not inside a loop");
 				}
-				else if (cmdWord == "clearloop")
+				else if (commandType == ScriptCommand::COMMAND_CLEARLOOP)
 				{
 					LOGGER->Log("ScriptManager", "Invalid ClearLoop command: not inside a loop");
-				}
-				else if (cmdWord == "stoploop")
-				{
-					command = new StopLoopCommand(tokens);
-				}
-				else if (cmdWord != "")
-				{
-					string msg = "Invalid Command found: " + cmdWord;
-					LOGGER->Log("ScriptManager", msg);
-					command = nullptr;
 				}
 
 				// check if the scriptreader should stop reading

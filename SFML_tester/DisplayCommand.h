@@ -63,6 +63,9 @@ private:
 	// play the voice
 	bool playedVoice = false;
 
+	// added the line to the log
+	bool doneAddingToLog = false;
+
 	const static int ANIMATION_GOREY = 2;
 	const static int ANIMATION_EXCLAIMATION = 1;
 	const static int ANIMATION_NONE = 0;
