@@ -68,6 +68,7 @@ public:
 	bool isTextboxClosed();
 
 	LineLog* getLineLog() const;
+	CinematicBars* getCinematicBars() const;
 
 private:
 

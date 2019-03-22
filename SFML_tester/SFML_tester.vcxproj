@@ -127,11 +127,12 @@
   <ItemGroup>
     <ClCompile Include="BlurCommand.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="ButtonHighlight.cpp" />
     <ClCompile Include="ChoiceImage.cpp" />
+    <ClCompile Include="CinematicBars.cpp" />
     <ClCompile Include="DelayCommand.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
     <ClCompile Include="DrawMainButton.cpp" />
+    <ClCompile Include="EndCommand.cpp" />
     <ClCompile Include="FlashCommand.cpp" />
     <ClCompile Include="HideCommand.cpp" />
     <ClCompile Include="ItemImage.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="ShowCommand.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="ClearCommand.cpp" />
+    <ClCompile Include="StartCommand.cpp" />
     <ClCompile Include="StartLoopCommand.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="StopCommand.cpp" />
@@ -186,10 +188,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackgroundImage.h" />
+    <ClInclude Include="CinematicBars.h" />
+    <ClInclude Include="EndCommand.h" />
     <ClInclude Include="Linelog.h" />
     <ClInclude Include="BlurCommand.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="ButtonHighlight.h" />
     <ClInclude Include="CharacterImage.h" />
     <ClInclude Include="ChoiceImage.h" />
     <ClInclude Include="ClearCommand.h" />
@@ -238,6 +241,7 @@
     <ClInclude Include="SettingsState.h" />
     <ClInclude Include="ShowCommand.h" />
     <ClInclude Include="Slider.h" />
+    <ClInclude Include="StartCommand.h" />
     <ClInclude Include="StartLoopCommand.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="StopCommand.h" />

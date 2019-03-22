@@ -6,6 +6,7 @@ ScriptLine::ScriptLine()
 	linelog = new LineLog();
 	textboxImage = new TextboxImage();
 	textboxImage->setTextboxAlpha(CONFIG->textWindowAlpha * 255.f);
+	cinematicBars = new CinematicBars();
 }
 
 ScriptLine::~ScriptLine()
@@ -50,6 +51,7 @@ ScriptLine::~ScriptLine()
 	}
 
 	if (linelog) delete linelog;
+	if (cinematicBars) delete cinematicBars;
 }
 
 ScriptLine::ScriptLine(ifstream & savefile)
@@ -97,6 +99,8 @@ ScriptLine::ScriptLine(ifstream & savefile)
 		{
 			userFlags.insert( UTILITY->readFromBinaryFile(savefile) );
 		}
+
+		cinematicBars = new CinematicBars(savefile);
 	}
 	catch (exception e)
 	{
@@ -210,6 +214,8 @@ void ScriptLine::serialize(ofstream & savefile)
 	{
 		UTILITY->writeToBinaryFile(savefile, *it);
 	}
+
+	cinematicBars->serialize(savefile);
 }
 
 void ScriptLine::setChoices(const vector<string>& choices, const vector<string>& flags)
@@ -991,6 +997,26 @@ void ScriptLine::appendLineToLog(std::string name, std::string line, std::vector
 	logItem.voiceFile = voicefiles;
 	logItem.musicFile = getPrevBgmFileName();
 	linelog->addLogItem(logItem);
+}
+
+void ScriptLine::setCinematicBarsHeight(float height)
+{
+	cinematicBars->setHeight(height);
+}
+
+float ScriptLine::getCinematicBarsHeight() const
+{
+	return cinematicBars->getHeight();
+}
+
+void ScriptLine::displayCinematicBars(bool display)
+{
+	cinematicBars->setDisplay(display);
+}
+
+bool ScriptLine::isDisplayingCinematicBars() const
+{
+	return cinematicBars->isDisplaying();
 }
 
 void ScriptLine::readNewFileToAnchor(std::string filename, std::string anchor)

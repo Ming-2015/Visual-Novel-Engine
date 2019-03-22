@@ -181,6 +181,11 @@ void ScriptManager::update(float delta_t)
 		currentScriptLine->textboxImage->update(delta_t);
 	}
 
+	if (currentScriptLine->cinematicBars)
+	{
+		currentScriptLine->cinematicBars->update(delta_t);
+	}
+
 	currentScriptLine->updateSoundList();
 
 	// check the volumes - NOTE THAT WE ARE UPDATING ONE SCRIPTMANAGER AT A TIME
@@ -341,6 +346,11 @@ bool ScriptManager::isTextboxClosed()
 LineLog * ScriptManager::getLineLog() const
 {
 	return currentScriptLine->linelog;
+}
+
+CinematicBars * ScriptManager::getCinematicBars() const
+{
+	return currentScriptLine->cinematicBars;
 }
 
 void ScriptManager::advanceText()

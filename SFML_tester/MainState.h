@@ -6,7 +6,6 @@
 #include "Fade.h"
 #include "DrawMainButton.h"
 #include "ConfirmationPrompt.h"
-#include "ButtonHighlight.h"
 #include "SavedataUtility.h"
 #include "Linelog.h"
 

@@ -63,6 +63,8 @@ public:
 	static const int COMMAND_CONTINUELOOP = 22;
 	static const int COMMAND_CLEARLOOP = 23;
 	static const int COMMAND_ANCHOR = 24;
+	static const int COMMAND_START = 25;
+	static const int COMMAND_END = 26;
 
 	static const int COLUMN_ACTION = 0;
 	static const int COLUMN_OBJECT = 1;

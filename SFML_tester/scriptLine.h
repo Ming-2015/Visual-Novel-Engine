@@ -16,6 +16,7 @@
 #include "TextboxImage.h"
 #include "ChoiceImage.h"
 #include "Linelog.h"
+#include "CinematicBars.h"
 
 using namespace std;
 
@@ -48,6 +49,8 @@ public:
 	std::set< std::string > userFlags;
 
 	LineLog* linelog = nullptr;
+
+	CinematicBars* cinematicBars = nullptr;
 
 	std::vector<std::string> loopsToRemove;
 
@@ -149,6 +152,11 @@ public:
 	void removeLoop(std::string loopName);
 
 	void appendLineToLog(std::string name, std::string line, std::vector<std::string> voicefiles);
+
+	void setCinematicBarsHeight(float height);
+	float getCinematicBarsHeight() const;
+	void displayCinematicBars(bool display);
+	bool isDisplayingCinematicBars() const;
 
 private:
 

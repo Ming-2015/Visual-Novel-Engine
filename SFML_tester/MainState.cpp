@@ -288,6 +288,11 @@ void MainState::render(sf::RenderWindow & window)
 		}
 	}
 
+	if (scriptManager->getCinematicBars())
+	{
+		scriptManager->getCinematicBars()->render(window);
+	}
+
 	if (scriptManager->getLineLog()->shouldDisplay())
 	{
 		scriptManager->getLineLog()->render(window);

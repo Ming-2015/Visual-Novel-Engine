@@ -23,6 +23,8 @@
 #include "BlurCommand.h"
 #include "StartLoopCommand.h"
 #include "StopLoopCommand.h"
+#include "StartCommand.h"
+#include "EndCommand.h"
 
 void ScriptCommandFactory::GenerateCommandByTokens(std::vector<std::string> tokens, ScriptCommand *& command, int & commandType)
 {
@@ -134,6 +136,14 @@ void ScriptCommandFactory::GenerateCommandByTokens(std::vector<std::string> toke
 	{
 		commandType = ScriptCommand::COMMAND_ANCHOR;
 		command = nullptr;
+	}
+	else if (cmdWord == "start")
+	{
+		command = new StartCommand(tokens);
+	}
+	else if (cmdWord == "end")
+	{
+		command = new EndCommand(tokens);
 	}
 	else if (cmdWord != "")
 	{
@@ -255,6 +265,16 @@ void ScriptCommandFactory::GenerateCommandByFile(std::ifstream & savefile, Scrip
 		case ScriptCommand::COMMAND_STOPLOOP:
 		{
 			command = new StopLoopCommand(savefile);
+			break;
+		}
+		case ScriptCommand::COMMAND_START:
+		{
+			command = new StartCommand(savefile);
+			break;
+		}
+		case ScriptCommand::COMMAND_END:
+		{
+			command = new EndCommand(savefile);
 			break;
 		}
 		default:
