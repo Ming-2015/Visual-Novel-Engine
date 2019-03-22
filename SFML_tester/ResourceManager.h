@@ -19,7 +19,9 @@ public:
 	void startLoading();
 
 	// clear the resource loader IF everything is loaded, or IF it has not started loading
-	// recommended to be used after checking 'doneLoading()' or 'join()'
+	// recommended to be used after checking 'doneLoading()' or 'joinAll()'
+	// note that this will clear all assets on the queue but not started loading either
+	// return if the loader is successfully cleared
 	bool clear();
 
 	// return if the resource loader has started loading things
@@ -33,8 +35,8 @@ public:
 	// wait till all assets are done loading
 	void joinAll();
 
-	// join the thread that is loading the resource; use this to make sure a resource is fully loaded
-	void join(std::string path); 
+	// joinAll the thread that is loading the resource; use this to make sure a resource is fully loaded
+	void joinAll(std::string path); 
 	void joinAudio(std::string path);
 	void joinTexture(std::string path);
 

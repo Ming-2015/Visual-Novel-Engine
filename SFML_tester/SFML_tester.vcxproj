@@ -216,6 +216,7 @@
     <ClInclude Include="InitState.h" />
     <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="LineLogItem.h" />
+    <ClInclude Include="LoaderThread.h" />
     <ClInclude Include="LoadState.h" />
     <ClInclude Include="LogBar.h" />
     <ClInclude Include="Logger.h" />

@@ -73,6 +73,12 @@
     <Filter Include="Source Files\UI\Effect\Fade">
       <UniqueIdentifier>{ddd441c6-cf4b-461f-8409-8e791d0edb3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Resource">
+      <UniqueIdentifier>{9258d7f7-362c-447c-ba65-8622e7147af0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resource">
+      <UniqueIdentifier>{6b53d8a0-0d8b-4d46-a389-df6d12174b23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameState.cpp">
@@ -255,11 +261,11 @@
     <ClCompile Include="EndCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceLoader.cpp">
-      <Filter>Source Files\Other</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoader.cpp">
+      <Filter>Source Files\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -452,11 +458,14 @@
     <ClInclude Include="EndCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
+    <ClInclude Include="LoaderThread.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
     <ClInclude Include="ResourceLoader.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Resource</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files\Resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

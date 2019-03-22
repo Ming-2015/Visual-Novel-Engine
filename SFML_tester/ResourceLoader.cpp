@@ -1,5 +1,79 @@
 #include "ResourceLoader.h"
 
+// for creating thread to load textures
+class TextureLoaderThread : public LoaderThread {
+public:
+
+	TextureLoaderThread(const std::string& path, sf::Texture* texPtr)
+		:path(path), texPtr(texPtr) {}
+
+	void startLoading()
+	{
+		startedLoading = true;
+		if (!texPtr->loadFromFile(path))
+		{
+			std::string err = "Failed to load texture: " + path;
+			LOGGER->Log("TextureLoaderThread", err);
+		}
+		else
+		{
+			valid = true;
+			texPtr->setSmooth(true);
+		}
+		doneLoading = true;
+	}
+
+	std::string getPath()
+	{
+		return path;
+	}
+
+	void* getPtr()
+	{
+		return static_cast<void*>(texPtr);
+	}
+
+	std::string path;
+	sf::Texture* texPtr;
+};
+
+// For creating thread to load small audio files
+// For loading BGM that needs a lot of space, use sf::Music to stream
+class AudioLoaderThread : public LoaderThread {
+public:
+
+	AudioLoaderThread(const std::string& path, sf::SoundBuffer* audioPtr)
+		:path(path), audioPtr(audioPtr) {}
+
+	void startLoading()
+	{
+		startedLoading = true;
+		if (!audioPtr->loadFromFile(path))
+		{
+			std::string err = "Failed to load audio: " + path;
+			LOGGER->Log("AudioLoaderThread", err);
+		}
+		else
+		{
+			valid = true;
+		}
+		doneLoading = true;
+	}
+
+	std::string getPath()
+	{
+		return path;
+	}
+
+	void* getPtr()
+	{
+		return static_cast<void*>(audioPtr);
+	}
+
+	std::string path;
+	sf::SoundBuffer* audioPtr;
+};
+
 ResourceLoader::ResourceLoader()
 {
 
@@ -7,34 +81,53 @@ ResourceLoader::ResourceLoader()
 
 ResourceLoader::~ResourceLoader()
 {
+
+	for (LoaderThread* t : allLoaders)
+	{
+		if (t) delete t;
+	}
 }
 
 void ResourceLoader::addTexture(sf::Texture* tex, std::string path)
 {
-	textureLoaders.push_back(TextureLoaderThread(path.c_str(), tex));
+	allLoaders.push_back(new TextureLoaderThread(path.c_str(), tex));
+	queuedLoaders.push_back( allLoaders[allLoaders.size() - 1] );
 }
 
 void ResourceLoader::addAudio(sf::SoundBuffer* audio, std::string path)
 {
-	audioLoaders.push_back(AudioLoaderThread(path, audio));
+	allLoaders.push_back(new AudioLoaderThread(path.c_str(), audio));
+	queuedLoaders.push_back( allLoaders[allLoaders.size() - 1] );
 }
 
 bool ResourceLoader::reset()
 {
 	if (!started)
 	{
-		textureLoaders.clear();
-		audioLoaders.clear();
+		queuedLoaders.clear();
 		allThreads.clear();
+
+		for (LoaderThread* t : allLoaders)
+		{
+			if (t) delete t;
+		}
+		allLoaders.clear();
+
 		return true;
 	}
 	else
 	{
 		if (doneLoading())
 		{
-			textureLoaders.clear();
-			audioLoaders.clear();
+			queuedLoaders.clear();
 			allThreads.clear();
+
+			for (LoaderThread* t : allLoaders)
+			{
+				delete t;
+			}
+			allLoaders.clear();
+
 			started = false;
 			return true;
 		}
@@ -50,21 +143,16 @@ void ResourceLoader::start()
 	started = true;
 	reset();
 
-	for (TextureLoaderThread& t : textureLoaders)
+	for (int i = 0; i < queuedLoaders.size(); i++)
 	{
-		if (!t.hasStartedLoading())
+		if (!queuedLoaders[i]->hasStartedLoading())
 		{
-			allThreads[static_cast<void*>(t.texPtr)] = std::thread([&t] {t.startLoading(); });
+			LoaderThread* t = queuedLoaders[i];
+			allThreads[static_cast<void*>(t->getPtr())] 
+				= std::thread([t] {t->startLoading(); });
 		}
 	}
-
-	for (AudioLoaderThread& t : audioLoaders)
-	{
-		if (!t.hasStartedLoading())
-		{
-			allThreads[static_cast<void*>(t.audioPtr)] = std::thread([&t] {t.startLoading(); });
-		}
-	}
+	queuedLoaders.clear();
 }
 
 bool ResourceLoader::doneLoading() const
@@ -76,18 +164,9 @@ bool ResourceLoader::doneLoading() const
 	else
 	{
 		bool done = true;
-		for (const TextureLoaderThread& t : textureLoaders)
+		for (const LoaderThread* t : allLoaders)
 		{
-			if (!t.isDone())
-			{
-				done = false;
-				break;
-			}
-		}
-
-		for (const AudioLoaderThread& t : audioLoaders)
-		{
-			if (!t.isDone())
+			if (!t->isDone())
 			{
 				done = false;
 				break;
@@ -112,8 +191,12 @@ void ResourceLoader::joinAll()
 
 	started = false;
 	allThreads.clear();
-	textureLoaders.clear();
-	audioLoaders.clear();
+
+	for (LoaderThread* t : allLoaders)
+	{
+		if (t) delete t;
+	}
+	allLoaders.clear();
 }
 
 void ResourceLoader::join(sf::SoundBuffer * ptr)

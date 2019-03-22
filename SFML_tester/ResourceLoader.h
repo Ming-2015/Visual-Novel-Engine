@@ -8,74 +8,7 @@
 #include <SFML/Audio.hpp>
 
 #include "Logger.h"
-
-class LoaderThread
-{
-public:
-	virtual void startLoading() = 0;
-
-	bool isDone() const { return doneLoading; }
-	bool isValid() const { return valid; }
-	bool hasStartedLoading() const { return startedLoading; }
-
-protected:
-	bool startedLoading = false;
-	bool doneLoading = false;
-	bool valid = false;
-};
-
-class TextureLoaderThread : public LoaderThread {
-public:
-
-	TextureLoaderThread(const std::string& path, sf::Texture* texPtr)
-		:path(path), texPtr(texPtr) {}
-
-	void startLoading() 
-	{
-		startedLoading = true;
-		if (!texPtr->loadFromFile(path))
-		{
-			std::string err = "Failed to load texture: " + path;
-			LOGGER->Log("TextureLoaderThread", err);
-		}
-		else
-		{
-			valid = true;
-			texPtr->setSmooth(true);
-		}
-		doneLoading = true;
-	}
-
-	std::string path;
-	sf::Texture* texPtr;
-};
-
-// For loading smaller audio, completely from file
-// For loading BGM that needs a lot of space, use sf::Music
-class AudioLoaderThread : public LoaderThread {
-public:
-
-	AudioLoaderThread(const std::string& path, sf::SoundBuffer* audioPtr)
-		:path(path), audioPtr(audioPtr) {}
-
-	void startLoading()
-	{
-		startedLoading = true;
-		if (!audioPtr->loadFromFile(path))
-		{
-			std::string err = "Failed to load audio: " + path;
-			LOGGER->Log("AudioLoaderThread", err);
-		}
-		else
-		{
-			valid = true;
-		}
-		doneLoading = true;
-	}
-
-	std::string path;
-	sf::SoundBuffer* audioPtr;
-};
+#include "LoaderThread.h"
 
 class ResourceLoader {
 public:
@@ -104,13 +37,20 @@ public:
 	void joinAll();
 	void join(sf::Texture* ptr);
 	void join(sf::SoundBuffer* ptr);
-	void join(void* ptr);
 
 private:
 
-	std::vector<TextureLoaderThread> textureLoaders;
-	std::vector<AudioLoaderThread> audioLoaders;
+	// holds all the loaders
+	std::vector<LoaderThread*> allLoaders;
+
+	// holds pointers to the loaders not launched yet
+	std::vector<LoaderThread*> queuedLoaders;
+
+	// all the threads
 	std::map< void *, std::thread > allThreads;
 
 	bool started = false;
+
+	// joinAll a thread
+	void join(void* ptr);
 };

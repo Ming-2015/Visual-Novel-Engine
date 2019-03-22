@@ -53,7 +53,7 @@ void ResourceManager::joinAll()
 	resourceLoader.joinAll();
 }
 
-void ResourceManager::join(std::string path)
+void ResourceManager::joinAll(std::string path)
 {
 	auto it_tex = allTextures.find(path);
 	if (it_tex != allTextures.end())
