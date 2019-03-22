@@ -81,23 +81,37 @@ ResourceLoader::ResourceLoader()
 
 ResourceLoader::~ResourceLoader()
 {
-
-	for (LoaderThread* t : allLoaders)
+	// delete the loaders
+	for (auto t : allLoaders)
 	{
-		if (t) delete t;
+		if (t.second) delete t.second;
 	}
 }
 
-void ResourceLoader::addTexture(sf::Texture* tex, std::string path)
+bool ResourceLoader::addTexture(sf::Texture* tex, std::string path)
 {
-	allLoaders.push_back(new TextureLoaderThread(path.c_str(), tex));
-	queuedLoaders.push_back( allLoaders[allLoaders.size() - 1] );
+	void* ptr = static_cast<void*> (tex);
+
+	if (allLoaders.find(ptr) == allLoaders.end())
+	{
+		allLoaders[ptr] = new TextureLoaderThread(path, tex);
+		queuedLoaders.push_back(allLoaders[ptr]);
+		return true;
+	}
+	else return false;
 }
 
-void ResourceLoader::addAudio(sf::SoundBuffer* audio, std::string path)
+bool ResourceLoader::addAudio(sf::SoundBuffer* audio, std::string path)
 {
-	allLoaders.push_back(new AudioLoaderThread(path.c_str(), audio));
-	queuedLoaders.push_back( allLoaders[allLoaders.size() - 1] );
+	void* ptr = static_cast<void*> (audio);
+
+	if (allLoaders.find(ptr) == allLoaders.end())
+	{
+		allLoaders[ptr] = new AudioLoaderThread(path, audio);
+		queuedLoaders.push_back(allLoaders[ptr]);
+		return true;
+	}
+	else return false;
 }
 
 bool ResourceLoader::reset()
@@ -107,9 +121,9 @@ bool ResourceLoader::reset()
 		queuedLoaders.clear();
 		allThreads.clear();
 
-		for (LoaderThread* t : allLoaders)
+		for (auto t : allLoaders)
 		{
-			if (t) delete t;
+			if (t.second) delete t.second;
 		}
 		allLoaders.clear();
 
@@ -122,9 +136,9 @@ bool ResourceLoader::reset()
 			queuedLoaders.clear();
 			allThreads.clear();
 
-			for (LoaderThread* t : allLoaders)
+			for (auto t : allLoaders)
 			{
-				delete t;
+				if (t.second) delete t.second;
 			}
 			allLoaders.clear();
 
@@ -164,9 +178,9 @@ bool ResourceLoader::doneLoading() const
 	else
 	{
 		bool done = true;
-		for (const LoaderThread* t : allLoaders)
+		for (auto t : allLoaders)
 		{
-			if (!t->isDone())
+			if (!t.second->isDone())
 			{
 				done = false;
 				break;
@@ -192,9 +206,9 @@ void ResourceLoader::joinAll()
 	started = false;
 	allThreads.clear();
 
-	for (LoaderThread* t : allLoaders)
+	for (auto t : allLoaders)
 	{
-		if (t) delete t;
+		if (t.second) delete t.second;
 	}
 	allLoaders.clear();
 }
@@ -202,6 +216,24 @@ void ResourceLoader::joinAll()
 void ResourceLoader::join(sf::SoundBuffer * ptr)
 {
 	join(static_cast<void*>(ptr));
+}
+
+float ResourceLoader::calcProgress() const
+{
+	float countThreads = 0;
+	float countDone = 0;
+	for (auto it : allLoaders)
+	{
+		if (it.second->hasStartedLoading())
+		{
+			countThreads++;
+			if (it.second->isDone())
+			{
+				countDone++;
+			}
+		}
+	}
+	return countDone / countThreads;
 }
 
 void ResourceLoader::join(sf::Texture * ptr)

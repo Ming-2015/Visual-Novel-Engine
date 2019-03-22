@@ -35,14 +35,22 @@ public:
 	// wait till all assets are done loading
 	void joinAll();
 
-	// joinAll the thread that is loading the resource; use this to make sure a resource is fully loaded
+	// join all the threads that are loading the resources 
+	// use this to wait till all resources are fully loaded
 	void joinAll(std::string path); 
+
+	// use this to wait till the particular audio is fully loaded
 	void joinAudio(std::string path);
+
+	// use this to wait till the particular texture is fully loaded
 	void joinTexture(std::string path);
 
-	// get the assets based on the paths... 
-	// NOTE: the assets are not guaranteed to finish loading by now
+	// Get the texture based on the paths 
+	// NOTE: the texture are not guaranteed to finish loading by now
 	sf::Texture* getTexture(std::string path);
+
+	// Get the sound buffer based on the paths 
+	// NOTE: the texture are not guaranteed to finish loading by now
 	sf::SoundBuffer* getAudio(std::string path);
 
 	// unload all the current assets; useful for switching between game states

@@ -16,9 +16,10 @@ public:
 	ResourceLoader();
 	~ResourceLoader();
 
-	// NOTE: We are assuming that none of the path will be duplicates!
-	void addTexture(sf::Texture* tex, std::string path);
-	void addAudio(sf::SoundBuffer* audio, std::string path);
+	// NOTE: We are assuming that none of the pointer will be duplicates!
+	// if there is duplicate, return false
+	bool addTexture(sf::Texture* tex, std::string path);
+	bool addAudio(sf::SoundBuffer* audio, std::string path);
 
 	// clear all queued items to be loaded (or done loaded)
 	// if the loader has started but not yet done loading, will return false
@@ -33,15 +34,25 @@ public:
 	// return if the loader has been started
 	bool hasStarted() const;
 
-	// joinAll all threads that are initialized
+	// join all threads that are initialized, meaning to wait till they finish executing
 	void joinAll();
+
+	// join a texture loader, meaning to wait till that texture has finished loading
 	void join(sf::Texture* ptr);
+
+	// join a soundbuffer loader, meaning to wait till that buffer has finished loading
 	void join(sf::SoundBuffer* ptr);
+
+	// Calculate the progress of the load, returns percentage in the range of 0 to 1
+	// NOTE: this only counts by the number of files, without taking into account of the file size
+	// NOTE: if there's one very large file not done loading, it can display (99%) 
+	//       when all other small files are loaded
+	float calcProgress() const;
 
 private:
 
 	// holds all the loaders
-	std::vector<LoaderThread*> allLoaders;
+	std::map<void *, LoaderThread*> allLoaders;
 
 	// holds pointers to the loaders not launched yet
 	std::vector<LoaderThread*> queuedLoaders;
