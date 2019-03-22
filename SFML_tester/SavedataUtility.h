@@ -21,8 +21,7 @@ public:
 	const std::string QuickSavefilePrefix = "qsave_";
 	const std::string QuickSavefileSuffix = ".usd";
 
-	bool readSave(const std::string & savefile, sf::Image & image, std::string & title,
-		std::string & savetime) const;
+	// write save by using a screenshot and the scriptmanager
 	void writeSave(const std::string& filename,
 		const sf::Image & image,
 		const ScriptManager*& scriptManager) const;
@@ -33,6 +32,11 @@ public:
 		std::string& title,
 		std::string& time,
 		ScriptManager*& scriptManager) const;
+
+	bool readSave(const std::string & savefile, 
+		sf::Image & image, 
+		std::string & title,
+		std::string & savetime) const;
 
 	static SavedataUtility* GetUtility();
 	static void CleanUp();

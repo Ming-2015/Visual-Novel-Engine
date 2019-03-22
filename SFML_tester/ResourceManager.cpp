@@ -55,7 +55,37 @@ void ResourceManager::joinAll()
 
 void ResourceManager::join(std::string path)
 {
-	resourceLoader.join(path);
+	auto it_tex = allTextures.find(path);
+	if (it_tex != allTextures.end())
+	{
+		resourceLoader.join((*it_tex).second);
+		return;
+	}
+	
+	auto it_audio = allAudio.find(path);
+	if (it_audio != allAudio.end())
+	{
+		resourceLoader.join((*it_audio).second);
+		return;
+	}
+}
+
+void ResourceManager::joinAudio(std::string path)
+{
+	auto it_tex = allTextures.find(path);
+	if (it_tex != allTextures.end())
+	{
+		resourceLoader.join((*it_tex).second);
+	}
+}
+
+void ResourceManager::joinTexture(std::string path)
+{
+	auto it_audio = allAudio.find(path);
+	if (it_audio != allAudio.end())
+	{
+		resourceLoader.join((*it_audio).second);
+	}
 }
 
 sf::Texture* ResourceManager::getTexture(std::string path)
@@ -69,7 +99,7 @@ sf::Texture* ResourceManager::getTexture(std::string path)
 		{
 			return (*it).second;
 		}
-		// otherwise, initialize it forcefully
+		// otherwise, initialize it_tex forcefully
 		else
 		{
 			// create the new resource
@@ -79,7 +109,7 @@ sf::Texture* ResourceManager::getTexture(std::string path)
 			return allTextures[path];
 		}
 	}
-	// if not, add it then load;
+	// if not, add it_tex then load;
 	else
 	{
 		// add and create the new resource
@@ -102,14 +132,14 @@ sf::SoundBuffer* ResourceManager::getAudio(std::string path)
 		{
 			return (*it).second;
 		}
-		// otherwise, initialize it forcefully
+		// otherwise, initialize it_tex forcefully
 		else
 		{
 			startLoading();
 			return (*it).second;
 		}
 	}
-	// if not, add it then load;
+	// if not, add it_tex then load;
 	else
 	{
 		addAudio(path);

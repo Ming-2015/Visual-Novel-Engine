@@ -35,6 +35,8 @@ public:
 
 	// join the thread that is loading the resource; use this to make sure a resource is fully loaded
 	void join(std::string path); 
+	void joinAudio(std::string path);
+	void joinTexture(std::string path);
 
 	// get the assets based on the paths... 
 	// NOTE: the assets are not guaranteed to finish loading by now

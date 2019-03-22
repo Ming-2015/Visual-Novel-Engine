@@ -54,8 +54,7 @@ void ResourceLoader::start()
 	{
 		if (!t.hasStartedLoading())
 		{
-			allThreads.push_back( 
-				std::pair<std::string, std::thread>(t.path, std::thread([&t] {t.startLoading(); })));
+			allThreads[static_cast<void*>(t.texPtr)] = std::thread([&t] {t.startLoading(); });
 		}
 	}
 
@@ -63,8 +62,7 @@ void ResourceLoader::start()
 	{
 		if (!t.hasStartedLoading())
 		{
-			allThreads.push_back(
-				std::pair<std::string, std::thread>(t.path, std::thread([&t] {t.startLoading(); })));
+			allThreads[static_cast<void*>(t.audioPtr)] = std::thread([&t] {t.startLoading(); });
 		}
 	}
 }
@@ -118,13 +116,21 @@ void ResourceLoader::joinAll()
 	audioLoaders.clear();
 }
 
-void ResourceLoader::join(std::string path)
+void ResourceLoader::join(sf::SoundBuffer * ptr)
 {
-	for (auto it = allThreads.begin(); it != allThreads.end(); ++it)
+	join(static_cast<void*>(ptr));
+}
+
+void ResourceLoader::join(sf::Texture * ptr)
+{
+	join(static_cast<void*>(ptr));
+}
+
+void ResourceLoader::join(void* ptr)
+{
+	auto it = allThreads.find(ptr);
+	if (it != allThreads.end())
 	{
-		if ((*it).first == path)
-		{
-			(*it).second.join();
-		}
+		(*it).second.join();
 	}
 }

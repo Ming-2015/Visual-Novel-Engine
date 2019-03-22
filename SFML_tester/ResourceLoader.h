@@ -102,14 +102,15 @@ public:
 
 	// joinAll all threads that are initialized
 	void joinAll();
-	void join(std::string path);
+	void join(sf::Texture* ptr);
+	void join(sf::SoundBuffer* ptr);
+	void join(void* ptr);
 
 private:
 
 	std::vector<TextureLoaderThread> textureLoaders;
 	std::vector<AudioLoaderThread> audioLoaders;
-
-	std::vector< std::pair< std::string, std::thread> > allThreads;
+	std::map< void *, std::thread > allThreads;
 
 	bool started = false;
 };
