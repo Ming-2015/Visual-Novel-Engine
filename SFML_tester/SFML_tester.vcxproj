@@ -160,6 +160,7 @@
     <ClCompile Include="PauseCommand.cpp" />
     <ClCompile Include="PlayCommand.cpp" />
     <ClCompile Include="RadioButton.cpp" />
+    <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="ResumeCommand.cpp" />
     <ClCompile Include="RemoveCommand.cpp" />
     <ClCompile Include="ConfirmationPrompt.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="PauseCommand.h" />
     <ClInclude Include="PlayCommand.h" />
     <ClInclude Include="RadioButton.h" />
+    <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="ResumeCommand.h" />
     <ClInclude Include="RemoveCommand.h" />
     <ClInclude Include="ConfirmationPrompt.h" />
