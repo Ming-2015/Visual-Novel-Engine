@@ -1,19 +1,22 @@
 #include "ResourceManager.h"
 
-void ResourceManager::addTexture(std::string path)
+bool ResourceManager::addTexture(std::string path)
 {
 	if (allTextures.find(path) == allTextures.end())
 	{
 		allTextures[path] = nullptr;
+		return true;
 	}
+	else return false;
 }
 
-void ResourceManager::addAudio(std::string path)
+bool ResourceManager::addAudio(std::string path)
 {
 	if (allAudio.find(path) == allAudio.end())
 	{
 		allAudio[path] = nullptr;
 	}
+	else return false;
 }
 
 void ResourceManager::startLoading()

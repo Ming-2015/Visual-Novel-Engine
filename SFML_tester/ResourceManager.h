@@ -11,9 +11,11 @@
 class ResourceManager {
 public:
 
-	// add the asset paths, but don't load them yet!
-	void addTexture(std::string path);
-	void addAudio(std::string path);
+	// add the texture path, but don't load them yet!
+	bool addTexture(std::string path);
+
+	// add the audio path, but don't load them yet!
+	bool addAudio(std::string path);
 
 	// add various asset paths, then start loading!
 	void startLoading();
