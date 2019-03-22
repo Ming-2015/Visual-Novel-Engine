@@ -16,8 +16,10 @@ public:
 
 	bool isDone() const { return doneLoading; }
 	bool isValid() const { return valid; }
+	bool hasStartedLoading() const { return startedLoading; }
 
 protected:
+	bool startedLoading = false;
 	bool doneLoading = false;
 	bool valid = false;
 };
@@ -30,6 +32,7 @@ public:
 
 	void startLoading() 
 	{
+		startedLoading = true;
 		if (!texPtr->loadFromFile(path))
 		{
 			std::string err = "Failed to load texture: " + path;
@@ -47,15 +50,18 @@ public:
 	sf::Texture* texPtr;
 };
 
+// For loading smaller audio, completely from file
+// For loading BGM that needs a lot of space, use sf::Music
 class AudioLoaderThread : public LoaderThread {
 public:
 
-	AudioLoaderThread(const std::string& path, sf::Music* audioPtr)
+	AudioLoaderThread(const std::string& path, sf::SoundBuffer* audioPtr)
 		:path(path), audioPtr(audioPtr) {}
 
 	void startLoading()
 	{
-		if (!audioPtr->openFromFile(path))
+		startedLoading = true;
+		if (!audioPtr->loadFromFile(path))
 		{
 			std::string err = "Failed to load audio: " + path;
 			LOGGER->Log("AudioLoaderThread", err);
@@ -68,7 +74,7 @@ public:
 	}
 
 	std::string path;
-	sf::Music* audioPtr;
+	sf::SoundBuffer* audioPtr;
 };
 
 class ResourceLoader {
@@ -77,21 +83,33 @@ public:
 	ResourceLoader();
 	~ResourceLoader();
 
+	// NOTE: We are assuming that none of the path will be duplicates!
 	void addTexture(sf::Texture* tex, std::string path);
-	void addAudio(sf::Music* audio, std::string path);
+	void addAudio(sf::SoundBuffer* audio, std::string path);
 
+	// clear all queued items to be loaded (or done loaded)
+	// if the loader has started but not yet done loading, will return false
 	bool reset();
+
+	// start loading the resources added to the list but not yet loaded
 	void start();
-	bool doneLoading();
-	bool hasStarted();
-	void join();
+
+	// return if all added items are being loaded
+	bool doneLoading() const;
+
+	// return if the loader has been started
+	bool hasStarted() const;
+
+	// joinAll all threads that are initialized
+	void joinAll();
+	void join(std::string path);
 
 private:
 
-	std::vector<TextureLoaderThread> TextureLoaders;
-	std::vector<AudioLoaderThread> AudioLoaders;
+	std::vector<TextureLoaderThread> textureLoaders;
+	std::vector<AudioLoaderThread> audioLoaders;
 
-	std::vector<std::thread> allThreads;
+	std::vector< std::pair< std::string, std::thread> > allThreads;
 
 	bool started = false;
 };

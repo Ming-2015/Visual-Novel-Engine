@@ -2,7 +2,7 @@
 
 ResourceLoader::ResourceLoader()
 {
-	LOGGER->Log("ResourceLoader", "ResouceLoader constructor called!");
+
 }
 
 ResourceLoader::~ResourceLoader()
@@ -11,28 +11,30 @@ ResourceLoader::~ResourceLoader()
 
 void ResourceLoader::addTexture(sf::Texture* tex, std::string path)
 {
-	TextureLoaders.push_back(TextureLoaderThread(path.c_str(), tex));
+	textureLoaders.push_back(TextureLoaderThread(path.c_str(), tex));
 }
 
-void ResourceLoader::addAudio(sf::Music* audio, std::string path)
+void ResourceLoader::addAudio(sf::SoundBuffer* audio, std::string path)
 {
-	AudioLoaders.push_back(AudioLoaderThread(path, audio));
+	audioLoaders.push_back(AudioLoaderThread(path, audio));
 }
 
 bool ResourceLoader::reset()
 {
 	if (!started)
 	{
-		TextureLoaders.clear();
-		AudioLoaders.clear();
+		textureLoaders.clear();
+		audioLoaders.clear();
+		allThreads.clear();
 		return true;
 	}
 	else
 	{
 		if (doneLoading())
 		{
-			TextureLoaders.clear();
-			AudioLoaders.clear();
+			textureLoaders.clear();
+			audioLoaders.clear();
+			allThreads.clear();
 			started = false;
 			return true;
 		}
@@ -45,27 +47,29 @@ bool ResourceLoader::reset()
 
 void ResourceLoader::start()
 {
-	if (!started)
+	started = true;
+	reset();
+
+	for (TextureLoaderThread& t : textureLoaders)
 	{
-		started = true;
-
-		for (TextureLoaderThread& t : TextureLoaders)
+		if (!t.hasStartedLoading())
 		{
-			allThreads.push_back( std::thread([&t] {t.startLoading(); }) );
-		}
-
-		for (AudioLoaderThread& t : AudioLoaders)
-		{
-			allThreads.push_back( std::thread([&t] {t.startLoading(); }) );
+			allThreads.push_back( 
+				std::pair<std::string, std::thread>(t.path, std::thread([&t] {t.startLoading(); })));
 		}
 	}
-	else
+
+	for (AudioLoaderThread& t : audioLoaders)
 	{
-		LOGGER->Log("ResourceLogger", "ResourceLoader already started!");
+		if (!t.hasStartedLoading())
+		{
+			allThreads.push_back(
+				std::pair<std::string, std::thread>(t.path, std::thread([&t] {t.startLoading(); })));
+		}
 	}
 }
 
-bool ResourceLoader::doneLoading()
+bool ResourceLoader::doneLoading() const
 {
 	if (!started)
 	{
@@ -74,7 +78,7 @@ bool ResourceLoader::doneLoading()
 	else
 	{
 		bool done = true;
-		for (TextureLoaderThread& t : TextureLoaders)
+		for (const TextureLoaderThread& t : textureLoaders)
 		{
 			if (!t.isDone())
 			{
@@ -83,7 +87,7 @@ bool ResourceLoader::doneLoading()
 			}
 		}
 
-		for (AudioLoaderThread& t : AudioLoaders)
+		for (const AudioLoaderThread& t : audioLoaders)
 		{
 			if (!t.isDone())
 			{
@@ -96,20 +100,31 @@ bool ResourceLoader::doneLoading()
 	}
 }
 
-bool ResourceLoader::hasStarted()
+bool ResourceLoader::hasStarted() const
 {
 	return started;
 }
 
-void ResourceLoader::join()
+void ResourceLoader::joinAll()
 {
-	for (std::thread& t : allThreads)
+	for (auto it = allThreads.begin(); it != allThreads.end(); ++it)
 	{
-		t.join();
+		(*it).second.join();
 	}
 
 	started = false;
 	allThreads.clear();
-	TextureLoaders.clear();
-	AudioLoaders.clear();
+	textureLoaders.clear();
+	audioLoaders.clear();
+}
+
+void ResourceLoader::join(std::string path)
+{
+	for (auto it = allThreads.begin(); it != allThreads.end(); ++it)
+	{
+		if ((*it).first == path)
+		{
+			(*it).second.join();
+		}
+	}
 }
