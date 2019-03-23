@@ -47,7 +47,7 @@ void LoadingScreenState::init()
 	progressText.setOutlineThickness(4);
 	progressText.setPosition(880.0f, 790.0f);
 
-	// Start loading all the assets
+	// Start loading all the assets added previously
 	RESOURCE->startLoading();
 }
 

@@ -57,7 +57,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			shouldChangeState = true;
 			////bgm.stop();
 			nextState = GameState::STATE_MENU;
-			LOGGER->Log("MenuState", "Switching to Menu State");
+			LOGGER->Log("MainState", "Switching to Menu State");
 			drawMainButton->exitButtonClicked = false;
 		}
 	}
@@ -394,6 +394,7 @@ MainState::MainState(std::string playerName)
 {
 	scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
 	scriptManager->setPlayerName(playerName);
+	myState = GameState::STATE_MAIN;
 	init();
 
 	GLOBAL->playerName = scriptManager->getPlayerName();
