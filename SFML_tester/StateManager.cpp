@@ -1,4 +1,13 @@
 #include "StateManager.h"
+#include "InitState.h"
+#include "MenuState.h"
+#include "NewGameState.h"
+#include "MainState.h"
+#include "SaveState.h"
+#include "ExitState.h"
+#include "SettingsState.h"
+#include "LoadState.h"
+#include "LoadingScreenState.h"
 
 StateManager::~StateManager()
 {
@@ -69,6 +78,12 @@ void StateManager::manageStates()
 			prevStates.push(currentState);
 			clearPrevStates();
 			currentState = new InitState();
+			break;
+
+		case GameState::STATE_LOADING_SCREEN:
+			prevStates.push(currentState);
+			currentState->shouldChangeState = false;
+			currentState = new LoadingScreenState();
 			break;
 
 		case GameState::STATE_NEW_GAME:

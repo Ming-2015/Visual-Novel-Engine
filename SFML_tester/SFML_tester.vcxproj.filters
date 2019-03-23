@@ -267,6 +267,15 @@
     <ClCompile Include="ResourceLoader.cpp">
       <Filter>Source Files\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="LoaderThread.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="SavedataReader.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScreenState.cpp">
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -465,6 +474,12 @@
       <Filter>Header Files\Resource</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScreenState.h">
+      <Filter>Header Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="SavedataReader.h">
       <Filter>Header Files\Resource</Filter>
     </ClInclude>
   </ItemGroup>

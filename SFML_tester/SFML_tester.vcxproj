@@ -147,6 +147,8 @@
     <ClCompile Include="InitState.cpp" />
     <ClCompile Include="JumpCommand.cpp" />
     <ClCompile Include="Linelog.cpp" />
+    <ClCompile Include="LoaderThread.cpp" />
+    <ClCompile Include="LoadingScreenState.cpp" />
     <ClCompile Include="LoadState.cpp" />
     <ClCompile Include="LogBar.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -166,6 +168,7 @@
     <ClCompile Include="RemoveCommand.cpp" />
     <ClCompile Include="ConfirmationPrompt.cpp" />
     <ClCompile Include="RotateCommand.cpp" />
+    <ClCompile Include="SavedataReader.cpp" />
     <ClCompile Include="SavedataUtility.cpp" />
     <ClCompile Include="SavefileImage.cpp" />
     <ClCompile Include="SaveState.cpp" />
@@ -217,6 +220,7 @@
     <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="LineLogItem.h" />
     <ClInclude Include="LoaderThread.h" />
+    <ClInclude Include="LoadingScreenState.h" />
     <ClInclude Include="LoadState.h" />
     <ClInclude Include="LogBar.h" />
     <ClInclude Include="Logger.h" />
@@ -237,6 +241,7 @@
     <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="SavedataUtility.h" />
     <ClInclude Include="SavefileImage.h" />
+    <ClInclude Include="SavedataReader.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />
     <ClInclude Include="ScriptCommandFactory.h" />

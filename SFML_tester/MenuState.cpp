@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "GameState.h"
 #include "scriptLine.h"
+#include "ResourceManager.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
@@ -80,6 +81,7 @@ void MenuState::init()
 
 	exitButton = new MenuButton(GLOBAL->AssetRoot + "MenuButtons600wx288h3.png", "", "", 350.0f, 790.0f, 0, 0, 0, 216, 125, 72);
 	exitButton->load();
+
 }
 
 void MenuState::cleanup()

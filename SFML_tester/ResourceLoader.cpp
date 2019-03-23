@@ -7,22 +7,6 @@ public:
 	TextureLoaderThread(const std::string& path, sf::Texture* texPtr)
 		:path(path), texPtr(texPtr) {}
 
-	void startLoading()
-	{
-		startedLoading = true;
-		if (!texPtr->loadFromFile(path))
-		{
-			std::string err = "Failed to load texture: " + path;
-			LOGGER->Log("TextureLoaderThread", err);
-		}
-		else
-		{
-			valid = true;
-			texPtr->setSmooth(true);
-		}
-		doneLoading = true;
-	}
-
 	std::string getPath()
 	{
 		return path;
@@ -35,6 +19,21 @@ public:
 
 	std::string path;
 	sf::Texture* texPtr;
+
+protected:
+	void startLoading()
+	{
+		if (!texPtr->loadFromFile(path))
+		{
+			std::string err = "Failed to load texture: " + path;
+			LOGGER->Log("TextureLoaderThread", err);
+		}
+		else
+		{
+			valid = true;
+			texPtr->setSmooth(true);
+		}
+	}
 };
 
 // For creating thread to load small audio files
@@ -44,21 +43,6 @@ public:
 
 	AudioLoaderThread(const std::string& path, sf::SoundBuffer* audioPtr)
 		:path(path), audioPtr(audioPtr) {}
-
-	void startLoading()
-	{
-		startedLoading = true;
-		if (!audioPtr->loadFromFile(path))
-		{
-			std::string err = "Failed to load audio: " + path;
-			LOGGER->Log("AudioLoaderThread", err);
-		}
-		else
-		{
-			valid = true;
-		}
-		doneLoading = true;
-	}
 
 	std::string getPath()
 	{
@@ -72,6 +56,93 @@ public:
 
 	std::string path;
 	sf::SoundBuffer* audioPtr;
+
+protected:
+
+	void startLoading()
+	{
+		if (!audioPtr->loadFromFile(path))
+		{
+			std::string err = "Failed to load audio: " + path;
+			LOGGER->Log("AudioLoaderThread", err);
+		}
+		else
+		{
+			valid = true;
+		}
+	}
+};
+
+// For creating thread to load font files
+class FontLoaderThread : public LoaderThread {
+public:
+
+	FontLoaderThread(const std::string& path, sf::Font* fontPtr)
+		:path(path), fontPtr(fontPtr) {}
+
+	std::string getPath()
+	{
+		return path;
+	}
+
+	void* getPtr()
+	{
+		return static_cast<void*>(fontPtr);
+	}
+
+	std::string path;
+	sf::Font* fontPtr;
+
+protected:
+
+	void startLoading()
+	{
+		if (!fontPtr->loadFromFile(path))
+		{
+			std::string err = "Failed to load font: " + path;
+			LOGGER->Log("FontLoaderThread", err);
+		}
+		else
+		{
+			valid = true;
+		}
+	}
+};
+
+// For creating thread to load savedata
+class SavedataLoaderThread : public LoaderThread {
+public:
+
+	SavedataLoaderThread(const std::string& path, SavedataReader* fontPtr)
+		:path(path), savedateReader(fontPtr) {}
+
+	std::string getPath()
+	{
+		return path;
+	}
+
+	void* getPtr()
+	{
+		return static_cast<void*>(savedateReader);
+	}
+
+	std::string path;
+	SavedataReader* savedateReader;
+
+private:
+
+	void startLoading()
+	{
+		if (!savedateReader->loadFromFile(path))
+		{
+			std::string err = "Failed to load savedata: " + path;
+			LOGGER->Log("FontLoaderThread", err);
+		}
+		else
+		{
+			valid = true;
+		}
+	}
 };
 
 ResourceLoader::ResourceLoader()
@@ -95,7 +166,7 @@ bool ResourceLoader::addTexture(sf::Texture* tex, std::string path)
 	if (allLoaders.find(ptr) == allLoaders.end())
 	{
 		allLoaders[ptr] = new TextureLoaderThread(path, tex);
-		queuedLoaders.push_back(allLoaders[ptr]);
+		queuedLoaders[ptr] = allLoaders[ptr];
 		return true;
 	}
 	else return false;
@@ -108,7 +179,33 @@ bool ResourceLoader::addAudio(sf::SoundBuffer* audio, std::string path)
 	if (allLoaders.find(ptr) == allLoaders.end())
 	{
 		allLoaders[ptr] = new AudioLoaderThread(path, audio);
-		queuedLoaders.push_back(allLoaders[ptr]);
+		queuedLoaders[ptr] = allLoaders[ptr];
+		return true;
+	}
+	else return false;
+}
+
+bool ResourceLoader::addFont(sf::Font * font, std::string path)
+{
+	void* ptr = static_cast<void*> (font);
+
+	if (allLoaders.find(ptr) == allLoaders.end())
+	{
+		allLoaders[ptr] = new FontLoaderThread(path, font);
+		queuedLoaders[ptr] = allLoaders[ptr];
+		return true;
+	}
+	else return false;
+}
+
+bool ResourceLoader::addSavedata(SavedataReader * savedata, std::string path)
+{
+	void* ptr = static_cast<void*> (savedata);
+
+	if (allLoaders.find(ptr) == allLoaders.end())
+	{
+		allLoaders[ptr] = new SavedataLoaderThread(path, savedata);
+		queuedLoaders[ptr] = allLoaders[ptr];
 		return true;
 	}
 	else return false;
@@ -152,28 +249,48 @@ bool ResourceLoader::reset()
 	}
 }
 
-void ResourceLoader::start()
+void ResourceLoader::startAll()
 {
 	started = true;
 	reset();
 
-	for (int i = 0; i < queuedLoaders.size(); i++)
+	for (auto it = queuedLoaders.begin(); it != queuedLoaders.end(); it++)
 	{
-		if (!queuedLoaders[i]->hasStartedLoading())
+		if (!(*it).second->hasStartedLoading())
 		{
-			LoaderThread* t = queuedLoaders[i];
+			LoaderThread* t = (*it).second;
 			allThreads[static_cast<void*>(t->getPtr())] 
-				= std::thread([t] {t->startLoading(); });
+				= std::thread([t] {t->launch(); });
 		}
 	}
 	queuedLoaders.clear();
+}
+
+bool ResourceLoader::startTexture(sf::Texture * tex)
+{
+	return start(static_cast<void*>(tex));
+}
+
+bool ResourceLoader::startAudio(sf::SoundBuffer * audio)
+{
+	return start(static_cast<void*>(audio));
+}
+
+bool ResourceLoader::startFont(sf::Font * font)
+{
+	return start(static_cast<void*>(font));
+}
+
+bool ResourceLoader::startSavedata(SavedataReader * savedata)
+{
+	return start(static_cast<void*>(savedata));
 }
 
 bool ResourceLoader::doneLoading() const
 {
 	if (!started)
 	{
-		return false;
+		return true;
 	}
 	else
 	{
@@ -202,18 +319,33 @@ void ResourceLoader::joinAll()
 	{
 		(*it).second.join();
 	}
-
-	started = false;
 	allThreads.clear();
 
 	for (auto t : allLoaders)
 	{
 		if (t.second) delete t.second;
 	}
-	allLoaders.clear();
+	allLoaders.clear();	
+	
+	started = false;
 }
 
 void ResourceLoader::join(sf::SoundBuffer * ptr)
+{
+	join(static_cast<void*>(ptr));
+}
+
+void ResourceLoader::join(sf::Font * ptr)
+{
+	join(static_cast<void*>(ptr));
+}
+
+void ResourceLoader::join(SavedataReader * ptr)
+{
+	join(static_cast<void*>(ptr));
+}
+
+void ResourceLoader::join(sf::Texture * ptr)
 {
 	join(static_cast<void*>(ptr));
 }
@@ -233,13 +365,12 @@ float ResourceLoader::calcProgress() const
 			}
 		}
 	}
+
+	if (countThreads <= 0) return 1.f;
+
 	return countDone / countThreads;
 }
 
-void ResourceLoader::join(sf::Texture * ptr)
-{
-	join(static_cast<void*>(ptr));
-}
 
 void ResourceLoader::join(void* ptr)
 {
@@ -247,5 +378,25 @@ void ResourceLoader::join(void* ptr)
 	if (it != allThreads.end())
 	{
 		(*it).second.join();
+		allThreads.erase(it);
+		if (allThreads.size() <= 0) started = false;
 	}
+}
+
+bool ResourceLoader::start(void * ptr)
+{
+	auto it = queuedLoaders.find(ptr);
+	if (it != queuedLoaders.end())
+	{
+		if (!(*it).second->hasStartedLoading())
+		{
+			LoaderThread* t = (*it).second;
+			allThreads[static_cast<void*>(t->getPtr())]
+				= std::thread([t] {t->launch(); });
+			started = true;
+		}
+		queuedLoaders.erase(it);
+		return true;
+	}
+	return false;
 }

@@ -7,6 +7,7 @@
 class GameState {
 
 public:
+
 	// handle user inputs (keyboard/gamepad/mouse/etc)
 	virtual void handleInput(sf::Event& e, sf::RenderWindow& window) = 0;		
 
@@ -35,4 +36,5 @@ public:
 	static const int STATE_EXIT = 7;
 
 	static const int STATE_BACK = 8;
+	static const int STATE_LOADING_SCREEN = 9;
 };

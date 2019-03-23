@@ -2,14 +2,6 @@
 #include <stack>
 #include "Global.h"
 #include "GameState.h"
-#include "InitState.h"
-#include "MenuState.h"
-#include "NewGameState.h"
-#include "MainState.h"
-#include "SaveState.h"
-#include "ExitState.h"
-#include "SettingsState.h"
-#include "LoadState.h"
 
 class StateManager 
 {

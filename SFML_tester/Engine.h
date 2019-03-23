@@ -10,7 +10,7 @@
 class Engine 
 {
 public:
-	int start();	// start the program
+	int start();	// startAll the program
 	Engine();		// constructor
 
 private:

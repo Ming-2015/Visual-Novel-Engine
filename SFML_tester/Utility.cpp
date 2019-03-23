@@ -393,7 +393,7 @@ std::string Utility::replaceAllSubstrings(const std::string& line, const std::st
 {
 	std::string ret = line;
 
-	// start finding the first to replace
+	// startAll finding the first to replace
 	int index = ret.find(start);
 	while (index != std::string::npos)
 	{

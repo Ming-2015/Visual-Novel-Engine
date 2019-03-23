@@ -61,7 +61,7 @@ private:
 	// if less than 0, nothing is being hovered. This number is relative to bottom
 	int currentlyHovered = -1;	
 
-	// should we start jumping?
+	// should we startAll jumping?
 	bool jumping = false;
 	int jumpIdx;
 

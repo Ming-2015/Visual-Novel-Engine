@@ -352,13 +352,24 @@ void MainState::update(float delta_t)
 
 void MainState::init()
 {
+	if (GLOBAL->scriptManagerPtr != nullptr)
+	{
+		scriptManager = GLOBAL->scriptManagerPtr;
+		GLOBAL->scriptManagerPtr = nullptr;
+	}
+	else
+	{
+		scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
+	}
+
+	GLOBAL->playerName = scriptManager->getPlayerName();
+
 	GLOBAL->skipMode = false;
 	GLOBAL->autoMode = false;
 	if (drawMainButton == nullptr)
 		drawMainButton = new DrawMainButton();
 	if (returnMenuPrompt == nullptr)
 		returnMenuPrompt = new ConfirmationPrompt("Return To Menu?", "mainToMenu");	
-	myState = GameState::STATE_MAIN;
 }
 
 void MainState::cleanup()
@@ -375,18 +386,8 @@ const ScriptManager * MainState::getScriptManager()
 
 MainState::MainState()
 {
-	if (GLOBAL->scriptManagerPtr != nullptr)
-	{
-		scriptManager = GLOBAL->scriptManagerPtr;
-		GLOBAL->scriptManagerPtr = nullptr;
-	}
-	else
-	{
-		scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
-	}
+	myState = GameState::STATE_MAIN;
 	init();
-
-	GLOBAL->playerName = scriptManager->getPlayerName();
 }
 
 MainState::MainState(std::string playerName)
