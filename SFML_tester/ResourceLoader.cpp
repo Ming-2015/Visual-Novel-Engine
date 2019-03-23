@@ -379,6 +379,11 @@ void ResourceLoader::join(void* ptr)
 	{
 		(*it).second.join();
 		allThreads.erase(it);
+
+		// delete the loader
+		auto it_loader = allLoaders.find(ptr);
+		if (it_loader != allLoaders.end()) allLoaders.erase(it_loader);
+
 		if (allThreads.size() <= 0) started = false;
 	}
 }

@@ -36,7 +36,6 @@ void LoadingScreenState::init()
 	// wait till the resouces are loaded (might take a short, minimal amount of time)
 	RESOURCE->joinFont(GLOBAL->UserInterfaceFont);
 	RESOURCE->joinTexture(loadingScreenPath);
-	RESOURCE->clear();
 
 	// apply the resources
 	background.setTexture(*tex);
@@ -48,6 +47,7 @@ void LoadingScreenState::init()
 	progressText.setOutlineThickness(4);
 	progressText.setPosition(880.0f, 790.0f);
 
+	// Start loading all the assets
 	RESOURCE->startLoading();
 }
 
