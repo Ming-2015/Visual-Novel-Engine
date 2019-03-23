@@ -48,7 +48,47 @@ void SavefileImage::useDefaultSprite()
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/nodata.png");
 	}
 	saveTex.setSmooth(true);
+	if (!noDataTex.loadFromFile("images/assets/noDataText.png"))
+	{
+		LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataText.png");
+	}
+	noDataTex.setSmooth(true);
 
+	if (x == 1 || x == 5)
+	{
+		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "noDataBox1.png"))
+		{
+			LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataBox1.png");
+		}
+		bgBoxUnselectedTex.setSmooth(true);
+	}
+	else if (x == 2 || x == 6)
+	{
+		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "noDataBox2.png"))
+		{
+			LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataBox1.png");
+		}
+		bgBoxUnselectedTex.setSmooth(true);
+	}
+	else if (x == 3 || x == 7)
+	{
+		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "noDataBox3.png"))
+		{
+			LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataBox3.png");
+		}
+		bgBoxUnselectedTex.setSmooth(true);
+	}
+	else if (x == 4 || x == 8)
+	{
+		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "noDataBox4.png"))
+		{
+			LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataBox4.png");
+		}
+		bgBoxUnselectedTex.setSmooth(true);
+	}
+
+
+	noDataSprite.setTexture(noDataTex);
 	saveSprite.setTexture(saveTex);
 	setToScale();
 }
@@ -58,8 +98,9 @@ void SavefileImage::setPosition(int x, int y)
 	bgSprite.setPosition(x - 5, y - 14);
 	bgBoxSprite.setPosition(x - 15, y - 13);
 	saveSprite.setPosition(x + borderSize - 5, y + borderSize - 14);
-	saveTitleText.setPosition(x + 270, y + 15);
-	saveDateText.setPosition(x + 270, y + 102);
+	saveTitleText.setPosition(x + 300, y + 11);
+	saveDateText.setPosition(x + 300, y + 102);
+	noDataSprite.setPosition(x + 358, y + 8);
 }
 
 bool SavefileImage::isClicked(bool reset)
@@ -198,6 +239,7 @@ void SavefileImage::onDraw(sf::RenderTarget & target, sf::RenderStates states) c
 	target.draw(saveSprite, states);
 	target.draw(saveTitleText, states);
 	target.draw(saveDateText, states);
+	target.draw(noDataSprite, states);
 }
 
 void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
@@ -213,13 +255,18 @@ void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 				hovered = true;
 				//bgBoxSprite.setTexture(bgBoxSelectedTex);
 				bgBoxSprite.setColor(sf::Color(150, 150, 150, 255));
+				saveTitleText.setFillColor(sf::Color(220, 220, 220, 255));
+				saveDateText.setFillColor(sf::Color(220, 220, 220, 255));
+				noDataSprite.setColor(sf::Color(200, 200, 200, 255));
 			}
 			else
 			{
 				hovered = false;
 				bgBoxSprite.setTexture(bgBoxUnselectedTex);
 				bgBoxSprite.setColor(sf::Color(255, 255, 255, 255));
-
+				saveTitleText.setFillColor(sf::Color(255, 255, 255, 255));
+				saveDateText.setFillColor(sf::Color(255, 255, 255, 255));
+				noDataSprite.setColor(sf::Color(255, 255, 255, 255));
 			}
 			break;
 		}
