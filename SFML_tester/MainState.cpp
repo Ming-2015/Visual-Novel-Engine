@@ -352,18 +352,7 @@ void MainState::update(float delta_t)
 
 void MainState::init()
 {
-	if (GLOBAL->scriptManagerPtr != nullptr)
-	{
-		scriptManager = GLOBAL->scriptManagerPtr;
-		GLOBAL->scriptManagerPtr = nullptr;
-	}
-	else
-	{
-		scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
-	}
-
 	GLOBAL->playerName = scriptManager->getPlayerName();
-
 	GLOBAL->skipMode = false;
 	GLOBAL->autoMode = false;
 	if (drawMainButton == nullptr)
@@ -387,17 +376,29 @@ const ScriptManager * MainState::getScriptManager()
 MainState::MainState()
 {
 	myState = GameState::STATE_MAIN;
+
+	if (GLOBAL->scriptManagerPtr != nullptr)
+	{
+		scriptManager = GLOBAL->scriptManagerPtr;
+		GLOBAL->scriptManagerPtr = nullptr;
+	}
+	// this shouldn't be reached!
+	else
+	{
+		scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
+	}
+
 	init();
 }
 
 MainState::MainState(std::string playerName)
 {
+	myState = GameState::STATE_MAIN;
+
 	scriptManager = new ScriptManager(GLOBAL->NewGameScriptFileLocation);
 	scriptManager->setPlayerName(playerName);
-	myState = GameState::STATE_MAIN;
-	init();
 
-	GLOBAL->playerName = scriptManager->getPlayerName();
+	init();
 }
 
 MainState::~MainState()
