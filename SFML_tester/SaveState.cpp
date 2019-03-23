@@ -37,7 +37,8 @@ void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			{
 				SAVEDATAUTILITY->readSave(savefile, image, title, savetime);
 				savefileImages[i]->setImage(image);
-				savefileImages[i]->setString(title);
+				savefileImages[i]->setTitle(title);
+				savefileImages[i]->setDate(savetime);
 			}
 
 			return;
@@ -116,9 +117,9 @@ void SaveState::init()
 	returnState.setPosition(880.0f, 790.0f);
 
 	// create savefile images
-	for (int i = 0; i < savePerPage; i++)
+	for (int i = 0; i <= savePerPage; i++)
 	{
-		savefileImages.push_back(new SavefileImage());
+		savefileImages.push_back(new SavefileImage(i));
 		savefileImages[i]->load();
 	}
 
@@ -156,7 +157,7 @@ void SaveState::loadSavesByPage(int pageNumber)
 		{
 			SAVEDATAUTILITY->readSave(savefile, image, title, savetime);
 			savefileImages[i - currentSave]->setImage(image);
-			savefileImages[i - currentSave]->setString(title);
+			savefileImages[i - currentSave]->setTitle(title);
 		}
 		else
 		{

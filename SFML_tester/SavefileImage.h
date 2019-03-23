@@ -8,11 +8,12 @@
 class SavefileImage : public Effect
 {
 public:
-	SavefileImage();
+	SavefileImage(int y);
 	~SavefileImage();
 
 	void setImage(const sf::Image& image);
-	void setString(const std::string& title);
+	void setTitle(const std::string& title);
+	void setDate(const std::string& date);
 	void useDefaultSprite();
 
 	void setPosition(int x, int y);
@@ -20,6 +21,8 @@ public:
 	bool isClicked(bool reset = false);
 	bool isPressed() const;
 	bool isOnHover() const;
+
+	int x;
 
 protected:
 
@@ -30,9 +33,11 @@ protected:
 
 	sf::Texture saveTex;
 	std::string saveTitle;
+	std::string saveDate;
 
 	sf::Sprite saveSprite;
-	sf::Text saveText;
+	sf::Text saveTitleText;
+	sf::Text saveDateText;
 	sf::Font font;
 
 	sf::Sprite bgSprite;

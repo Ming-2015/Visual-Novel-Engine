@@ -107,8 +107,8 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 void LoadState::render(sf::RenderWindow & window)
 {
 	window.draw(saveBackground);
-	window.draw(startNew);
-	window.draw(returnState);
+	//window.draw(startNew);
+	//window.draw(returnState);
 
 	for (int i = 0; i < savePerPage; i++)
 	{
@@ -141,12 +141,12 @@ void LoadState::update(float delta_t)
 		{
 			if (currentAlpha < endAlpha) {
 				currentAlpha += 10;
-				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 
 				if (currentAlpha >= endAlpha)
 				{
 					currentAlpha = endAlpha;
 				}
+				rectangle.setFillColor(sf::Color::Color(0, 0, 0, currentAlpha));
 			}
 			else
 			{
@@ -185,33 +185,33 @@ void LoadState::init()
 	returnState.setPosition(880.0f, 790.0f);
 
 	// create savefile images
-	for (int i = 0; i < savePerPage; i++)
+	for (int i = 1; i <= savePerPage; i++)
 	{
-		savefileImages.push_back(new SavefileImage());
-		savefileImages[i]->load();
+		savefileImages.push_back(new SavefileImage(i));
+		savefileImages[i-1]->load();
 	}
 
 	// load images and titles
 	loadSavesByPage(0);
 
-	savefileImages[INDEX_SAVE_1]->setPosition(170, 160);
-	savefileImages[INDEX_SAVE_2]->setPosition(870, 160);
-	savefileImages[INDEX_SAVE_3]->setPosition(170, 340);
-	savefileImages[INDEX_SAVE_4]->setPosition(870, 340);
-	savefileImages[INDEX_SAVE_5]->setPosition(170, 520);
-	savefileImages[INDEX_SAVE_6]->setPosition(870, 520);
-	savefileImages[INDEX_SAVE_7]->setPosition(170, 700);
+	savefileImages[INDEX_SAVE_1]->setPosition(170, 140);
+	savefileImages[INDEX_SAVE_5]->setPosition(870, 140);
+	savefileImages[INDEX_SAVE_2]->setPosition(170, 330);
+	savefileImages[INDEX_SAVE_6]->setPosition(870, 330);
+	savefileImages[INDEX_SAVE_3]->setPosition(170, 520);
+	savefileImages[INDEX_SAVE_7]->setPosition(870, 520);
+	savefileImages[INDEX_SAVE_4]->setPosition(170, 700);
 	savefileImages[INDEX_SAVE_8]->setPosition(870, 700);
 
-	menuButton = new MainButton(GLOBAL->AssetRoot + "Menu115x80.png", "", "", 1228.0f, 93.0f, 0, 0, 0, 40, 115, 40, 0, 0, 115, 40);
+	menuButton = new MainButton(GLOBAL->AssetRoot + "Menu187x156.png", "", "", 1210.0f, 97.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
 	menuButton->load();
 	buttons.push_back(menuButton);
 
-	returnButton = new MainButton(GLOBAL->AssetRoot + "Return135x82.png", "", "", 1050.0f, 93.0f, 0, 0, 0, 41, 135, 41, 0, 0, 135, 41);
+	returnButton = new MainButton(GLOBAL->AssetRoot + "Return187x156.png", "", "", 1000.0f, 97.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
 	returnButton->load();
 	buttons.push_back(returnButton);
 
-	quitButton = new MainButton(GLOBAL->AssetRoot + "Quit84x80.png", "", "", 1393.0f, 93.0f, 0, 0, 0, 40, 84, 40, 0, 0, 84, 40);
+	quitButton = new MainButton(GLOBAL->AssetRoot + "Quit187x156.png", "", "", 1420.0f, 97.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
 	quitButton->load();
 	buttons.push_back(quitButton);
 
@@ -252,7 +252,8 @@ void LoadState::loadSavesByPage(int pageNumber)
 		{
 			SAVEDATAUTILITY->readSave(savefile, image, title, savetime);
 			savefileImages[i - currentSave]->setImage(image);
-			savefileImages[i - currentSave]->setString(title);
+			savefileImages[i - currentSave]->setTitle(title);
+			savefileImages[i - currentSave]->setDate(savetime);
 		}
 		else
 		{

@@ -45,7 +45,7 @@ private:
 	sf::Text returnState;
 
 	unsigned int currentPageNumber = 0;
-	const unsigned int savePerPage = 6;
+	const unsigned int savePerPage = 8;
 
 	std::vector<SavefileImage *> savefileImages;
 
