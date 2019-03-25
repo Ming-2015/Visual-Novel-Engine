@@ -252,14 +252,14 @@ void LoadState::init()
 	// load images and titles
 	loadSavesByPage(0);
 
-	savefileImages[INDEX_SAVE_1]->setPosition(170, 140);
-	savefileImages[INDEX_SAVE_5]->setPosition(870, 140);
-	savefileImages[INDEX_SAVE_2]->setPosition(170, 330);
-	savefileImages[INDEX_SAVE_6]->setPosition(870, 330);
-	savefileImages[INDEX_SAVE_3]->setPosition(170, 520);
-	savefileImages[INDEX_SAVE_7]->setPosition(870, 520);
-	savefileImages[INDEX_SAVE_4]->setPosition(170, 700);
-	savefileImages[INDEX_SAVE_8]->setPosition(870, 700);
+	savefileImages[INDEX_SAVE_1]->setPosition(180, 145);
+	savefileImages[INDEX_SAVE_5]->setPosition(900, 145);
+	savefileImages[INDEX_SAVE_2]->setPosition(180, 330);
+	savefileImages[INDEX_SAVE_6]->setPosition(900, 330);
+	savefileImages[INDEX_SAVE_3]->setPosition(180, 515);
+	savefileImages[INDEX_SAVE_7]->setPosition(900, 515);
+	savefileImages[INDEX_SAVE_4]->setPosition(180, 700);
+	savefileImages[INDEX_SAVE_8]->setPosition(900, 700);
 
 	menuButton = new MainButton(GLOBAL->AssetRoot + "Menu187x156.png", "", "", 1210.0f, 101.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
 	menuButton->load();
