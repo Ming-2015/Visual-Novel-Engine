@@ -2,31 +2,10 @@
 #include <string>
 #include <fstream>
 #include <istream>
-#include "Utility.h"
 #include "ScriptLine.h"
 #include "Linelog.h"
 #include "ItemImage.h"
 #include "ScriptCommand.h"
-#include "ShowCommand.h"
-#include "DisplayCommand.h"
-#include "SetCommand.h"
-#include "MoveCommand.h"
-#include "RotateCommand.h"
-#include "ZoomCommand.h"
-#include "PlayCommand.h"
-#include "StopCommand.h"
-#include "PauseCommand.h"
-#include "ResumeCommand.h"
-#include "RemoveCommand.h"
-#include "ClearCommand.h"
-#include "FlashCommand.h"
-#include "HideCommand.h"
-#include "DelayCommand.h"
-#include "UnhideCommand.h"
-#include "JumpCommand.h"
-#include "BlurCommand.h"
-#include "StartLoopCommand.h"
-#include "StopLoopCommand.h"
 
 // This class is for keeping a Script
 class ScriptManager

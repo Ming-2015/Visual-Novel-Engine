@@ -48,7 +48,3 @@ We are using the default Github license, which means that we retain all rights t
 ### System optimization
 * improve run-time performance by loading all needed assets at load time 
 * possibly use PhysFS, so that we can archieve all files in a password-protected zip file and load that during runtime
-
-
-
-

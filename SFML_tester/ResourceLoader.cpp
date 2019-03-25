@@ -159,52 +159,56 @@ ResourceLoader::~ResourceLoader()
 	}
 }
 
-bool ResourceLoader::addTexture(sf::Texture* tex, std::string path)
+bool ResourceLoader::addTexture(sf::Texture* tex, std::string path, bool lowPriority)
 {
 	void* ptr = static_cast<void*> (tex);
 
 	if (allLoaders.find(ptr) == allLoaders.end())
 	{
 		allLoaders[ptr] = new TextureLoaderThread(path, tex);
+		if (!lowPriority) allLoaders[ptr]->prioritize();
 		queuedLoaders[ptr] = allLoaders[ptr];
 		return true;
 	}
 	else return false;
 }
 
-bool ResourceLoader::addAudio(sf::SoundBuffer* audio, std::string path)
+bool ResourceLoader::addAudio(sf::SoundBuffer* audio, std::string path, bool lowPriority)
 {
 	void* ptr = static_cast<void*> (audio);
 
 	if (allLoaders.find(ptr) == allLoaders.end())
 	{
 		allLoaders[ptr] = new AudioLoaderThread(path, audio);
+		if (!lowPriority) allLoaders[ptr]->prioritize();
 		queuedLoaders[ptr] = allLoaders[ptr];
 		return true;
 	}
 	else return false;
 }
 
-bool ResourceLoader::addFont(sf::Font * font, std::string path)
+bool ResourceLoader::addFont(sf::Font * font, std::string path, bool lowPriority)
 {
 	void* ptr = static_cast<void*> (font);
 
 	if (allLoaders.find(ptr) == allLoaders.end())
 	{
 		allLoaders[ptr] = new FontLoaderThread(path, font);
+		if (!lowPriority) allLoaders[ptr]->prioritize();
 		queuedLoaders[ptr] = allLoaders[ptr];
 		return true;
 	}
 	else return false;
 }
 
-bool ResourceLoader::addSavedata(SavedataReader * savedata, std::string path)
+bool ResourceLoader::addSavedata(SavedataReader * savedata, std::string path, bool lowPriority)
 {
 	void* ptr = static_cast<void*> (savedata);
 
 	if (allLoaders.find(ptr) == allLoaders.end())
 	{
 		allLoaders[ptr] = new SavedataLoaderThread(path, savedata);
+		if (!lowPriority) allLoaders[ptr]->prioritize();
 		queuedLoaders[ptr] = allLoaders[ptr];
 		return true;
 	}
@@ -318,14 +322,16 @@ void ResourceLoader::joinAll()
 	for (auto it = allThreads.begin(); it != allThreads.end(); ++it)
 	{
 		(*it).second.join();
+
+		// check if its in the loaders
+		auto it_loader = allLoaders.find((*it).first);
+		if (it_loader != allLoaders.end()) 
+		{
+			if ((*it_loader).second) delete (*it_loader).second;
+			allLoaders.erase(it_loader);
+		}
 	}
 	allThreads.clear();
-
-	for (auto t : allLoaders)
-	{
-		if (t.second) delete t.second;
-	}
-	allLoaders.clear();	
 	
 	started = false;
 }
@@ -343,6 +349,26 @@ void ResourceLoader::join(sf::Font * ptr)
 void ResourceLoader::join(SavedataReader * ptr)
 {
 	join(static_cast<void*>(ptr));
+}
+
+void ResourceLoader::prioritize(sf::Texture * ptr)
+{
+	prioritize(static_cast<void*>(ptr));
+}
+
+void ResourceLoader::prioritize(sf::SoundBuffer * ptr)
+{
+	prioritize(static_cast<void*>(ptr));
+}
+
+void ResourceLoader::prioritize(sf::Font * ptr)
+{
+	prioritize(static_cast<void*>(ptr));
+}
+
+void ResourceLoader::prioritize(SavedataReader * ptr)
+{
+	prioritize(static_cast<void*>(ptr));
 }
 
 void ResourceLoader::join(sf::Texture * ptr)
@@ -377,12 +403,27 @@ void ResourceLoader::join(void* ptr)
 	auto it = allThreads.find(ptr);
 	if (it != allThreads.end())
 	{
-		(*it).second.join();
-		allThreads.erase(it);
-
-		// delete the loader
 		auto it_loader = allLoaders.find(ptr);
-		if (it_loader != allLoaders.end()) allLoaders.erase(it_loader);
+
+		// prioritize the thread
+		if (it_loader != allLoaders.end())
+		{
+			if ((*it_loader).second)
+			{
+				(*it_loader).second->prioritize();
+			}
+		}
+
+		// wait for it to join
+		(*it).second.join();
+
+		// cleanup
+		allThreads.erase(it);
+		if (it_loader != allLoaders.end())
+		{
+			if ((*it_loader).second) delete (*it_loader).second;
+			allLoaders.erase(it_loader);
+		}
 
 		if (allThreads.size() <= 0) started = false;
 	}
@@ -404,4 +445,17 @@ bool ResourceLoader::start(void * ptr)
 		return true;
 	}
 	return false;
+}
+
+bool ResourceLoader::prioritize(void * ptr)
+{
+	auto it = allLoaders.find(ptr);
+	if (it != allLoaders.end())
+	{
+		if ((*it).second->isDone()) return false;
+
+		(*it).second->prioritize();
+		return true;
+	}
+	else return false;
 }

@@ -27,15 +27,12 @@ void LoadingScreenState::update(float delta_t)
 
 void LoadingScreenState::init()
 {
+
 	std::string loadingScreenPath = GLOBAL->AssetRoot + "loading.jpg";
 
 	// add the resource and start loading them
-	sf::Font* font = RESOURCE->getFont(GLOBAL->UserInterfaceFont);
-	sf::Texture* tex = RESOURCE->getTexture(loadingScreenPath);
-
-	// wait till the resouces are loaded (might take a short, minimal amount of time)
-	RESOURCE->joinFont(GLOBAL->UserInterfaceFont);
-	RESOURCE->joinTexture(loadingScreenPath);
+	sf::Font* font = RESOURCE->getFont(GLOBAL->UserInterfaceFont, true);
+	sf::Texture* tex = RESOURCE->getTexture(loadingScreenPath, true);
 
 	// apply the resources
 	background.setTexture(*tex);

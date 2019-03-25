@@ -81,11 +81,11 @@ void StateManager::manageStates()
 			currentState = new InitState();
 			break;
 
-		//case GameState::STATE_LOADING_SCREEN:
-		//	prevStates.push(currentState);
-		//	currentState->shouldChangeState = false;
-		//	currentState = new LoadingScreenState();
-		//	break;
+		case GameState::STATE_LOADING_SCREEN:
+			prevStates.push(currentState);
+			currentState->shouldChangeState = false;
+			currentState = new LoadingScreenState();
+			break;
 
 		case GameState::STATE_NEW_GAME:
 			if (currentState->myState == GameState::STATE_MENU)

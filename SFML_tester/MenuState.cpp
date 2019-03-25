@@ -82,6 +82,20 @@ void MenuState::init()
 	exitButton = new MenuButton(GLOBAL->AssetRoot + "MenuButtons600wx288h3.png", "", "", 350.0f, 790.0f, 0, 0, 0, 216, 125, 72);
 	exitButton->load();
 
+	//RESOURCE->addTexture(GLOBAL->AssetRoot + "background.jpg");
+	//RESOURCE->addFont(GLOBAL->UserInterfaceButtonFont);
+	//RESOURCE->addTexture(GLOBAL->AssetRoot + "MenuButtons600wx288h3.png");
+	//RESOURCE->addTexture(GLOBAL->AssetRoot + "ConfigurationsPage.png");
+	//RESOURCE->addTexture(GLOBAL->AssetRoot + "logBackground.png");
+	//RESOURCE->addTexture(GLOBAL->AssetRoot + "NewGameBackground.png");
+	//RESOURCE->addTexture(GLOBAL->AssetRoot + "MainMenuPrompt2.png");
+	//RESOURCE->addTexture(GLOBAL->AssetRoot + "SavePage.png");
+	//RESOURCE->addTexture(GLOBAL->AssetRoot + "textboxw.png");
+	//RESOURCE->addTexture(GLOBAL->AssetRoot + "textBoxMaster.png");
+	//RESOURCE->addAudio(GLOBAL->MusicRoot + "HGSSRoute47.WAV");
+
+	//shouldChangeState = true;
+	//nextState = STATE_LOADING_SCREEN;
 }
 
 void MenuState::cleanup()

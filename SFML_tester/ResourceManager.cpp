@@ -17,6 +17,7 @@ bool ResourceManager::addAudio(std::string path)
 	if (allAudio.find(path) == allAudio.end())
 	{
 		allAudio[path] = nullptr;
+		return true;
 	}
 	else return false;
 }
@@ -26,6 +27,7 @@ bool ResourceManager::addFont(std::string path)
 	if (allFont.find(path) == allFont.end())
 	{
 		allFont[path] = nullptr;
+		return true;
 	}
 	else return false;
 }
@@ -35,45 +37,46 @@ bool ResourceManager::addSavedata(std::string path)
 	if (allSavedata.find(path) == allSavedata.end())
 	{
 		allSavedata[path] = nullptr;
+		return true;
 	}
 	else return false;
 }
 
 void ResourceManager::startLoading()
 {
-	for (auto it : allTextures)
+	for (auto it = allTextures.begin(); it != allTextures.end(); it++)
 	{
-		if (!it.second)
+		if (!(*it).second)
 		{
-			it.second = new sf::Texture();
-			resourceLoader.addTexture(it.second, it.first);
+			(*it).second = new sf::Texture();
+			resourceLoader.addTexture((*it).second, (*it).first);
 		}
 	}
 
-	for (auto it : allAudio)
+	for (auto it = allAudio.begin(); it != allAudio.end(); it++)
 	{
-		if (!it.second)
+		if (!(*it).second)
 		{
-			it.second = new sf::SoundBuffer();
-			resourceLoader.addAudio(it.second, it.first);
+			(*it).second = new sf::SoundBuffer();
+			resourceLoader.addAudio((*it).second, (*it).first);
 		}
 	}
 
-	for (auto it : allFont)
+	for (auto it = allFont.begin(); it != allFont.end(); it++)
 	{
-		if (!it.second)
+		if (!(*it).second)
 		{
-			it.second = new sf::Font();
-			resourceLoader.addFont(it.second, it.first);
+			(*it).second = new sf::Font();
+			resourceLoader.addFont((*it).second, (*it).first);
 		}
 	}
 
-	for (auto it : allSavedata)
+	for (auto it = allSavedata.begin(); it != allSavedata.end(); it++)
 	{
-		if (!it.second)
+		if (!(*it).second)
 		{
-			it.second = new SavedataReader();
-			resourceLoader.addSavedata(it.second, it.first);
+			(*it).second = new SavedataReader();
+			resourceLoader.addSavedata((*it).second, (*it).first);
 		}
 	}
 
@@ -167,7 +170,7 @@ void ResourceManager::joinSavedata(std::string path)
 	}
 }
 
-sf::Texture* ResourceManager::getTexture(std::string path)
+sf::Texture* ResourceManager::getTexture(std::string path, bool shouldJoin)
 {
 	// check if the resource is in the map
 	auto it = allTextures.find(path);
@@ -176,6 +179,8 @@ sf::Texture* ResourceManager::getTexture(std::string path)
 		// if the texture is initialized
 		if ((*it).second)
 		{
+			if (shouldJoin) resourceLoader.join((*it).second);
+			resourceLoader.prioritize((*it).second);
 			return (*it).second;
 		}
 		// otherwise, initialize it_tex forcefully
@@ -185,6 +190,7 @@ sf::Texture* ResourceManager::getTexture(std::string path)
 			allTextures[path] = new sf::Texture();
 			resourceLoader.addTexture(allTextures[path], path);
 			resourceLoader.startTexture(allTextures[path]);
+			if (shouldJoin) resourceLoader.join(allTextures[path]);
 			return allTextures[path];
 		}
 	}
@@ -196,11 +202,12 @@ sf::Texture* ResourceManager::getTexture(std::string path)
 		allTextures[path] = new sf::Texture();
 		resourceLoader.addTexture(allTextures[path], path);
 		resourceLoader.startTexture(allTextures[path]);
+		if (shouldJoin) resourceLoader.join(allTextures[path]);
 		return allTextures[path];
 	}
 }
 
-sf::SoundBuffer* ResourceManager::getAudio(std::string path)
+sf::SoundBuffer* ResourceManager::getAudio(std::string path, bool shouldJoin)
 {
 	// check if the resource is in the map
 	auto it = allAudio.find(path);
@@ -209,6 +216,7 @@ sf::SoundBuffer* ResourceManager::getAudio(std::string path)
 		// if the audio is initialized
 		if ((*it).second)
 		{
+			if (shouldJoin) resourceLoader.join((*it).second);
 			return (*it).second;
 		}
 		// otherwise, initialize it_audio forcefully
@@ -217,6 +225,7 @@ sf::SoundBuffer* ResourceManager::getAudio(std::string path)
 			allAudio[path] = new sf::SoundBuffer();
 			resourceLoader.addAudio(allAudio[path], path);
 			resourceLoader.startAudio(allAudio[path]);
+			if (shouldJoin) resourceLoader.join(allAudio[path]);
 			return allAudio[path];
 		}
 	}
@@ -227,11 +236,12 @@ sf::SoundBuffer* ResourceManager::getAudio(std::string path)
 		allAudio[path] = new sf::SoundBuffer();
 		resourceLoader.addAudio(allAudio[path], path);
 		resourceLoader.startAudio(allAudio[path]);
+		if (shouldJoin) resourceLoader.join(allAudio[path]);
 		return allAudio[path];
 	}
 }
 
-sf::Font * ResourceManager::getFont(std::string path)
+sf::Font * ResourceManager::getFont(std::string path, bool shouldJoin)
 {
 	// check if the resource is in the map
 	auto it = allFont.find(path);
@@ -240,6 +250,8 @@ sf::Font * ResourceManager::getFont(std::string path)
 		// if the font is initialized
 		if ((*it).second)
 		{
+			if (shouldJoin) resourceLoader.join((*it).second);
+			resourceLoader.prioritize((*it).second);
 			return (*it).second;
 		}
 		// otherwise, initialize font forcefully
@@ -248,6 +260,7 @@ sf::Font * ResourceManager::getFont(std::string path)
 			allFont[path] = new sf::Font();
 			resourceLoader.addFont(allFont[path], path);
 			resourceLoader.startFont(allFont[path]);
+			if (shouldJoin) resourceLoader.join(allFont[path]);
 			return allFont[path];
 		}
 	}
@@ -258,11 +271,12 @@ sf::Font * ResourceManager::getFont(std::string path)
 		allFont[path] = new sf::Font();
 		resourceLoader.addFont(allFont[path], path);
 		resourceLoader.startFont(allFont[path]);
+		if (shouldJoin) resourceLoader.join(allFont[path]);
 		return allFont[path];
 	}
 }
 
-SavedataReader * ResourceManager::getSavedata(std::string path)
+SavedataReader * ResourceManager::getSavedata(std::string path, bool shouldJoin)
 {
 	// check if the resource is in the map
 	auto it = allSavedata.find(path);
@@ -271,6 +285,7 @@ SavedataReader * ResourceManager::getSavedata(std::string path)
 		// if the savedata is initialized
 		if ((*it).second)
 		{
+			if (shouldJoin) resourceLoader.join((*it).second);
 			return (*it).second;
 		}
 		// otherwise, initialize savedata forcefully
@@ -279,6 +294,7 @@ SavedataReader * ResourceManager::getSavedata(std::string path)
 			allSavedata[path] = new SavedataReader();
 			resourceLoader.addSavedata(allSavedata[path], path);
 			resourceLoader.startSavedata(allSavedata[path]);
+			if (shouldJoin) resourceLoader.join(allSavedata[path]);
 			return allSavedata[path];
 		}
 	}
@@ -289,6 +305,7 @@ SavedataReader * ResourceManager::getSavedata(std::string path)
 		allSavedata[path] = new SavedataReader();
 		resourceLoader.addSavedata(allSavedata[path], path);
 		resourceLoader.startSavedata(allSavedata[path]);
+		if (shouldJoin) resourceLoader.join(allSavedata[path]);
 		return allSavedata[path];
 	}
 }

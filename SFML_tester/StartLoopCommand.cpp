@@ -270,7 +270,11 @@ bool StartLoopCommand::doneAllCommands() const
 	bool finished = true;
 	for (auto c : executingCommandsList)
 	{
-		if (c->shouldWait()) finished = false;
+		if (c->shouldWait()) 
+		{
+			finished = false;
+			break;
+		}
 	}
 	return finished;
 }

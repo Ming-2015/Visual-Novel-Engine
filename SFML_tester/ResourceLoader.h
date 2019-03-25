@@ -20,22 +20,22 @@ public:
 	// Add texture to the loader, but don't load them yet!
 	// NOTE: We are assuming that none of the pointer will be duplicates!
 	// if there is duplicate, return false
-	bool addTexture(sf::Texture* tex, std::string path);
+	bool addTexture(sf::Texture* tex, std::string path, bool lowPriority = true);
 
 	// Add audio to the loader, but don't load them yet!
 	// NOTE: We are assuming that none of the pointer will be duplicates!
 	// if there is duplicate, return false
-	bool addAudio(sf::SoundBuffer* audio, std::string path);
+	bool addAudio(sf::SoundBuffer* audio, std::string path, bool lowPriority = true);
 
 	// Add font to the loader, but don't load them yet!
 	// NOTE: We are assuming that none of the pointer will be duplicates!
 	// if there is duplicate, return false
-	bool addFont(sf::Font* font, std::string path);
+	bool addFont(sf::Font* font, std::string path, bool lowPriority = true);
 
 	// Add savedata to the loader, but don't load them yet!
 	// NOTE: We are assuming that none of the pointer will be duplicates!
 	// if there is duplicate, return false
-	bool addSavedata(SavedataReader* savedata, std::string path);
+	bool addSavedata(SavedataReader* savedata, std::string path, bool lowPriority = true);
 
 	// clear all queued items to be loaded (or done loaded)
 	// if the loader has started but not yet done loading, will return false
@@ -77,6 +77,18 @@ public:
 	// join a savedata loader, meaning to wait till the font has finished loading
 	void join(SavedataReader* ptr);
 
+	// prioritize a texture loader
+	void prioritize(sf::Texture* ptr);
+
+	// join a soundbuffer loader
+	void prioritize(sf::SoundBuffer* ptr);
+
+	// join a font loader
+	void prioritize(sf::Font* ptr);
+
+	// join a savedata loader
+	void prioritize(SavedataReader* ptr);
+
 	// Calculate the progress of the load, returns percentage in the range of 0 to 1
 	// NOTE: this only counts by the number of files, without taking into account of the file size
 	// NOTE: if there's one very large file not done loading, it can display (99%) 
@@ -99,4 +111,5 @@ private:
 	// joinAll a thread
 	void join(void* ptr);
 	bool start(void* ptr);
+	bool prioritize(void* ptr);
 };

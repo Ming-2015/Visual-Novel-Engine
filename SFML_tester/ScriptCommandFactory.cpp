@@ -160,7 +160,8 @@ void ScriptCommandFactory::GenerateCommandByTokens(std::vector<std::string> toke
 	}
 }
 
-void ScriptCommandFactory::GenerateCommandByFile(std::ifstream & savefile, ScriptCommand *& command, int & commandType)
+void ScriptCommandFactory::GenerateCommandByFile(std::ifstream & savefile, 
+	ScriptCommand *& command, int & commandType)
 {
 	int prevPos = savefile.tellg();
 	savefile.read(reinterpret_cast<char*> (&commandType), sizeof(commandType));

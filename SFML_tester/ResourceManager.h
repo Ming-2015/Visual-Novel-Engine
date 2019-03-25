@@ -61,19 +61,19 @@ public:
 
 	// Get the texture based on the paths 
 	// NOTE: the texture are not guaranteed to finish loading by now
-	sf::Texture* getTexture(std::string path);
+	sf::Texture* getTexture(std::string path, bool shouldJoin = false);
 
 	// Get the sound buffer based on the paths 
 	// NOTE: the audio is not guaranteed to finish loading by now
-	sf::SoundBuffer* getAudio(std::string path);
+	sf::SoundBuffer* getAudio(std::string path, bool shouldJoin = false);
 
 	// Get the sound buffer based on the paths 
 	// NOTE: the font are not guaranteed to finish loading by now
-	sf::Font* getFont(std::string path);
+	sf::Font* getFont(std::string path, bool shouldJoin = false);
 
 	// Get the sound buffer based on the paths 
 	// NOTE: the savedata is not guaranteed to finish loading by now
-	SavedataReader* getSavedata(std::string path);
+	SavedataReader* getSavedata(std::string path, bool shouldJoin = false);
 
 	// unload all the current assets; useful for switching between game states
 	void unloadAll();
@@ -98,7 +98,6 @@ public:
 	static void CleanUp();
 
 private:
-
 	ResourceLoader resourceLoader;
 
 	std::map<std::string, sf::Texture*> allTextures;

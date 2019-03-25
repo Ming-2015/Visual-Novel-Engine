@@ -1,5 +1,27 @@
 #include "ScriptManager.h"
 
+#include "Utility.h"
+#include "ShowCommand.h"
+#include "DisplayCommand.h"
+#include "SetCommand.h"
+#include "MoveCommand.h"
+#include "RotateCommand.h"
+#include "ZoomCommand.h"
+#include "PlayCommand.h"
+#include "StopCommand.h"
+#include "PauseCommand.h"
+#include "ResumeCommand.h"
+#include "RemoveCommand.h"
+#include "ClearCommand.h"
+#include "FlashCommand.h"
+#include "HideCommand.h"
+#include "DelayCommand.h"
+#include "UnhideCommand.h"
+#include "JumpCommand.h"
+#include "BlurCommand.h"
+#include "StartLoopCommand.h"
+#include "StopLoopCommand.h"
+
 ScriptManager::ScriptManager(std::string filename) :
 	initFileName(filename)
 {
