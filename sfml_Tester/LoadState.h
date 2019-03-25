@@ -7,6 +7,7 @@
 #include "SavefileImage.h"
 #include "SavedataUtility.h"
 #include "MainButton.h"
+#include "DarkenButton.h"
 
 class LoadState : public GameState
 {
@@ -49,6 +50,18 @@ private:
 	MainButton * quitButton;
 
 	vector<MainButton*> buttons;
+
+	DarkenButton * qButton;
+	DarkenButton * upArrow;
+	DarkenButton * oneButton;
+	DarkenButton * twoButton;
+	DarkenButton * threeButton;
+	DarkenButton * fourButton;
+	DarkenButton * fiveButton;
+	DarkenButton * sixButton;
+	DarkenButton * sevenButton;
+	DarkenButton * eightButton;
+	DarkenButton * downArrow;
 
 
 	unsigned int currentPageNumber = 0;

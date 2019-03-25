@@ -13,6 +13,18 @@ LoadState::~LoadState()
 
 void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {
+	qButton->handleInput(e, window);
+	upArrow->handleInput(e, window);
+	oneButton->handleInput(e, window);
+	twoButton->handleInput(e, window);
+	threeButton->handleInput(e, window);
+	fourButton->handleInput(e, window);
+	fiveButton->handleInput(e, window);
+	sixButton->handleInput(e, window);
+	sevenButton->handleInput(e, window);
+	eightButton->handleInput(e, window);
+	downArrow->handleInput(e, window);
+
 	for (MainButton* button : buttons)
 	{
 		button->handleInput(e, window);
@@ -119,12 +131,35 @@ void LoadState::render(sf::RenderWindow & window)
 	{
 		window.draw(*button);
 	}
+	window.draw(*qButton);
+	window.draw(*upArrow);
+	window.draw(*oneButton);
+	window.draw(*twoButton);
+	window.draw(*threeButton);
+	window.draw(*fourButton);
+	window.draw(*fiveButton);
+	window.draw(*sixButton);
+	window.draw(*sevenButton);
+	window.draw(*eightButton);
+	window.draw(*downArrow);
 	
 	window.draw(rectangle);
 }
 
 void LoadState::update(float delta_t)
 {
+	qButton->update(delta_t);
+	upArrow->update(delta_t);
+	oneButton->update(delta_t);
+	twoButton->update(delta_t);
+	threeButton->update(delta_t);
+	fourButton->update(delta_t);
+	fiveButton->update(delta_t);
+	sixButton->update(delta_t);
+	sevenButton->update(delta_t);
+	eightButton->update(delta_t);
+	downArrow->update(delta_t);
+
 	for (int i = 0; i < savePerPage; i++)
 	{
 		savefileImages[i]->update(delta_t);
@@ -172,6 +207,29 @@ void LoadState::init()
 		LOGGER->Log("LoadState", "Unable to find default font");
 	}
 
+	qButton = new DarkenButton(GLOBAL->AssetRoot + "Qbutton.png", "", "", 80.0f, 65.0f, 0, 0, 0, 0, 79, 73);
+	qButton->load();
+	upArrow = new DarkenButton(GLOBAL->AssetRoot + "upArrowLS.png", "", "", 80.0f, 159.0f, 0, 0, 0, 0, 79, 73);
+	upArrow->load();
+	oneButton = new DarkenButton(GLOBAL->AssetRoot + "1button.png", "", "", 80.0f, 233.0f, 0, 0, 0, 0, 79, 73);
+	oneButton->load();
+	twoButton = new DarkenButton(GLOBAL->AssetRoot + "2button.png", "", "", 80.0f, 307.0f, 0, 0, 0, 0, 79, 73);
+	twoButton->load();
+	threeButton = new DarkenButton(GLOBAL->AssetRoot + "3button.png", "", "", 80.0f, 381.0f, 0, 0, 0, 0, 79, 73);
+	threeButton->load();
+	fourButton = new DarkenButton(GLOBAL->AssetRoot + "4button.png", "", "", 80.0f, 455.0f, 0, 0, 0, 0, 79, 73);
+	fourButton->load();
+	fiveButton = new DarkenButton(GLOBAL->AssetRoot + "5button.png", "", "", 80.0f, 529.0f, 0, 0, 0, 0, 79, 73);
+	fiveButton->load();
+	sixButton = new DarkenButton(GLOBAL->AssetRoot + "6button.png", "", "", 80.0f, 603.0f, 0, 0, 0, 0, 79, 73);
+	sixButton->load();
+	sevenButton = new DarkenButton(GLOBAL->AssetRoot + "7button.png", "", "", 80.0f, 677.0f, 0, 0, 0, 0, 79, 73);
+	sevenButton->load();
+	eightButton = new DarkenButton(GLOBAL->AssetRoot + "8button.png", "", "", 80.0f, 751.0f, 0, 0, 0, 0, 79, 73);
+	eightButton->load();
+	downArrow = new DarkenButton(GLOBAL->AssetRoot + "downArrowLS.png", "", "", 80.0f, 825.0f, 0, 0, 0, 0, 79, 73);
+	downArrow->load();
+
 	startNew.setFont(settingsFont);
 	startNew.setString("Start New Story");
 	startNew.setFillColor(sf::Color::White);
@@ -194,24 +252,24 @@ void LoadState::init()
 	// load images and titles
 	loadSavesByPage(0);
 
-	savefileImages[INDEX_SAVE_1]->setPosition(170, 140);
-	savefileImages[INDEX_SAVE_5]->setPosition(870, 140);
-	savefileImages[INDEX_SAVE_2]->setPosition(170, 330);
-	savefileImages[INDEX_SAVE_6]->setPosition(870, 330);
-	savefileImages[INDEX_SAVE_3]->setPosition(170, 520);
-	savefileImages[INDEX_SAVE_7]->setPosition(870, 520);
-	savefileImages[INDEX_SAVE_4]->setPosition(170, 700);
-	savefileImages[INDEX_SAVE_8]->setPosition(870, 700);
+	savefileImages[INDEX_SAVE_1]->setPosition(180, 145);
+	savefileImages[INDEX_SAVE_5]->setPosition(900, 145);
+	savefileImages[INDEX_SAVE_2]->setPosition(180, 330);
+	savefileImages[INDEX_SAVE_6]->setPosition(900, 330);
+	savefileImages[INDEX_SAVE_3]->setPosition(180, 515);
+	savefileImages[INDEX_SAVE_7]->setPosition(900, 515);
+	savefileImages[INDEX_SAVE_4]->setPosition(180, 700);
+	savefileImages[INDEX_SAVE_8]->setPosition(900, 700);
 
-	menuButton = new MainButton(GLOBAL->AssetRoot + "Menu187x156.png", "", "", 1210.0f, 97.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
+	menuButton = new MainButton(GLOBAL->AssetRoot + "Menu187x156.png", "", "", 1210.0f, 101.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
 	menuButton->load();
 	buttons.push_back(menuButton);
 
-	returnButton = new MainButton(GLOBAL->AssetRoot + "Return187x156.png", "", "", 1000.0f, 97.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
+	returnButton = new MainButton(GLOBAL->AssetRoot + "Return187x156.png", "", "", 1000.0f, 101.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
 	returnButton->load();
 	buttons.push_back(returnButton);
 
-	quitButton = new MainButton(GLOBAL->AssetRoot + "Quit187x156.png", "", "", 1420.0f, 97.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
+	quitButton = new MainButton(GLOBAL->AssetRoot + "Quit187x156.png", "", "", 1420.0f, 101.0f, 0, 0, 0, 78, 187, 78, 0, 0, 187, 78);
 	quitButton->load();
 	buttons.push_back(quitButton);
 
@@ -235,6 +293,18 @@ void LoadState::cleanup()
 		delete button;
 	}
 	buttons.clear();
+	
+	delete qButton;
+	delete upArrow;
+	delete oneButton;
+	delete twoButton;
+	delete threeButton;
+	delete fourButton;
+	delete fiveButton;
+	delete sixButton;
+	delete sevenButton;
+	delete eightButton;
+	delete downArrow;
 }
 
 void LoadState::loadSavesByPage(int pageNumber)
