@@ -100,7 +100,7 @@ void SavefileImage::setPosition(int x, int y)
 	saveSprite.setPosition(x + borderSize - 5, y + borderSize - 14);
 	saveTitleText.setPosition(x + 300, y + 11);
 	saveDateText.setPosition(x + 300, y + 102);
-	noDataSprite.setPosition(x + 358, y + 8);
+	noDataSprite.setPosition(x + 352, y + 8);
 }
 
 bool SavefileImage::isClicked(bool reset)

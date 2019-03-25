@@ -129,6 +129,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChoiceImage.cpp" />
     <ClCompile Include="CinematicBars.cpp" />
+    <ClCompile Include="DarkButton.cpp" />
     <ClCompile Include="DelayCommand.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
     <ClCompile Include="DrawMainButton.cpp" />
@@ -194,6 +195,7 @@
   <ItemGroup>
     <ClInclude Include="BackgroundImage.h" />
     <ClInclude Include="CinematicBars.h" />
+    <ClInclude Include="DarkenButton.h" />
     <ClInclude Include="EndCommand.h" />
     <ClInclude Include="Linelog.h" />
     <ClInclude Include="BlurCommand.h" />

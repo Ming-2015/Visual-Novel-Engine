@@ -276,6 +276,9 @@
     <ClCompile Include="LoadingScreenState.cpp">
       <Filter>Source Files\GameState</Filter>
     </ClCompile>
+    <ClCompile Include="DarkButton.cpp">
+      <Filter>Source Files\UI\Effect\Button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -481,6 +484,9 @@
     </ClInclude>
     <ClInclude Include="SavedataReader.h">
       <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="DarkenButton.h">
+      <Filter>Header Files\UI\Effect\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
