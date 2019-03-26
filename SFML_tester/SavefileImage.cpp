@@ -89,7 +89,7 @@ void SavefileImage::useDefaultSprite()
 
 
 	noDataSprite.setTexture(noDataTex);
-	saveSprite.setTexture(saveTex);
+	noDataSpriteBox.setTexture(saveTex);
 	setToScale();
 }
 
@@ -101,6 +101,7 @@ void SavefileImage::setPosition(int x, int y)
 	saveTitleText.setPosition(x + 300, y + 11);
 	saveDateText.setPosition(x + 300, y + 102);
 	noDataSprite.setPosition(x + 352, y + 8);
+	noDataSpriteBox.setPosition(x + borderSize - 5, y + borderSize - 14);
 }
 
 bool SavefileImage::isClicked(bool reset)
@@ -222,8 +223,7 @@ bool SavefileImage::onLoad()
 
 	bgSprite.setTexture(bgUnselectedTex);
 	bgBoxSprite.setTexture(bgBoxUnselectedTex);
-	
-
+	setToScale();
 	return true;
 }
 
@@ -240,7 +240,8 @@ void SavefileImage::onDraw(sf::RenderTarget & target, sf::RenderStates states) c
 	target.draw(saveTitleText, states);
 	target.draw(saveDateText, states);
 	target.draw(noDataSprite, states);
-}
+	target.draw(noDataSpriteBox, states);
+;}
 
 void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 {
@@ -258,6 +259,7 @@ void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 				saveTitleText.setFillColor(sf::Color(220, 220, 220, 255));
 				saveDateText.setFillColor(sf::Color(220, 220, 220, 255));
 				noDataSprite.setColor(sf::Color(200, 200, 200, 255));
+				noDataSpriteBox.setColor(sf::Color(200, 200, 200, 255));
 			}
 			else
 			{
@@ -267,6 +269,7 @@ void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 				saveTitleText.setFillColor(sf::Color(255, 255, 255, 255));
 				saveDateText.setFillColor(sf::Color(255, 255, 255, 255));
 				noDataSprite.setColor(sf::Color(255, 255, 255, 255));
+				noDataSpriteBox.setColor(sf::Color(255, 255, 255, 255));
 			}
 			break;
 		}
@@ -304,4 +307,14 @@ void SavefileImage::setToScale()
 	float yScale = float(bgSprite.getLocalBounds().height - borderSize * 2) / float(saveSprite.getLocalBounds().height);
 
 	saveSprite.setScale(xScale, yScale);
+}
+
+void SavefileImage::resetDefault()
+{
+	if (!noDataTex.loadFromFile("images/assets/empty.png"))
+	{
+		LOGGER->Log("SavefileImage", "Unable to load images/assets/empty.png");
+	}
+	//noDataSprite.setTexture(noDataTex);
+	setToScale();
 }

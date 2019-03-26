@@ -24,6 +24,8 @@ public:
 
 	int x;
 
+	void resetDefault();
+
 protected:
 
 	bool onLoad();
@@ -48,7 +50,9 @@ protected:
 	sf::Texture bgBoxSelectedTex;
 
 	sf::Sprite noDataSprite;
+	sf::Sprite noDataSpriteBox;
 	sf::Texture noDataTex;
+	sf::Texture emptyTex;
 
 	bool hovered = false;
 	bool clicked = false;
@@ -58,4 +62,5 @@ protected:
 	const unsigned int borderSize = 15;
 
 	void setToScale();
+	
 };

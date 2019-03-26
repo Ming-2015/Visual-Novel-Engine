@@ -53,7 +53,8 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		savefileImages[i]->handleInput(e, window);
 	}
 
-	for (int i = 0; i < savePerPage; i++)
+	for (int i = 0 ; i < savePerPage; i++)
+		//SDGLJASD;LKFJ SET THIS 0+PAGE NUMBER * 8
 	{
 		if (savefileImages[i]->isClicked(true))
 		{
@@ -79,6 +80,74 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			}
 		}
 	}
+
+	if (oneButton->isClicked(true))
+	{
+		currentPageNumber = 0;
+		loadSavesByPage(currentPageNumber);
+	}
+	if (twoButton->isClicked(true))
+	{
+		currentPageNumber = 1;
+		loadSavesByPage(currentPageNumber);
+	}
+	if (threeButton->isClicked(true))
+	{
+		currentPageNumber = 2;
+		loadSavesByPage(currentPageNumber);
+	}
+	if (fourButton->isClicked(true))
+	{
+		currentPageNumber = 3;
+		loadSavesByPage(currentPageNumber);
+	}
+	if (fiveButton->isClicked(true))
+	{
+		currentPageNumber = 4;
+		loadSavesByPage(currentPageNumber);
+	}
+	if (sixButton->isClicked(true))
+	{
+		currentPageNumber = 5;
+		loadSavesByPage(currentPageNumber);
+	}
+	if (sevenButton->isClicked(true))
+	{
+		currentPageNumber = 6;
+		loadSavesByPage(currentPageNumber);
+	}
+	if (eightButton->isClicked(true))
+	{
+		currentPageNumber = 7;
+		loadSavesByPage(currentPageNumber);
+	}
+	if (upArrow->isClicked(true))
+	{
+		if (currentPageNumber < 7)
+		{
+			currentPageNumber++;
+			loadSavesByPage(currentPageNumber);
+		}
+		else
+		{
+			currentPageNumber = 0;
+			loadSavesByPage(currentPageNumber);
+		}
+	}
+	if (downArrow->isClicked(true))
+	{
+		if (currentPageNumber > 0)
+		{
+			currentPageNumber--;
+			loadSavesByPage(currentPageNumber);
+		}
+		else
+		{
+			currentPageNumber = 7;
+			loadSavesByPage(currentPageNumber);
+		}
+	}
+
 
 	switch (e.type)
 	{
@@ -169,6 +238,8 @@ void LoadState::update(float delta_t)
 	{
 		button->update(delta_t);
 	}
+
+
 
 	if (exitGame == true)
 	{
@@ -324,10 +395,13 @@ void LoadState::loadSavesByPage(int pageNumber)
 			savefileImages[i - currentSave]->setImage(image);
 			savefileImages[i - currentSave]->setTitle(title);
 			savefileImages[i - currentSave]->setDate(savetime);
+			savefileImages[i - currentSave]->resetDefault();
 		}
 		else
 		{
 			savefileImages[i - currentSave]->useDefaultSprite();
+			savefileImages[i - currentSave]->setTitle("");
+			savefileImages[i - currentSave]->setDate("");
 		}
 	}
 }
