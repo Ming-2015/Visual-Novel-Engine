@@ -147,6 +147,11 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			loadSavesByPage(currentPageNumber);
 		}
 	}
+	if (qButton->isClicked(true))
+	{
+		currentPageNumber = -1;
+		loadSavesByPage(currentPageNumber);
+	}
 
 
 	switch (e.type)
@@ -382,9 +387,19 @@ void LoadState::loadSavesByPage(int pageNumber)
 {
 	// load the first page
 	int currentSave = pageNumber * savePerPage;
+
+	if (pageNumber < 0)
+	{
+		currentSave = 1;
+	}
+
 	for (int i = currentSave; i < currentSave + savePerPage; i++)
 	{
 		std::string savefile = SAVEDATAUTILITY->SavefileRoot + SAVEDATAUTILITY->SavefilePrefix + to_string(i) + SAVEDATAUTILITY->SavefileSuffix;
+		if (pageNumber < 0)
+		{
+			savefile = SAVEDATAUTILITY->SavefileRoot + SAVEDATAUTILITY->QuickSavefilePrefix + to_string(i) + SAVEDATAUTILITY->QuickSavefileSuffix;
+		}
 		std::string title;
 		sf::Image image;
 		std::string savetime;
