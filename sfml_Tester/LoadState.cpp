@@ -44,7 +44,7 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 	if (quitButton->isClicked(true))
 	{
-		LOGGER->Log("MenuState", "Switching to Exit State");
+		LOGGER->Log("LoadState", "Switching to Exit State");
 		exitGame = true;
 	}
 

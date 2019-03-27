@@ -5,11 +5,11 @@
 #include "Global.h"
 #include "Config.h"
 
-class SavefileImage : public Effect
+class SavefileImage2 : public Effect
 {
 public:
-	SavefileImage(int y);
-	~SavefileImage();
+	SavefileImage2(int y);
+	~SavefileImage2();
 
 	void setImage(const sf::Image& image);
 	void setTitle(const std::string& title);
@@ -62,5 +62,5 @@ protected:
 	const unsigned int borderSize = 15;
 
 	void setToScale();
-	
+
 };

@@ -73,6 +73,12 @@ void StateManager::manageStates()
 				clearPrevStates();
 				currentState = new MenuState();
 			}
+			else if (currentState->myState == GameState::STATE_SAVE)
+			{
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new MenuState();
+			}
 			break;
 
 		case GameState::STATE_INIT:
@@ -111,6 +117,12 @@ void StateManager::manageStates()
 				currentState = new MainState(GLOBAL->playerName);
 			}
 			else if (currentState->myState == GameState::STATE_LOAD)
+			{
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new MainState();
+			}
+			else if (currentState->myState == GameState::STATE_SAVE)
 			{
 				prevStates.push(currentState);
 				clearPrevStates();
@@ -158,6 +170,12 @@ void StateManager::manageStates()
 				currentState = new ExitState();
 			}
 			else if (currentState->myState == GameState::STATE_LOAD)
+			{
+				prevStates.push(currentState);
+				clearPrevStates();
+				currentState = new ExitState();
+			}
+			else if (currentState->myState == GameState::STATE_SAVE)
 			{
 				prevStates.push(currentState);
 				clearPrevStates();

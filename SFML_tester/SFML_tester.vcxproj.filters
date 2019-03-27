@@ -279,6 +279,9 @@
     <ClCompile Include="DarkButton.cpp">
       <Filter>Source Files\UI\Effect\Button</Filter>
     </ClCompile>
+    <ClCompile Include="SaveFileImage2.cpp">
+      <Filter>Source Files\UI\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -487,6 +490,9 @@
     </ClInclude>
     <ClInclude Include="DarkenButton.h">
       <Filter>Header Files\UI\Effect\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveFileImage2.h">
+      <Filter>Header Files\UI\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

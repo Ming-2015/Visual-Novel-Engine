@@ -13,8 +13,10 @@
 #include "ScriptLine.h"
 #include "ScriptManager.h"
 #include "Global.h"
-#include "SavefileImage.h"
+#include "SaveFileImage2.h"
 #include "SavedataUtility.h"
+#include "DarkenButton.h"
+#include "MainButton.h"
 
 using namespace std;
 
@@ -47,10 +49,28 @@ private:
 	unsigned int currentPageNumber = 0;
 	const unsigned int savePerPage = 8;
 
-	std::vector<SavefileImage *> savefileImages;
+	std::vector<SavefileImage2 *> savefileImages;
 
 	const ScriptManager * scriptManager;
 	sf::Image screenshot;
+
+	MainButton * menuButton;
+	MainButton * returnButton;
+	MainButton * quitButton;
+
+	vector<MainButton*> buttons;
+
+	DarkenButton * qButton;
+	DarkenButton * upArrow;
+	DarkenButton * oneButton;
+	DarkenButton * twoButton;
+	DarkenButton * threeButton;
+	DarkenButton * fourButton;
+	DarkenButton * fiveButton;
+	DarkenButton * sixButton;
+	DarkenButton * sevenButton;
+	DarkenButton * eightButton;
+	DarkenButton * downArrow;
 
 	void loadSavesByPage(int pageNumber);
 
@@ -60,4 +80,11 @@ private:
 	const static int INDEX_SAVE_4 = 3;
 	const static int INDEX_SAVE_5 = 4;
 	const static int INDEX_SAVE_6 = 5;
+	const static int INDEX_SAVE_7 = 6;
+	const static int INDEX_SAVE_8 = 7;
+
+	int currentAlpha, endAlpha;
+	bool exitGame;
+	sf::RectangleShape rectangle;
+	sf::Clock clock;
 };
