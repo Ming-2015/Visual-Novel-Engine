@@ -250,7 +250,7 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		fiveButton->highlight = false;
 		sixButton->highlight = false;
 		sevenButton->highlight = false;
-		eightButton->highlight = true;
+		eightButton->highlight = false;
 	}
 
 
