@@ -43,7 +43,7 @@ void LoadfileImage::setDate(const std::string & date)
 
 void LoadfileImage::useDefaultSprite()
 {
-	if (!saveTex.loadFromFile("images/assets/nodata.png"))
+	if (!saveTex.loadFromFile("images/assets/noData2.png"))
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/nodata.png");
 	}
@@ -101,7 +101,7 @@ void LoadfileImage::setPosition(int x, int y)
 	saveTitleText.setPosition(x + 300, y + 11);
 	saveDateText.setPosition(x + 300, y + 102);
 	noDataSprite.setPosition(x + 352, y + 8);
-	noDataSpriteBox.setPosition(x + borderSize - 5, y + borderSize - 14);
+	noDataSpriteBox.setPosition(x - 5, y - 14);
 }
 
 bool LoadfileImage::isClicked(bool reset)
