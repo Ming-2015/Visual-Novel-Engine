@@ -1,7 +1,7 @@
 #include "LoadfileImage.h"
 
 LoadfileImage::LoadfileImage(int y)
-	: Effect("SavefileImage")
+	: Effect("LoadfileImage")
 {
 	x = y;
 }
@@ -16,6 +16,7 @@ void LoadfileImage::setImage(const sf::Image & image)
 	saveTex.update(image);
 
 	saveSprite.setTexture(saveTex);
+	saveSprite.setTextureRect(sf::IntRect(0, 0, saveTex.getSize().x, saveTex.getSize().y));
 	setToScale();
 }
 
@@ -45,12 +46,12 @@ void LoadfileImage::useDefaultSprite()
 {
 	if (!saveTex.loadFromFile("images/assets/nodata.png"))
 	{
-		LOGGER->Log("SavefileImage", "Unable to load images/assets/nodata.png");
+		LOGGER->Log("LoadfileImage", "Unable to load images/assets/nodata.png");
 	}
 	saveTex.setSmooth(true);
 	if (!noDataTex.loadFromFile("images/assets/noDataText.png"))
 	{
-		LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataText.png");
+		LOGGER->Log("LoadfileImage", "Unable to load images/assets/noDataText.png");
 	}
 	noDataTex.setSmooth(true);
 
@@ -58,7 +59,7 @@ void LoadfileImage::useDefaultSprite()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "noDataBox1.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataBox1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/noDataBox1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
@@ -66,7 +67,7 @@ void LoadfileImage::useDefaultSprite()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "noDataBox2.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataBox1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/noDataBox1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
@@ -74,7 +75,7 @@ void LoadfileImage::useDefaultSprite()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "noDataBox3.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataBox3.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/noDataBox3.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
@@ -82,14 +83,15 @@ void LoadfileImage::useDefaultSprite()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "noDataBox4.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/noDataBox4.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/noDataBox4.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
 
 
 	noDataSprite.setTexture(noDataTex);
-	noDataSpriteBox.setTexture(saveTex);
+	saveSprite.setTexture(saveTex);
+	saveSprite.setTextureRect(sf::IntRect(0, 0, saveTex.getSize().x, saveTex.getSize().y));
 	setToScale();
 }
 
@@ -101,7 +103,6 @@ void LoadfileImage::setPosition(int x, int y)
 	saveTitleText.setPosition(x + 300, y + 11);
 	saveDateText.setPosition(x + 300, y + 102);
 	noDataSprite.setPosition(x + 352, y + 8);
-	noDataSpriteBox.setPosition(x + borderSize - 5, y + borderSize - 14);
 }
 
 bool LoadfileImage::isClicked(bool reset)
@@ -129,7 +130,7 @@ bool LoadfileImage::onLoad()
 	// initialize the empty text
 	if (!font.loadFromFile(GLOBAL->UserInterfaceFont))
 	{
-		LOGGER->Log("SavefileImage", "Unable to load font!");
+		LOGGER->Log("LoadfileImage", "Unable to load font!");
 	}
 
 	saveTitleText.setFont(font);
@@ -148,14 +149,15 @@ bool LoadfileImage::onLoad()
 
 	if (!bgUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "savebox.png"))
 	{
-		LOGGER->Log("SavefileImage", "Unable to load images/assets/savebox.png");
+		LOGGER->Log("LoadfileImage", "Unable to load images/assets/savebox.png");
 	}
 	bgUnselectedTex.setSmooth(true);
+
 	if (x == 1 || x == 5)
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack1.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
@@ -163,7 +165,7 @@ bool LoadfileImage::onLoad()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack2.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
@@ -171,7 +173,7 @@ bool LoadfileImage::onLoad()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack3.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
@@ -179,20 +181,16 @@ bool LoadfileImage::onLoad()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack4.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
-	/*if (!bgBoxSelectedTex.loadFromFile(GLOBAL->AssetRoot + "savebox_selected.png"))
-	{
-		LOGGER->Log("LoadfileImage", "Unable to load images/assets/savebox_selected.png");
-	}
-	bgBoxSelectedTex.setSmooth(true);*/
+
 	if (x == 1 || x == 5)
 	{
 		if (!bgBoxSelectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack1.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxSelectedTex.setSmooth(true);
 	}
@@ -200,7 +198,7 @@ bool LoadfileImage::onLoad()
 	{
 		if (!bgBoxSelectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack2.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxSelectedTex.setSmooth(true);
 	}
@@ -208,7 +206,7 @@ bool LoadfileImage::onLoad()
 	{
 		if (!bgBoxSelectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack3.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxSelectedTex.setSmooth(true);
 	}
@@ -216,7 +214,7 @@ bool LoadfileImage::onLoad()
 	{
 		if (!bgBoxSelectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack4.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxSelectedTex.setSmooth(true);
 	}
@@ -240,7 +238,6 @@ void LoadfileImage::onDraw(sf::RenderTarget & target, sf::RenderStates states) c
 	target.draw(saveTitleText, states);
 	target.draw(saveDateText, states);
 	target.draw(noDataSprite, states);
-	target.draw(noDataSpriteBox, states);
 ;}
 
 void LoadfileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
@@ -259,7 +256,6 @@ void LoadfileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 				saveTitleText.setFillColor(sf::Color(220, 220, 220, 255));
 				saveDateText.setFillColor(sf::Color(220, 220, 220, 255));
 				noDataSprite.setColor(sf::Color(200, 200, 200, 255));
-				noDataSpriteBox.setColor(sf::Color(200, 200, 200, 255));
 			}
 			else
 			{
@@ -269,7 +265,6 @@ void LoadfileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 				saveTitleText.setFillColor(sf::Color(255, 255, 255, 255));
 				saveDateText.setFillColor(sf::Color(255, 255, 255, 255));
 				noDataSprite.setColor(sf::Color(255, 255, 255, 255));
-				noDataSpriteBox.setColor(sf::Color(255, 255, 255, 255));
 			}
 			break;
 		}
@@ -315,14 +310,14 @@ void LoadfileImage::resetDefault()
 {
 	if (!noDataTex.loadFromFile("images/assets/empty.png"))
 	{
-		LOGGER->Log("SavefileImage", "Unable to load images/assets/empty.png");
+		LOGGER->Log("LoadfileImage", "Unable to load images/assets/empty.png");
 	}
 
 	if (x == 1 || x == 5)
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack1.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
@@ -330,7 +325,7 @@ void LoadfileImage::resetDefault()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack2.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
@@ -338,7 +333,7 @@ void LoadfileImage::resetDefault()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack3.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
@@ -346,10 +341,9 @@ void LoadfileImage::resetDefault()
 	{
 		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack4.png"))
 		{
-			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+			LOGGER->Log("LoadfileImage", "Unable to load images/assets/SaveBoxBack1.png");
 		}
 		bgBoxUnselectedTex.setSmooth(true);
 	}
-	//noDataSprite.setTexture(noDataTex);
-	//setToScale();
+	setToScale();
 }

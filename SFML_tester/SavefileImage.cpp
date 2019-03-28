@@ -16,6 +16,7 @@ void SavefileImage::setImage(const sf::Image & image)
 	saveTex.update(image);
 
 	saveSprite.setTexture(saveTex);
+	saveSprite.setTextureRect(sf::IntRect(0, 0, saveTex.getSize().x, saveTex.getSize().y));
 	setToScale();
 }
 
@@ -89,7 +90,8 @@ void SavefileImage::useDefaultSprite()
 
 
 	noDataSprite.setTexture(noDataTex);
-	noDataSpriteBox.setTexture(saveTex);
+	saveSprite.setTexture(saveTex);
+	saveSprite.setTextureRect(sf::IntRect(0, 0, saveTex.getSize().x, saveTex.getSize().y));
 	setToScale();
 }
 
@@ -101,7 +103,6 @@ void SavefileImage::setPosition(int x, int y)
 	saveTitleText.setPosition(x + 300, y + 11);
 	saveDateText.setPosition(x + 300, y + 102);
 	noDataSprite.setPosition(x + 352, y + 8);
-	noDataSpriteBox.setPosition(x + borderSize - 5, y + borderSize - 14);
 }
 
 bool SavefileImage::isClicked(bool reset)
@@ -240,8 +241,6 @@ void SavefileImage::onDraw(sf::RenderTarget & target, sf::RenderStates states) c
 	target.draw(saveTitleText, states);
 	target.draw(saveDateText, states);
 	target.draw(noDataSprite, states);
-	target.draw(noDataSpriteBox, states);
-	;
 }
 
 void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
@@ -260,7 +259,6 @@ void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 			saveTitleText.setFillColor(sf::Color(220, 220, 220, 255));
 			saveDateText.setFillColor(sf::Color(220, 220, 220, 255));
 			noDataSprite.setColor(sf::Color(200, 200, 200, 255));
-			noDataSpriteBox.setColor(sf::Color(200, 200, 200, 255));
 		}
 		else
 		{
@@ -270,7 +268,6 @@ void SavefileImage::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 			saveTitleText.setFillColor(sf::Color(255, 255, 255, 255));
 			saveDateText.setFillColor(sf::Color(255, 255, 255, 255));
 			noDataSprite.setColor(sf::Color(255, 255, 255, 255));
-			noDataSpriteBox.setColor(sf::Color(255, 255, 255, 255));
 		}
 		break;
 	}

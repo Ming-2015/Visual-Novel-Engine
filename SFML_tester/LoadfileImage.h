@@ -50,9 +50,7 @@ protected:
 	sf::Texture bgBoxSelectedTex;
 
 	sf::Sprite noDataSprite;
-	sf::Sprite noDataSpriteBox;
 	sf::Texture noDataTex;
-	sf::Texture emptyTex;
 
 	bool hovered = false;
 	bool clicked = false;
