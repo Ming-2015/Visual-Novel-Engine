@@ -317,6 +317,39 @@ void LoadfileImage::resetDefault()
 	{
 		LOGGER->Log("SavefileImage", "Unable to load images/assets/empty.png");
 	}
+
+	if (x == 1 || x == 5)
+	{
+		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack1.png"))
+		{
+			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+		}
+		bgBoxUnselectedTex.setSmooth(true);
+	}
+	else if (x == 2 || x == 6)
+	{
+		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack2.png"))
+		{
+			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+		}
+		bgBoxUnselectedTex.setSmooth(true);
+	}
+	else if (x == 3 || x == 7)
+	{
+		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack3.png"))
+		{
+			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+		}
+		bgBoxUnselectedTex.setSmooth(true);
+	}
+	else if (x == 4 || x == 8)
+	{
+		if (!bgBoxUnselectedTex.loadFromFile(GLOBAL->AssetRoot + "SaveBoxBack4.png"))
+		{
+			LOGGER->Log("SavefileImage", "Unable to load images/assets/SaveBoxBack1.png");
+		}
+		bgBoxUnselectedTex.setSmooth(true);
+	}
 	//noDataSprite.setTexture(noDataTex);
 	//setToScale();
 }
