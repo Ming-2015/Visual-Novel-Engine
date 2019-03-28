@@ -273,14 +273,14 @@
     <ClCompile Include="LoadingScreenState.cpp">
       <Filter>Source Files\GameState</Filter>
     </ClCompile>
-    <ClCompile Include="DarkButton.cpp">
-      <Filter>Source Files\UI\Effect\Button</Filter>
-    </ClCompile>
     <ClCompile Include="LoadfileImage.cpp">
       <Filter>Source Files\UI\Effect</Filter>
     </ClCompile>
     <ClCompile Include="SavefileImage.cpp">
       <Filter>Source Files\UI\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="DarkenButton.cpp">
+      <Filter>Source Files\UI\Effect\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

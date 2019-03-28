@@ -17,6 +17,8 @@ public:
 		endSpriteSheetYPos(endY)
 	{}
 
+	bool highlight;
+
 protected:
 	bool onLoad();
 	void onUpdate(float delta_t);
@@ -31,6 +33,7 @@ private:
 	float startSpriteSheetYPos;
 	float endSpriteSheetXPos;
 	float endSpriteSheetYPos;
+	
 	// Here's all the variables in the button class, for reference
 	// sf::Texture texture;
 	// sf::Sprite sprite;

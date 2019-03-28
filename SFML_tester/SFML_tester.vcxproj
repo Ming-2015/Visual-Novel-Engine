@@ -129,7 +129,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChoiceImage.cpp" />
     <ClCompile Include="CinematicBars.cpp" />
-    <ClCompile Include="DarkButton.cpp" />
+    <ClCompile Include="DarkenButton.cpp" />
     <ClCompile Include="DelayCommand.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
     <ClCompile Include="DrawMainButton.cpp" />

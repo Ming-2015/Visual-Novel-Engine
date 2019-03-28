@@ -6,6 +6,7 @@ bool DarkenButton::onLoad()
 	sf::IntRect rectSourceSprite(startSpriteSheetXPos, startSpriteSheetYPos, endSpriteSheetXPos, endSpriteSheetYPos);
 	sprite.setTextureRect(rectSourceSprite);
 	scaleMultiply = 1;
+	highlight = false;
 	sprite.setOrigin(sf::Vector2f(texWidth / 2, texHeight / 2));
 	return ret;
 }
@@ -13,6 +14,15 @@ bool DarkenButton::onLoad()
 void DarkenButton::onUpdate(float delta_t)
 {
 	Button::onUpdate(delta_t);
+
+	if (highlight == true)
+	{
+		sprite.setColor(sf::Color(150, 150, 150, 255));
+	}
+	if (highlight == false)
+	{
+		sprite.setColor(sf::Color(255, 255, 255, 255));
+	}
 }
 
 void DarkenButton::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -31,11 +41,11 @@ void DarkenButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		if (sprite.getGlobalBounds().contains(mousePosF))
 		{
-			sprite.setColor(sf::Color(150, 150, 150, 255));
+			highlight = true;
 		}
 		else
 		{
-			sprite.setColor(sf::Color(255, 255, 255, 255));
+			highlight = false;
 		}
 		break;
 	}

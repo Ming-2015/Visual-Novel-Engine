@@ -156,6 +156,19 @@ void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 	if (upArrow->isClicked(true))
 	{
+		if (currentPageNumber > 0)
+		{
+			currentPageNumber--;
+			loadSavesByPage(currentPageNumber);
+		}
+		else
+		{
+			currentPageNumber = 7;
+			loadSavesByPage(currentPageNumber);
+		}
+	}
+	if (downArrow->isClicked(true))
+	{
 		if (currentPageNumber < 7)
 		{
 			currentPageNumber++;
@@ -167,18 +180,94 @@ void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			loadSavesByPage(currentPageNumber);
 		}
 	}
-	if (downArrow->isClicked(true))
+
+	if (currentPageNumber == 0)
 	{
-		if (currentPageNumber > 0)
-		{
-			currentPageNumber--;
-			loadSavesByPage(currentPageNumber);
-		}
-		else
-		{
-			currentPageNumber = 7;
-			loadSavesByPage(currentPageNumber);
-		}
+		oneButton->highlight = true;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 1)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = true;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 2)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = true;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 3)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = true;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 4)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = true;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 5)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = true;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 6)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = true;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 7)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = true;
 	}
 }
 

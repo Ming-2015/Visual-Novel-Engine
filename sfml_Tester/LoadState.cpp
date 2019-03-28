@@ -122,19 +122,6 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 	if (upArrow->isClicked(true))
 	{
-		if (currentPageNumber < 7)
-		{
-			currentPageNumber++;
-			loadSavesByPage(currentPageNumber);
-		}
-		else
-		{
-			currentPageNumber = 0;
-			loadSavesByPage(currentPageNumber);
-		}
-	}
-	if (downArrow->isClicked(true))
-	{
 		if (currentPageNumber > 0)
 		{
 			currentPageNumber--;
@@ -146,10 +133,124 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			loadSavesByPage(currentPageNumber);
 		}
 	}
+	if (downArrow->isClicked(true))
+	{
+		if (currentPageNumber < 7)
+		{
+			currentPageNumber++;
+			loadSavesByPage(currentPageNumber);
+		}
+		else
+		{
+			currentPageNumber = 0;
+			loadSavesByPage(currentPageNumber);
+		}
+	}
 	if (qButton->isClicked(true))
 	{
 		currentPageNumber = -1;
 		loadSavesByPage(currentPageNumber);
+	}
+
+	if (currentPageNumber == 0)
+	{
+		oneButton->highlight = true;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 1)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = true;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 2)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = true;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 3)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = true;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 4)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = true;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 5)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = true;
+		sevenButton->highlight = false;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 6)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = true;
+		eightButton->highlight = false;
+	}
+	else if (currentPageNumber == 7)
+	{
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = true;
+	}
+	else if (currentPageNumber > 0)
+	{
+		qButton->highlight = true;
+		oneButton->highlight = false;
+		twoButton->highlight = false;
+		threeButton->highlight = false;
+		fourButton->highlight = false;
+		fiveButton->highlight = false;
+		sixButton->highlight = false;
+		sevenButton->highlight = false;
+		eightButton->highlight = true;
 	}
 
 
@@ -242,7 +343,6 @@ void LoadState::update(float delta_t)
 	{
 		button->update(delta_t);
 	}
-
 
 
 	if (exitGame == true)
@@ -394,6 +494,7 @@ void LoadState::loadSavesByPage(int pageNumber)
 
 	for (int i = currentSave; i < currentSave + savePerPage; i++)
 	{
+		qButton->highlight = false;
 		std::string savefile = SAVEDATAUTILITY->SavefileRoot + SAVEDATAUTILITY->SavefilePrefix + to_string(i) + SAVEDATAUTILITY->SavefileSuffix;
 		if (pageNumber < 0)
 		{

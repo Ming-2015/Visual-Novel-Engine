@@ -44,7 +44,7 @@ void LoadfileImage::setDate(const std::string & date)
 
 void LoadfileImage::useDefaultSprite()
 {
-	if (!saveTex.loadFromFile("images/assets/noData2.png"))
+	if (!saveTex.loadFromFile("images/assets/nodata.png"))
 	{
 		LOGGER->Log("LoadfileImage", "Unable to load images/assets/nodata.png");
 	}
@@ -301,8 +301,6 @@ void LoadfileImage::setToScale()
 	float xScale = float(bgSprite.getLocalBounds().width - borderSize * 2) / float(saveSprite.getLocalBounds().width);
 	float yScale = float(bgSprite.getLocalBounds().height - borderSize * 2) / float(saveSprite.getLocalBounds().height);
 
-	std::string msg = "xScale: " + to_string(xScale) + ", yScale: " + to_string(yScale);
-	LOGGER->Log("LoadfileImage", msg);
 	saveSprite.setScale(xScale, yScale);
 }
 
