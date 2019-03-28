@@ -18,6 +18,7 @@ public:
 	{}
 
 	bool highlight;
+	bool hoverlight;
 
 protected:
 	bool onLoad();

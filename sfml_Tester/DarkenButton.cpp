@@ -23,6 +23,10 @@ void DarkenButton::onUpdate(float delta_t)
 	{
 		sprite.setColor(sf::Color(255, 255, 255, 255));
 	}
+	if (hoverlight == true)
+	{
+		sprite.setColor(sf::Color(150, 150, 150, 255));
+	}
 }
 
 void DarkenButton::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -41,11 +45,11 @@ void DarkenButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		if (sprite.getGlobalBounds().contains(mousePosF))
 		{
-			highlight = true;
+			hoverlight = true;
 		}
 		else
 		{
-			highlight = false;
+			hoverlight = false;
 		}
 		break;
 	}
