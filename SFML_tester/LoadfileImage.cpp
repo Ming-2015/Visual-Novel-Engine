@@ -44,7 +44,7 @@ void LoadfileImage::setDate(const std::string & date)
 
 void LoadfileImage::useDefaultSprite()
 {
-	if (!saveTex.loadFromFile("images/assets/nodata.png"))
+	if (!saveTex.loadFromFile("images/assets/noData2.png"))
 	{
 		LOGGER->Log("LoadfileImage", "Unable to load images/assets/nodata.png");
 	}
