@@ -62,5 +62,5 @@ protected:
 	const unsigned int borderSize = 15;
 
 	void setToScale();
-	
+
 };

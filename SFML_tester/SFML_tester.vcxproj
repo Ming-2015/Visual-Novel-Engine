@@ -171,8 +171,8 @@
     <ClCompile Include="RotateCommand.cpp" />
     <ClCompile Include="SavedataReader.cpp" />
     <ClCompile Include="SavedataUtility.cpp" />
+    <ClCompile Include="LoadfileImage.cpp" />
     <ClCompile Include="SavefileImage.cpp" />
-    <ClCompile Include="SaveFileImage2.cpp" />
     <ClCompile Include="SaveState.cpp" />
     <ClCompile Include="ScriptCommand.cpp" />
     <ClCompile Include="ScriptCommandFactory.cpp" />
@@ -243,9 +243,9 @@
     <ClInclude Include="ConfirmationPrompt.h" />
     <ClInclude Include="RotateCommand.h" />
     <ClInclude Include="SavedataUtility.h" />
-    <ClInclude Include="SavefileImage.h" />
+    <ClInclude Include="LoadfileImage.h" />
     <ClInclude Include="SavedataReader.h" />
-    <ClInclude Include="SaveFileImage2.h" />
+    <ClInclude Include="SavefileImage.h" />
     <ClInclude Include="SaveState.h" />
     <ClInclude Include="ScriptCommand.h" />
     <ClInclude Include="ScriptCommandFactory.h" />

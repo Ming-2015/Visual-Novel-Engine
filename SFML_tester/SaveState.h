@@ -13,7 +13,7 @@
 #include "ScriptLine.h"
 #include "ScriptManager.h"
 #include "Global.h"
-#include "SaveFileImage2.h"
+#include "SaveFileImage.h"
 #include "SavedataUtility.h"
 #include "DarkenButton.h"
 #include "MainButton.h"
@@ -49,7 +49,7 @@ private:
 	unsigned int currentPageNumber = 0;
 	const unsigned int savePerPage = 8;
 
-	std::vector<SavefileImage2 *> savefileImages;
+	std::vector<SavefileImage *> savefileImages;
 
 	const ScriptManager * scriptManager;
 	sf::Image screenshot;

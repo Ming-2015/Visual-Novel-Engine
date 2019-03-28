@@ -222,9 +222,6 @@
     <ClCompile Include="MainButton.cpp">
       <Filter>Source Files\UI\Effect\Button</Filter>
     </ClCompile>
-    <ClCompile Include="SavefileImage.cpp">
-      <Filter>Source Files\UI\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="SavedataUtility.cpp">
       <Filter>Source Files\Other</Filter>
     </ClCompile>
@@ -279,7 +276,10 @@
     <ClCompile Include="DarkButton.cpp">
       <Filter>Source Files\UI\Effect\Button</Filter>
     </ClCompile>
-    <ClCompile Include="SaveFileImage2.cpp">
+    <ClCompile Include="LoadfileImage.cpp">
+      <Filter>Source Files\UI\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="SavefileImage.cpp">
       <Filter>Source Files\UI\Effect</Filter>
     </ClCompile>
   </ItemGroup>
@@ -431,9 +431,6 @@
     <ClInclude Include="MainButton.h">
       <Filter>Header Files\UI\Effect\Button</Filter>
     </ClInclude>
-    <ClInclude Include="SavefileImage.h">
-      <Filter>Header Files\UI\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="SavedataUtility.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
@@ -491,7 +488,10 @@
     <ClInclude Include="DarkenButton.h">
       <Filter>Header Files\UI\Effect\Button</Filter>
     </ClInclude>
-    <ClInclude Include="SaveFileImage2.h">
+    <ClInclude Include="LoadfileImage.h">
+      <Filter>Header Files\UI\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="SavefileImage.h">
       <Filter>Header Files\UI\Effect</Filter>
     </ClInclude>
   </ItemGroup>

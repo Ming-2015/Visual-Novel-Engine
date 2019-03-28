@@ -54,7 +54,6 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	}
 
 	for (int i = 0 ; i < savePerPage; i++)
-		//SDGLJASD;LKFJ SET THIS 0+PAGE NUMBER * 8
 	{
 		if (savefileImages[i]->isClicked(true))
 		{
@@ -321,7 +320,7 @@ void LoadState::init()
 	// create savefile images
 	for (int i = 1; i <= savePerPage; i++)
 	{
-		savefileImages.push_back(new SavefileImage(i));
+		savefileImages.push_back(new LoadfileImage(i));
 		savefileImages[i-1]->load();
 	}
 
@@ -360,7 +359,7 @@ void LoadState::init()
 
 void LoadState::cleanup()
 {
-	for (SavefileImage* save : savefileImages)
+	for (LoadfileImage* save : savefileImages)
 	{
 		if (save != nullptr) delete save;
 	}
@@ -390,7 +389,7 @@ void LoadState::loadSavesByPage(int pageNumber)
 
 	if (pageNumber < 0)
 	{
-		currentSave = 1;
+		currentSave = 0;
 	}
 
 	for (int i = currentSave; i < currentSave + savePerPage; i++)
@@ -406,11 +405,11 @@ void LoadState::loadSavesByPage(int pageNumber)
 
 		if (UTILITY->checkFileExist(savefile))
 		{
-			SAVEDATAUTILITY->readSave(savefile, image, title, savetime);
+			SAVEDATAUTILITY->readSave(savefile, image, title, savetime);			
+			savefileImages[i - currentSave]->resetDefault();
 			savefileImages[i - currentSave]->setImage(image);
 			savefileImages[i - currentSave]->setTitle(title);
 			savefileImages[i - currentSave]->setDate(savetime);
-			savefileImages[i - currentSave]->resetDefault();
 		}
 		else
 		{

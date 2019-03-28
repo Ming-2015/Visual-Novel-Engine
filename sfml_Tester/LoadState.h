@@ -4,7 +4,7 @@
 #include "GameState.h"
 #include "Button.h"
 #include "ScriptManager.h"
-#include "SavefileImage.h"
+#include "LoadfileImage.h"
 #include "SavedataUtility.h"
 #include "MainButton.h"
 #include "DarkenButton.h"
@@ -68,7 +68,7 @@ private:
 	const unsigned int savePerPage = 8;
 
 
-	std::vector<SavefileImage *> savefileImages;
+	std::vector<LoadfileImage *> savefileImages;
 
 	ScriptManager* scriptManager;
 

@@ -112,7 +112,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		//quick load options
 		drawMainButton->quickLoadButtonClicked = false;
 
-		int saveId = 1;
+		int saveId = 0;
 		std::string fname = SAVEDATAUTILITY->SavefileRoot +
 			SAVEDATAUTILITY->QuickSavefilePrefix + to_string(saveId) +
 			SAVEDATAUTILITY->QuickSavefileSuffix;
@@ -140,7 +140,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		//quickSave options
 		drawMainButton->quickSaveButtonClicked = false;
 
-		int saveId = 6;
+		int saveId = 7;
 		std::string fname = SAVEDATAUTILITY->SavefileRoot +
 			SAVEDATAUTILITY->QuickSavefilePrefix + to_string(saveId) +
 			SAVEDATAUTILITY->QuickSavefileSuffix;
@@ -151,7 +151,7 @@ void MainState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		
 		saveId--;
 		std::string newfname;
-		for (; saveId >= 1; saveId--)
+		for (; saveId >= 0; saveId--)
 		{
 			fname = SAVEDATAUTILITY->SavefileRoot +
 				SAVEDATAUTILITY->QuickSavefilePrefix + to_string(saveId) +

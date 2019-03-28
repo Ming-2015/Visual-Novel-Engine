@@ -305,7 +305,7 @@ void SaveState::init()
 	// create savefile images
 	for (int i = 1; i <= savePerPage; i++)
 	{
-		savefileImages.push_back(new SavefileImage2(i));
+		savefileImages.push_back(new SavefileImage(i));
 		savefileImages[i - 1]->load();
 	}
 
@@ -344,7 +344,7 @@ void SaveState::init()
 
 void SaveState::cleanup()
 {
-	for (SavefileImage2* save : savefileImages)
+	for (SavefileImage* save : savefileImages)
 	{
 		if (save != nullptr) delete save;
 	}
@@ -374,7 +374,7 @@ void SaveState::loadSavesByPage(int pageNumber)
 
 	if (pageNumber < 0)
 	{
-		currentSave = 1;
+		currentSave = 0;
 	}
 
 	for (int i = currentSave; i < currentSave + savePerPage; i++)
