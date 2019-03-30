@@ -237,9 +237,6 @@
     <ClCompile Include="LogBar.cpp">
       <Filter>Source Files\UI\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="RadioButton.cpp">
-      <Filter>Source Files\UI\Effect\Button</Filter>
-    </ClCompile>
     <ClCompile Include="StartLoopCommand.cpp">
       <Filter>Source Files\Script\ScriptCommands</Filter>
     </ClCompile>
@@ -280,6 +277,9 @@
       <Filter>Source Files\UI\Effect</Filter>
     </ClCompile>
     <ClCompile Include="DarkenButton.cpp">
+      <Filter>Source Files\UI\Effect\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="RadioButton.cpp">
       <Filter>Source Files\UI\Effect\Button</Filter>
     </ClCompile>
   </ItemGroup>
@@ -449,9 +449,6 @@
     <ClInclude Include="LogBar.h">
       <Filter>Header Files\UI\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="RadioButton.h">
-      <Filter>Header Files\UI\Effect\Button</Filter>
-    </ClInclude>
     <ClInclude Include="StartLoopCommand.h">
       <Filter>Header Files\Script\ScriptCommands</Filter>
     </ClInclude>
@@ -493,6 +490,9 @@
     </ClInclude>
     <ClInclude Include="SavefileImage.h">
       <Filter>Header Files\UI\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="RadioButton.h">
+      <Filter>Header Files\UI\Effect\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

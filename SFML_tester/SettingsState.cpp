@@ -13,6 +13,14 @@ SettingsState::~SettingsState()
 
 void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 {
+	for (DarkenButton * button : staticDButtons)
+	{
+		if (button != nullptr)
+		{
+			button->handleInput(e, window);
+		}
+	}
+
 	for (MenuButton * button : zeroButtons)
 	{
 		if (button != nullptr)
@@ -52,13 +60,13 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		}
 	}
 
-	for (RadioButton * radioButton : displayOptionButtons)
+	/*for (RadioButton * radioButton : displayOptionButtons)
 	{
 		if (radioButton != nullptr)
 		{
 			radioButton->handleInput(e, window);
 		}
-	}
+	}*/
 
 	switch (e.type)
 	{
@@ -69,11 +77,15 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 				sf::Vector2f mousePosF = CONFIG->getCursorPosition(window);
 				if (texts[TEXT_SAVE].getGlobalBounds().contains(mousePosF))
 				{
-					CONFIG->masterVolume = sliders[SLIDER_MASTER]->getValue();
-					CONFIG->bgmVolume = sliders[SLIDER_BGM]->getValue();
-					CONFIG->sfxVolume = sliders[SLIDER_SFX]->getValue();
-					CONFIG->voiceVolume = sliders[SLIDER_VOICE]->getValue();
+					CONFIG->manualTextSpeed = sliders[SLIDER_MANUAL_SPEED]->getValue();
+					CONFIG->autoTextSpeed = sliders[SLIDER_AUTO_SPEED]->getValue();
+					CONFIG->autoTextWaitTime = sliders[SLIDER_AUTO_WAIT_TIME]->getValue();
 					CONFIG->textWindowAlpha = sliders[SLIDER_ALPHA]->getValue();
+					//CONFIG->masterVolume = sliders[SLIDER_MASTER]->getValue();
+					//CONFIG->bgmVolume = sliders[SLIDER_BGM]->getValue();
+					//CONFIG->sfxVolume = sliders[SLIDER_SFX]->getValue();
+					//CONFIG->voiceVolume = sliders[SLIDER_VOICE]->getValue();
+					
 					
 					// save previous option to see if there's a need to reset window
 					FullscreenOpts prevFullscreenOps = CONFIG->enableFullscreen;
@@ -110,6 +122,16 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 void SettingsState::render(sf::RenderWindow & window)
 {
 	window.draw(configBackground);
+	window.draw(DGBackground);
+	window.draw(VGBackground);
+
+	for (DarkenButton * button : staticDButtons)
+	{
+		if (button != nullptr)
+		{
+			window.draw(*button);
+		}
+	}
 
 	for (Slider * slider : sliders)
 	{
@@ -119,10 +141,10 @@ void SettingsState::render(sf::RenderWindow & window)
 		}
 	}
 
-	for (auto t : texts)
+	/*for (auto t : texts)
 	{
 		window.draw(t);
-	}
+	}*/
 
 	for (MenuButton * button : zeroButtons)
 	{
@@ -140,17 +162,25 @@ void SettingsState::render(sf::RenderWindow & window)
 		}
 	}
 
-	for (RadioButton * radioButton : displayOptionButtons)
+	/*for (RadioButton * radioButton : displayOptionButtons)
 	{
 		if (radioButton != nullptr)
 		{
 			window.draw(*radioButton);
 		}
-	}
+	}*/
 }
 
 void SettingsState::update(float delta_t)
 {
+	for (DarkenButton * button : staticDButtons)
+	{
+		if (button != nullptr)
+		{
+			button->update(delta_t);
+		}
+	}
+
 	for (Slider * slider : sliders)
 	{
 		if (slider != nullptr)
@@ -175,13 +205,13 @@ void SettingsState::update(float delta_t)
 		}
 	}
 
-	for (RadioButton * radioButton : displayOptionButtons)
+	/*for (RadioButton * radioButton : displayOptionButtons)
 	{
 		if (radioButton != nullptr)
 		{
 			radioButton->update(delta_t);
 		}
-	}
+	}*/
 }
 
 void SettingsState::init()
@@ -191,41 +221,101 @@ void SettingsState::init()
 	configTexture.setSmooth(true);
 	configBackground.setTexture(configTexture);
 
-	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 290.0f, 0, 0, 0, 0, 64, 29));
+	staticDButtons.push_back(new DarkenButton(GLOBAL->AssetRoot + "DGButton.png", "", "", 195.0f, 295.0f, 0, 0, 0, 0, 318, 189));
+	staticDButtons[DG]->load();
+	staticDButtons.push_back(new DarkenButton(GLOBAL->AssetRoot + "VGButton.png", "", "", 195.0f, 520.0f, 0, 0, 0, 0, 318, 189));
+	staticDButtons[VG]->load();
+	staticDButtons.push_back(new DarkenButton(GLOBAL->AssetRoot + "ConfigDefault.png", "", "", 200.0f, 680.0f, 0, 0, 0, 0, 188, 81));
+	staticDButtons[DEFAULT]->load();
+	staticDButtons.push_back(new DarkenButton(GLOBAL->AssetRoot + "ConfigReturn.png", "", "", 200.0f, 760.0f, 0, 0, 0, 0, 188, 81));
+	staticDButtons[RETURN]->load();
+	staticDButtons.push_back(new DarkenButton(GLOBAL->AssetRoot + "ConfigSave.png", "", "", 200.0f, 840.0f, 0, 0, 0, 0, 188, 81));
+	staticDButtons[SAVE]->load();
+
+	//THESE ASSETS ARE FOR DG!!!!           REMOVE THE + 900 TO SHOW
+	if (!DGTexture.loadFromFile(GLOBAL->AssetRoot + "DG_bg.png"))
+		LOGGER->Log("MenuState", "Image not found: DG_bg.png");
+	DGTexture.setSmooth(true);
+	DGBackground.setTexture(DGTexture);
+	DGBackground.setPosition(435, 30 + 900);
+
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 940.0f, 570.0f + 900, 0, 0, 0, 0, 64, 29));
 	zeroButtons[0]->load();
-	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 390.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 940.0f, 645.0f + 900, 0, 0, 0, 0, 64, 29));
 	zeroButtons[1]->load();
-	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 490.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 940.0f, 720.0f + 900, 0, 0, 0, 0, 64, 29));
 	zeroButtons[2]->load();
-	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 590.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 940.0f, 795.0f + 900, 0, 0, 0, 0, 64, 29));
 	zeroButtons[3]->load();
-	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 400.0f, 690.0f, 0, 0, 0, 0, 64, 29));
-	zeroButtons[4]->load();
 
-	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 290.0f, 0, 0, 0, 0, 64, 29));
+
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 1255.0f, 570.0f + 900, 0, 0, 0, 0, 64, 29));
 	hundredButtons[0]->load();
-	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 390.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 1255.0f, 645.0f + 900, 0, 0, 0, 0, 64, 29));
 	hundredButtons[1]->load();
-	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 490.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 1255.0f, 720.0f + 900, 0, 0, 0, 0, 64, 29));
 	hundredButtons[2]->load();
-	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 590.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 1255.0f, 795.0f + 900, 0, 0, 0, 0, 64, 29));
 	hundredButtons[3]->load();
-	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 715.0f, 690.0f, 0, 0, 0, 0, 64, 29));
+
+
+
+	sliders.push_back(Slider::createSettingsSlider(975.0f, 560.0f + 900, CONFIG->manualTextSpeed));
+	sliders.push_back(Slider::createSettingsSlider(975.0f, 635.0f + 900, CONFIG->autoTextSpeed));
+	sliders.push_back(Slider::createSettingsSlider(975.0f, 710.0f + 900, CONFIG->autoTextWaitTime));
+	sliders.push_back(Slider::createSettingsSlider(975.0f, 785.0f + 900, CONFIG->textWindowAlpha));
+
+	//THESE ASSETS ARE FOR VG!!!!!
+	if (!VGTexture.loadFromFile(GLOBAL->AssetRoot + "VG_bg.png"))
+		LOGGER->Log("MenuState", "Image not found: VG_bg.png");
+	VGTexture.setSmooth(true);
+	VGBackground.setTexture(VGTexture);
+	VGBackground.setPosition(435, 30);
+
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 940.0f, 495.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons[4]->load();
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 940.0f, 595.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons[5]->load();
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 940.0f, 695.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons[6]->load();
+	zeroButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarZero.png", "", "", 940.0f, 795.0f, 0, 0, 0, 0, 64, 29));
+	zeroButtons[7]->load();
+
+
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 1255.0f, 495.0f, 0, 0, 0, 0, 64, 29));
 	hundredButtons[4]->load();
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 1255.0f, 595.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons[5]->load();
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 1255.0f, 695.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons[6]->load();
+	hundredButtons.push_back(new MenuButton(GLOBAL->AssetRoot + "scrollBarHundred.png", "", "", 1255.0f, 795.0f, 0, 0, 0, 0, 64, 29));
+	hundredButtons[7]->load();
 
 
-	sliders.push_back(Slider::createSettingsSlider(435.0f, 280.0f, CONFIG->masterVolume));
-	sliders.push_back(Slider::createSettingsSlider(435.0f, 380.0f, CONFIG->bgmVolume));
-	sliders.push_back(Slider::createSettingsSlider(435.0f, 480.0f, CONFIG->voiceVolume));
-	sliders.push_back(Slider::createSettingsSlider(435.0f, 580.0f, CONFIG->sfxVolume));
-	sliders.push_back(Slider::createSettingsSlider(435.0f, 680.0f, CONFIG->textWindowAlpha));
 
+	sliders.push_back(Slider::createSettingsSlider(975.0f, 485.0f, CONFIG->masterVolume));
+	sliders.push_back(Slider::createSettingsSlider(975.0f, 585.0f, CONFIG->bgmVolume));
+	sliders.push_back(Slider::createSettingsSlider(975.0f, 685.0f, CONFIG->voiceVolume));
+	sliders.push_back(Slider::createSettingsSlider(975.0f, 785.0f, CONFIG->sfxVolume));
+
+
+	for (Slider * slider : sliders)
+	{
+		if (slider != nullptr)
+		{
+			slider->load();
+		}
+	}
+
+	
 	if (!settingsFont.loadFromFile(GLOBAL->UserInterfaceFont))
 	{
 		LOGGER->Log("SettingsState", "Unable to find default font");
 	}
 
-	texts.push_back(sf::Text("Master Volume", settingsFont, 30));
+
+	//Change to PNGS, but still push back
+	/*texts.push_back(sf::Text("Master Volume", settingsFont, 30));
 	texts.push_back(sf::Text("BGM Volume", settingsFont, 30));
 	texts.push_back(sf::Text("Voice Volume", settingsFont, 30));
 	texts.push_back(sf::Text("SFX Volume", settingsFont, 30));
@@ -237,26 +327,18 @@ void SettingsState::init()
 	texts[TEXT_VOICE].setPosition(125, 470);
 	texts[TEXT_SFX].setPosition(125, 570);
 	texts[TEXT_ALPHA].setPosition(125, 670);
-	texts[TEXT_SAVE].setPosition(725, 780);
+	texts[TEXT_SAVE].setPosition(725, 780);*/
 
-	for (Slider * slider : sliders)
-	{
-		if (slider != nullptr)
-		{
-			slider->load();
-		}
-	}
-
-	displayOptionButtons.push_back(windowedButton = new RadioButton("Windowed", 1000, 400));
+	/*displayOptionButtons.push_back(windowedButton = new RadioButton("Windowed", 1000, 400));
 	displayOptionButtons.push_back(fullScreenButton = new RadioButton("Fullscreen", 1150, 400));
 	displayOptionButtons.push_back(borderlessButton = new RadioButton("Borderless", 1300, 400));
 	for (auto b : displayOptionButtons)
 	{
 		b->load();
 		b->setOtherRadioButtons(displayOptionButtons);
-	}
+	}*/
 	
-	if (CONFIG->enableFullscreen == FullscreenOpts::fullscreen)
+	/*if (CONFIG->enableFullscreen == FullscreenOpts::fullscreen)
 	{
 		fullScreenButton->setSelected(true);
 	}
@@ -267,7 +349,7 @@ void SettingsState::init()
 	else if (CONFIG->enableFullscreen == FullscreenOpts::borderless)
 	{
 		borderlessButton->setSelected(true);
-	}
+	}*/
 }
 
 void SettingsState::cleanup()
@@ -287,8 +369,13 @@ void SettingsState::cleanup()
 		if (b != nullptr) delete b;
 	}
 
-	for (RadioButton* b : displayOptionButtons)
+	for (DarkenButton* b : staticDButtons)
 	{
 		if (b != nullptr) delete b;
 	}
+
+	/*for (RadioButton* b : displayOptionButtons)
+	{
+		if (b != nullptr) delete b;
+	}*/
 }
