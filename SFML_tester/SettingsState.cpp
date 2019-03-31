@@ -379,6 +379,7 @@ void SettingsState::init()
 	{
 		b->load();
 		b->setOtherRadioButtons(displayOptionButtons);
+		b->addOffset(10, 0);
 	}
 	
 	if (CONFIG->enableFullscreen == FullscreenOpts::fullscreen)
@@ -404,6 +405,7 @@ void SettingsState::init()
 		if (b != nullptr)
 		{
 			b->load();
+			b->addOffset(15, 5);
 		}
 	}
 

@@ -12,6 +12,13 @@ public:
 	{
 	}
 
+	void addOffset(float xOffset, float yOffset)
+	{
+		xPosOffset += xOffset;
+		yPosOffset += yOffset;
+		setPosition(xPos, yPos);
+	}
+
 	void setSelected(bool selected);
 	bool getSelected() const;
 	void setPosition(int xPos, int yPos);

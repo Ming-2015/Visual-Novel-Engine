@@ -32,7 +32,7 @@ public:
 
 private:
 
-	int currentPage = DG;
+	int currentPage = VG;
 
 	std::vector<Slider *> sliders;
 	std::vector<sf::Text> texts;
