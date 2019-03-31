@@ -3,20 +3,17 @@
 void RadioButton::setSelected(bool selected)
 {
 	this->selected = selected;
+	setRadioButtonTexture();
+
 	if (selected)
 	{
-		sprite.setTexture(textureSelected);
-		for (RadioButton * button : otherRadioButtons)
+		for (RadioButton* button : otherRadioButtons)
 		{
 			if (button != this)
 			{
 				button->setSelected(false);
 			}
 		}
-	}
-	else
-	{
-		sprite.setTexture(textureUnselected);
 	}
 }
 
@@ -29,65 +26,51 @@ void RadioButton::setPosition(int xPos, int yPos)
 {
 	this->xPos = xPos;
 	this->yPos = yPos;
-	sprite.setPosition(xPos, yPos);
-	buttonText.setPosition(xPos + xPosOffset, yPos + yPosOffset);
+	radioButton.setPosition(xPos, yPos);
+	radioText.setPosition(xPos + xPosOffset, yPos + yPosOffset);
 }
 
 bool RadioButton::onLoad()
 {
-	bool ret = Button::onLoad();
-	if (!textureSelected.loadFromFile(GLOBAL->AssetRoot + "radioButtonSelected.png"))
-	{
-		LOGGER->Log("RadioButton", "Unable to load unselected radio button texture");
-		ret = false;
-	}
-	textureSelected.setSmooth(true);
+	bool ret = true;
 
-	if (!buttonFont.loadFromFile(GLOBAL->UserInterfaceFont))
-	{
-		LOGGER->Log("RadioButton", "Unable to load User Interface Font");
-		ret = false;
-	}
+	// initialize the textures
+	textureSelectedUnhovered = RESOURCE->getTexture(GLOBAL->AssetRoot + "RBSelected.png");
+	textureSelectedHovered = RESOURCE->getTexture(GLOBAL->AssetRoot + "RBSelectedHover.png");
+	textureUnselectedUnhovered = RESOURCE->getTexture(GLOBAL->AssetRoot + "RBUnselected.png");
+	textureUnselectedHovered = RESOURCE->getTexture(GLOBAL->AssetRoot + "RBUnselectedHover.png");
 
-	buttonText.setFont(buttonFont);
-	buttonText.setStyle(sf::Text::Regular);
-	buttonText.setOutlineThickness(2);
-	buttonText.setFillColor(sf::Color(255, 255, 255, 255));
-	buttonText.setOutlineColor(sf::Color(0, 0, 0, 255));
-	buttonText.setCharacterSize(20);
-	buttonText.setString(buttonString);
-	buttonText.setPosition(xPos + xPosOffset, yPos + yPosOffset);
+	// initialize the text
+	textureText = RESOURCE->getTexture(textureTextPath);
+
+	// wait for everything to load
+	RESOURCE->joinAll();
+
+	// initialize radiobutton
+	setRadioButtonTexture();
+
+	// initialize text
+	radioText.setTexture(*textureText);	
+	radioText.setTextureRect(sf::IntRect(0, 0, textureText->getSize().x, textureText->getSize().y));
+
+	// set the initial positions
+	xPosOffset = radioButton.getLocalBounds().width;
+	yPosOffset = radioButton.getLocalBounds().height - radioText.getLocalBounds().height;
+	yPosOffset /= 2.f;
+	setPosition(xPos, yPos);
 
 	return ret;
 }
 
 void RadioButton::onUpdate(float delta_t)
 {
-	//bool shouldUnselect = false;
-	//for (int i = 0; i < otherRadioButtons.size(); i++)
-	//{
-	//	if (otherRadioButtons[i] == this || !otherRadioButtons[i])
-	//	{
-	//		continue;
-	//	}
-
-	//	if (otherRadioButtons[i]->getSelected())
-	//	{
-	//		shouldUnselect = true;
-	//		break;
-	//	}
-	//}
-	//if (shouldUnselect)
-	//{
-	//	setSelected(false);
-	//}
+	setRadioButtonTexture();
 }
 
 void RadioButton::onDraw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	Button::onDraw(target, states);
-
-	target.draw(buttonText, states);
+	target.draw(radioButton, states);
+	target.draw(radioText, states);
 }
 
 void RadioButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
@@ -97,8 +80,8 @@ void RadioButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		case sf::Event::MouseMoved:
 		{
-			if (sprite.getGlobalBounds().contains(mousePosF) 
-				|| buttonText.getGlobalBounds().contains(mousePosF))
+			if (radioButton.getGlobalBounds().contains(mousePosF) 
+				|| radioText.getGlobalBounds().contains(mousePosF))
 			{
 				hovered = true;
 			}
@@ -113,8 +96,8 @@ void RadioButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 		{
 			if (e.mouseButton.button == sf::Mouse::Left)
 			{
-				if (sprite.getGlobalBounds().contains(mousePosF)
-					|| buttonText.getGlobalBounds().contains(mousePosF)) 
+				if (radioButton.getGlobalBounds().contains(mousePosF)
+					|| radioText.getGlobalBounds().contains(mousePosF)) 
 				{
 					pressed = true;
 				}
@@ -129,11 +112,37 @@ void RadioButton::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 				if (pressed)
 				{
 					pressed = false;
-					clicked = true;
 					setSelected(true);
 				}
 			}
 			break;
 		}
 	}
+}
+
+const sf::Texture & RadioButton::getButtonTexture(bool selected, bool hovered)
+{
+	if (!selected && !hovered)
+	{
+		return *textureUnselectedUnhovered;
+	}
+	else if (selected && !hovered)
+	{
+		return *textureSelectedUnhovered;
+	}
+	else if (!selected && hovered)
+	{
+		return *textureUnselectedHovered;
+	}
+	else
+	{
+		return *textureSelectedHovered;
+	}
+}
+
+void RadioButton::setRadioButtonTexture()
+{
+	const sf::Texture& radioTex = getButtonTexture(selected, hovered);
+	radioButton.setTexture(radioTex);
+	radioButton.setTextureRect(sf::IntRect(0, 0, radioTex.getSize().x, radioTex.getSize().y));
 }

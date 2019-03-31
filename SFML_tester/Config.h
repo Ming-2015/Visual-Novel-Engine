@@ -46,6 +46,9 @@ public:
 	int windowWidth, windowHeight;	// window width and height
 	int menuIteration;
 	bool stopVoiceNextLine;			// should we stop voice after entering next line?
+	bool stopSkippingAtChoice;
+	int saveInitPageNumber;
+	int loadInitPageNumber;
 
 	const int defaultWidth = 1600, defaultHeight = 900;
 
@@ -65,6 +68,9 @@ public:
 	static const string CF_WINDOW_HEIGHT;
 	static const string CF_MENU_ITERATOR;
 	static const string CF_STOP_VOICE_NEXT_LINE;
+	static const string CF_STOP_SKIPPING_AT_CHOICE;
+	static const string CF_SAVE_INIT_PAGE_NUMBER;
+	static const string CF_LOAD_INIT_PAGE_NUMBER;
 
 	static Config * GetConfig();
 	static void Cleanup();

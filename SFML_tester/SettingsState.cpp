@@ -60,13 +60,21 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		}
 	}
 
-	/*for (RadioButton * radioButton : displayOptionButtons)
+	for (RadioButton * radioButton : displayOptionButtons)
 	{
 		if (radioButton != nullptr)
 		{
 			radioButton->handleInput(e, window);
 		}
-	}*/
+	}
+
+	for (CheckBox* b : gameFeatures)
+	{
+		if (b != nullptr)
+		{
+			b->handleInput(e, window);
+		}
+	}
 
 	switch (e.type)
 	{
@@ -162,13 +170,21 @@ void SettingsState::render(sf::RenderWindow & window)
 		}
 	}
 
-	/*for (RadioButton * radioButton : displayOptionButtons)
+	//for (RadioButton * radioButton : displayOptionButtons)
+	//{
+	//	if (radioButton != nullptr)
+	//	{
+	//		window.draw(*radioButton);
+	//	}
+	//}
+
+	for (CheckBox* b : gameFeatures)
 	{
-		if (radioButton != nullptr)
+		if (b != nullptr)
 		{
-			window.draw(*radioButton);
+			window.draw(*b);
 		}
-	}*/
+	}
 }
 
 void SettingsState::update(float delta_t)
@@ -205,13 +221,21 @@ void SettingsState::update(float delta_t)
 		}
 	}
 
-	/*for (RadioButton * radioButton : displayOptionButtons)
+	for (RadioButton * radioButton : displayOptionButtons)
 	{
 		if (radioButton != nullptr)
 		{
 			radioButton->update(delta_t);
 		}
-	}*/
+	}
+
+	for (CheckBox* b : gameFeatures)
+	{
+		if (b != nullptr)
+		{
+			b->update(delta_t);
+		}
+	}
 }
 
 void SettingsState::init()
@@ -329,16 +353,17 @@ void SettingsState::init()
 	texts[TEXT_ALPHA].setPosition(125, 670);
 	texts[TEXT_SAVE].setPosition(725, 780);*/
 
-	/*displayOptionButtons.push_back(windowedButton = new RadioButton("Windowed", 1000, 400));
-	displayOptionButtons.push_back(fullScreenButton = new RadioButton("Fullscreen", 1150, 400));
-	displayOptionButtons.push_back(borderlessButton = new RadioButton("Borderless", 1300, 400));
+	// loading the display option radio buttons
+	displayOptionButtons.push_back(windowedButton = new RadioButton(GLOBAL->AssetRoot + "windowedRB.png", 490, 200));
+	displayOptionButtons.push_back(fullScreenButton = new RadioButton(GLOBAL->AssetRoot + "fullscreenRB.png", 750, 200));
+	displayOptionButtons.push_back(borderlessButton = new RadioButton(GLOBAL->AssetRoot + "borderlessFullRB.png", 980, 200));
 	for (auto b : displayOptionButtons)
 	{
 		b->load();
 		b->setOtherRadioButtons(displayOptionButtons);
-	}*/
+	}
 	
-	/*if (CONFIG->enableFullscreen == FullscreenOpts::fullscreen)
+	if (CONFIG->enableFullscreen == FullscreenOpts::fullscreen)
 	{
 		fullScreenButton->setSelected(true);
 	}
@@ -349,7 +374,25 @@ void SettingsState::init()
 	else if (CONFIG->enableFullscreen == FullscreenOpts::borderless)
 	{
 		borderlessButton->setSelected(true);
-	}*/
+	}
+
+	// loading the game feature check boxes
+	gameFeatures.push_back(skipUnreadText = new CheckBox(GLOBAL->AssetRoot + "SkipUnreadCB.png", 490, 170));
+	gameFeatures.push_back(stopSkippingAtChoice = new CheckBox(GLOBAL->AssetRoot + "StopAtChoiceCB.png", 980, 170));
+	gameFeatures.push_back(stopVoiceAtNewLine = new CheckBox(GLOBAL->AssetRoot + "SkipVoiceCB.png", 490, 240));
+	
+	for (CheckBox* b : gameFeatures)
+	{
+		if (b != nullptr)
+		{
+			b->load();
+		}
+	}
+
+	skipUnreadText->setSelected(CONFIG->skipUnreadText);
+	stopSkippingAtChoice->setSelected(CONFIG->stopSkippingAtChoice);
+	stopVoiceAtNewLine->setSelected(CONFIG->stopVoiceNextLine);
+
 }
 
 void SettingsState::cleanup()
@@ -374,8 +417,13 @@ void SettingsState::cleanup()
 		if (b != nullptr) delete b;
 	}
 
-	/*for (RadioButton* b : displayOptionButtons)
+	for (RadioButton* b : displayOptionButtons)
 	{
 		if (b != nullptr) delete b;
-	}*/
+	}
+
+	for (CheckBox* b : gameFeatures)
+	{
+		if (b != nullptr) delete b;
+	}
 }

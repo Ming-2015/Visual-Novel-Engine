@@ -17,6 +17,9 @@ const string Config::CF_WINDOW_WIDTH = "WindowWidth";
 const string Config::CF_WINDOW_HEIGHT = "WindowHeight";
 const string Config::CF_MENU_ITERATOR = "MenuIteration";
 const string Config::CF_STOP_VOICE_NEXT_LINE = "StopVoiceNextLine";
+const string Config::CF_STOP_SKIPPING_AT_CHOICE = "StopSkippingAtChoice";
+const string Config::CF_SAVE_INIT_PAGE_NUMBER = "SaveInitPageNumber";
+const string Config::CF_LOAD_INIT_PAGE_NUMBER = "LoadInitPageNumber";
 
 Config* Config::currentConfig = nullptr;
 
@@ -63,6 +66,9 @@ void Config::write(string configFile)
 		myfile << CF_WINDOW_HEIGHT << "=" << to_string(windowHeight) << endl;
 		myfile << CF_MENU_ITERATOR << "=" << to_string(menuIteration) << endl;
 		myfile << CF_STOP_VOICE_NEXT_LINE << "=" << UTILITY->bool2str(stopVoiceNextLine) << endl;
+		myfile << CF_STOP_SKIPPING_AT_CHOICE << "=" << UTILITY->bool2str(stopSkippingAtChoice) << endl;
+		myfile << CF_LOAD_INIT_PAGE_NUMBER << "=" << to_string(loadInitPageNumber) << endl;
+		myfile << CF_SAVE_INIT_PAGE_NUMBER << "=" << to_string(saveInitPageNumber) << endl;
 		myfile.close();
 	}
 	else
@@ -138,6 +144,9 @@ void Config::init()
 	textWindowAlpha = 0.3f;
 	menuIteration = 1;
 	stopVoiceNextLine = true;
+	stopSkippingAtChoice = true;
+	loadInitPageNumber = 0;
+	saveInitPageNumber = 0;
 }
 
 void Config::parse(string configFile)
@@ -234,6 +243,18 @@ void Config::parse(string configFile)
 					else if (varName == CF_STOP_VOICE_NEXT_LINE)
 					{
 						stopVoiceNextLine = UTILITY->str2bool(varValue);
+					}
+					else if (varName == CF_STOP_SKIPPING_AT_CHOICE)
+					{
+						stopSkippingAtChoice = UTILITY->str2bool(varValue);
+					}
+					else if (varName == CF_LOAD_INIT_PAGE_NUMBER)
+					{
+						loadInitPageNumber = stoi(varValue);
+					}
+					else if (varName == CF_SAVE_INIT_PAGE_NUMBER)
+					{
+						saveInitPageNumber = stoi(varValue);
 					}
 					else if (varName != "")
 					{

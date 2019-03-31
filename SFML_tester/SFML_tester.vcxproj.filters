@@ -280,7 +280,10 @@
       <Filter>Source Files\UI\Effect\Button</Filter>
     </ClCompile>
     <ClCompile Include="RadioButton.cpp">
-      <Filter>Source Files\UI\Effect\Button</Filter>
+      <Filter>Source Files\UI\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Checkbox.cpp">
+      <Filter>Source Files\UI\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -492,7 +495,10 @@
       <Filter>Header Files\UI\Effect</Filter>
     </ClInclude>
     <ClInclude Include="RadioButton.h">
-      <Filter>Header Files\UI\Effect\Button</Filter>
+      <Filter>Header Files\UI\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Checkbox.h">
+      <Filter>Header Files\UI\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

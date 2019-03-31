@@ -4,11 +4,11 @@
 #include "Config.h"
 #include "ResourceManager.h"
 
-class RadioButton : public Effect
+class CheckBox : public Effect
 {
 public:
-	RadioButton(std::string path, int xPos, int yPos) 
-		: textureTextPath(path), xPos(xPos), yPos(yPos), Effect("RadioButton")
+	CheckBox(std::string path, int xPos, int yPos)
+		: textureTextPath(path), xPos(xPos), yPos(yPos), Effect("Checkbox")
 	{
 	}
 
@@ -16,11 +16,6 @@ public:
 	bool getSelected() const;
 	void setPosition(int xPos, int yPos);
 	bool getHovered() const { return hovered; }
-
-	void setOtherRadioButtons(std::vector<RadioButton*> others) 
-	{
-		otherRadioButtons = others;
-	}
 
 protected:
 	bool onLoad();
@@ -33,13 +28,13 @@ private:
 	int xPosOffset = 0, yPosOffset = 0;
 	float xPos, yPos;
 
-	sf::Sprite radioButton;
+	sf::Sprite checkBox;
 	sf::Texture* textureSelectedUnhovered;
 	sf::Texture* textureUnselectedUnhovered;
 	sf::Texture* textureSelectedHovered;
 	sf::Texture* textureUnselectedHovered;
 
-	sf::Sprite radioText;
+	sf::Sprite checkBoxText;
 	sf::Texture* textureText;
 	std::string textureTextPath;
 
@@ -47,8 +42,6 @@ private:
 	bool hovered = false;
 	bool pressed = false;
 
-	std::vector<RadioButton*> otherRadioButtons;
-
 	const sf::Texture& getButtonTexture(bool selected, bool hovered);
-	void setRadioButtonTexture();
+	void setCheckBoxTexture();
 };

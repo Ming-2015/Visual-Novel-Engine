@@ -8,6 +8,7 @@
 #include "MenuButton.h"
 #include "RadioButton.h"
 #include "DarkenButton.h"
+#include "Checkbox.h"
 
 class SettingsState : public GameState
 {
@@ -32,7 +33,6 @@ public:
 private:
 
 	std::vector<Slider *> sliders;
-	std::vector<Slider *> sliders2;
 	std::vector<sf::Text> texts;
 	std::vector<MenuButton*> zeroButtons;
 	std::vector<MenuButton*> hundredButtons;
@@ -43,6 +43,11 @@ private:
 	RadioButton* fullScreenButton;
 	RadioButton* windowedButton;
 	RadioButton* borderlessButton;
+
+	std::vector<CheckBox *> gameFeatures;
+	CheckBox* skipUnreadText = nullptr;
+	CheckBox* stopSkippingAtChoice = nullptr;
+	CheckBox* stopVoiceAtNewLine = nullptr;
 
 	sf::Font settingsFont;
 	sf::Texture configTexture;

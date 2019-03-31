@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="BlurCommand.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="ChoiceImage.cpp" />
     <ClCompile Include="CinematicBars.cpp" />
     <ClCompile Include="DarkenButton.cpp" />
@@ -195,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackgroundImage.h" />
+    <ClInclude Include="Checkbox.h" />
     <ClInclude Include="CinematicBars.h" />
     <ClInclude Include="DarkenButton.h" />
     <ClInclude Include="EndCommand.h" />
