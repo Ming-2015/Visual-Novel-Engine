@@ -32,6 +32,8 @@ public:
 
 private:
 
+	int currentPage = DG;
+
 	std::vector<Slider *> sliders;
 	std::vector<sf::Text> texts;
 	std::vector<MenuButton*> zeroButtons;

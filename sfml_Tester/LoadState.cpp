@@ -34,16 +34,22 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		shouldChangeState = true;
 		nextState = GameState::STATE_MENU;
+		CONFIG->loadInitPageNumber = currentPageNumber;
+		CONFIG->write("config.ini");
 		LOGGER->Log("LoadState", "Switching to Menu State");
 	}
 	if (returnButton->isClicked(true))
 	{
 		nextState = GameState::STATE_BACK;
 		shouldChangeState = true;
+		CONFIG->loadInitPageNumber = currentPageNumber;
+		CONFIG->write("config.ini");
 		LOGGER->Log("LoadState", "Returning to Previous State");
 	}
 	if (quitButton->isClicked(true))
 	{
+		CONFIG->loadInitPageNumber = currentPageNumber;
+		CONFIG->write("config.ini");
 		LOGGER->Log("LoadState", "Switching to Exit State");
 		exitGame = true;
 	}
@@ -69,6 +75,8 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 
 				nextState = GameState::STATE_MAIN;
 				shouldChangeState = true;
+				CONFIG->loadInitPageNumber = currentPageNumber;
+				CONFIG->write("config.ini");
 				LOGGER->Log("LoadState", "Loading a game and entering main state");
 				return;
 			}
@@ -258,26 +266,12 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		case sf::Event::MouseButtonReleased:
 		{
-			if (e.mouseButton.button == sf::Mouse::Left)
-			{
-				sf::Vector2f mousePosF = CONFIG->getCursorPosition(window);
-				if (returnState.getGlobalBounds().contains(mousePosF))
-				{
-					nextState = GameState::STATE_BACK;
-					shouldChangeState = true;
-					LOGGER->Log("LoadState", "Returning to prev state");
-				}
-				if (startNew.getGlobalBounds().contains(mousePosF))
-				{
-					shouldChangeState = true;
-					nextState = GameState::STATE_NEW_GAME;
-					LOGGER->Log("LoadState", "Starting a new game");
-				}
-			}
-			else if (e.mouseButton.button == sf::Mouse::Right)
+			if (e.mouseButton.button == sf::Mouse::Right)
 			{
 				nextState = GameState::STATE_BACK;
 				shouldChangeState = true;
+				CONFIG->loadInitPageNumber = currentPageNumber;
+				CONFIG->write("config.ini");
 				LOGGER->Log("LoadState", "Returning to prev state");
 			}
 			break;
@@ -293,8 +287,6 @@ void LoadState::handleInput(sf::Event & e, sf::RenderWindow & window)
 void LoadState::render(sf::RenderWindow & window)
 {
 	window.draw(saveBackground);
-	//window.draw(startNew);
-	//window.draw(returnState);
 
 	for (int i = 0; i < savePerPage; i++)
 	{
@@ -377,11 +369,6 @@ void LoadState::init()
 	saveTexture.setSmooth(true);
 	saveBackground.setTexture(saveTexture);
 
-	if (!settingsFont.loadFromFile(GLOBAL->UserInterfaceButtonFont))
-	{
-		LOGGER->Log("LoadState", "Unable to find default font");
-	}
-
 	qButton = new DarkenButton(GLOBAL->AssetRoot + "Qbutton.png", "", "", 80.0f, 65.0f, 0, 0, 0, 0, 79, 73);
 	qButton->load();
 	upArrow = new DarkenButton(GLOBAL->AssetRoot + "upArrowLS.png", "", "", 80.0f, 159.0f, 0, 0, 0, 0, 79, 73);
@@ -405,18 +392,6 @@ void LoadState::init()
 	downArrow = new DarkenButton(GLOBAL->AssetRoot + "downArrowLS.png", "", "", 80.0f, 825.0f, 0, 0, 0, 0, 79, 73);
 	downArrow->load();
 
-	startNew.setFont(settingsFont);
-	startNew.setString("Start New Story");
-	startNew.setFillColor(sf::Color::White);
-	startNew.setCharacterSize(42);
-	startNew.setPosition(380.0f, 790.0f);
-
-	returnState.setFont(settingsFont);
-	returnState.setString("Return");
-	returnState.setFillColor(sf::Color::White);
-	returnState.setCharacterSize(42);
-	returnState.setPosition(880.0f, 790.0f);
-
 	// create savefile images
 	for (int i = 1; i <= savePerPage; i++)
 	{
@@ -425,7 +400,8 @@ void LoadState::init()
 	}
 
 	// load images and titles
-	loadSavesByPage(0);
+	currentPageNumber = CONFIG->loadInitPageNumber;
+	loadSavesByPage(currentPageNumber);
 
 	savefileImages[INDEX_SAVE_1]->setPosition(180, 145);
 	savefileImages[INDEX_SAVE_5]->setPosition(900, 145);

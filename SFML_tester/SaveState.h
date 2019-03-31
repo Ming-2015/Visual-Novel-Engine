@@ -43,8 +43,6 @@ public:
 private:
 	sf::Texture saveTexture;
 	sf::Sprite saveBackground;
-	sf::Font settingsFont;
-	sf::Text returnState;
 
 	unsigned int currentPageNumber = 0;
 	const unsigned int savePerPage = 8;

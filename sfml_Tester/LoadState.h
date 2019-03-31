@@ -41,9 +41,6 @@ public:
 private:
 	sf::Texture saveTexture;
 	sf::Sprite saveBackground;
-	sf::Font settingsFont;
-	sf::Text startNew;
-	sf::Text returnState;
 
 	MainButton * menuButton;
 	MainButton * returnButton;

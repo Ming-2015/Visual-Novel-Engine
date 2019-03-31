@@ -60,19 +60,25 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		}
 	}
 
-	for (RadioButton * radioButton : displayOptionButtons)
+	if (currentPage == VG)
 	{
-		if (radioButton != nullptr)
+		for (RadioButton * radioButton : displayOptionButtons)
 		{
-			radioButton->handleInput(e, window);
+			if (radioButton != nullptr)
+			{
+				radioButton->handleInput(e, window);
+			}
 		}
 	}
 
-	for (CheckBox* b : gameFeatures)
+	if (currentPage == DG)
 	{
-		if (b != nullptr)
+		for (CheckBox* b : gameFeatures)
 		{
-			b->handleInput(e, window);
+			if (b != nullptr)
+			{
+				b->handleInput(e, window);
+			}
 		}
 	}
 
@@ -170,19 +176,25 @@ void SettingsState::render(sf::RenderWindow & window)
 		}
 	}
 
-	//for (RadioButton * radioButton : displayOptionButtons)
-	//{
-	//	if (radioButton != nullptr)
-	//	{
-	//		window.draw(*radioButton);
-	//	}
-	//}
-
-	for (CheckBox* b : gameFeatures)
+	if (currentPage == VG)
 	{
-		if (b != nullptr)
+		for (RadioButton * radioButton : displayOptionButtons)
 		{
-			window.draw(*b);
+			if (radioButton != nullptr)
+			{
+				window.draw(*radioButton);
+			}
+		}
+	}
+
+	if (currentPage == DG)
+	{
+		for (CheckBox* b : gameFeatures)
+		{
+			if (b != nullptr)
+			{
+				window.draw(*b);
+			}
 		}
 	}
 }
@@ -221,19 +233,25 @@ void SettingsState::update(float delta_t)
 		}
 	}
 
-	for (RadioButton * radioButton : displayOptionButtons)
+	if (currentPage == VG)
 	{
-		if (radioButton != nullptr)
+		for (RadioButton * radioButton : displayOptionButtons)
 		{
-			radioButton->update(delta_t);
+			if (radioButton != nullptr)
+			{
+				radioButton->update(delta_t);
+			}
 		}
 	}
 
-	for (CheckBox* b : gameFeatures)
+	if (currentPage == DG)
 	{
-		if (b != nullptr)
+		for (CheckBox* b : gameFeatures)
 		{
-			b->update(delta_t);
+			if (b != nullptr)
+			{
+				b->update(delta_t);
+			}
 		}
 	}
 }

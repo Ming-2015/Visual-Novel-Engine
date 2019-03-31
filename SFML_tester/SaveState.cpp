@@ -37,16 +37,25 @@ void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		shouldChangeState = true;
 		nextState = GameState::STATE_MENU;
+		CONFIG->loadInitPageNumber = currentPageNumber;
+		CONFIG->saveInitPageNumber = currentPageNumber;
+		CONFIG->write("config.ini");
 		LOGGER->Log("SaveState", "Switching to Menu State");
 	}
 	if (returnButton->isClicked(true))
 	{
 		nextState = GameState::STATE_BACK;
 		shouldChangeState = true;
+		CONFIG->loadInitPageNumber = currentPageNumber;
+		CONFIG->saveInitPageNumber = currentPageNumber;
+		CONFIG->write("config.ini");
 		LOGGER->Log("SaveState", "Returning to Previous State");
 	}
 	if (quitButton->isClicked(true))
 	{
+		CONFIG->loadInitPageNumber = currentPageNumber;
+		CONFIG->saveInitPageNumber = currentPageNumber;
+		CONFIG->write("config.ini");
 		LOGGER->Log("SaveState", "Switching to Exit State");
 		exitGame = true;
 	}
@@ -89,19 +98,13 @@ void SaveState::handleInput(sf::Event & e, sf::RenderWindow & window)
 	{
 		case sf::Event::MouseButtonReleased:
 		{
-			if (e.mouseButton.button == sf::Mouse::Left)
-			{
-				if (returnState.getGlobalBounds().contains(mousePosF))
-				{
-					nextState = GameState::STATE_BACK;
-					shouldChangeState = true;
-					LOGGER->Log("SaveState", "Returning to prev state");
-				}
-			}
-			else if (e.mouseButton.button == sf::Mouse::Right)
+			if (e.mouseButton.button == sf::Mouse::Right)
 			{
 				nextState = GameState::STATE_BACK;
 				shouldChangeState = true;
+				CONFIG->loadInitPageNumber = currentPageNumber;
+				CONFIG->saveInitPageNumber = currentPageNumber;
+				CONFIG->write("config.ini");
 				LOGGER->Log("SaveState", "Returning to prev state");
 			}
 			break;
@@ -357,11 +360,6 @@ void SaveState::init()
 	saveTexture.setSmooth(true);
 	saveBackground.setTexture(saveTexture);
 
-	if (!settingsFont.loadFromFile(GLOBAL->UserInterfaceButtonFont))
-	{
-		LOGGER->Log("SaveState", "Unable to find default font");
-	}
-
 	//qButton = new DarkenButton(GLOBAL->AssetRoot + "Qbutton.png", "", "", 80.0f, 65.0f, 0, 0, 0, 0, 79, 73);
 	//qButton->load();
 	upArrow = new DarkenButton(GLOBAL->AssetRoot + "upArrowS.png", "", "", 80.0f, 159.0f, 0, 0, 0, 0, 79, 73);
@@ -385,12 +383,6 @@ void SaveState::init()
 	downArrow = new DarkenButton(GLOBAL->AssetRoot + "downArrowS.png", "", "", 80.0f, 825.0f, 0, 0, 0, 0, 79, 73);
 	downArrow->load();
 
-	returnState.setFont(settingsFont);
-	returnState.setString("Return");
-	returnState.setFillColor(sf::Color::White);
-	returnState.setCharacterSize(42);
-	returnState.setPosition(880.0f, 790.0f);
-
 	// create savefile images
 	for (int i = 1; i <= savePerPage; i++)
 	{
@@ -399,7 +391,8 @@ void SaveState::init()
 	}
 
 	// load images and titles
-	loadSavesByPage(0);
+	currentPageNumber = CONFIG->saveInitPageNumber;
+	loadSavesByPage(currentPageNumber);
 
 	savefileImages[INDEX_SAVE_1]->setPosition(180, 145);
 	savefileImages[INDEX_SAVE_5]->setPosition(900, 145);
