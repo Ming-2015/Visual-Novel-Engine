@@ -89,16 +89,16 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 			if (e.mouseButton.button == sf::Mouse::Left)
 			{
 				sf::Vector2f mousePosF = CONFIG->getCursorPosition(window);
-				if (texts[TEXT_SAVE].getGlobalBounds().contains(mousePosF))
+				if (staticDButtons[SAVE]->isClicked(true))
 				{
 					CONFIG->manualTextSpeed = sliders[SLIDER_MANUAL_SPEED]->getValue();
 					CONFIG->autoTextSpeed = sliders[SLIDER_AUTO_SPEED]->getValue();
 					CONFIG->autoTextWaitTime = sliders[SLIDER_AUTO_WAIT_TIME]->getValue();
 					CONFIG->textWindowAlpha = sliders[SLIDER_ALPHA]->getValue();
-					//CONFIG->masterVolume = sliders[SLIDER_MASTER]->getValue();
-					//CONFIG->bgmVolume = sliders[SLIDER_BGM]->getValue();
-					//CONFIG->sfxVolume = sliders[SLIDER_SFX]->getValue();
-					//CONFIG->voiceVolume = sliders[SLIDER_VOICE]->getValue();
+					CONFIG->masterVolume = sliders[SLIDER_MASTER]->getValue();
+					CONFIG->bgmVolume = sliders[SLIDER_BGM]->getValue();
+					CONFIG->sfxVolume = sliders[SLIDER_SFX]->getValue();
+					CONFIG->voiceVolume = sliders[SLIDER_VOICE]->getValue();
 					
 					
 					// save previous option to see if there's a need to reset window

@@ -101,7 +101,7 @@ void CheckBox::onHandleInput(sf::Event & e, sf::RenderWindow & window)
 			if (pressed)
 			{
 				pressed = false;
-				setSelected(true);
+				setSelected(!getSelected());
 			}
 		}
 		break;
