@@ -9,6 +9,7 @@
 #include "RadioButton.h"
 #include "DarkenButton.h"
 #include "Checkbox.h"
+#include "Dropbox.h"
 
 class SettingsState : public GameState
 {
@@ -35,21 +36,24 @@ private:
 	int currentPage = VG;
 
 	std::vector<Slider *> sliders;
-	std::vector<sf::Text> texts;
 	std::vector<MenuButton*> zeroButtons;
 	std::vector<MenuButton*> hundredButtons;
 	std::vector<DarkenButton*> staticDButtons;
 
 	// the various radio buttons
 	std::vector<RadioButton *> displayOptionButtons;
-	RadioButton* fullScreenButton;
-	RadioButton* windowedButton;
-	RadioButton* borderlessButton;
+	RadioButton* fullScreenButton = nullptr;
+	RadioButton* windowedButton = nullptr;
+	RadioButton* borderlessButton = nullptr;
 
+	// various checkboxes
 	std::vector<CheckBox *> gameFeatures;
 	CheckBox* skipUnreadText = nullptr;
 	CheckBox* stopSkippingAtChoice = nullptr;
 	CheckBox* stopVoiceAtNewLine = nullptr;
+
+	// dropbox
+	Dropbox* fontSelectDropbox = nullptr;
 
 	sf::Font settingsFont;
 	sf::Texture configTexture;

@@ -69,6 +69,8 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 				radioButton->handleInput(e, window);
 			}
 		}
+
+		if (fontSelectDropbox) fontSelectDropbox->handleInput(e,window);
 	}
 
 	if (currentPage == DG)
@@ -104,7 +106,7 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 					// save previous option to see if there's a need to reset window
 					FullscreenOpts prevFullscreenOps = CONFIG->enableFullscreen;
 
-					// check which option is being selected
+					// check which option is being clicked
 					CONFIG->enableFullscreen = static_cast<FullscreenOpts>
 						(fullScreenButton->getSelected() ? FullscreenOpts::fullscreen : 
 						borderlessButton->getSelected() ? FullscreenOpts::borderless : 
@@ -185,6 +187,8 @@ void SettingsState::render(sf::RenderWindow & window)
 				window.draw(*radioButton);
 			}
 		}
+
+		if (fontSelectDropbox) window.draw(*fontSelectDropbox);
 	}
 
 	if (currentPage == DG)
@@ -242,6 +246,8 @@ void SettingsState::update(float delta_t)
 				radioButton->update(delta_t);
 			}
 		}
+
+		if (fontSelectDropbox) fontSelectDropbox->update(delta_t);
 	}
 
 	if (currentPage == DG)
@@ -254,6 +260,7 @@ void SettingsState::update(float delta_t)
 			}
 		}
 	}
+
 }
 
 void SettingsState::init()
@@ -355,22 +362,6 @@ void SettingsState::init()
 		LOGGER->Log("SettingsState", "Unable to find default font");
 	}
 
-
-	//Change to PNGS, but still push back
-	/*texts.push_back(sf::Text("Master Volume", settingsFont, 30));
-	texts.push_back(sf::Text("BGM Volume", settingsFont, 30));
-	texts.push_back(sf::Text("Voice Volume", settingsFont, 30));
-	texts.push_back(sf::Text("SFX Volume", settingsFont, 30));
-	texts.push_back(sf::Text("Textbox Transparency", settingsFont, 22));
-	texts.push_back(sf::Text("Save", settingsFont, 54));
-
-	texts[TEXT_MASTER].setPosition(125, 270);
-	texts[TEXT_BGM].setPosition(125, 370);
-	texts[TEXT_VOICE].setPosition(125, 470);
-	texts[TEXT_SFX].setPosition(125, 570);
-	texts[TEXT_ALPHA].setPosition(125, 670);
-	texts[TEXT_SAVE].setPosition(725, 780);*/
-
 	// loading the display option radio buttons
 	displayOptionButtons.push_back(windowedButton = new RadioButton(GLOBAL->AssetRoot + "windowedRB.png", 490, 200));
 	displayOptionButtons.push_back(fullScreenButton = new RadioButton(GLOBAL->AssetRoot + "fullscreenRB.png", 750, 200));
@@ -413,6 +404,27 @@ void SettingsState::init()
 	stopSkippingAtChoice->setSelected(CONFIG->stopSkippingAtChoice);
 	stopVoiceAtNewLine->setSelected(CONFIG->stopVoiceNextLine);
 
+	// for the drop box
+	fontSelectDropbox = new Dropbox(4, 520, 240);
+	fontSelectDropbox->load();
+	fontSelectDropbox->setOffset(30, 5);
+
+	fontSelectDropbox->setText(0, "Cambria0");
+	fontSelectDropbox->setText(1, "Cambria1");
+	fontSelectDropbox->setText(2, "Cambria2");
+	fontSelectDropbox->setText(3, "Cambria3");
+	fontSelectDropbox->setText(4, "Cambria4");
+
+	fontSelectDropbox->setFont(0, GLOBAL->UserInterfaceFont);
+	fontSelectDropbox->setFont(1, GLOBAL->UserInterfaceFont);
+	fontSelectDropbox->setFont(2, GLOBAL->UserInterfaceFont);
+	fontSelectDropbox->setFont(3, GLOBAL->UserInterfaceFont);
+	fontSelectDropbox->setFont(4, GLOBAL->UserInterfaceFont);
+
+	fontSelectDropbox->setSelected(0);
+
+	// set the duration of the animation: smaller = faster, 0 = instant
+	fontSelectDropbox->setAnimationDuration(0.2f);
 }
 
 void SettingsState::cleanup()
@@ -446,4 +458,6 @@ void SettingsState::cleanup()
 	{
 		if (b != nullptr) delete b;
 	}
+
+	if (fontSelectDropbox) delete fontSelectDropbox;
 }

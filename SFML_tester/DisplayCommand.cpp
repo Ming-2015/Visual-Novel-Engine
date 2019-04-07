@@ -268,7 +268,7 @@ void DisplayCommand::execute(ScriptLine * scriptLine)
 				scriptLine->setChoices(displayLines, userFlags);
 			}
 
-			// if it is not a choice anymore, then user must have selected a choice
+			// if it is not a choice anymore, then user must have clicked a choice
 			selectedChoice = !scriptLine->isChoice;
 		}
 	}

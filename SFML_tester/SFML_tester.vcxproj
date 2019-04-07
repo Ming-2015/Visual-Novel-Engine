@@ -134,6 +134,8 @@
     <ClCompile Include="DelayCommand.cpp" />
     <ClCompile Include="DisplayCommand.cpp" />
     <ClCompile Include="DrawMainButton.cpp" />
+    <ClCompile Include="Dropbox.cpp" />
+    <ClCompile Include="DropboxButton.cpp" />
     <ClCompile Include="EndCommand.cpp" />
     <ClCompile Include="FlashCommand.cpp" />
     <ClCompile Include="HideCommand.cpp" />
@@ -199,6 +201,8 @@
     <ClInclude Include="Checkbox.h" />
     <ClInclude Include="CinematicBars.h" />
     <ClInclude Include="DarkenButton.h" />
+    <ClInclude Include="Dropbox.h" />
+    <ClInclude Include="DropboxButton.h" />
     <ClInclude Include="EndCommand.h" />
     <ClInclude Include="Linelog.h" />
     <ClInclude Include="BlurCommand.h" />

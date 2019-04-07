@@ -79,6 +79,12 @@
     <Filter Include="Header Files\Resource">
       <UniqueIdentifier>{6b53d8a0-0d8b-4d46-a389-df6d12174b23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI\Effect\Dropbox">
+      <UniqueIdentifier>{daf44566-db37-4c6d-b168-438bde242a2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Effect\Dropbox">
+      <UniqueIdentifier>{80100ff4-1233-4d0e-af3d-7316188a7220}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameState.cpp">
@@ -284,6 +290,12 @@
     </ClCompile>
     <ClCompile Include="Checkbox.cpp">
       <Filter>Source Files\UI\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="DropboxButton.cpp">
+      <Filter>Source Files\UI\Effect\Dropbox</Filter>
+    </ClCompile>
+    <ClCompile Include="Dropbox.cpp">
+      <Filter>Source Files\UI\Effect\Dropbox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -499,6 +511,12 @@
     </ClInclude>
     <ClInclude Include="Checkbox.h">
       <Filter>Header Files\UI\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Dropbox.h">
+      <Filter>Header Files\UI\Effect\Dropbox</Filter>
+    </ClInclude>
+    <ClInclude Include="DropboxButton.h">
+      <Filter>Header Files\UI\Effect\Dropbox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

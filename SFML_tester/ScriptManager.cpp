@@ -283,7 +283,7 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 				{
 					for (auto c : getChoices())
 					{
-						// if the choice is selected... clear the command and insert new flag
+						// if the choice is clicked... clear the command and insert new flag
 						if (c->getGlobalBoundary().contains(mousePosF))
 						{
 							for (string flag : c->getFlags())
@@ -323,7 +323,7 @@ void ScriptManager::handleInput(sf::Event & e, sf::RenderWindow & window)
 			{
 				for (auto c : getChoices())
 				{
-					// change color based on when the choicebox is selected
+					// change color based on when the choicebox is clicked
 					if (c->getGlobalBoundary().contains(mousePosF))
 					{
 						c->setChoiceboxColor( GLOBAL->choiceboxColorSelected );
