@@ -275,6 +275,7 @@ void SettingsState::update(float delta_t)
 
 				//DG Elements
 				DGBackground.move(sf::Vector2f(0.0f, -25));
+				fontSelectDropbox->move(0, -25);
 
 				//VG Elements
 				VGBackground.move(sf::Vector2f(0.0f, -25));
@@ -301,6 +302,7 @@ void SettingsState::update(float delta_t)
 
 				//DG Elements
 				DGBackground.move(sf::Vector2f(0.0f, 25));
+				fontSelectDropbox->move(0, 25);
 
 				//VG Elements
 				VGBackground.move(sf::Vector2f(0.0f, 25));

@@ -13,6 +13,7 @@ public:
 
 	// position setter
 	void setPosition(int xPos, int yPos);
+	void move(int x, int y);
 	void setOffset(int xOffset, int yOffset);
 
 	// dropUp getter/setter

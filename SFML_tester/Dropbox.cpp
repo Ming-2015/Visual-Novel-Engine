@@ -64,6 +64,18 @@ void Dropbox::setPosition(int xPos, int yPos)
 	}
 }
 
+void Dropbox::move(int x, int y)
+{
+	this->xPos += x;
+	this->yPos += y;
+
+	mainButton->move(x, y);
+	for (int i = 0; i < numItems; i++)
+	{
+		dropButtons[i]->move(x, y);
+	}
+}
+
 void Dropbox::setOffset(int xOffset, int yOffset)
 {
 	mainButton->setOffset(xOffset, yOffset);
