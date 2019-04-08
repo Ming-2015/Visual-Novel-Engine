@@ -15,7 +15,7 @@ void CheckBox::setPosition(int xPos, int yPos)
 {
 	this->xPos = xPos;
 	this->yPos = yPos;
-	checkBox.setPosition(xPos, yPos);
+	checkBox.setPosition(xPos, yPos + -4 + yPosOffset);
 	checkBoxText.setPosition(xPos + xPosOffset, yPos + yPosOffset);
 }
 
