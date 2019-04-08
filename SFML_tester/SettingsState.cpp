@@ -277,8 +277,20 @@ void SettingsState::update(float delta_t)
 				DGBackground.move(sf::Vector2f(0.0f, -25));
 				fontSelectDropbox->move(0, -25);
 
+				for (int i = 0; i < 3; i++)
+				{
+					displayOptionButtons[i]->addOffset(0, -25);
+				}
+
+				
+
 				//VG Elements
 				VGBackground.move(sf::Vector2f(0.0f, -25));
+
+				for (int i = 0; i < 3; i++)
+				{
+					gameFeatures[i]->addOffset(0, -25);
+				}
 			}
 			else if (currentDynamicOffset <= -900.0f)
 			{
@@ -304,8 +316,20 @@ void SettingsState::update(float delta_t)
 				DGBackground.move(sf::Vector2f(0.0f, 25));
 				fontSelectDropbox->move(0, 25);
 
+				for (int i = 0; i < 3; i++)
+				{
+					displayOptionButtons[i]->addOffset(0, 25);
+				}
+
+				
+
 				//VG Elements
 				VGBackground.move(sf::Vector2f(0.0f, 25));
+
+				for (int i = 0; i < 3; i++)
+				{
+					gameFeatures[i]->addOffset(0, 25);
+				}
 			}
 			else if (currentDynamicOffset >= 900.0f)
 			{
@@ -440,9 +464,9 @@ void SettingsState::init()
 	}
 
 	// loading the game feature check boxes
-	gameFeatures.push_back(skipUnreadText = new CheckBox(GLOBAL->AssetRoot + "SkipUnreadCB.png", 490, 170 + 900));
-	gameFeatures.push_back(stopSkippingAtChoice = new CheckBox(GLOBAL->AssetRoot + "StopAtChoiceCB.png", 980, 170 + 900));
-	gameFeatures.push_back(stopVoiceAtNewLine = new CheckBox(GLOBAL->AssetRoot + "SkipVoiceCB.png", 490, 240 + 900));
+	gameFeatures.push_back(skipUnreadText = new CheckBox(GLOBAL->AssetRoot + "SkipUnreadCB.png", 470, 170 + 900));
+	gameFeatures.push_back(stopSkippingAtChoice = new CheckBox(GLOBAL->AssetRoot + "StopAtChoiceCB.png", 950, 170 + 900));
+	gameFeatures.push_back(stopVoiceAtNewLine = new CheckBox(GLOBAL->AssetRoot + "SkipVoiceCB.png", 470, 240 + 900));
 	
 	for (CheckBox* b : gameFeatures)
 	{

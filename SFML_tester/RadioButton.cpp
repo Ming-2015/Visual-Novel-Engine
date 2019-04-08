@@ -26,7 +26,7 @@ void RadioButton::setPosition(int xPos, int yPos)
 {
 	this->xPos = xPos;
 	this->yPos = yPos;
-	radioButton.setPosition(xPos, yPos);
+	radioButton.setPosition(xPos, yPos + - 4 + yPosOffset);
 	radioText.setPosition(xPos + xPosOffset, yPos + yPosOffset);
 }
 
