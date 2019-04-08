@@ -33,7 +33,7 @@ public:
 
 private:
 
-	int currentPage = VG;
+	int currentPage = DG;
 
 	std::vector<Slider *> sliders;
 	std::vector<MenuButton*> zeroButtons;
