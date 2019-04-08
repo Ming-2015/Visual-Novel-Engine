@@ -85,4 +85,7 @@ private:
 	const static int SAVE = 4;
 	const static int RETURN = 3;
 	const static int DEFAULT = 2;
+
+	sf::Clock clock;
+	float currentDynamicOffset = 900;
 };

@@ -60,28 +60,22 @@ void SettingsState::handleInput(sf::Event & e, sf::RenderWindow & window)
 		}
 	}
 
-	if (currentPage == VG)
+	for (RadioButton * radioButton : displayOptionButtons)
 	{
-		for (RadioButton * radioButton : displayOptionButtons)
+		if (radioButton != nullptr)
 		{
-			if (radioButton != nullptr)
-			{
-				radioButton->handleInput(e, window);
-			}
+			radioButton->handleInput(e, window);
 		}
 	}
 
-	if (currentPage == DG)
+	for (CheckBox* b : gameFeatures)
 	{
-		for (CheckBox* b : gameFeatures)
+		if (b != nullptr)
 		{
-			if (b != nullptr)
-			{
-				b->handleInput(e, window);
-			}
+			b->handleInput(e, window);
 		}
-		if (fontSelectDropbox) fontSelectDropbox->handleInput(e, window);
 	}
+	if (fontSelectDropbox) fontSelectDropbox->handleInput(e, window);
 
 	switch (e.type)
 	{
@@ -197,28 +191,22 @@ void SettingsState::render(sf::RenderWindow & window)
 		}
 	}
 
-	if (currentPage == VG)
+	for (RadioButton * radioButton : displayOptionButtons)
 	{
-		for (RadioButton * radioButton : displayOptionButtons)
+		if (radioButton != nullptr)
 		{
-			if (radioButton != nullptr)
-			{
-				window.draw(*radioButton);
-			}
+			window.draw(*radioButton);
 		}
 	}
 
-	if (currentPage == DG)
+	for (CheckBox* b : gameFeatures)
 	{
-		for (CheckBox* b : gameFeatures)
+		if (b != nullptr)
 		{
-			if (b != nullptr)
-			{
-				window.draw(*b);
-			}
+			window.draw(*b);
 		}
-		if (fontSelectDropbox) window.draw(*fontSelectDropbox);
 	}
+	if (fontSelectDropbox) window.draw(*fontSelectDropbox);
 }
 
 void SettingsState::update(float delta_t)
@@ -255,29 +243,75 @@ void SettingsState::update(float delta_t)
 		}
 	}
 
+	for (RadioButton * radioButton : displayOptionButtons)
+	{
+		if (radioButton != nullptr)
+		{
+			radioButton->update(delta_t);
+		}
+	}
+
+	for (CheckBox* b : gameFeatures)
+	{
+		if (b != nullptr)
+		{
+			b->update(delta_t);
+		}
+	}
+	if (fontSelectDropbox) fontSelectDropbox->update(delta_t);
+
 	if (currentPage == VG)
 	{
-		for (RadioButton * radioButton : displayOptionButtons)
+		if (currentDynamicOffset == 900)
 		{
-			if (radioButton != nullptr)
+			currentDynamicOffset = 0;
+		}
+		if (clock.getElapsedTime().asMilliseconds() > 1.0f)
+		{
+			if (currentDynamicOffset > -900.0f)
 			{
-				radioButton->update(delta_t);
+				//Iterator
+				currentDynamicOffset -= 25;
+
+				//DG Elements
+				DGBackground.move(sf::Vector2f(0.0f, -25));
+
+				//VG Elements
+				VGBackground.move(sf::Vector2f(0.0f, -25));
 			}
+			else if (currentDynamicOffset <= -900.0f)
+			{
+				currentDynamicOffset = -900;
+			}
+			clock.restart();
 		}
 	}
-
-	if (currentPage == DG)
+	else if (currentPage == DG)
 	{
-		for (CheckBox* b : gameFeatures)
+		if (currentDynamicOffset == -900)
 		{
-			if (b != nullptr)
-			{
-				b->update(delta_t);
-			}
+			currentDynamicOffset = 0;
 		}
-		if (fontSelectDropbox) fontSelectDropbox->update(delta_t);
-	}
+		if (clock.getElapsedTime().asMilliseconds() > 1.0f)
+		{
+			if (currentDynamicOffset < 900.0f)
+			{
+				//Iterator
+				currentDynamicOffset += 25;
 
+				//DG Elements
+				DGBackground.move(sf::Vector2f(0.0f, 25));
+
+				//VG Elements
+				VGBackground.move(sf::Vector2f(0.0f, 25));
+			}
+			else if (currentDynamicOffset >= 900.0f)
+			{
+				currentDynamicOffset = 900;
+			}
+			clock.restart();
+		}
+	}
 }
 
 void SettingsState::init()
@@ -404,9 +438,9 @@ void SettingsState::init()
 	}
 
 	// loading the game feature check boxes
-	gameFeatures.push_back(skipUnreadText = new CheckBox(GLOBAL->AssetRoot + "SkipUnreadCB.png", 490, 170));
-	gameFeatures.push_back(stopSkippingAtChoice = new CheckBox(GLOBAL->AssetRoot + "StopAtChoiceCB.png", 980, 170));
-	gameFeatures.push_back(stopVoiceAtNewLine = new CheckBox(GLOBAL->AssetRoot + "SkipVoiceCB.png", 490, 240));
+	gameFeatures.push_back(skipUnreadText = new CheckBox(GLOBAL->AssetRoot + "SkipUnreadCB.png", 490, 170 + 900));
+	gameFeatures.push_back(stopSkippingAtChoice = new CheckBox(GLOBAL->AssetRoot + "StopAtChoiceCB.png", 980, 170 + 900));
+	gameFeatures.push_back(stopVoiceAtNewLine = new CheckBox(GLOBAL->AssetRoot + "SkipVoiceCB.png", 490, 240 + 900));
 	
 	for (CheckBox* b : gameFeatures)
 	{
