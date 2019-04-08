@@ -40,6 +40,7 @@ public:
 
 	float getValue() const; // get the slider position, from 0.0 to 1.0
 	float setValue(float value); 
+	void move(float x, float y);
 
 protected:
 
@@ -85,4 +86,5 @@ protected:
 	float knobOffset;
 	float findKnobX(float value);
 	float findValue(float knobX);
+	
 };

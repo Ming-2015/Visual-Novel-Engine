@@ -99,7 +99,8 @@ void Config::resetWindowSize(sf::RenderWindow & window)
 {
 	if (CONFIG->enableFullscreen == FullscreenOpts::fullscreen)
 	{
-		window.create(sf::VideoMode(CONFIG->getWindowWidth(), CONFIG->getWindowHeight()),
+		std::vector<sf::VideoMode> fullscreenModes = sf::VideoMode::getFullscreenModes();
+		window.create( fullscreenModes.front(),
 			CONFIG->getTitle(), sf::Style::Default | sf::Style::Fullscreen);
 	}
 	else if (CONFIG->enableFullscreen == FullscreenOpts::windowed)
@@ -109,7 +110,8 @@ void Config::resetWindowSize(sf::RenderWindow & window)
 	}
 	else if (CONFIG->enableFullscreen == FullscreenOpts::borderless)
 	{
-		window.create(sf::VideoMode::getDesktopMode(),
+		std::vector<sf::VideoMode> fullscreenModes = sf::VideoMode::getFullscreenModes();
+		window.create(fullscreenModes.front(),
 			CONFIG->getTitle(), sf::Style::None);
 	}
 	initWindowResize(window, CONFIG->defaultWidth, CONFIG->defaultHeight, 

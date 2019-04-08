@@ -190,3 +190,13 @@ float Slider::findValue(float knobX)
 	return (knobX - knobMinX + knobWidth / 2.0f)/ slidingWidth;
 }
 
+void Slider::move(float x, float y)
+{
+	this->xPos += x;
+	this->yPos += y;
+	this->knobX += x;
+	this->knobY += y;
+	sliderSprite.setPosition(xPos, yPos + knobOffset);
+	knobSprite.setPosition(knobX, knobY);
+}
+

@@ -133,3 +133,9 @@ void MainButton::addAlpha(float offset)
 	sprite.setColor(defaultColor);
 	spriteHover.setColor( highlight && !hovered ? highlightColor : defaultColor );
 }
+
+void MainButton::move(float x, float y)
+{
+	this->xPos += x;
+	this->yPos += y;
+}
