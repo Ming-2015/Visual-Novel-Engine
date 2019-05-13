@@ -95,3 +95,10 @@ bool Button::isClicked(bool reset)
 	if (reset) clicked = false;
 	return temp;
 }
+
+void Button::move(float x, float y)
+{
+	this->xPos += x;
+	this->yPos += y;
+	sprite.setPosition(xPos, yPos);
+}

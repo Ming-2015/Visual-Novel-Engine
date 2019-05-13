@@ -25,6 +25,7 @@ public:
 
 	void setAlpha(float alpha);
 	void addAlpha(float offset);
+	void move(float x, float y);
 
 	bool highlight = false;
 	sf::Color highlightColor = sf::Color(255,255,255,255);

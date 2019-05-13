@@ -21,6 +21,7 @@ public:
 	sf::Sprite& getSprite();
 	bool isPressed(bool reset);
 	bool isClicked(bool reset);
+	void move(float x, float y);
 
 	float xPos, yPos;
 	int texWidth, texHeight;		// actual texture width and height

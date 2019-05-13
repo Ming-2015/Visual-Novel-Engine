@@ -282,7 +282,20 @@ void SettingsState::update(float delta_t)
 					displayOptionButtons[i]->addOffset(0, -25);
 				}
 
-				
+				for (int i = 0; i < 4; i++)
+				{
+					zeroButtons[i]->move(0, -25);
+				}
+
+				for (int i = 0; i < 4; i++)
+				{
+					hundredButtons[i]->move(0, -25);
+				}
+
+				for (int i = 0; i < 4; i++)
+				{
+					sliders[i]->move(0, -25);
+				}
 
 				//VG Elements
 				VGBackground.move(sf::Vector2f(0.0f, -25));
@@ -290,6 +303,21 @@ void SettingsState::update(float delta_t)
 				for (int i = 0; i < 3; i++)
 				{
 					gameFeatures[i]->addOffset(0, -25);
+				}
+
+				for (int i = 4; i < 8; i++)
+				{
+					zeroButtons[i]->move(0, -25);
+				}
+
+				for (int i = 4; i < 8; i++)
+				{
+					hundredButtons[i]->move(0, -25);
+				}
+
+				for (int i = 4; i < 8; i++)
+				{
+					sliders[i]->move(0, -25);
 				}
 			}
 			else if (currentDynamicOffset <= -900.0f)
@@ -321,7 +349,20 @@ void SettingsState::update(float delta_t)
 					displayOptionButtons[i]->addOffset(0, 25);
 				}
 
+				for (int i = 0; i < 4; i++)
+				{
+					zeroButtons[i]->move(0, 25);
+				}
 				
+				for (int i = 0; i < 4; i++)
+				{
+					hundredButtons[i]->move(0, 25);
+				}
+
+				for (int i = 0; i < 4; i++)
+				{
+					sliders[i]->move(0, 25);
+				}
 
 				//VG Elements
 				VGBackground.move(sf::Vector2f(0.0f, 25));
@@ -329,6 +370,21 @@ void SettingsState::update(float delta_t)
 				for (int i = 0; i < 3; i++)
 				{
 					gameFeatures[i]->addOffset(0, 25);
+				}
+
+				for (int i = 4; i < 8; i++)
+				{
+					zeroButtons[i]->move(0, 25);
+				}
+
+				for (int i = 4; i < 8; i++)
+				{
+					hundredButtons[i]->move(0, 25);
+				}
+
+				for (int i = 4; i < 8; i++)
+				{
+					sliders[i]->move(0, 25);
 				}
 			}
 			else if (currentDynamicOffset >= 900.0f)
